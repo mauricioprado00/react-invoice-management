@@ -17,16 +17,16 @@ const Home: NextPage = () => {
                 <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                   <tr>
                     <th className="p-2 whitespace-nowrap">
-                      <div className="font-semibold text-left">Name</div>
+                      <div className="font-semibold text-left">Client Name</div>
                     </th>
                     <th className="p-2 whitespace-nowrap">
-                      <div className="font-semibold text-left">Email</div>
+                      <div className="font-semibold text-left">Company Name</div>
                     </th>
                     <th className="p-2 whitespace-nowrap">
-                      <div className="font-semibold text-left">Spent</div>
+                      <div className="font-semibold text-left">Total Billed</div>
                     </th>
                     <th className="p-2 whitespace-nowrap">
-                      
+
                     </th>
                   </tr>
                 </thead>
@@ -46,7 +46,8 @@ const Home: NextPage = () => {
                           </div>
                         </div>
                       </div>
-                    </td>                                <td className="p-2 whitespace-nowrap">
+                    </td>
+                    <td className="p-2 whitespace-nowrap">
                       <div className="text-left">Acme</div>
                     </td>
                     <td className="p-2 whitespace-nowrap">
