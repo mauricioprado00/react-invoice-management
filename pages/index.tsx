@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
 import classNames from 'classnames'
 
-const ClientTableRowItemProps = {
-  clientName: 'string',
-  email: 'string',
+type ClientTableRowItemProps = {
+  clientName: string,
+  email: string,
   companyDetails: {
-    name: 'stringpepe',
-    totalBilled: 'number',
+    name: string,
+    totalBilled: number,
   }
 }
 
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
                         email='jane.cooper@example.com'
                         companyDetails={{
                           name: 'Acme',
-                          totalBilled: '3000'
+                          totalBilled: 3000
                         }}
                         key="x" />)
                   }
@@ -98,7 +98,7 @@ const Home: NextPage = () => {
                     email='jane.cooper@example.com'
                     companyDetails={{
                       name: 'Acme',
-                      totalBilled: '3000000'
+                      totalBilled: 3000000
                     }}
                     key="x" />
                 </tbody>
