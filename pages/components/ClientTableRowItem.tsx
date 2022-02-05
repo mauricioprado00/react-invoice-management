@@ -7,6 +7,7 @@ export type CompanyDetails = {
 }
 
 export type ClientTableRowItemProps = {
+    id: number | string
     clientName: string,
     email: string,
     companyDetails: CompanyDetails

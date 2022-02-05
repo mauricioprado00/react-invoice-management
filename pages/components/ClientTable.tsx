@@ -16,6 +16,7 @@ const ClientTable = (props: ClientTableProps) => {
       {
         clients.map(i =>
           <ClientTableRowItem
+            id={i.id}
             clientName={i.clientName}
             email={i.email}
             companyDetails={i.companyDetails}
