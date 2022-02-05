@@ -5,13 +5,13 @@ const ClientTableRowItemProps = {
   clientName: 'string',
   email: 'string',
   companyDetails: {
-    name: 'string',
+    name: 'stringpepe',
     totalBilled: 'number',
   }
 }
 
 const ClientTableRowItem = (props: ClientTableRowItemProps) => {
-  const {companyDetails, clientName, email} = props;
+  const { companyDetails, clientName, email } = props;
   const isOverLimit = companyDetails.totalBilled >= 5000;
   const totalBilledClassnames = classNames(
     "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
@@ -82,25 +82,25 @@ const Home: NextPage = () => {
                 </thead>
                 <tbody className="text-sm divide-y divide-gray-100">
                   {
-                    new Array(10).fill(0).map(i => 
-                    <ClientTableRowItem 
-                      clientName='Jane Cooper'
-                      email='jane.cooper@example.com'
-                      companyDetails={{
-                        name: 'Acme',
-                        totalBilled: '3000'
-                      }}
-                      key="x" />)
+                    new Array(10).fill(0).map(i =>
+                      <ClientTableRowItem
+                        clientName='Jane Cooper'
+                        email='jane.cooper@example.com'
+                        companyDetails={{
+                          name: 'Acme',
+                          totalBilled: '3000'
+                        }}
+                        key="x" />)
                   }
 
-<ClientTableRowItem 
-                      clientName='Jane Cooper'
-                      email='jane.cooper@example.com'
-                      companyDetails={{
-                        name: 'Acme',
-                        totalBilled: '3000000'
-                      }}
-                      key="x" />
+                  <ClientTableRowItem
+                    clientName='Jane Cooper'
+                    email='jane.cooper@example.com'
+                    companyDetails={{
+                      name: 'Acme',
+                      totalBilled: '3000000'
+                    }}
+                    key="x" />
                 </tbody>
               </table>
             </div>
