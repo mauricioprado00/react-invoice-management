@@ -2,6 +2,16 @@ import type { NextPage } from 'next'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
+const isType = (component: any, names: Array<string>): boolean => {
+  let type = component.type;
+  if (typeof type === 'object') {
+    type = type.name;
+  }
+  console.log(names);
+  return names.some(name => name === type);
+}
+
+
 type CompanyDetails = {
   name: string,
   totalBilled: number,
@@ -69,47 +79,37 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
 
 ClientTableRowItem.propTypes = ClientTableRowItemPropType
 
-type ClientTableProps = {
-  clients: Array<ClientTableRowItemProps>
+
+const TableHeaderColumn = (props) => {
+  return (
+    <th className="p-2 whitespace-nowrap">
+      <div className="font-semibold text-left">{props.children}</div>
+    </th>
+  )
 }
 
-const ClientTable = (props: ClientTableProps) => {
-  const {clients} = props;
+const Table = (props) => {
+  const { title, children } = props
+  const headerColumns = props.children.filter(child => isType(child, ['TableHeaderColumn']))
+  const rows = props.children.filter(child => !isType(child, ['TableHeaderColumn']))
+
   return (
     <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
       <div className="flex flex-col justify-center h-full">
         <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
           <header className="px-5 py-4 border-b border-gray-100">
-            <h2 className="font-semibold text-gray-800">Customers</h2>
+            <h2 className="font-semibold text-gray-800">{title}</h2>
           </header>
           <div className="p-3">
             <div className="overflow-x-auto">
               <table className="table-auto w-full">
                 <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                   <tr>
-                    <th className="p-2 whitespace-nowrap">
-                      <div className="font-semibold text-left">Client Name</div>
-                    </th>
-                    <th className="p-2 whitespace-nowrap">
-                      <div className="font-semibold text-left">Company Name</div>
-                    </th>
-                    <th className="p-2 whitespace-nowrap">
-                      <div className="font-semibold text-left">Total Billed</div>
-                    </th>
-                    <th className="p-2 whitespace-nowrap">
-
-                    </th>
+                    {headerColumns}
                   </tr>
                 </thead>
                 <tbody className="text-sm divide-y divide-gray-100">
-                  {
-                    clients.map(i =>
-                      <ClientTableRowItem
-                        clientName={i.clientName}
-                        email={i.email}
-                        companyDetails={i.companyDetails}
-                        key="x" />)
-                  }
+                  {rows}
                 </tbody>
               </table>
             </div>
@@ -120,6 +120,31 @@ const ClientTable = (props: ClientTableProps) => {
   )
 }
 
+
+type ClientTableProps = {
+  clients: Array<ClientTableRowItemProps>
+}
+
+const ClientTable = (props: ClientTableProps) => {
+  const { clients } = props;
+  return (
+    <Table title="Customers">
+      <TableHeaderColumn>Client Name</TableHeaderColumn>
+      <TableHeaderColumn>Company Name</TableHeaderColumn>
+      <TableHeaderColumn>Total Billed</TableHeaderColumn>
+      {
+        clients.map(i =>
+          <ClientTableRowItem
+            clientName={i.clientName}
+            email={i.email}
+            companyDetails={i.companyDetails}
+            key="x" />)
+      }
+    </Table>
+  )
+}
+
+
 const Home: NextPage = () => {
   const clients = new Array(5).fill(0).map(i => ({
     clientName: "Jane Cooper",
@@ -129,7 +154,15 @@ const Home: NextPage = () => {
       totalBilled: parseInt(((Math.random() * (5000 * 2 - 3000) * 0.6) + 3000).toFixed(0))
     }
   }));
-  return ( <ClientTable clients={clients} /> )
+  return (
+    <>
+      <Table title="something">
+        <TableHeaderColumn>Client Name</TableHeaderColumn>
+        <tr><td>hola</td></tr>
+      </Table>
+      <ClientTable clients={clients} />
+    </>
+  )
 }
 
 export default Home
