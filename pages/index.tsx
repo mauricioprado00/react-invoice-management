@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import classNames from 'classnames'
+import PropTypes from 'prop-types'
 
 type CompanyDetails = {
   name: string,
@@ -10,6 +11,17 @@ type ClientTableRowItemProps = {
   clientName: string,
   email: string,
   companyDetails: CompanyDetails
+}
+
+const CompanyDetailsPropType = {
+  name: PropTypes.string,
+  totalBilled: PropTypes.number,
+}
+
+const ClientTableRowItemPropType = {
+  clientName: PropTypes.string,
+  email: PropTypes.string,
+  companyDetails: PropTypes.exact(CompanyDetailsPropType)
 }
 
 const ClientTableRowItem = (props: ClientTableRowItemProps) => {
@@ -54,6 +66,8 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
     </tr>
   );
 }
+
+ClientTableRowItem.propTypes = ClientTableRowItemPropType
 
 const Home: NextPage = () => {
   return (
