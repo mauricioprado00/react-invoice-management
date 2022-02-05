@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { isType } from '../../library/helpers'
+import { isType, segregate } from '../../library/helpers'
 import HeaderContent from './HeaderContent'
 
 type tableHeaderColumnProps = {
@@ -32,10 +32,10 @@ const TablePropTypes = {
 const Table = (props: TableProps) => {
     const { title } = props
     const children = props.children || []
-    const myTypes = [TableHeaderColumn, HeaderContent]
-    const headerColumns = children.filter((child: any) => isType(child, [TableHeaderColumn]))
-    const headerContent = children.filter((child: any) => isType(child, [HeaderContent]))
-    const rows = children.filter((child: any) => !isType(child, myTypes))
+    const [columns, headerContent, rows] = segregate(children, [
+        TableHeaderColumn,
+        HeaderContent,
+    ])
 
     return (
         <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
@@ -52,7 +52,7 @@ const Table = (props: TableProps) => {
                             <table className="table-auto w-full">
                                 <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                     <tr>
-                                        {headerColumns}
+                                        {columns}
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm divide-y divide-gray-100">
