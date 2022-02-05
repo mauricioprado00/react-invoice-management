@@ -26,7 +26,8 @@ const ClientTableRowItemPropTypes = {
 }
 
 const ClientTableRowItem = (props: ClientTableRowItemProps) => {
-    const { companyDetails, clientName, email } = props;
+    const { clientName, email } = props;
+    const companyDetails: CompanyDetails = props.companyDetails || {}
     const isOverLimit = companyDetails.totalBilled >= 5000;
     const totalBilledClassnames = classNames(
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"

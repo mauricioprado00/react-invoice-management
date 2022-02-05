@@ -17,7 +17,8 @@ const InvoiceTablePropTypes = {
 }
 
 const InvoiceTable = (props: InvoiceTableProps) => {
-    const { title, invoices } = props;
+    const { title } = props;
+    const invoices: Array<InvoiceTableRowItemProps> = props.invoices || []
     const newInvoice = useCallback((e) => {
         alert('new invoice');
         e.preventDefault();

@@ -8,7 +8,8 @@ export type ClientTableProps = {
 }
 
 const ClientTable = (props: ClientTableProps) => {
-  const { clients, title } = props;
+  const { title } = props;
+  const clients: Array<ClientTableRowItemProps> = props.clients || []
   return (
     <Table title={title || "Customers"}>
       <Column>Client Name</Column>
