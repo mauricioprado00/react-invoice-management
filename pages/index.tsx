@@ -1,13 +1,15 @@
 import type { NextPage } from 'next'
 import classNames from 'classnames'
 
+type CompanyDetails = {
+  name: string,
+  totalBilled: number,
+}
+
 type ClientTableRowItemProps = {
   clientName: string,
   email: string,
-  companyDetails: {
-    name: string,
-    totalBilled: number,
-  }
+  companyDetails: CompanyDetails
 }
 
 const ClientTableRowItem = (props: ClientTableRowItemProps) => {
@@ -88,19 +90,10 @@ const Home: NextPage = () => {
                         email='jane.cooper@example.com'
                         companyDetails={{
                           name: 'Acme',
-                          totalBilled: 3000
+                          totalBilled: parseInt(((Math.random() * (5000 * 2 - 3000) * 0.6) + 3000).toFixed(0))
                         }}
                         key="x" />)
                   }
-
-                  <ClientTableRowItem
-                    clientName='Jane Cooper'
-                    email='jane.cooper@example.com'
-                    companyDetails={{
-                      name: 'Acme',
-                      totalBilled: 3000000
-                    }}
-                    key="x" />
                 </tbody>
               </table>
             </div>
