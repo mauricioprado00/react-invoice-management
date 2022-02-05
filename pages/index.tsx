@@ -33,7 +33,7 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
         <div className="text-left">{companyDetails.name}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <div className="text-left font-medium text-green-500">${companyDetails.totalBilled}</div>
+        <div className={`text-left font-medium ${companyDetails.totalBilled > 5000 ? 'text-red-500':'text-green-500'}`}>${companyDetails.totalBilled}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
         <div className="text-lg text-center">
@@ -88,6 +88,15 @@ const Home: NextPage = () => {
                       }}
                       key="x" />)
                   }
+
+<ClientTableRowItem 
+                      clientName='Jane Cooper'
+                      email='jane.cooper@example.com'
+                      companyDetails={{
+                        name: 'Acme',
+                        totalBilled: '3000000'
+                      }}
+                      key="x" />
                 </tbody>
               </table>
             </div>
