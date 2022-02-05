@@ -21,7 +21,7 @@ const ClientTable = (props: ClientTableProps) => {
             clientName={i.clientName}
             email={i.email}
             companyDetails={i.companyDetails}
-            key="x" />)
+            key={i.id} />)
       }
     </Table>
   )
