@@ -3,13 +3,14 @@ import { ClientTableRowItemProps } from './ClientTableRowItem'
 import { Table, Column } from '../ui/Table'
 
 export type ClientTableProps = {
+  title?: string,
   clients: Array<ClientTableRowItemProps>
 }
 
 const ClientTable = (props: ClientTableProps) => {
-  const { clients } = props;
+  const { clients, title } = props;
   return (
-    <Table title="Customers">
+    <Table title={title || "Customers"}>
       <Column>Client Name</Column>
       <Column>Company Name</Column>
       <Column>Total Billed</Column>

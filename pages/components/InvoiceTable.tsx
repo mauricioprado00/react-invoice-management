@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Table, Column } from '../ui/Table'
 
 export type InvoiceTableProps = {
-    title: string
+    title?: string,
     invoices: Array<InvoiceTableRowItemProps>
 }
 
