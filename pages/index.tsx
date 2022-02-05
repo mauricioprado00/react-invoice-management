@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import classNames from 'classnames'
 
 const ClientTableRowItemProps = {
   clientName: 'string',
@@ -11,7 +12,14 @@ const ClientTableRowItemProps = {
 
 const ClientTableRowItem = (props: ClientTableRowItemProps) => {
   const {companyDetails, clientName, email} = props;
-
+  const isOverLimit = companyDetails.totalBilled >= 5000;
+  const totalBilledClassnames = classNames(
+    "text-left font-medium",
+    {
+      "text-red-500": isOverLimit,
+      "text-green-500": !isOverLimit,
+    }
+  )
   return (
     <tr key="nothing">
       <td className="px-2 py-4 whitespace-nowrap">
@@ -33,7 +41,7 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
         <div className="text-left">{companyDetails.name}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
-        <div className={`text-left font-medium ${companyDetails.totalBilled > 5000 ? 'text-red-500':'text-green-500'}`}>${companyDetails.totalBilled}</div>
+        <div className={totalBilledClassnames}>${companyDetails.totalBilled}</div>
       </td>
       <td className="p-2 whitespace-nowrap">
         <div className="text-lg text-center">
