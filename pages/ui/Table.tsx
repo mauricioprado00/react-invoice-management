@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { isType } from '../library/helpers'
+import { isType } from '../../library/helpers'
 
 type tableHeaderColumnProps = {
     children: any
@@ -67,3 +67,4 @@ const Table = (props: TableProps) => {
 Table.propTypes = TablePropTypes;
 
 export { Table, TableHeaderColumn as Column }
+export default Table

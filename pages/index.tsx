@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import ClientTable from './components/ClientTable'
 import InvoiceTable from './components/InvoiceTable';
-import { aName, aLastName, aCompany, anAmount, aDate } from './library/helpers'
+import { aName, aLastName, aCompany, anAmount, aDate } from '../library/helpers'
 
 const Home: NextPage = () => {
   const clients = new Array(5).fill(0).map((_, id) => ({
