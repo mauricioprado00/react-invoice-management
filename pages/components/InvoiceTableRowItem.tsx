@@ -11,9 +11,9 @@ export type InvoiceTableRowItemProps = {
 
 export const InvoiceTableRowItemPropTypes = {
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    number: PropTypes.number,
+    number: PropTypes.string,
     company: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.number,
     dueDate: PropTypes.string
 }
 
