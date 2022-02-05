@@ -69,7 +69,12 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
 
 ClientTableRowItem.propTypes = ClientTableRowItemPropType
 
-const Home: NextPage = () => {
+type ClientTableProps = {
+  clients: Array<ClientTableRowItemProps>
+}
+
+const ClientTable = (props: ClientTableProps) => {
+  const {clients} = props;
   return (
     <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
       <div className="flex flex-col justify-center h-full">
@@ -98,14 +103,11 @@ const Home: NextPage = () => {
                 </thead>
                 <tbody className="text-sm divide-y divide-gray-100">
                   {
-                    new Array(10).fill(0).map(i =>
+                    clients.map(i =>
                       <ClientTableRowItem
-                        clientName='Jane Cooper'
-                        email='jane.cooper@example.com'
-                        companyDetails={{
-                          name: 'Acme',
-                          totalBilled: parseInt(((Math.random() * (5000 * 2 - 3000) * 0.6) + 3000).toFixed(0))
-                        }}
+                        clientName={i.clientName}
+                        email={i.email}
+                        companyDetails={i.companyDetails}
                         key="x" />)
                   }
                 </tbody>
@@ -116,6 +118,18 @@ const Home: NextPage = () => {
       </div>
     </section>
   )
+}
+
+const Home: NextPage = () => {
+  const clients = new Array(5).fill(0).map(i => ({
+    clientName: "Jane Cooper",
+    email: "jane.cooper@example.com",
+    companyDetails: {
+      name: "Acme",
+      totalBilled: parseInt(((Math.random() * (5000 * 2 - 3000) * 0.6) + 3000).toFixed(0))
+    }
+  }));
+  return ( <ClientTable clients={clients} /> )
 }
 
 export default Home
