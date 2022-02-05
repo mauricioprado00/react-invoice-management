@@ -7,7 +7,7 @@ type ButtonProps = {
     }
 }
 const ButtonPropTypes = {
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
     onClick: PropTypes.any
 }
 

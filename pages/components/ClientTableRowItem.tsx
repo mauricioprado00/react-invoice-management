@@ -19,9 +19,9 @@ const CompanyDetailsPropType = {
     totalBilled: PropTypes.number,
 }
 
-const ClientTableRowItemPropTypes = {
-    clientName: PropTypes.string,
-    email: PropTypes.string,
+export const ClientTableRowItemPropTypes = {
+    clientName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
     companyDetails: PropTypes.exact(CompanyDetailsPropType)
 }
 

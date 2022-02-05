@@ -19,13 +19,13 @@ const TableHeaderColumn = (props: tableHeaderColumnProps) => {
 TableHeaderColumn.propTypes = TableHeaderColumnPropTypes;
 
 type TableProps = {
-    title: string,
+    title?: string,
     children: any
 }
 
 const TablePropTypes = {
-    title: 'string',
-    children: PropTypes.node
+    title: PropTypes.string,
+    children: PropTypes.node.isRequired
 }
 
 const Table = (props: TableProps) => {

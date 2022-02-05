@@ -12,8 +12,8 @@ export type InvoiceTableProps = {
 }
 
 const InvoiceTablePropTypes = {
-    title: 'string',
-    invoices: PropTypes.arrayOf(PropTypes.exact(InvoiceTableRowItemPropTypes))
+    title: PropTypes.string,
+    invoices: PropTypes.arrayOf(PropTypes.exact(InvoiceTableRowItemPropTypes)).isRequired
 }
 
 const InvoiceTable = (props: InvoiceTableProps) => {
