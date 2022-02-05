@@ -1,20 +1,9 @@
 import type { NextPage } from 'next'
 import ClientTable from './components/ClientTable'
 import InvoiceTable from './components/InvoiceTable';
+import { aName, aLastName, aCompany, anAmount, aDate } from './library/helpers'
 
 const Home: NextPage = () => {
-  const randomItem = (items: Array<any>) => items[Math.floor(Math.random() * items.length)]
-  const aCompany = ():string => randomItem(['Acme', 'Ibm', 'HP', 'Google', 'Ferry', 'Rempel', 'Sawayn'])
-  const aName = ():string => randomItem(["Jane", "Anna", "Laura", "Loretta"])
-  const aLastName = ():string => randomItem(["Smith", "Gomez", "Krombacher"])
-  const anAmount = (minimum: number, maximum: number, center: number):number => parseInt(((Math.random() * (maximum - minimum) * ((center-minimum)/(maximum - minimum))) + minimum).toFixed(0))
-  const aDate = (from:string, to:string):string => {
-    let sFrom = (new Date(from)).getTime()
-    let sTo = (new Date(to)).getTime()
-    let date = new Date(anAmount(sFrom, sTo, (sFrom+sTo)/2))
-    return date.toISOString().substring(0, 10)
-  }
-
   const clients = new Array(5).fill(0).map((_, id) => ({
     id,
     clientName: aName() + " " + aLastName(),
