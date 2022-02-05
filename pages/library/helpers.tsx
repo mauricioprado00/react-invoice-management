@@ -1,8 +1,5 @@
 export const isType = (component: any, names: Array<string>): boolean => {
-    let type = component.type;
-    if (typeof type === 'object') {
-        type = type.name;
-    }
+    let type = component.type ? component.type.name : component.type;
     return names.some(name => name === type);
 }
 

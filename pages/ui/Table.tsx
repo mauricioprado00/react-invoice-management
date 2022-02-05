@@ -30,15 +30,20 @@ const TablePropTypes = {
 
 const Table = (props: TableProps) => {
     const { title, children } = props
+    const myTypes = ['TableHeaderColumn', 'HeaderContent']
     const headerColumns = props.children.filter(child => isType(child, ['TableHeaderColumn']))
-    const rows = props.children.filter(child => !isType(child, ['TableHeaderColumn']))
+    const headerContent = props.children.filter(child => isType(child, ['HeaderContent']))
+    const rows = props.children.filter(child => !isType(child, myTypes))
 
     return (
         <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
             <div className="flex flex-col justify-center h-full">
                 <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
                     <header className="px-5 py-4 border-b border-gray-100">
-                        <h2 className="font-semibold text-gray-800">{title}</h2>
+                        <h2 className="font-semibold text-gray-800 display-inline-block">{title}</h2>
+                        <div className="float-right">
+                            {headerContent}
+                        </div>
                     </header>
                     <div className="p-3">
                         <div className="overflow-x-auto">
