@@ -14,11 +14,7 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
   const {companyDetails, clientName, email} = props;
   const isOverLimit = companyDetails.totalBilled >= 5000;
   const totalBilledClassnames = classNames(
-    "text-left font-medium",
-    {
-      "text-red-500": isOverLimit,
-      "text-green-500": !isOverLimit,
-    }
+    "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
   )
   return (
     <tr key="nothing">
