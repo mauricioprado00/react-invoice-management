@@ -1,6 +1,7 @@
-export const isType = (component: any, names: Array<string>): boolean => {
+export const isType = (component: any, types: {name: string}[]): boolean => {
     let type = component.type ? component.type.name : component.type;
-    return names.some(name => name === type);
+    let typeNames = types.map(type => type.name)
+    return typeNames.some(name => name === type);
 }
 
 

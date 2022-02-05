@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { isType } from '../../library/helpers'
+import HeaderContent from './HeaderContent'
 
 type tableHeaderColumnProps = {
     children: any
@@ -31,9 +32,9 @@ const TablePropTypes = {
 const Table = (props: TableProps) => {
     const { title } = props
     const children = props.children || []
-    const myTypes = ['TableHeaderColumn', 'HeaderContent']
-    const headerColumns = children.filter((child: any) => isType(child, ['TableHeaderColumn']))
-    const headerContent = children.filter((child: any) => isType(child, ['HeaderContent']))
+    const myTypes = [TableHeaderColumn, HeaderContent]
+    const headerColumns = children.filter((child: any) => isType(child, [TableHeaderColumn]))
+    const headerContent = children.filter((child: any) => isType(child, [HeaderContent]))
     const rows = children.filter((child: any) => !isType(child, myTypes))
 
     return (
