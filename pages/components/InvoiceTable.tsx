@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Table, Column } from '../ui/Table'
 import HeaderContent from '../ui/HeaderContent'
 import Button from '../ui/Button'
+import { useCallback } from 'react'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -17,6 +18,14 @@ const InvoiceTablePropTypes = {
 
 const InvoiceTable = (props: InvoiceTableProps) => {
     const { title, invoices } = props;
+    const newInvoice = useCallback((e) => {
+        alert('new invoice');
+        e.preventDefault();
+    }, [])
+    const allInvoices = useCallback((e) => {
+        alert('All invoices');
+        e.preventDefault();
+    }, [])
     return (
         <Table title={title || "Latest Invoices"}>
             <Column>Invoice Number</Column>
@@ -24,8 +33,8 @@ const InvoiceTable = (props: InvoiceTableProps) => {
             <Column>Value</Column>
             <Column>Due Date</Column>
             <HeaderContent>
-                <Button>New Invoice</Button>
-                <Button>All Invoices</Button>
+                <Button onClick={newInvoice}>New Invoice</Button>
+                <Button onClick={allInvoices}>All Invoices</Button>
             </HeaderContent>
             {
                 invoices.map(i =>
