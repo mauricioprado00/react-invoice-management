@@ -28,7 +28,7 @@ const CompanyDetailsPropType = {
   totalBilled: PropTypes.number,
 }
 
-const ClientTableRowItemPropType = {
+const ClientTableRowItemPropTypes = {
   clientName: PropTypes.string,
   email: PropTypes.string,
   companyDetails: PropTypes.exact(CompanyDetailsPropType)
@@ -77,10 +77,16 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
   );
 }
 
-ClientTableRowItem.propTypes = ClientTableRowItemPropType
+ClientTableRowItem.propTypes = ClientTableRowItemPropTypes
 
+type tableHeaderColumnProps = {
+  children: any
+}
+const TableHeaderColumnPropTypes = {
+  children: PropTypes.node
+}
 
-const TableHeaderColumn = (props) => {
+const TableHeaderColumn = (props: tableHeaderColumnProps) => {
   return (
     <th className="p-2 whitespace-nowrap">
       <div className="font-semibold text-left">{props.children}</div>
@@ -88,7 +94,19 @@ const TableHeaderColumn = (props) => {
   )
 }
 
-const Table = (props) => {
+TableHeaderColumn.propTypes = TableHeaderColumnPropTypes;
+
+type TableProps = {
+  title: string,
+  children: any
+}
+
+const TablePropTypes = {
+  title: 'string',
+  children: PropTypes.node
+}
+
+const Table = (props: TableProps) => {
   const { title, children } = props
   const headerColumns = props.children.filter(child => isType(child, ['TableHeaderColumn']))
   const rows = props.children.filter(child => !isType(child, ['TableHeaderColumn']))
@@ -119,7 +137,7 @@ const Table = (props) => {
     </section>
   )
 }
-
+Table.propTypes = TablePropTypes;
 
 type ClientTableProps = {
   clients: Array<ClientTableRowItemProps>
