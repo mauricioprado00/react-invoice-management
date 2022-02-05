@@ -31,9 +31,9 @@ const TablePropTypes = {
 const Table = (props: TableProps) => {
     const { title, children } = props
     const myTypes = ['TableHeaderColumn', 'HeaderContent']
-    const headerColumns = props.children.filter(child => isType(child, ['TableHeaderColumn']))
-    const headerContent = props.children.filter(child => isType(child, ['HeaderContent']))
-    const rows = props.children.filter(child => !isType(child, myTypes))
+    const headerColumns = props.children.filter((child: any) => isType(child, ['TableHeaderColumn']))
+    const headerContent = props.children.filter((child: any) => isType(child, ['HeaderContent']))
+    const rows = props.children.filter((child: any) => !isType(child, myTypes))
 
     return (
         <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
