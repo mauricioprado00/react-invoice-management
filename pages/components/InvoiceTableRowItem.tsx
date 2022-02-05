@@ -35,7 +35,7 @@ const InvoiceTableRowItem = (props: InvoiceTableRowItemProps) => {
                 <div className={valueBilledClassnames}>${value}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
-                <div className="text-left">${dueDate}</div>
+                <div className="text-left">{dueDate}</div>
             </td>
         </tr>
     );
