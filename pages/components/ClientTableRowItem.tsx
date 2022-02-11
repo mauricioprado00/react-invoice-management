@@ -9,7 +9,7 @@ export type CompanyDetails = {
 
 export type ClientTableRowItemProps = {
     id: number | string
-    clientName: string,
+    name: string,
     email: string,
     companyDetails: CompanyDetails
 }
@@ -21,13 +21,13 @@ const CompanyDetailsPropType = {
 
 export const ClientTableRowItemPropTypes = {
     id: PropTypes.number,
-    clientName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     companyDetails: PropTypes.exact(CompanyDetailsPropType)
 }
 
 const ClientTableRowItem = (props: ClientTableRowItemProps) => {
-    const { clientName, email } = props;
+    const { name, email } = props;
     const companyDetails: CompanyDetails = props.companyDetails || {}
     const isOverLimit = companyDetails.totalBilled >= 5000;
     const totalBilledClassnames = classNames(
@@ -42,7 +42,7 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
                     </div>
                     <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">
-                            {clientName}
+                            {name}
                         </div>
                         <div className="text-sm text-gray-500">
                             {email}

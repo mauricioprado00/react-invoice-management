@@ -32,7 +32,7 @@ const ClientTable = (props: ClientTableProps) => {
         clients.map(i =>
           <ClientTableRowItem
             id={i.id}
-            clientName={i.clientName}
+            name={i.name}
             email={i.email}
             companyDetails={i.companyDetails}
             key={i.id} />)

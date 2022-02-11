@@ -12,7 +12,7 @@ export const aDate = (from: string, to: string): string => {
 
 export const generateClients = (amount: number) => new Array(amount).fill(0).map((_, id) => ({
     id,
-    clientName: aName() + " " + aLastName(),
+    name: aName() + " " + aLastName(),
     email: (aName() + "." + aLastName()).toLowerCase() + "@" + aCompany().toLowerCase() + ".com",
     companyDetails: {
         name: aCompany(),
