@@ -9,9 +9,9 @@ const HeaderContentPropTypes = {
 
 const HeaderContent = (props: HeaderContentProps) => {
     const { children } = props;
-    return (<div>
+    return (<>
         {children}
-    </div>)
+    </>)
 }
 
 HeaderContent.propTypes = HeaderContentPropTypes;
