@@ -7,24 +7,21 @@ import { useState } from 'react'
 
 export type ClientTableProps = {
   title?: string,
-  clients: Array<ClientTableRowItemProps>
+  clients: null|Array<ClientTableRowItemProps>
 }
 
 const ClientTablePropTypes = {
   title: PropTypes.string,
-  clients: PropTypes.arrayOf(PropTypes.exact(ClientTableRowItemPropTypes)).isRequired
+  clients: PropTypes.arrayOf(PropTypes.exact(ClientTableRowItemPropTypes))
 }
 
 
 const ClientTable = (props: ClientTableProps) => {
-  const [loaded, setLoaded] = useState(false); 
+  const loaded = props.clients !== null; 
   const { title } = props;
   const clients: Array<ClientTableRowItemProps> = props.clients || []
   return (
     <Table title={title || "Customers"} loading={!loaded}>
-      <HeaderContent>
-        {!loaded && <button onClick={() => setLoaded(true)}>Load</button>}
-      </HeaderContent>
       <Column>Client Name</Column>
       <Column>Company Name</Column>
       <Column>Total Billed</Column>
