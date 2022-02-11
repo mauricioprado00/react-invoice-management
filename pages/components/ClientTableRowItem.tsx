@@ -1,25 +1,21 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Image from 'next/image'
+import { CompanyDetails } from '../models/CompanyDetails'
+import { Client } from '../models/Client'
 
-export type CompanyDetails = {
-    name: string,
-}
-
-export type ClientTableRowItemProps = {
-    id: number | string
-    name: string,
-    email: string,
-    totalBilled: number,
-    companyDetails: CompanyDetails
-}
+export type ClientTableRowItemProps = Client
 
 const CompanyDetailsPropType = {
-    name: PropTypes.string
+    name: PropTypes.string.isRequired,
+    vatNumber: PropTypes.string.isRequired,
+    regNumber: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
 }
 
 export const ClientTableRowItemPropTypes = {
-    id: PropTypes.number,
+    id: PropTypes.string.isRequired,
+    user_id: PropTypes.string,
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     totalBilled: PropTypes.number.isRequired,

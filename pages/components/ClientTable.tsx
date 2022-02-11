@@ -2,8 +2,6 @@ import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
 import { ClientTableRowItemProps, ClientTableRowItemPropTypes } from './ClientTableRowItem'
 import { Table, Column } from '../ui/Table'
-import HeaderContent from '../ui/HeaderContent'
-import { useState } from 'react'
 
 export type ClientTableProps = {
   title?: string,

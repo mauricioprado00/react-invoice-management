@@ -3,9 +3,10 @@ import ClientTable from './components/ClientTable'
 import InvoiceTable from './components/InvoiceTable';
 import { generateInvoices } from '../library/lorem-ipsum';
 import { useEffect, useState } from 'react';
+import { ClientListN } from './models/Client'
 
 const Home: NextPage = () => {
-  const [clients, setClients] = useState(null);
+  const [clients, setClients]:[ClientListN, any] = useState(null);
   const invoices = generateInvoices(5);
 
   useEffect(() => {
