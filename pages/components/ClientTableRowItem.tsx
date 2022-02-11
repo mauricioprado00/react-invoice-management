@@ -20,6 +20,7 @@ const CompanyDetailsPropType = {
 }
 
 export const ClientTableRowItemPropTypes = {
+    id: PropTypes.number,
     clientName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     companyDetails: PropTypes.exact(CompanyDetailsPropType)

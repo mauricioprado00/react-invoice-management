@@ -10,7 +10,7 @@ export type ClientTableProps = {
 
 const ClientTablePropTypes = {
   title: PropTypes.string,
-  invoices: PropTypes.arrayOf(PropTypes.exact(ClientTableRowItemPropTypes)).isRequired
+  clients: PropTypes.arrayOf(PropTypes.exact(ClientTableRowItemPropTypes)).isRequired
 }
 
 
@@ -34,5 +34,7 @@ const ClientTable = (props: ClientTableProps) => {
     </Table>
   )
 }
+
+ClientTable.propTypes = ClientTablePropTypes;
 
 export default ClientTable;
