@@ -4,32 +4,32 @@ import Image from 'next/image'
 
 export type CompanyDetails = {
     name: string,
-    totalBilled: number,
 }
 
 export type ClientTableRowItemProps = {
     id: number | string
     name: string,
     email: string,
+    totalBilled: number,
     companyDetails: CompanyDetails
 }
 
 const CompanyDetailsPropType = {
-    name: PropTypes.string,
-    totalBilled: PropTypes.number,
+    name: PropTypes.string
 }
 
 export const ClientTableRowItemPropTypes = {
     id: PropTypes.number,
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
+    totalBilled: PropTypes.number.isRequired,
     companyDetails: PropTypes.exact(CompanyDetailsPropType)
 }
 
 const ClientTableRowItem = (props: ClientTableRowItemProps) => {
-    const { name, email } = props;
+    const { name, email, totalBilled } = props;
     const companyDetails: CompanyDetails = props.companyDetails || {}
-    const isOverLimit = companyDetails.totalBilled >= 5000;
+    const isOverLimit = totalBilled >= 5000;
     const totalBilledClassnames = classNames(
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
     )
@@ -54,7 +54,7 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
                 <div className="text-left">{companyDetails.name}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
-                <div className={totalBilledClassnames}>${companyDetails.totalBilled}</div>
+                <div className={totalBilledClassnames}>${totalBilled}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
                 <div className="text-lg text-center">

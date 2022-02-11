@@ -34,6 +34,7 @@ const ClientTable = (props: ClientTableProps) => {
             id={i.id}
             name={i.name}
             email={i.email}
+            totalBilled={i.totalBilled}
             companyDetails={i.companyDetails}
             key={i.id} />)
       }

@@ -14,9 +14,9 @@ export const generateClients = (amount: number) => new Array(amount).fill(0).map
     id,
     name: aName() + " " + aLastName(),
     email: (aName() + "." + aLastName()).toLowerCase() + "@" + aCompany().toLowerCase() + ".com",
+    totalBilled: anAmount(3000, 10000, 5000),
     companyDetails: {
-        name: aCompany(),
-        totalBilled: anAmount(3000, 10000, 5000)
+        name: aCompany()
     }
 }));
 
