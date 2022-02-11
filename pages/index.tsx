@@ -4,22 +4,19 @@ import InvoiceTable from './components/InvoiceTable';
 import { generateInvoices } from '../library/lorem-ipsum';
 import { useEffect, useState } from 'react';
 import { ClientListN } from './models/Client'
+import createApi from './api/apiclient';
+
+const api = createApi('//localhost:3139');
 
 const Home: NextPage = () => {
-  const [clients, setClients]:[ClientListN, any] = useState(null);
+  const [clients, setClients]: [ClientListN, any] = useState(null);
   const invoices = generateInvoices(5);
 
   useEffect(() => {
     (async () => {
-      const fetchPromise = fetch('//localhost:3139/clients', {
-        headers: {
-          "Authorization": "Bearer 111",
-        }
-      });
-      const httpResponse = await fetchPromise; 
-      const jsonResponse = await httpResponse.json();
-      setClients(jsonResponse.clients);
+      setClients(await api.getClients())
     })()
+    
   }, []);
 
   return (
