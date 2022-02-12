@@ -35,6 +35,25 @@ export type AbortableEndpointResult = {
   controller: AbortController
   abort: { (): void }
 }
+
+const useEndpoint = (ep:any, cb:any, deps:any) => {
+  const requester = ep.bind(this)
+  useEffect(() => {
+    const request = requester();
+    let onReceived = (response:any) => {}
+    const received = (fn:any) => {
+      onReceived = fn
+    }
+
+    request.promise
+      .then((response:any) => {
+        if (!request.controller.signal.aborted) onReceived(response)
+      })
+      .catch(ignore)
+
+    return cb(received, request.abort)
+  }, deps)
+}
 export class ApiClient {
   url: string
   userId: string
@@ -45,23 +64,7 @@ export class ApiClient {
   }
   getClients = (): AbortableEndpointResult =>
     endpoint(getClients.bind(null, this.url + '/clients'), this.userId)
-  useGetClients = (cb:any, deps:any) => {
-    useEffect(() => {
-      let request = this.getClients()
-      let onReceived = (clients:any) => {}
-      const received = (fn:any) => {
-        onReceived = fn
-      }
-
-      request.promise
-        .then((clients) => {
-          if (!request.controller.signal.aborted) onReceived(clients)
-        })
-        .catch(ignore)
-
-      return cb(received, request.abort)
-    }, deps)
-  }
+  useGetClients = useEndpoint.bind(this, this.getClients)
 }
 
 const createApi = (url: string, userId: string) => new ApiClient(url, userId)
