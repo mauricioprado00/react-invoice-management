@@ -13,10 +13,16 @@ const Home: NextPage = () => {
   const invoices = generateInvoices(5);
 
   useEffect(() => {
+    let abort = () => {};
+
     (async () => {
-      setClients(await api.getClients())
+      let promise;
+      //console.log(setClients(api.getClients()))
+      [promise, abort] = api.getClients()
+      setClients(await promise)
     })()
-    
+
+    return () => {abort()}
   }, []);
 
   return (
