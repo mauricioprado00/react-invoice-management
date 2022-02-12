@@ -8,7 +8,7 @@ import { useCallback, useState } from 'react'
 
 export type InvoiceTableProps = {
     title?: string,
-    invoices: Array<InvoiceTableRowItemProps>
+    invoices: null | Array<InvoiceTableRowItemProps>
 }
 
 const InvoiceTablePropTypes = {
@@ -17,7 +17,7 @@ const InvoiceTablePropTypes = {
 }
 
 const InvoiceTable = (props: InvoiceTableProps) => {
-    const [loaded, setLoaded] = useState(false); 
+    const loaded = props.invoices !== null;
     const { title } = props;
     const invoices: Array<InvoiceTableRowItemProps> = props.invoices || []
     const newInvoice = useCallback((e) => {
@@ -30,24 +30,17 @@ const InvoiceTable = (props: InvoiceTableProps) => {
     }, [])
     return (
         <Table title={title || "Latest Invoices"} loading={!loaded}>
-            <HeaderContent>
-                {loaded  && <Button onClick={newInvoice}>New Invoice</Button>}
-                {loaded  && <Button onClick={allInvoices}>All Invoices</Button>}
-                {!loaded && <button onClick={() => setLoaded(true)}>Load</button>}
-            </HeaderContent>
+            {loaded && <HeaderContent>
+                <Button onClick={newInvoice}>New Invoice</Button>
+                <Button onClick={allInvoices}>All Invoices</Button>
+            </HeaderContent>}
             <Column>Invoice Number</Column>
             <Column>Company Name</Column>
             <Column>Value</Column>
             <Column>Due Date</Column>
             {
-                invoices.map(i =>
-                    <InvoiceTableRowItem
-                        id={i.id}
-                        number={i.number}
-                        company={i.company}
-                        value={i.value}
-                        dueDate={i.dueDate}
-                        key={i.id} />)
+                invoices.map(invoice =>
+                    <InvoiceTableRowItem key={invoice.invoice.id} {...invoice} />)
             }
         </Table>
     )

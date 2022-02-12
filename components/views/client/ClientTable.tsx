@@ -5,7 +5,7 @@ import { Table, Column } from '../../../components/ui/layout/Table'
 
 export type ClientTableProps = {
   title?: string,
-  clients: null|Array<ClientTableRowItemProps>
+  clients: null | Array<ClientTableRowItemProps>
 }
 
 const ClientTablePropTypes = {
@@ -15,7 +15,7 @@ const ClientTablePropTypes = {
 
 
 const ClientTable = (props: ClientTableProps) => {
-  const loaded = props.clients !== null; 
+  const loaded = props.clients !== null;
   const { title } = props;
   const clients: Array<ClientTableRowItemProps> = props.clients || []
   return (
