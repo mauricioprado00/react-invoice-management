@@ -4,7 +4,7 @@ import InvoiceTable from '../components/views/invoice/InvoiceTable';
 import { generateInvoices } from '../library/lorem-ipsum';
 import { useEffect, useState } from 'react';
 import { ClientListN } from '../models/Client'
-import createApi from './api/apiclient';
+import createApi, { ignore } from './api/apiclient';
 
 let api = createApi('//localhost:3139', '111');
 
@@ -16,13 +16,10 @@ const Home: NextPage = () => {
   useEffect(() => {
     api = createApi('//localhost:3139', counter % 2 ? '111' : '222')
     let request = api.getClients();
-
-    (async () => {
-      setClients(null);
-      let clients = await request.promise;
-      if (request.controller.signal.aborted === false)
-        setClients(clients)
-    })()
+    setClients(null);
+    request.promise.then(clients => {
+      if (!request.controller.signal.aborted) setClients(clients)
+    }).catch(ignore)
 
     return request.abort;
   }, [counter]);

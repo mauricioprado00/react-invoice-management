@@ -46,4 +46,5 @@ export class ApiClient {
 }
 
 const createApi = (url: string, userId: string) => new ApiClient(url, userId)
+export const ignore = () => {}
 export default createApi
