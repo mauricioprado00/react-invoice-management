@@ -3,6 +3,8 @@ import classNames from 'classnames'
 import Image from 'next/image'
 import { CompanyDetails } from '../../../models/CompanyDetails'
 import { Client } from '../../../models/Client'
+import Hamburger from '../../ui/elements/Hamburger'
+import HamburgerDropdown from '../../ui/elements/HamburgerDropdown'
 
 export type ClientTableRowItemProps = Client
 
@@ -28,7 +30,12 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
     const isOverLimit = totalBilled >= 5000;
     const totalBilledClassnames = classNames(
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
-    )
+    );
+    const actions = [
+        { label: 'Profile', type: 'profile' },
+        { label: 'Invoices', type: 'invoices' },
+        { label: 'Remove', type: 'remove' },
+    ];
     return (
         <tr key="nothing">
             <td className="px-2 py-4 whitespace-nowrap">
@@ -53,14 +60,7 @@ const ClientTableRowItem = (props: ClientTableRowItemProps) => {
                 <div className={totalBilledClassnames}>${totalBilled}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
-                <div className="text-lg text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer" width="16" height="16" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="12" cy="19" r="1"></circle>
-                        <circle cx="12" cy="5" r="1"></circle>
-                    </svg>
-                </div>
+                <HamburgerDropdown items={actions} />
             </td>
         </tr>
     );
