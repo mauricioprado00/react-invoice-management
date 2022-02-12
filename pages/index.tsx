@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
-import ClientTable from './components/ClientTable'
-import InvoiceTable from './components/InvoiceTable';
+import ClientTable from '../components/views/client/ClientTable'
+import InvoiceTable from '../components/views/invoice/InvoiceTable';
 import { generateInvoices } from '../library/lorem-ipsum';
 import { useEffect, useState } from 'react';
 import { ClientListN } from '../models/Client'

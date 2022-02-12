@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
 import { ClientTableRowItemProps, ClientTableRowItemPropTypes } from './ClientTableRowItem'
-import { Table, Column } from '../../components/ui/Table'
+import { Table, Column } from '../../../components/ui/layout/Table'
 
 export type ClientTableProps = {
   title?: string,

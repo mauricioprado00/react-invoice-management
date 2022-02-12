@@ -1,9 +1,9 @@
 import InvoiceTableRowItem from './InvoiceTableRowItem'
 import { InvoiceTableRowItemProps, InvoiceTableRowItemPropTypes } from './InvoiceTableRowItem'
 import PropTypes from 'prop-types'
-import { Table, Column } from '../../components/ui/Table'
-import HeaderContent from '../../components/ui/HeaderContent'
-import Button from '../../components/ui/Button'
+import { Table, Column } from '../../../components/ui/layout/Table'
+import HeaderContent from '../../../components/ui/layout/HeaderContent'
+import Button from '../../../components/ui/forms/Button'
 import { useCallback, useState } from 'react'
 
 export type InvoiceTableProps = {
