@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 const getClients = (url: string) => (params: any) => async (init: {}) => {
-  console.log({clientParams: params});
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
   const jsonResponse = await httpResponse.json()
@@ -70,7 +69,7 @@ export class ApiClient {
   }
   getClients = (params:any): AbortableEndpointResult =>
     endpoint(getClients(this.url + '/clients')(params), this.userId)
-  useGetClients = useEndpoint(this.getClients, 'hola')
+  useGetClients = useEndpoint(this.getClients, [])
 }
 
 const createApi = (url: string, userId: string) => new ApiClient(url, userId)
