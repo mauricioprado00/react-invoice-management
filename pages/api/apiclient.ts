@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const getClients = async (url: string, params: any, init: {}) => {
+const getClients = (url: string) => (params: any) => async (init: {}) => {
   console.log({clientParams: params});
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
@@ -27,8 +27,8 @@ const authorized = (endpoint: any, userId: string) => (init: {}) =>
     },
   })
 
-const endpoint = (endpoint: any, userId: string, params:any): AbortableEndpointResult => {
-  return abortable(authorized(endpoint.bind(null, params), userId))
+const endpoint = (endpoint: any, userId: string): AbortableEndpointResult => {
+  return abortable(authorized(endpoint, userId))
 }
 
 export type AbortableEndpointResult = {
@@ -49,7 +49,7 @@ type useEndpointInit = {
 
 const ignore = () => {}
 
-const useEndpoint = (ep:any, params:any, cb:useEndpointInit, deps:any) => {
+const useEndpoint = (ep:any, params:any) => (cb:useEndpointInit, deps:any) => {
   useEffect(() => {
     const request = ep(params);
     const onReceive:useEndpointOnReceived = (fn:any) => {
@@ -67,11 +67,10 @@ export class ApiClient {
   constructor(url: string, userId: string) {
     this.url = url
     this.userId = userId
-    this.getClients = this.getClients.bind(this)
   }
   getClients = (params:any): AbortableEndpointResult =>
-    endpoint(getClients.bind(null, this.url + '/clients'), this.userId, params)
-  useGetClients = useEndpoint.bind(null, this.getClients, 'hola')
+    endpoint(getClients(this.url + '/clients')(params), this.userId)
+  useGetClients = useEndpoint(this.getClients, 'hola')
 }
 
 const createApi = (url: string, userId: string) => new ApiClient(url, userId)
