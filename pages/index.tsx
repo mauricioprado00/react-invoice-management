@@ -4,7 +4,7 @@ import InvoiceTable from '../components/views/invoice/InvoiceTable';
 import { generateInvoices } from '../library/lorem-ipsum';
 import { useState } from 'react';
 import { ClientListN } from '../models/Client'
-import createApi, { ignore } from './api/apiclient';
+import createApi from './api/apiclient';
 
 let api = createApi('//localhost:3139', '111');
 
@@ -13,6 +13,7 @@ const Home: NextPage = () => {
   const [clients, setClients]: [ClientListN, any] = useState(null);
   const invoices = generateInvoices(5);
   api.useGetClients((received, abort) => {
+    api = createApi('//localhost:3139', counter %2 ? '111' : '222')
     setClients(null);
     received(clients => setClients(clients));
     return abort
