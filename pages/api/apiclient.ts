@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { ClientList } from '../../models/Client'
+import { InvoiceList } from '../../models/Invoice'
 
 const getClients = (url: string) => async (init: {}) => {
   const fetchPromise = fetch(url, init)
@@ -14,7 +15,7 @@ const getInvoices = (url: string) => async (init: {}) => {
   return jsonResponse.invoices
 }
 
-const abortable = (endpointClient: any): AbortableEndpointResult => {
+const abortable = (endpointClient: any): AbortableEndpointResult<any> => {
   const controller = new AbortController()
   const promise = endpointClient({ signal: controller.signal })
 
@@ -35,31 +36,31 @@ const authorized = (endpoint: any, userId: string) => (init: {}) =>
 
 const ignore = () => {}
 
-const endpoint = (endpoint: any, userId: string, then:Then): AbortableEndpointResult => {
+const endpoint = <Type>(endpoint: any, userId: string, then:Then<Type>): AbortableEndpointResult<Type> => {
   const result = abortable(authorized(endpoint, userId))
-  result.promise.then(then).catch(ignore)
+  result.promise.then<Type>(then).catch(ignore)
   return result;
 }
 
 type Cb = {(...many:any[]):any}
-type Then = Cb
+type Then<Type> = {(result:Type):any}
 
-export type AbortableEndpointResult = {
-  promise: Promise<any>
+export type AbortableEndpointResult<Type> = {
+  promise: Promise<Type>
   controller: AbortController
   abort: { (): void }
 }
 
-const abortAll = (...results:AbortableEndpointResult[]) => () => {
+const abortAll = (...results:AbortableEndpointResult<any>[]):Cb => () => {
   results.forEach(result => result.abort());
 }
 
 const createClient = (url:string, bearerToken:string) => ({
   abortAll,
-  getClients: (then:Then): AbortableEndpointResult =>
-    endpoint(getClients(url + '/clients'), bearerToken, then),
-  getInvoices: (then:Then): AbortableEndpointResult =>
-    endpoint(getInvoices(url + '/invoices'), bearerToken, then),
+  getClients: (then:Then<ClientList>): AbortableEndpointResult<ClientList> =>
+    endpoint<ClientList>(getClients(url + '/clients'), bearerToken, then),
+  getInvoices: (then:Then<InvoiceList>): AbortableEndpointResult<InvoiceList> =>
+    endpoint<InvoiceList>(getInvoices(url + '/invoices'), bearerToken, then),
 })
 
 

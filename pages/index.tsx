@@ -2,9 +2,9 @@ import type { NextPage } from 'next'
 import ClientTable from '../components/views/client/ClientTable'
 import InvoiceTable from '../components/views/invoice/InvoiceTable';
 import { useEffect, useMemo, useState } from 'react';
-import { ClientListN } from '../models/Client'
+import { ClientList, ClientListN } from '../models/Client'
 import createClient from './api/apiclient';
-import { InvoiceListN } from '../models/Invoice';
+import { InvoiceList, InvoiceListN } from '../models/Invoice';
 
 let client = createClient('//localhost:3139', '111');
 
@@ -18,8 +18,8 @@ const Home: NextPage = () => {
     setInvoices(null);
 
     return client.abortAll(
-      client.getInvoices(invoices => setInvoices(invoices)),
-      client.getClients(clients => setClients(clients))
+      client.getInvoices((invoices:InvoiceList) => setInvoices(invoices)),
+      client.getClients((clients:ClientList) => setClients(clients))
     );
   }, [client]);
 
