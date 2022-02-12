@@ -9,24 +9,27 @@ import createApi from './api/apiclient';
 const api = createApi('//localhost:3139');
 
 const Home: NextPage = () => {
+  const [counter, setCounter] = useState(0)
   const [clients, setClients]: [ClientListN, any] = useState(null);
   const invoices = generateInvoices(5);
 
   useEffect(() => {
-    let abort = () => {};
+    let result = api.getClients();
 
     (async () => {
-      let promise;
-      //console.log(setClients(api.getClients()))
-      [promise, abort] = api.getClients()
-      setClients(await promise)
+      setClients(null);
+      let clients = await result.promise;
+      if (result.aborted === false)
+        setClients(clients)
     })()
 
-    return () => {abort()}
-  }, []);
+    return result.abort;
+  }, [counter]);
 
   return (
     <>
+      counter: {counter}
+      <button onClick={() => setCounter(c => c + 1)}>more</button>
       <ClientTable clients={clients} />
       <InvoiceTable invoices={invoices} />
     </>
