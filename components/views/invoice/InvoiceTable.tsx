@@ -1,10 +1,10 @@
 import InvoiceTableRowItem from './InvoiceTableRowItem'
 import { InvoiceTableRowItemProps, InvoiceTableRowItemPropTypes } from './InvoiceTableRowItem'
 import PropTypes from 'prop-types'
-import { Table, Column } from '../../../components/ui/layout/Table'
+import { Table, Column, Empty } from '../../../components/ui/layout/Table'
 import HeaderContent from '../../../components/ui/layout/HeaderContent'
 import Button from '../../../components/ui/forms/Button'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -32,12 +32,13 @@ const InvoiceTable = (props: InvoiceTableProps) => {
         <Table title={title || "Latest Invoices"} loading={!loaded}>
             {loaded && <HeaderContent>
                 <Button onClick={newInvoice}>New Invoice</Button>
-                <Button onClick={allInvoices}>All Invoices</Button>
+                {invoices.length > 0 && <Button onClick={allInvoices}>All Invoices</Button>}
             </HeaderContent>}
             <Column>Invoice Number</Column>
             <Column>Company Name</Column>
             <Column>Value</Column>
             <Column>Due Date</Column>
+            <Empty>No invoices found</Empty>
             {
                 invoices.map(invoice =>
                     <InvoiceTableRowItem key={invoice.invoice.id} {...invoice} />)

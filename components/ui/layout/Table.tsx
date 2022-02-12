@@ -20,6 +20,19 @@ const TableHeaderColumn = (props: tableHeaderColumnProps) => {
 
 TableHeaderColumn.propTypes = TableHeaderColumnPropTypes;
 
+type EmptyProps = {
+    children: any
+}
+const EmptyPropTypes = {
+    children: PropTypes.node
+}
+
+const Empty = (props: EmptyProps) => {
+    return (<>{props.children}</>)
+}
+
+Empty.propTypes = EmptyPropTypes;
+
 type TableProps = {
     title?: string,
     loading: boolean,
@@ -35,9 +48,10 @@ const TablePropTypes = {
 const Table = (props: TableProps) => {
     const { title, loading } = props
     const children = props.children || []
-    const [columns, headerContent, rows] = segregate(children, [
+    const [columns, headerContent, empty, [rows]] = segregate(children, [
         TableHeaderColumn,
         HeaderContent,
+        Empty
     ])
 
     return (
@@ -53,20 +67,26 @@ const Table = (props: TableProps) => {
 
                     {loading ?
                         <LoadingMask /> :
-                        <div className="p-3">
-                            <div className="overflow-x-auto">
-                                <table className="table-auto w-full">
-                                    <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                                        <tr>
-                                            {columns}
-                                        </tr>
-                                    </thead>
-                                    <tbody className="text-sm divide-y divide-gray-100">
-                                        {rows}
-                                    </tbody>
-                                </table>
+                        (rows.length ?
+                            <div className="p-3">
+                                <div className="overflow-x-auto">
+                                    <table className="table-auto w-full">
+                                        <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                                            <tr>
+                                                {columns}
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-sm divide-y divide-gray-100">
+                                            {rows}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                            :
+                            <div className="flex flex-col items-center justify-center px-10 py-32">
+                                {empty}
+                            </div>
+                        )
                     }
                 </div>
             </div>
@@ -75,5 +95,5 @@ const Table = (props: TableProps) => {
 }
 Table.propTypes = TablePropTypes;
 
-export { Table, TableHeaderColumn as Column }
+export { Table, TableHeaderColumn as Column, Empty }
 export default Table
