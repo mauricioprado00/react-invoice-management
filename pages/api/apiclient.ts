@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 
-const getClients = (url: string) => (params: any) => async (init: {}) => {
+const getClients = (url: string) => async (init: {}) => {
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
   const jsonResponse = await httpResponse.json()
   return jsonResponse.clients
 }
 
-const getInvoices = (url: string) => (params: any) => async (init: {}) => {
+const getInvoices = (url: string) => async (init: {}) => {
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
   const jsonResponse = await httpResponse.json()
@@ -33,9 +33,16 @@ const authorized = (endpoint: any, userId: string) => (init: {}) =>
     },
   })
 
-const endpoint = (endpoint: any, userId: string): AbortableEndpointResult => {
-  return abortable(authorized(endpoint, userId))
+const ignore = () => {}
+
+const endpoint = (endpoint: any, userId: string, then:Then): AbortableEndpointResult => {
+  const result = abortable(authorized(endpoint, userId))
+  result.promise.then(then).catch(ignore)
+  return result;
 }
+
+type Cb = {(...many:any[]):any}
+type Then = Cb
 
 export type AbortableEndpointResult = {
   promise: Promise<any>
@@ -43,47 +50,13 @@ export type AbortableEndpointResult = {
   abort: { (): void }
 }
 
-type useEndpointOnReceivedCb = {
-  (received: any): void
-}
-type useEndpointOnReceived = {
-  (cb: useEndpointOnReceivedCb): void
-}
-type useEndpointInit = {
-  (received: useEndpointOnReceived, abort: { (): void }): void
-}
 
-const ignore = () => {}
+const createClient = (url:string, bearerToken:string) => ({
+  getClients: (then:Then): AbortableEndpointResult =>
+    endpoint(getClients(url + '/clients'), bearerToken, then),
+  getInvoices: (then:Then): AbortableEndpointResult =>
+    endpoint(getInvoices(url + '/invoices'), bearerToken, then),
+})
 
-const useEndpoint =
-  (ep: any, params: any) => (cb: useEndpointInit, deps: any) => {
-    useEffect(() => {
-      const request = ep(params)
-      const onReceive: useEndpointOnReceived = (fn: any) => {
-        request.promise
-          .then((response: any) => {
-            if (!request.controller.signal.aborted) fn(response)
-          })
-          .catch(ignore)
-      }
 
-      return cb(onReceive, request.abort)
-    }, deps)
-  }
-export class ApiClient {
-  url: string
-  userId: string
-  constructor(url: string, userId: string) {
-    this.url = url
-    this.userId = userId
-  }
-  getClients = (params: any): AbortableEndpointResult =>
-    endpoint(getClients(this.url + '/clients')(params), this.userId)
-  useGetClients = useEndpoint(this.getClients, [])
-  getInvoices = (params: any): AbortableEndpointResult =>
-    endpoint(getInvoices(this.url + '/invoices')(params), this.userId)
-  useGetInvoices = useEndpoint(this.getInvoices, [])
-}
-
-const createApi = (url: string, userId: string) => new ApiClient(url, userId)
-export default createApi
+export default createClient;

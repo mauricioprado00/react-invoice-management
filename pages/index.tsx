@@ -1,29 +1,40 @@
 import type { NextPage } from 'next'
 import ClientTable from '../components/views/client/ClientTable'
 import InvoiceTable from '../components/views/invoice/InvoiceTable';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ClientListN } from '../models/Client'
-import createApi from './api/apiclient';
+import createClient from './api/apiclient';
 import { InvoiceListN } from '../models/Invoice';
 
-let api = createApi('//localhost:3139', '111');
+let client = createClient('//localhost:3139', '111');
 
 const Home: NextPage = () => {
   const [userId, setUserId] = useState('111');
   const [clients, setClients]: [ClientListN, any] = useState([]);
   const [invoices, setInvoices]: [InvoiceListN, any] = useState(null);
-  useMemo(() => {api = createApi('//localhost:3139', userId)}, [userId])
-  api.useGetClients((received, abort) => {
+  useMemo(() => {client = createClient('//localhost:3139', userId)}, [userId])
+  useEffect(() => {
     setClients(null);
-    received(clients => setClients(clients));
-    return abort
-  }, [api]);
-
-  api.useGetInvoices((received, abort) => {
+    const {abort} = client.getClients(clients => setClients(clients))
+    return abort;
+  }, [client]);
+  useEffect(() => {
     setInvoices(null);
-    received(invoices => setInvoices(invoices));
-    return abort
-  }, [api])
+    const {abort} = client.getInvoices(invoices => setInvoices(invoices))
+    return abort;
+  }, [client]);
+  // client.use(({getClients}) => {
+  //   setClients(null);
+  //   const {abort} = getClients(clients => setClients(clients));
+  //   return abort
+  // }, [client]);
+
+  // api.useGetClients((fetch, received, abort) => {
+  //   setClients(null);
+  //   received(clients => setClients(clients));
+  //   fetch()
+  //   return abort
+  // }, [api]);
 
   return (
     <>

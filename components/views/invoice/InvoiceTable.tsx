@@ -13,7 +13,7 @@ export type InvoiceTableProps = {
 
 const InvoiceTablePropTypes = {
     title: PropTypes.string,
-    invoices: PropTypes.arrayOf(PropTypes.exact(InvoiceTableRowItemPropTypes)).isRequired
+    invoices: PropTypes.arrayOf(PropTypes.exact(InvoiceTableRowItemPropTypes))
 }
 
 const InvoiceTable = ({invoices, title="Latest Invoices"}: InvoiceTableProps) => {
