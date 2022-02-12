@@ -9,15 +9,11 @@ const abortable = (endpointClient: any): AbortableEndpointResult => {
   const controller = new AbortController()
   const promise = endpointClient({ signal: controller.signal })
 
-  const result = {
+  return {
     promise,
-    abort: () => {
-      controller.abort()
-      result.aborted = true
-    },
-    aborted: false,
+    controller,
+    abort: controller.abort.bind(controller)
   }
-  return result
 }
 
 const authorized = (endpoint: any, userId:string) => (init: {}) =>
@@ -34,7 +30,7 @@ const endpoint = (endpoint: any, userId: string): AbortableEndpointResult => {
 
 export type AbortableEndpointResult = {
   promise: Promise<any>
-  aborted: boolean
+  controller: AbortController
   abort: { (): void }
 }
 export class ApiClient {

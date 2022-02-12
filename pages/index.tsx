@@ -15,16 +15,16 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     api = createApi('//localhost:3139', counter % 2 ? '111' : '222')
-    let result = api.getClients();
+    let request = api.getClients();
 
     (async () => {
       setClients(null);
-      let clients = await result.promise;
-      if (result.aborted === false)
+      let clients = await request.promise;
+      if (request.controller.signal.aborted === false)
         setClients(clients)
     })()
 
-    return result.abort;
+    return request.abort;
   }, [counter]);
 
   return (
