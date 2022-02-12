@@ -2,7 +2,7 @@ import { CompanyDetails } from './CompanyDetails'
 
 export type Client = {
   id: number | string
-  user_id: string
+  user_id?: string
   name: string
   email: string
   totalBilled: number

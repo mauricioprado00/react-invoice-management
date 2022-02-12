@@ -24,14 +24,8 @@ const ClientTable = (props: ClientTableProps) => {
       <Column>Company Name</Column>
       <Column>Total Billed</Column>
       {
-        clients.map(i =>
-          <ClientTableRowItem
-            id={i.id}
-            name={i.name}
-            email={i.email}
-            totalBilled={i.totalBilled}
-            companyDetails={i.companyDetails}
-            key={i.id} />)
+        clients.map(client =>
+          <ClientTableRowItem key={client.id} {...client} />)
       }
     </Table>
   )
