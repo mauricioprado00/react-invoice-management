@@ -16,10 +16,8 @@ const InvoiceTablePropTypes = {
     invoices: PropTypes.arrayOf(PropTypes.exact(InvoiceTableRowItemPropTypes)).isRequired
 }
 
-const InvoiceTable = (props: InvoiceTableProps) => {
-    const loaded = props.invoices !== null;
-    const { title } = props;
-    const invoices: Array<InvoiceTableRowItemProps> = props.invoices || []
+const InvoiceTable = ({invoices, title="Latest Invoices"}: InvoiceTableProps) => {
+    const loaded = invoices !== null;
     const newInvoice = useCallback((e) => {
         alert('new invoice');
         e.preventDefault();
@@ -40,7 +38,7 @@ const InvoiceTable = (props: InvoiceTableProps) => {
             <Column>Due Date</Column>
             <Empty>No invoices found</Empty>
             {
-                invoices.map(invoice =>
+                (invoices||[]).map(invoice =>
                     <InvoiceTableRowItem key={invoice.invoice.id} {...invoice} />)
             }
         </Table>

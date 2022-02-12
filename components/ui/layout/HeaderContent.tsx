@@ -7,8 +7,7 @@ const HeaderContentPropTypes = {
     children: PropTypes.node
 }
 
-const HeaderContent = (props: HeaderContentProps) => {
-    const { children } = props;
+const HeaderContent = ({children}: HeaderContentProps) => {
     return (<>
         {children}
     </>)

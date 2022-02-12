@@ -11,8 +11,7 @@ const ButtonPropTypes = {
     onClick: PropTypes.any
 }
 
-const Button = (props: ButtonProps) => {
-    const { children, onClick } = props;
+const Button = ({ children, onClick }: ButtonProps) => {
     return (<a href="" onClick={onClick} className="bg-emerald-700 rounded-lg font-bold text-white text-center px-4 py-1 transition duration-300 ease-in-out hover:bg-blue-600 mr-6">
         {children}
     </a>)

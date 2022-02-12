@@ -21,11 +21,10 @@ export const InvoiceTableRowItemPropTypes = {
     client: PropTypes.exact(ClientTableRowItemPropTypes)
 }
 
-const InvoiceTableRowItem = (props: InvoiceTableRowItemProps) => {
-    const {
-        invoice: { invoice_number: number, value = 0, dueDate } = {},
-        client: { companyDetails: { name: company } = {} } = {}
-    } = props;
+const InvoiceTableRowItem = ({
+    invoice: { invoice_number, value, dueDate },
+    client: { companyDetails: { name: company } }
+}: InvoiceTableRowItemProps) => {
     const isOverLimit = value >= 5000;
     const valueBilledClassnames = classNames(
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
@@ -33,7 +32,7 @@ const InvoiceTableRowItem = (props: InvoiceTableRowItemProps) => {
     return (
         <tr key="nothing">
             <td className="px-2 py-4 whitespace-nowrap">
-                <div className="text-left">{number}</div>
+                <div className="text-left">{invoice_number}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
                 <div className="text-left">{company}</div>

@@ -14,18 +14,16 @@ const ClientTablePropTypes = {
 }
 
 
-const ClientTable = (props: ClientTableProps) => {
-  const loaded = props.clients !== null;
-  const { title } = props;
-  const clients: Array<ClientTableRowItemProps> = props.clients || []
+const ClientTable = ({clients, title = "Clients"}: ClientTableProps) => {
+  const loaded = clients !== null;
   return (
-    <Table title={title || "Clients"} loading={!loaded}>
+    <Table title={title} loading={!loaded}>
       <Column>Client Name</Column>
       <Column>Company Name</Column>
       <Column>Total Billed</Column>
       <Empty>No clients found</Empty>
       {
-        clients.map(client =>
+        (clients||[]).map(client =>
           <ClientTableRowItem key={client.id} {...client} />)
       }
     </Table>

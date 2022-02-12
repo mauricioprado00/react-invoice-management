@@ -24,9 +24,7 @@ export const ClientTableRowItemPropTypes = {
     companyDetails: PropTypes.exact(CompanyDetailsPropType)
 }
 
-const ClientTableRowItem = (props: ClientTableRowItemProps) => {
-    const { name, email, totalBilled } = props;
-    const companyDetails: CompanyDetails = props.companyDetails || {}
+const ClientTableRowItem = ({ name, email, totalBilled, companyDetails }: ClientTableRowItemProps) => {
     const isOverLimit = totalBilled >= 5000;
     const totalBilledClassnames = classNames(
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"

@@ -10,10 +10,10 @@ const TableHeaderColumnPropTypes = {
     children: PropTypes.node
 }
 
-const TableHeaderColumn = (props: tableHeaderColumnProps) => {
+const TableHeaderColumn = ({children}: tableHeaderColumnProps) => {
     return (
         <th className="p-2 whitespace-nowrap">
-            <div className="font-semibold text-left">{props.children}</div>
+            <div className="font-semibold text-left">{children}</div>
         </th>
     )
 }
@@ -27,8 +27,8 @@ const EmptyPropTypes = {
     children: PropTypes.node
 }
 
-const Empty = (props: EmptyProps) => {
-    return (<>{props.children}</>)
+const Empty = ({children}: EmptyProps) => {
+    return (<>{children}</>)
 }
 
 Empty.propTypes = EmptyPropTypes;
@@ -45,9 +45,7 @@ const TablePropTypes = {
     children: PropTypes.node.isRequired
 }
 
-const Table = (props: TableProps) => {
-    const { title, loading } = props
-    const children = props.children || []
+const Table = ({ title, loading, children }: TableProps) => {
     const [columns, headerContent, empty, [rows]] = segregate(children, [
         TableHeaderColumn,
         HeaderContent,
