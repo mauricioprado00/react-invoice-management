@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { ClientListN } from './models/Client'
 import createApi from './api/apiclient';
 
-const api = createApi('//localhost:3139');
+let api = createApi('//localhost:3139', '111');
 
 const Home: NextPage = () => {
   const [counter, setCounter] = useState(0)
@@ -14,6 +14,7 @@ const Home: NextPage = () => {
   const invoices = generateInvoices(5);
 
   useEffect(() => {
+    api = createApi('//localhost:3139', counter % 2 ? '111' : '222')
     let result = api.getClients();
 
     (async () => {

@@ -20,16 +20,16 @@ const abortable = (endpointClient: any): AbortableEndpointResult => {
   return result
 }
 
-const authorized = (endpoint: any) => (init: {}) =>
+const authorized = (endpoint: any, userId:string) => (init: {}) =>
   endpoint({
     ...init,
     headers: {
-      Authorization: 'Bearer 111',
+      Authorization: `Bearer ${userId}`,
     },
   })
 
-const endpoint = (endpoint: any): AbortableEndpointResult => {
-  return abortable(authorized(endpoint))
+const endpoint = (endpoint: any, userId: string): AbortableEndpointResult => {
+  return abortable(authorized(endpoint, userId))
 }
 
 export type AbortableEndpointResult = {
@@ -39,13 +39,15 @@ export type AbortableEndpointResult = {
 }
 export class ApiClient {
   url: string
-  constructor(url: string) {
+  userId: string
+  constructor(url: string, userId: string) {
     this.url = url
+    this.userId = userId;
     this.getClients = this.getClients.bind(this)
   }
   getClients = (): AbortableEndpointResult =>
-    endpoint(getClients.bind(null, this.url + '/clients'))
+    endpoint(getClients.bind(null, this.url + '/clients'), this.userId)
 }
 
-const createApi = (url: string) => new ApiClient(url)
+const createApi = (url: string, userId: string) => new ApiClient(url, userId)
 export default createApi
