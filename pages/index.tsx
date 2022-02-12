@@ -10,7 +10,7 @@ let client = createClient('//localhost:3139', '111');
 
 const Home: NextPage = () => {
   const [userId, setUserId] = useState('111');
-  const [clients, setClients]: [ClientListN, any] = useState([]);
+  const [clients, setClients]: [ClientListN, any] = useState(null);
   const [invoices, setInvoices]: [InvoiceListN, any] = useState(null);
   useMemo(() => {client = createClient('//localhost:3139', userId)}, [userId])
   useEffect(() => {
