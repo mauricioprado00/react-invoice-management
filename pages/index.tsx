@@ -15,26 +15,13 @@ const Home: NextPage = () => {
   useMemo(() => {client = createClient('//localhost:3139', userId)}, [userId])
   useEffect(() => {
     setClients(null);
-    const {abort} = client.getClients(clients => setClients(clients))
-    return abort;
-  }, [client]);
-  useEffect(() => {
     setInvoices(null);
-    const {abort} = client.getInvoices(invoices => setInvoices(invoices))
-    return abort;
-  }, [client]);
-  // client.use(({getClients}) => {
-  //   setClients(null);
-  //   const {abort} = getClients(clients => setClients(clients));
-  //   return abort
-  // }, [client]);
 
-  // api.useGetClients((fetch, received, abort) => {
-  //   setClients(null);
-  //   received(clients => setClients(clients));
-  //   fetch()
-  //   return abort
-  // }, [api]);
+    return client.abortAll(
+      client.getInvoices(invoices => setInvoices(invoices)),
+      client.getClients(clients => setClients(clients))
+    );
+  }, [client]);
 
   return (
     <>

@@ -50,8 +50,12 @@ export type AbortableEndpointResult = {
   abort: { (): void }
 }
 
+const abortAll = (...results:AbortableEndpointResult[]) => () => {
+  results.forEach(result => result.abort());
+}
 
 const createClient = (url:string, bearerToken:string) => ({
+  abortAll,
   getClients: (then:Then): AbortableEndpointResult =>
     endpoint(getClients(url + '/clients'), bearerToken, then),
   getInvoices: (then:Then): AbortableEndpointResult =>
