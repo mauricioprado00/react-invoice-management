@@ -3,7 +3,7 @@ import ClientTable from './components/ClientTable'
 import InvoiceTable from './components/InvoiceTable';
 import { generateInvoices } from '../library/lorem-ipsum';
 import { useEffect, useState } from 'react';
-import { ClientListN } from './models/Client'
+import { ClientListN } from '../models/Client'
 import createApi from './api/apiclient';
 
 let api = createApi('//localhost:3139', '111');

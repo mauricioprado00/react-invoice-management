@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Image from 'next/image'
-import { CompanyDetails } from '../models/CompanyDetails'
-import { Client } from '../models/Client'
+import { CompanyDetails } from '../../models/CompanyDetails'
+import { Client } from '../../models/Client'
 
 export type ClientTableRowItemProps = Client
 
