@@ -36,7 +36,17 @@ export type AbortableEndpointResult = {
   abort: { (): void }
 }
 
-const useEndpoint = (ep:any, cb:any, deps:any) => {
+type useEndpointOnReceivedCb = {
+  (received:any): void
+}
+type useEndpointOnReceived = {
+  (cb:useEndpointOnReceivedCb): void
+}
+type useEndpointInit = {
+  (received:useEndpointOnReceived, abort:{(): void}): void
+}
+
+const useEndpoint = (ep:any, cb:useEndpointInit, deps:any) => {
   const requester = ep.bind(this)
   useEffect(() => {
     const request = requester();
