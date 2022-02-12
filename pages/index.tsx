@@ -1,8 +1,7 @@
 import type { NextPage } from 'next'
 import ClientTable from '../components/views/client/ClientTable'
 import InvoiceTable from '../components/views/invoice/InvoiceTable';
-import { generateInvoices } from '../library/lorem-ipsum';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ClientListN } from '../models/Client'
 import createApi from './api/apiclient';
 import { InvoiceListN } from '../models/Invoice';
@@ -11,7 +10,7 @@ let api = createApi('//localhost:3139', '111');
 
 const Home: NextPage = () => {
   const [userId, setUserId] = useState('111');
-  const [clients, setClients]: [ClientListN, any] = useState(null);
+  const [clients, setClients]: [ClientListN, any] = useState([]);
   const [invoices, setInvoices]: [InvoiceListN, any] = useState(null);
   useMemo(() => {api = createApi('//localhost:3139', userId)}, [userId])
   api.useGetClients((received, abort) => {

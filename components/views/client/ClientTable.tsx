@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
 import { ClientTableRowItemProps, ClientTableRowItemPropTypes } from './ClientTableRowItem'
-import { Table, Column } from '../../../components/ui/layout/Table'
+import { Table, Column, Empty } from '../../../components/ui/layout/Table'
 
 export type ClientTableProps = {
   title?: string,
@@ -19,10 +19,11 @@ const ClientTable = (props: ClientTableProps) => {
   const { title } = props;
   const clients: Array<ClientTableRowItemProps> = props.clients || []
   return (
-    <Table title={title || "Customers"} loading={!loaded}>
+    <Table title={title || "Clients"} loading={!loaded}>
       <Column>Client Name</Column>
       <Column>Company Name</Column>
       <Column>Total Billed</Column>
+      <Empty>No clients found</Empty>
       {
         clients.map(client =>
           <ClientTableRowItem key={client.id} {...client} />)
