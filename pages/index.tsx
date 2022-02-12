@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import ClientTable from '../components/views/client/ClientTable'
 import InvoiceTable from '../components/views/invoice/InvoiceTable';
 import { generateInvoices } from '../library/lorem-ipsum';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ClientListN } from '../models/Client'
 import createApi, { ignore } from './api/apiclient';
 

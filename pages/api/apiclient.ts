@@ -46,22 +46,19 @@ type useEndpointInit = {
   (received:useEndpointOnReceived, abort:{(): void}): void
 }
 
+const ignore = () => {}
+
 const useEndpoint = (ep:any, cb:useEndpointInit, deps:any) => {
   const requester = ep.bind(this)
   useEffect(() => {
     const request = requester();
-    let onReceived = (response:any) => {}
-    const received = (fn:any) => {
-      onReceived = fn
+    const onReceive:useEndpointOnReceived = (fn:any) => {
+      request.promise.then((response:any) => {
+        if (!request.controller.signal.aborted) fn(response)
+      }).catch(ignore)
     }
 
-    request.promise
-      .then((response:any) => {
-        if (!request.controller.signal.aborted) onReceived(response)
-      })
-      .catch(ignore)
-
-    return cb(received, request.abort)
+    return cb(onReceive, request.abort)
   }, deps)
 }
 export class ApiClient {
@@ -78,5 +75,4 @@ export class ApiClient {
 }
 
 const createApi = (url: string, userId: string) => new ApiClient(url, userId)
-export const ignore = () => {}
 export default createApi
