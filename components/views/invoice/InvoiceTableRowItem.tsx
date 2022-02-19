@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { ClientInvoice } from 'models/Invoice'
-import { ClientTableRowItemPropTypes } from '../client/ClientTableRowItem'
+import { ClientPropTypes, ClientTableRowItemPropTypes } from '../client/ClientTableRowItem'
 
 export type InvoiceTableRowItemProps = ClientInvoice
 
@@ -18,7 +18,7 @@ export const InvoicePropType = {
 
 export const InvoiceTableRowItemPropTypes = {
     invoice: PropTypes.exact(InvoicePropType),
-    client: PropTypes.exact(ClientTableRowItemPropTypes)
+    client: PropTypes.exact(ClientPropTypes)
 }
 
 const InvoiceTableRowItem = ({
