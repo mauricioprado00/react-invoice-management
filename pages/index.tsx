@@ -5,8 +5,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { ClientList, ClientListN } from 'models/Client'
 import createClient from 'api/apiclient';
 import { InvoiceList, InvoiceListN } from 'models/Invoice';
+import configureStore from 'store/configureStore'
+import StoreContext from 'contexts/storeContext'
 
 let client = createClient('//localhost:3139', '111');
+const store = configureStore();
 
 const Home: NextPage = () => {
   const [userId, setUserId] = useState('111');
@@ -24,12 +27,12 @@ const Home: NextPage = () => {
   }, [client]);
 
   return (
-    <>
+    <StoreContext.Provider value={store}>
       UserId: {userId}
       <button onClick={() => setUserId(userId => userId === '111' ? '222' : '111')}>Change User</button>
       <ClientTable clients={clients} />
       <InvoiceTable invoices={invoices} />
-    </>
+    </StoreContext.Provider>
   )
 }
 
