@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import { segregate } from '../../../library/helpers'
 import HeaderContent from './HeaderContent'
 import LoadingMask from '../LoadingMask'
+import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
+import ErrorBanner from '../../utility/ErrorBanner'
 
 type tableHeaderColumnProps = {
     children: any
@@ -36,16 +38,18 @@ Empty.propTypes = EmptyPropTypes;
 type TableProps = {
     title?: string,
     loading: boolean,
-    children: any
+    children: any,
+    error?: SerializedError | null
 }
 
 const TablePropTypes = {
     title: PropTypes.string,
     loading: PropTypes.bool.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    error: SerializedErrorPropTypes
 }
 
-const Table = ({ title, loading, children }: TableProps) => {
+const Table = ({ title, loading, children, error }: TableProps) => {
     const [columns, headerContent, empty, [rows]] = segregate(children, [
         TableHeaderColumn,
         HeaderContent,
@@ -62,8 +66,8 @@ const Table = ({ title, loading, children }: TableProps) => {
                             {headerContent}
                         </div>
                     </header>
-
-                    {loading ?
+                    {error ? <ErrorBanner error={error}>There are connectivity problems, we could not load the client list</ErrorBanner> : (
+                        loading ?
                         <LoadingMask /> :
                         (rows.length ?
                             <div className="p-3">
@@ -85,7 +89,7 @@ const Table = ({ title, loading, children }: TableProps) => {
                                 {empty}
                             </div>
                         )
-                    }
+                    )}
                 </div>
             </div>
         </section>

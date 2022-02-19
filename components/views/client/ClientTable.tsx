@@ -18,7 +18,7 @@ const ClientTable = ({title = "Clients"}: ClientTableProps) => {
   const loaded = clientSlice.loadClientsState === 'loaded';
   const clients = clientSlice.list;
   return (
-    <Table title={title} loading={!loaded}>
+    <Table title={title} loading={!loaded} error={clientSlice.loadClientsError}>
       <Column>Client Name</Column>
       <Column>Company Name</Column>
       <Column>Total Billed</Column>
