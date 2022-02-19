@@ -7,13 +7,19 @@ import { InvoiceList, InvoiceListN } from 'models/Invoice';
 import store from 'store/configureStore'
 import { Provider } from 'react-redux';
 import { loadClients } from 'store/ClientSlice';
+import { newBearerToken } from 'store/UserSlice';
 
 let client = createClient('//localhost:3139', '111');
 
 const Home: NextPage = () => {
   const [userId, setUserId] = useState('111');
   const [invoices, setInvoices]: [InvoiceListN, any] = useState(null);
-  useMemo(() => {client = createClient('//localhost:3139', userId)}, [userId])
+
+  // simulate login
+  useMemo(() => {
+    client.newBearerToken(userId);
+    store.dispatch(newBearerToken(userId))
+  }, [userId])
   useEffect(() => {
     const dispatchLoadClientPromise = store.dispatch(loadClients());
     setInvoices(null);
@@ -24,7 +30,7 @@ const Home: NextPage = () => {
       },
       client.getInvoices((invoices:InvoiceList) => setInvoices(invoices)),
     );
-  }, [client]);
+  }, [userId]);
 
   return (
     <Provider store={store}>

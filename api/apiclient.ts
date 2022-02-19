@@ -69,6 +69,7 @@ const abortAll = (...results:AbortableObject[]):Cb => () => {
 
 const createClient = (url:string, bearerToken:string) => ({
   abortAll,
+  newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
   getClients: (then:Then<ClientWithTotalsList>): AbortableEndpointResult<ClientWithTotalsList> =>
     endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then),
   getInvoices: (then:Then<InvoiceList>): AbortableEndpointResult<InvoiceList> =>
