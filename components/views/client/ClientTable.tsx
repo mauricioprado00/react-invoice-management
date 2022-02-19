@@ -1,26 +1,22 @@
 import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
-import { ClientTableRowItemProps, ClientTableRowItemPropTypes } from './ClientTableRowItem'
 import { Table, Column, Empty } from 'components/ui/layout/Table'
-import { useDispatch } from 'react-redux'
-import { useAppDispatch } from 'store/configureStore'
-import { loadClients } from 'store/ClientsSlice'
+import { useSelector } from 'react-redux'
+import { clientsSelector } from 'store/ClientsSlice'
 
 export type ClientTableProps = {
-  title?: string,
-  clients: null | Array<ClientTableRowItemProps>
+  title?: string
 }
 
 const ClientTablePropTypes = {
-  title: PropTypes.string,
-  clients: PropTypes.arrayOf(PropTypes.exact(ClientTableRowItemPropTypes))
+  title: PropTypes.string
 }
 
 
-const ClientTable = ({clients, title = "Clients"}: ClientTableProps) => {
-  const dispatch = useAppDispatch();
-  dispatch(loadClients());
-  const loaded = clients !== null;
+const ClientTable = ({title = "Clients"}: ClientTableProps) => {
+  const clientsSlice = useSelector(clientsSelector)
+  const loaded = clientsSlice.loadClientsState === 'loaded';
+  const clients = clientsSlice.list;
   return (
     <Table title={title} loading={!loaded}>
       <Column>Client Name</Column>
@@ -28,7 +24,7 @@ const ClientTable = ({clients, title = "Clients"}: ClientTableProps) => {
       <Column>Total Billed</Column>
       <Empty>No clients found</Empty>
       {
-        (clients||[]).map(client =>
+        (clients).map(client =>
           <ClientTableRowItem key={client.id} {...client} />)
       }
     </Table>

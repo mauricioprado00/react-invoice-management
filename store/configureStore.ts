@@ -1,10 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import createClient from "api/apiclient";
 import { useDispatch } from "react-redux";
 import reducer, { RootState } from "./RootSlice";
 
-const serviceApi = {
-  something: () => console.log('doing something')
-}
+const serviceApi = createClient('//localhost:3139', '111')
 
 const thunkApiExtraArgument = { serviceApi }
 export const createStore = () =>

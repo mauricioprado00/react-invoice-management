@@ -1,39 +1,39 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
 import { createSelector } from "reselect";
-import { AppDispatch, AppThunkAPI } from "./configureStore";
+import { AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
 
-
+export type RequestState = "loading" | "loaded" | "error" | "aborted"
 export type ClientsState = {
-  list: ClientWithTotalsList,
-  requestState: string,
-  lastFetch: number|null
-}
-
+  list: ClientWithTotalsList;
+  loadClientsState: RequestState;
+  lastFetch: number | null;
+};
 const initialState: ClientsState = {
-    list: [],
-    requestState: "loading",
-    lastFetch: null,
-}
+  list: [],
+  loadClientsState: "loading",
+  lastFetch: null,
+};
 
-const findClientIndex = (clients:ClientWithTotalsList, id:string) =>
-  clients.findIndex((client:Client) => client.id === id);
-const findClient = (clients:ClientWithTotalsList, id:string) => clients[findClientIndex(clients, id)];
-
+const findClientIndex = (clients: ClientWithTotalsList, id: string) =>
+  clients.findIndex((client: Client) => client.id === id);
+const findClient = (clients: ClientWithTotalsList, id: string) =>
+  clients[findClientIndex(clients, id)];
 
 export const loadClients = createAsyncThunk<
-// Return type of the payload creator
-void,
-// First argument to the payload creator
-void,
-AppThunkAPI
->('todos/fetchTodos', async (arg, thunkAPI) => {
-  
-  thunkAPI.extra.serviceApi.something()
-  console.log("loadClients", {arg, thunkAPI});
-
-})
+  // Return type of the payload creator
+  void,
+  // First argument to the payload creator
+  void,
+  AppThunkAPI
+>("todos/fetchTodos", async (arg, thunkAPI) => {
+  const result = thunkAPI.extra.serviceApi.getClients(clients =>
+    thunkAPI.dispatch(clientsReceived(clients))
+  );
+  const clients = await result.promise;
+  // console.log("loadClients", { arg, thunkAPI });
+});
 
 const slice = createSlice({
   name: "clients",
@@ -52,20 +52,26 @@ const slice = createSlice({
       clients.list.splice(index, 1);
     },
   },
+  extraReducers: builder => {
+    builder.addCase(loadClients.pending, (clients, action) => {
+      clients.loadClientsState = "loading"
+    })
+    builder.addCase(loadClients.fulfilled, (clients, action) => {
+      clients.loadClientsState = "loaded"
+    })
+  }
 });
 
-export const {
-  clientAdded,
-  clientRemoved,
-  clientsReceived,
-} = slice.actions;
+export const { clientAdded, clientRemoved, clientsReceived } = slice.actions;
 
 export default slice.reducer;
 
 // action creators
 
-const clientsSelector = (state:RootState) : ClientsState => state.entities.clients;
-export const isMostValuableClient = (client:ClientWithTotals) => client.totalBilled > 5000;
+export const clientsSelector = (state: RootState): ClientsState =>
+  state.entities.clients;
+export const isMostValuableClient = (client: ClientWithTotals) =>
+  client.totalBilled > 5000;
 
 // selectors
 export const getMostValuableClientsSelector = createSelector(
@@ -73,7 +79,7 @@ export const getMostValuableClientsSelector = createSelector(
   clients => clients.list.filter(isMostValuableClient)
 );
 
-export const getClientsByCompanyNameSelector = (companyName:string) =>
+export const getClientsByCompanyNameSelector = (companyName: string) =>
   createSelector(clientsSelector, clients =>
     clients.list.filter(client => client.companyDetails.name === companyName)
   );
