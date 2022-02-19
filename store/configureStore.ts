@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reducer from "./reducer";
+import reducer from "./RootSlice";
 
 export const getProductionMiddleware = (prevMiddleware: any) => {
   // include default middleware, Thunk
@@ -14,14 +14,30 @@ export const getTestMiddleware = (prevMiddleware: any) => {
   ]);
 };
 
+const serviceApi = {
+  something: () => console.log('doing something')
+}
+
 export const configureAppStore = (getMiddleware: any) => () =>
   configureStore({
     reducer,
-    middleware: getDefaultMiddleware => getMiddleware(getDefaultMiddleware()),
+    middleware: getDefaultMiddleware => getMiddleware(getDefaultMiddleware({
+      thunk: {
+        extraArgument: { serviceApi }
+      }
+    })),
   });
 
 const store = configureAppStore(getProductionMiddleware);
 
 export type Store = typeof store;
+
+
+export type AppThunkAPI = {
+  extra: {
+    serviceApi: typeof serviceApi
+  }
+}
+
 
 export default store;

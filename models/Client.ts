@@ -19,6 +19,7 @@ export interface ClientWithTotals extends Client {
 export type ClientN = null | Client;
 export type ClientList = Client[];
 export type ClientListN = null | ClientList;
+export type ClientWithTotalsList = ClientWithTotals[]
 
 // React PropTypes definitions for components
 
