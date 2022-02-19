@@ -11,14 +11,19 @@ import { RootState } from "./RootSlice";
 export type RequestState = "loading" | "loaded" | "error" | "aborted";
 export type ClientsState = {
   list: ClientWithTotalsList;
+  loadClientsStateAmount: number;
   loadClientsState: RequestState;
   loadClientsError: SerializedError | null;
   lastFetch: number | null;
 };
 const initialState: ClientsState = {
   list: [],
+  // group all of these into a new attribute
+  loadClientsStateAmount: 0,
   loadClientsState: "loading",
   loadClientsError: null,
+  // create a selector getError () => error && client.loadClientsStateAmount === 0 ? error : null
+
   lastFetch: null,
 };
 
@@ -63,10 +68,12 @@ const slice = createSlice({
     builder.addCase(loadClients.pending, (client, action) => {
       client.loadClientsState = "loading";
       client.loadClientsError = null;
+      client.loadClientsStateAmount++;
     });
     builder.addCase(loadClients.fulfilled, (client, action) => {
       client.loadClientsState = "loaded";
       client.loadClientsError = null;
+      client.loadClientsStateAmount--;
     });
     builder.addCase(loadClients.rejected, (client, action) => {
       client.loadClientsState = "error";
@@ -74,6 +81,7 @@ const slice = createSlice({
         client.loadClientsState = "aborted";
       }
       client.loadClientsError = action.error;
+      client.loadClientsStateAmount--;
     });
   },
 });
@@ -89,6 +97,12 @@ export const isMostValuableClient = (client: ClientWithTotals) =>
 // selectors
 export const clientSliceSelector = (state: RootState): ClientsState =>
   state.entities.client;
+
+export const loadClientErrorSelector = createSelector(
+  clientSliceSelector,
+  ({ loadClientsError, loadClientsStateAmount }) =>
+    loadClientsError && loadClientsStateAmount === 0 ? loadClientsError : null
+);
 
 export const getMostValuableClientsSelector = createSelector(
   clientSliceSelector,
