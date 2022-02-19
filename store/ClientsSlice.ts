@@ -65,14 +65,14 @@ export const { clientAdded, clientRemoved, clientsReceived } = slice.actions;
 
 export default slice.reducer;
 
-// action creators
-
-export const clientsSelector = (state: RootState): ClientsState =>
-  state.entities.clients;
+// business logic
 export const isMostValuableClient = (client: ClientWithTotals) =>
   client.totalBilled > 5000;
 
 // selectors
+export const clientsSelector = (state: RootState): ClientsState =>
+  state.entities.clients;
+
 export const getMostValuableClientsSelector = createSelector(
   clientsSelector,
   clients => clients.list.filter(isMostValuableClient)

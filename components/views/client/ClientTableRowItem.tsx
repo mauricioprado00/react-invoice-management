@@ -1,17 +1,18 @@
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
 import HamburgerDropdown from '../../ui/elements/HamburgerDropdown'
+import { isMostValuableClient } from 'store/ClientsSlice'
 
 export type ClientTableRowItemProps = ClientWithTotals
 
 export const ClientTableRowItemPropTypes = ClientWithTotalsPropTypes
 
-const ClientTableRowItem = ({ name, email, totalBilled, companyDetails }: ClientTableRowItemProps) => {
-    const isOverLimit = totalBilled >= 5000;
+const ClientTableRowItem = (client: ClientTableRowItemProps) => {
+    const { name, email, totalBilled, companyDetails } = client
+    const isMostValuable = isMostValuableClient(client);
     const totalBilledClassnames = classNames(
-        "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
+        "text-left font-medium", isMostValuable ? "text-red-500" : "text-green-500"
     );
     const actions = [
         { label: 'Profile', type: 'profile' },
