@@ -1,28 +1,12 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Image from 'next/image'
-import { ClientWithTotals } from 'models/Client'
+import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
 import HamburgerDropdown from '../../ui/elements/HamburgerDropdown'
 
 export type ClientTableRowItemProps = ClientWithTotals
 
-const CompanyDetailsPropType = {
-    name: PropTypes.string.isRequired,
-    vatNumber: PropTypes.string.isRequired,
-    regNumber: PropTypes.string.isRequired,
-    address: PropTypes.string.isRequired,
-}
-
-export const ClientPropTypes = {
-    id: PropTypes.string.isRequired,
-    user_id: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    companyDetails: PropTypes.exact(CompanyDetailsPropType)
-}
-export const ClientTableRowItemPropTypes = Object.assign({...ClientPropTypes} , {
-    totalBilled: PropTypes.number.isRequired,
-})
+export const ClientTableRowItemPropTypes = ClientWithTotalsPropTypes
 
 const ClientTableRowItem = ({ name, email, totalBilled, companyDetails }: ClientTableRowItemProps) => {
     const isOverLimit = totalBilled >= 5000;

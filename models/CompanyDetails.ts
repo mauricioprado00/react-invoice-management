@@ -1,3 +1,7 @@
+import PropTypes from 'prop-types'
+
+// typescript types
+
 export type CompanyDetails = {
   name: string
   vatNumber: string
@@ -7,3 +11,12 @@ export type CompanyDetails = {
 export type CompanyDetailsN = null | CompanyDetails
 export type CompanyDetailsList = CompanyDetails[]
 export type CompanyDetailsListN = null | CompanyDetailsList
+
+// React PropTypes definitions for components
+
+export const CompanyDetailsPropType = {
+  name: PropTypes.string.isRequired,
+  vatNumber: PropTypes.string.isRequired,
+  regNumber: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
+}
