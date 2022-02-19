@@ -1,17 +1,25 @@
 import { ClientList } from '../../models/Client'
 import { InvoiceList } from '../../models/Invoice'
-
-const getClients = (url: string) => async (init: {}) => {
+interface ApiInitParams extends RequestInit {
+  signal: AbortSignal,
+}
+const getClients = (url: string) => async (init: ApiInitParams) => {
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
   const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
   return jsonResponse.clients
 }
 
-const getInvoices = (url: string) => async (init: {}) => {
+const getInvoices = (url: string) => async (init: ApiInitParams) => {
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
   const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
   return jsonResponse.invoices
 }
 
