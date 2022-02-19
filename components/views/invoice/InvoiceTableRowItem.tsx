@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { ClientInvoice } from '../../../models/Invoice'
+import { ClientInvoice } from 'models/Invoice'
 import { ClientTableRowItemPropTypes } from '../client/ClientTableRowItem'
 
 export type InvoiceTableRowItemProps = ClientInvoice

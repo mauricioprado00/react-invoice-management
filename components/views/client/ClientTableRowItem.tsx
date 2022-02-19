@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Image from 'next/image'
-import { CompanyDetails } from '../../../models/CompanyDetails'
-import { Client } from '../../../models/Client'
-import Hamburger from '../../ui/elements/Hamburger'
+import { Client } from 'models/Client'
 import HamburgerDropdown from '../../ui/elements/HamburgerDropdown'
 
 export type ClientTableRowItemProps = Client
