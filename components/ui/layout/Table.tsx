@@ -46,7 +46,7 @@ const TablePropTypes = {
     title: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    error: SerializedErrorPropTypes
+    error: PropTypes.exact(SerializedErrorPropTypes)
 }
 
 const Table = ({ title, loading, children, error }: TableProps) => {
