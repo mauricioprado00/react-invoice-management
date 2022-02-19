@@ -2,7 +2,7 @@ import { combineReducers } from "redux"
 import clientsReducer from "./ClientSlice";
 
 const entitiesReducer = combineReducers({
-    clients: clientsReducer
+    client: clientsReducer
 });
 
 export type EntitiesState = ReturnType<typeof entitiesReducer>

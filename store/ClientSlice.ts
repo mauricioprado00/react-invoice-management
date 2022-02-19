@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, SerializedError } from "@reduxjs/toolkit";
 import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
@@ -8,11 +8,13 @@ export type RequestState = "loading" | "loaded" | "error" | "aborted"
 export type ClientsState = {
   list: ClientWithTotalsList;
   loadClientsState: RequestState;
+  loadClientsError: SerializedError | null
   lastFetch: number | null;
 };
 const initialState: ClientsState = {
   list: [],
   loadClientsState: "loading",
+  loadClientsError: null,
   lastFetch: null,
 };
 
@@ -27,7 +29,7 @@ export const loadClients = createAsyncThunk<
   // First argument to the payload creator
   void,
   AppThunkAPI
->("clients/loadClients", async (arg, thunkAPI):Promise<ClientWithTotalsList> => {
+>("client/load", async (arg, thunkAPI):Promise<ClientWithTotalsList> => {
   const result = thunkAPI.extra.serviceApi.getClients(clients =>
     thunkAPI.dispatch(clientsReceived(clients))
   );
@@ -36,28 +38,35 @@ export const loadClients = createAsyncThunk<
 });
 
 const slice = createSlice({
-  name: "clients",
+  name: "client",
   initialState,
   reducers: {
-    clientsReceived: (clients, action) => {
-      clients.list = action.payload;
-      clients.lastFetch = Date.now();
+    clientsReceived: (client, action) => {
+      client.list = action.payload;
+      client.lastFetch = Date.now();
     },
-    clientAdded: (clients, action) => {
-      clients.list.push(action.payload);
+    clientAdded: (client, action) => {
+      client.list.push(action.payload);
     },
-    clientRemoved: (clients, action) => {
+    clientRemoved: (client, action) => {
       const { id } = action.payload;
-      const index = findClientIndex(clients.list, id);
-      clients.list.splice(index, 1);
+      const index = findClientIndex(client.list, id);
+      client.list.splice(index, 1);
     },
   },
   extraReducers: builder => {
-    builder.addCase(loadClients.pending, (clients, action) => {
-      clients.loadClientsState = "loading"
+    builder.addCase(loadClients.pending, (client, action) => {
+      client.loadClientsState = "loading"
     })
-    builder.addCase(loadClients.fulfilled, (clients, action) => {
-      clients.loadClientsState = "loaded"
+    builder.addCase(loadClients.fulfilled, (client, action) => {
+      client.loadClientsState = "loaded"
+    })
+    builder.addCase(loadClients.rejected, (client, action) => {
+      client.loadClientsState = "error"
+      if (action.meta.aborted) {
+        client.loadClientsState = "aborted"
+      }
+      client.loadClientsError = action.error
     })
   }
 });
@@ -71,15 +80,15 @@ export const isMostValuableClient = (client: ClientWithTotals) =>
   client.totalBilled > 5000;
 
 // selectors
-export const clientsSliceSelector = (state: RootState): ClientsState =>
-  state.entities.clients;
+export const clientSliceSelector = (state: RootState): ClientsState =>
+  state.entities.client;
 
 export const getMostValuableClientsSelector = createSelector(
-  clientsSliceSelector,
-  clients => clients.list.filter(isMostValuableClient)
+  clientSliceSelector,
+  clientSlice => clientSlice.list.filter(isMostValuableClient)
 );
 
 export const getClientsByCompanyNameSelector = (companyName: string) =>
-  createSelector(clientsSliceSelector, clients =>
-    clients.list.filter(client => client.companyDetails.name === companyName)
+  createSelector(clientSliceSelector, clientSlice =>
+    clientSlice.list.filter(client => client.companyDetails.name === companyName)
   );
