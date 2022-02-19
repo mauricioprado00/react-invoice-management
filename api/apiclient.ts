@@ -59,7 +59,11 @@ export type AbortableEndpointResult<Type> = {
   abort: { (): void }
 }
 
-const abortAll = (...results:AbortableEndpointResult<any>[]):Cb => () => {
+export type AbortableObject = {
+  abort: { (): void }
+}
+
+const abortAll = (...results:AbortableObject[]):Cb => () => {
   results.forEach(result => result.abort());
 }
 

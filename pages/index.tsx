@@ -15,10 +15,13 @@ const Home: NextPage = () => {
   const [invoices, setInvoices]: [InvoiceListN, any] = useState(null);
   useMemo(() => {client = createClient('//localhost:3139', userId)}, [userId])
   useEffect(() => {
-    store.dispatch(loadClients());
+    const dispatchLoadClientPromise = store.dispatch(loadClients());
     setInvoices(null);
 
     return client.abortAll(
+      {
+        abort: dispatchLoadClientPromise.abort.bind(dispatchLoadClientPromise)
+      },
       client.getInvoices((invoices:InvoiceList) => setInvoices(invoices)),
     );
   }, [client]);

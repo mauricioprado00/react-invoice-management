@@ -1,14 +1,18 @@
-import { createAsyncThunk, createSlice, SerializedError } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  SerializedError,
+} from "@reduxjs/toolkit";
 import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
 
-export type RequestState = "loading" | "loaded" | "error" | "aborted"
+export type RequestState = "loading" | "loaded" | "error" | "aborted";
 export type ClientsState = {
   list: ClientWithTotalsList;
   loadClientsState: RequestState;
-  loadClientsError: SerializedError | null
+  loadClientsError: SerializedError | null;
   lastFetch: number | null;
 };
 const initialState: ClientsState = {
@@ -29,12 +33,13 @@ export const loadClients = createAsyncThunk<
   // First argument to the payload creator
   void,
   AppThunkAPI
->("client/load", async (arg, thunkAPI):Promise<ClientWithTotalsList> => {
+>("client/load", async (arg, thunkAPI): Promise<ClientWithTotalsList> => {
   const result = thunkAPI.extra.serviceApi.getClients(clients =>
     thunkAPI.dispatch(clientsReceived(clients))
   );
+  thunkAPI.signal.addEventListener("abort", result.abort);
   const clients = await result.promise;
-  return clients
+  return clients;
 });
 
 const slice = createSlice({
@@ -56,19 +61,21 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(loadClients.pending, (client, action) => {
-      client.loadClientsState = "loading"
-    })
+      client.loadClientsState = "loading";
+      client.loadClientsError = null;
+    });
     builder.addCase(loadClients.fulfilled, (client, action) => {
-      client.loadClientsState = "loaded"
-    })
+      client.loadClientsState = "loaded";
+      client.loadClientsError = null;
+    });
     builder.addCase(loadClients.rejected, (client, action) => {
-      client.loadClientsState = "error"
+      client.loadClientsState = "error";
       if (action.meta.aborted) {
-        client.loadClientsState = "aborted"
+        client.loadClientsState = "aborted";
       }
-      client.loadClientsError = action.error
-    })
-  }
+      client.loadClientsError = action.error;
+    });
+  },
 });
 
 export const { clientAdded, clientRemoved, clientsReceived } = slice.actions;
@@ -90,5 +97,7 @@ export const getMostValuableClientsSelector = createSelector(
 
 export const getClientsByCompanyNameSelector = (companyName: string) =>
   createSelector(clientSliceSelector, clientSlice =>
-    clientSlice.list.filter(client => client.companyDetails.name === companyName)
+    clientSlice.list.filter(
+      client => client.companyDetails.name === companyName
+    )
   );
