@@ -23,15 +23,16 @@ const findClient = (clients: ClientWithTotalsList, id: string) =>
 
 export const loadClients = createAsyncThunk<
   // Return type of the payload creator
-  void,
+  ClientWithTotalsList,
   // First argument to the payload creator
   void,
   AppThunkAPI
->("clients/loadClients", async (arg, thunkAPI) => {
+>("clients/loadClients", async (arg, thunkAPI):Promise<ClientWithTotalsList> => {
   const result = thunkAPI.extra.serviceApi.getClients(clients =>
     thunkAPI.dispatch(clientsReceived(clients))
   );
   const clients = await result.promise;
+  return clients
 });
 
 const slice = createSlice({
