@@ -6,7 +6,7 @@ import createClient from 'api/apiclient';
 import { InvoiceList, InvoiceListN } from 'models/Invoice';
 import store from 'store/configureStore'
 import { Provider } from 'react-redux';
-import { loadClients } from 'store/ClientsSlice';
+import { loadClients } from 'store/ClientSlice';
 
 let client = createClient('//localhost:3139', '111');
 

@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import Image from 'next/image'
 import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
 import HamburgerDropdown from '../../ui/elements/HamburgerDropdown'
-import { isMostValuableClient } from 'store/ClientsSlice'
+import { isMostValuableClient } from 'store/ClientSlice'
 
 export type ClientTableRowItemProps = ClientWithTotals
 

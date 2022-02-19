@@ -71,15 +71,15 @@ export const isMostValuableClient = (client: ClientWithTotals) =>
   client.totalBilled > 5000;
 
 // selectors
-export const clientsSelector = (state: RootState): ClientsState =>
+export const clientsSliceSelector = (state: RootState): ClientsState =>
   state.entities.clients;
 
 export const getMostValuableClientsSelector = createSelector(
-  clientsSelector,
+  clientsSliceSelector,
   clients => clients.list.filter(isMostValuableClient)
 );
 
 export const getClientsByCompanyNameSelector = (companyName: string) =>
-  createSelector(clientsSelector, clients =>
+  createSelector(clientsSliceSelector, clients =>
     clients.list.filter(client => client.companyDetails.name === companyName)
   );
