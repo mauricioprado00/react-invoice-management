@@ -2,6 +2,9 @@ import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
 import { ClientTableRowItemProps, ClientTableRowItemPropTypes } from './ClientTableRowItem'
 import { Table, Column, Empty } from 'components/ui/layout/Table'
+import { useDispatch } from 'react-redux'
+import { useAppDispatch } from 'store/configureStore'
+import { loadClients } from 'store/ClientsSlice'
 
 export type ClientTableProps = {
   title?: string,
@@ -15,6 +18,8 @@ const ClientTablePropTypes = {
 
 
 const ClientTable = ({clients, title = "Clients"}: ClientTableProps) => {
+  const dispatch = useAppDispatch();
+  dispatch(loadClients());
   const loaded = clients !== null;
   return (
     <Table title={title} loading={!loaded}>

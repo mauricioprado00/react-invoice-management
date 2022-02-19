@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
 import { createSelector } from "reselect";
-import { AppThunkAPI } from "./configureStore";
+import { AppDispatch, AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
 
 
@@ -22,7 +22,13 @@ const findClientIndex = (clients:ClientWithTotalsList, id:string) =>
 const findClient = (clients:ClientWithTotalsList, id:string) => clients[findClientIndex(clients, id)];
 
 
-export const loadClients = createAsyncThunk<void, void, AppThunkAPI>('todos/fetchTodos', async (arg, thunkAPI) => {
+export const loadClients = createAsyncThunk<
+// Return type of the payload creator
+void,
+// First argument to the payload creator
+void,
+AppThunkAPI
+>('todos/fetchTodos', async (arg, thunkAPI) => {
   
   thunkAPI.extra.serviceApi.something()
   console.log("loadClients", {arg, thunkAPI});
