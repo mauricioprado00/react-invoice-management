@@ -13,13 +13,14 @@
     "api": "file:api",
     "classnames": "^2.3.1",
     "components": "file:components",
-    "models": "file:models",
-    "store": "file:store",
     "contexts": "file:contexts",
+    "models": "file:models",
     "next": "^12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "redux": "^4.1.2"
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "store": "file:store"
   },
   "devDependencies": {
     "@types/node": "17.0.15",
