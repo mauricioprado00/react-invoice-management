@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
-import ClientTable from '../components/views/client/ClientTable'
-import InvoiceTable from '../components/views/invoice/InvoiceTable';
+import ClientTable from 'components/views/client/ClientTable'
+import InvoiceTable from 'components/views/invoice/InvoiceTable';
 import { useEffect, useMemo, useState } from 'react';
-import { ClientList, ClientListN } from '../models/Client'
-import createClient from './api/apiclient';
-import { InvoiceList, InvoiceListN } from '../models/Invoice';
+import { ClientList, ClientListN } from 'models/Client'
+import createClient from 'api/apiclient';
+import { InvoiceList, InvoiceListN } from 'models/Invoice';
 
 let client = createClient('//localhost:3139', '111');
 

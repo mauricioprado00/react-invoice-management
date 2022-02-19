@@ -1,5 +1,5 @@
-import { ClientList } from '../../models/Client'
-import { InvoiceList } from '../../models/Invoice'
+import { ClientList } from 'models/Client'
+import { InvoiceList } from 'models/Invoice'
 interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
 }
