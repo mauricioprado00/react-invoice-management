@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { Store } from "store/configureStore";
+import { RootState } from "store/RootSlice";
 
 
-type StoreContextType = ReturnType<Store> | null
+type StoreContextType = RootState | null
 const StoreContext = createContext<StoreContextType>(null);
 
 export default StoreContext;

@@ -21,6 +21,7 @@ const findClientIndex = (clients:ClientWithTotalsList, id:string) =>
   clients.findIndex((client:Client) => client.id === id);
 const findClient = (clients:ClientWithTotalsList, id:string) => clients[findClientIndex(clients, id)];
 
+
 export const loadClients = createAsyncThunk<void, void, AppThunkAPI>('todos/fetchTodos', async (arg, thunkAPI) => {
   
   thunkAPI.extra.serviceApi.something()
