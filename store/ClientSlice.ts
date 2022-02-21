@@ -1,8 +1,10 @@
 import {
   createAsyncThunk,
   createSlice,
+  PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
+import { WritableDraft } from "immer/dist/internal";
 import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
@@ -15,20 +17,20 @@ export type RequestInformation = {
   error?: SerializedError;
 };
 export type MapType<T> = {
-  [id: string]: T
-}
+  [id: string]: T;
+};
 export type ClientsState = {
   list: ClientWithTotalsList;
   loadClientsRequests: MapType<RequestInformation>;
 };
 
 // will reduce a map object and keep the latest key values
-const sliceMap = <T>(map:MapType<T>, keep: number): void => {
+const sliceMap = <T>(map: MapType<T>, keep: number): void => {
   const keys = Object.keys(map);
   if (keys.length > keep) {
     keys.slice(0, keys.length - keep).forEach(key => delete map[key]);
   }
-}
+};
 
 const initialState: ClientsState = {
   list: [],
@@ -57,6 +59,73 @@ export const loadClients = createAsyncThunk<
   return clients;
 });
 
+const requestFullfilledReducer =
+  (
+    requestType: string,
+    keep: number
+  ): {
+    (
+      stateSlice: WritableDraft<MapType<any>>,
+      action: PayloadAction<
+        any,
+        string,
+        {
+          arg: void;
+          requestId: string;
+          requestStatus: "fulfilled";
+        },
+        never
+      >
+    ): void;
+  } =>
+  (stateSlice, action): void => {
+    let request = stateSlice[requestType][action.meta.requestId];
+    if (request) {
+      request.state = "loaded";
+    }
+    sliceMap(stateSlice[requestType], keep);
+  };
+
+const requestRejectedReducer =
+  (
+    requestType: string,
+    keep: number
+  ): {
+    (
+      stateSlice: WritableDraft<MapType<any>>,
+      action: PayloadAction<
+        any,
+        string,
+        {
+          arg: void;
+          requestId: string;
+          requestStatus: "rejected";
+          aborted: boolean;
+          condition: boolean;
+        } & (
+          | {
+              rejectedWithValue: true;
+            }
+          | ({
+              rejectedWithValue: false;
+            } & {})
+        ),
+        SerializedError
+      >
+    ): void;
+  } =>
+  (stateSlice, action): void => {
+    let request = stateSlice[requestType][action.meta.requestId];
+    if (request) {
+      request.state = "error";
+      if (action.meta.aborted) {
+        request.state = "aborted";
+      }
+      request.error = action.error;
+    }
+    sliceMap(stateSlice[requestType], keep);
+  };
+
 const slice = createSlice({
   name: "client",
   initialState,
@@ -80,24 +149,14 @@ const slice = createSlice({
         state: "loading",
       };
     });
-    builder.addCase(loadClients.fulfilled, (client, action) => {
-      let request = client.loadClientsRequests[action.meta.requestId];
-      if (request) {
-        request.state = "loaded";
-      }
-      sliceMap(client.loadClientsRequests, 5);
-    });
-    builder.addCase(loadClients.rejected, (client, action) => {
-      let request = client.loadClientsRequests[action.meta.requestId];
-      if (request) {
-        request.state = "error";
-        if (action.meta.aborted) {
-          request.state = "aborted";
-        }
-        request.error = action.error;
-      }
-      sliceMap(client.loadClientsRequests, 5);
-    });
+    builder.addCase(
+      loadClients.fulfilled,
+      requestFullfilledReducer("loadClientsRequests", 5)
+    );
+    builder.addCase(
+      loadClients.rejected,
+      requestRejectedReducer("loadClientsRequests", 5)
+    );
   },
 });
 
@@ -115,18 +174,18 @@ export const clientSliceSelector = (state: RootState): ClientsState =>
 
 export const clientSliceLastRequestSelector = createSelector(
   clientSliceSelector,
-  ({loadClientsRequests: rs}) => rs[Object.keys(rs).pop() as string]
+  ({ loadClientsRequests: rs }) => rs[Object.keys(rs).pop() as string]
 );
 
 export const loadClientErrorSelector = createSelector(
   clientSliceLastRequestSelector,
-  (r) => r ? r.error : null
+  r => (r ? r.error : null)
 );
 
 export const loadClientStateSelector = createSelector(
   clientSliceLastRequestSelector,
-  r => r ? r.state : 'loading'
-)
+  r => (r ? r.state : "loading")
+);
 
 export const getMostValuableClientsSelector = createSelector(
   clientSliceSelector,
