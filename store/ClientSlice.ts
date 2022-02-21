@@ -1,42 +1,24 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-  SerializedError,
-} from "@reduxjs/toolkit";
-import { WritableDraft } from "immer/dist/internal";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
+import { MapType } from "models/UtilityModels";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
+import {
+  requestFullfilledReducer,
+  RequestInformation,
+  requestRejectedReducer,
+} from "./StoreUtility";
 
-export type RequestState = "loading" | "loaded" | "error" | "aborted";
-export type RequestInformation = {
-  time: number;
-  state: RequestState;
-  error?: SerializedError;
-};
-export type MapType<T> = {
-  [id: string]: T;
-};
 export type ClientsState = {
   list: ClientWithTotalsList;
   loadClientsRequests: MapType<RequestInformation>;
-};
-
-// will reduce a map object and keep the latest key values
-const sliceMap = <T>(map: MapType<T>, keep: number): void => {
-  const keys = Object.keys(map);
-  if (keys.length > keep) {
-    keys.slice(0, keys.length - keep).forEach(key => delete map[key]);
-  }
 };
 
 const initialState: ClientsState = {
   list: [],
   // group all of these into a new attribute
   loadClientsRequests: {},
-  // create a selector getError () => error && client.loadClientsStateAmount === 0 ? error : null
 };
 
 const findClientIndex = (clients: ClientWithTotalsList, id: string) =>
@@ -58,73 +40,6 @@ export const loadClients = createAsyncThunk<
   const clients = await result.promise;
   return clients;
 });
-
-const requestFullfilledReducer =
-  (
-    requestType: string,
-    keep: number
-  ): {
-    (
-      stateSlice: WritableDraft<MapType<any>>,
-      action: PayloadAction<
-        any,
-        string,
-        {
-          arg: void;
-          requestId: string;
-          requestStatus: "fulfilled";
-        },
-        never
-      >
-    ): void;
-  } =>
-  (stateSlice, action): void => {
-    let request = stateSlice[requestType][action.meta.requestId];
-    if (request) {
-      request.state = "loaded";
-    }
-    sliceMap(stateSlice[requestType], keep);
-  };
-
-const requestRejectedReducer =
-  (
-    requestType: string,
-    keep: number
-  ): {
-    (
-      stateSlice: WritableDraft<MapType<any>>,
-      action: PayloadAction<
-        any,
-        string,
-        {
-          arg: void;
-          requestId: string;
-          requestStatus: "rejected";
-          aborted: boolean;
-          condition: boolean;
-        } & (
-          | {
-              rejectedWithValue: true;
-            }
-          | ({
-              rejectedWithValue: false;
-            } & {})
-        ),
-        SerializedError
-      >
-    ): void;
-  } =>
-  (stateSlice, action): void => {
-    let request = stateSlice[requestType][action.meta.requestId];
-    if (request) {
-      request.state = "error";
-      if (action.meta.aborted) {
-        request.state = "aborted";
-      }
-      request.error = action.error;
-    }
-    sliceMap(stateSlice[requestType], keep);
-  };
 
 const slice = createSlice({
   name: "client",
