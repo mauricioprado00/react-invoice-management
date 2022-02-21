@@ -15,11 +15,22 @@ const initialState: UsersState = {
   bearerToken: null,
 };
 
+export const newBearerToken = createAsyncThunk<
+  // Return type of the payload creator
+  void,
+  // First argument to the payload creator
+  string,
+  AppThunkAPI
+>("user/newBearerToken", (bearerToken:string, thunkAPI): void => {
+  thunkAPI.extra.serviceApi.newBearerToken(bearerToken);
+  thunkAPI.dispatch(slice.actions.newBearerTokenSet(bearerToken))
+});
+
 const slice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    newBearerToken: (user, action) => {
+    newBearerTokenSet: (user, action) => {
         user.bearerToken = action.payload;
     }
   },
@@ -27,8 +38,6 @@ const slice = createSlice({
       
   },
 });
-
-export const { newBearerToken } = slice.actions;
 
 export default slice.reducer;
 
