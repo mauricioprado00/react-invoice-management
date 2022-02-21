@@ -9,22 +9,32 @@ import { AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
 
 export type RequestState = "loading" | "loaded" | "error" | "aborted";
+export type RequestInformation = {
+  time: number;
+  state: RequestState;
+  error?: SerializedError;
+};
+export type MapType<T> = {
+  [id: string]: T
+}
 export type ClientsState = {
   list: ClientWithTotalsList;
-  loadClientsStateAmount: number;
-  loadClientsState: RequestState;
-  loadClientsError: SerializedError | null;
-  lastFetch: number | null;
+  loadClientsRequests: MapType<RequestInformation>;
 };
+
+// will reduce a map object and keep the latest key values
+const sliceMap = <T>(map:MapType<T>, keep: number): void => {
+  const keys = Object.keys(map);
+  if (keys.length > keep) {
+    keys.slice(0, keys.length - keep).forEach(key => delete map[key]);
+  }
+}
+
 const initialState: ClientsState = {
   list: [],
   // group all of these into a new attribute
-  loadClientsStateAmount: 0,
-  loadClientsState: "loading",
-  loadClientsError: null,
+  loadClientsRequests: {},
   // create a selector getError () => error && client.loadClientsStateAmount === 0 ? error : null
-
-  lastFetch: null,
 };
 
 const findClientIndex = (clients: ClientWithTotalsList, id: string) =>
@@ -53,7 +63,6 @@ const slice = createSlice({
   reducers: {
     clientsReceived: (client, action) => {
       client.list = action.payload;
-      client.lastFetch = Date.now();
     },
     clientAdded: (client, action) => {
       client.list.push(action.payload);
@@ -66,22 +75,28 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(loadClients.pending, (client, action) => {
-      client.loadClientsState = "loading";
-      client.loadClientsError = null;
-      client.loadClientsStateAmount++;
+      client.loadClientsRequests[action.meta.requestId] = {
+        time: Date.now(),
+        state: "loading",
+      };
     });
     builder.addCase(loadClients.fulfilled, (client, action) => {
-      client.loadClientsState = "loaded";
-      client.loadClientsError = null;
-      client.loadClientsStateAmount--;
+      let request = client.loadClientsRequests[action.meta.requestId];
+      if (request) {
+        request.state = "loaded";
+      }
+      sliceMap(client.loadClientsRequests, 5);
     });
     builder.addCase(loadClients.rejected, (client, action) => {
-      client.loadClientsState = "error";
-      if (action.meta.aborted) {
-        client.loadClientsState = "aborted";
+      let request = client.loadClientsRequests[action.meta.requestId];
+      if (request) {
+        request.state = "error";
+        if (action.meta.aborted) {
+          request.state = "aborted";
+        }
+        request.error = action.error;
       }
-      client.loadClientsError = action.error;
-      client.loadClientsStateAmount--;
+      sliceMap(client.loadClientsRequests, 5);
     });
   },
 });
@@ -98,11 +113,20 @@ export const isMostValuableClient = (client: ClientWithTotals) =>
 export const clientSliceSelector = (state: RootState): ClientsState =>
   state.entities.client;
 
-export const loadClientErrorSelector = createSelector(
+export const clientSliceLastRequestSelector = createSelector(
   clientSliceSelector,
-  ({ loadClientsError, loadClientsStateAmount }) =>
-    loadClientsError && loadClientsStateAmount === 0 ? loadClientsError : null
+  ({loadClientsRequests: rs}) => rs[Object.keys(rs).pop() as string]
 );
+
+export const loadClientErrorSelector = createSelector(
+  clientSliceLastRequestSelector,
+  (r) => r ? r.error : null
+);
+
+export const loadClientStateSelector = createSelector(
+  clientSliceLastRequestSelector,
+  r => r ? r.state : 'loading'
+)
 
 export const getMostValuableClientsSelector = createSelector(
   clientSliceSelector,

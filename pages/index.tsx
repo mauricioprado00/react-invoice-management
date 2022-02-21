@@ -8,8 +8,10 @@ import store from 'store/configureStore'
 import { Provider } from 'react-redux';
 import { loadClients } from 'store/ClientSlice';
 import { newBearerToken } from 'store/UserSlice';
+import { enableMapSet } from 'immer';
 
 let client = createClient('//localhost:3139', '111');
+enableMapSet();
 
 const Home: NextPage = () => {
   const [userId, setUserId] = useState('111');
