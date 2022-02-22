@@ -22,6 +22,10 @@ export type ClientInvoice = {
   client: Client;
 };
 
+export type ClientInvoiceN = null | ClientInvoice;
+export type ClientInvoiceList = ClientInvoice[];
+export type ClientInvoiceListN = null | ClientInvoiceList
+
 // React PropTypes definitions for components
 
 export const InvoicePropType = {

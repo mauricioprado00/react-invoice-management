@@ -1,5 +1,5 @@
 import { ClientWithTotalsList } from 'models/Client'
-import { InvoiceList } from 'models/Invoice'
+import { ClientInvoice, ClientInvoiceList } from 'models/Invoice'
 interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
 }
@@ -72,8 +72,8 @@ const createClient = (url:string, bearerToken:string) => ({
   newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
   getClients: (then:Then<ClientWithTotalsList>): AbortableEndpointResult<ClientWithTotalsList> =>
     endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then),
-  getInvoices: (then:Then<InvoiceList>): AbortableEndpointResult<InvoiceList> =>
-    endpoint<InvoiceList>(getInvoices(url + '/invoices'), bearerToken, then),
+  getInvoices: (then:Then<ClientInvoiceList>): AbortableEndpointResult<ClientInvoiceList> =>
+    endpoint<ClientInvoiceList>(getInvoices(url + '/invoices'), bearerToken, then),
 })
 
 

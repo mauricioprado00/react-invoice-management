@@ -3,19 +3,19 @@ import ClientTable from 'components/views/client/ClientTable'
 import InvoiceTable from 'components/views/invoice/InvoiceTable';
 import { useEffect, useMemo, useState } from 'react';
 import createClient from 'api/apiclient';
-import { InvoiceList, InvoiceListN } from 'models/Invoice';
+import { ClientInvoiceList, ClientInvoiceListN, InvoiceList, InvoiceListN } from 'models/Invoice';
 import store from 'store/configureStore'
 import { Provider } from 'react-redux';
 import { loadClients } from 'store/ClientSlice';
 import { newBearerToken } from 'store/UserSlice';
 import { enableMapSet } from 'immer';
+import { loadClientInvoices } from 'store/InvoiceSlice';
 
 let client = createClient('//localhost:3139', '111');
 enableMapSet();
 
 const Home: NextPage = () => {
   const [userId, setUserId] = useState('111');
-  const [invoices, setInvoices]: [InvoiceListN, any] = useState(null);
 
   // simulate login
   useMemo(() => {
@@ -23,14 +23,16 @@ const Home: NextPage = () => {
     store.dispatch(newBearerToken(userId))
   }, [userId])
   useEffect(() => {
-    const dispatchLoadClientPromise = store.dispatch(loadClients());
-    setInvoices(null);
+    const loadClientPromise = store.dispatch(loadClients());
+    const loadInvoicePromise = store.dispatch(loadClientInvoices());
 
     return client.abortAll(
       {
-        abort: dispatchLoadClientPromise.abort.bind(dispatchLoadClientPromise)
+        abort: loadClientPromise.abort.bind(loadClientPromise)
       },
-      client.getInvoices((invoices:InvoiceList) => setInvoices(invoices)),
+      {
+        abort: loadInvoicePromise.abort.bind(loadInvoicePromise)
+      },
     );
   }, [userId]);
 
@@ -39,7 +41,7 @@ const Home: NextPage = () => {
       UserId: {userId}
       <button onClick={() => setUserId(userId => userId === '111' ? '222' : '111')}>Change User</button>
       <ClientTable />
-      <InvoiceTable invoices={invoices} />
+      <InvoiceTable />
     </Provider>
   )
 }

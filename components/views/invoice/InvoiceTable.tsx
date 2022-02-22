@@ -5,19 +5,25 @@ import { Table, Column, Empty } from 'components/ui/layout/Table'
 import HeaderContent from 'components/ui/layout/HeaderContent'
 import Button from 'components/ui/forms/Button'
 import { useCallback } from 'react'
+import { useSelector } from 'react-redux'
+import { clientInvoiceSliceSelector, loadClientInvoiceErrorSelector, loadClientInvoiceStateSelector } from 'store/InvoiceSlice'
 
 export type InvoiceTableProps = {
     title?: string,
-    invoices: null | Array<InvoiceTableRowItemProps>
 }
 
 const InvoiceTablePropTypes = {
     title: PropTypes.string,
-    invoices: PropTypes.arrayOf(PropTypes.exact(InvoiceTableRowItemPropTypes))
 }
 
-const InvoiceTable = ({invoices, title="Latest Invoices"}: InvoiceTableProps) => {
-    const loaded = invoices !== null;
+const InvoiceTable = ({ title = "Latest Invoices" }: InvoiceTableProps) => {
+    const invoiceSlice = useSelector(clientInvoiceSliceSelector)
+    const loadError = useSelector(loadClientInvoiceErrorSelector)
+    const loadState = useSelector(loadClientInvoiceStateSelector)
+    const loading = loadState === 'loading';
+    const invoices = invoiceSlice.list;
+
+    const loaded = !loading;
     const newInvoice = useCallback((e) => {
         alert('new invoice');
         e.preventDefault();
@@ -27,7 +33,7 @@ const InvoiceTable = ({invoices, title="Latest Invoices"}: InvoiceTableProps) =>
         e.preventDefault();
     }, [])
     return (
-        <Table title={title || "Latest Invoices"} loading={!loaded}>
+        <Table title={title || "Latest Invoices"} loading={loading}  error={loadError}>
             {loaded && <HeaderContent>
                 <Button onClick={newInvoice}>New Invoice</Button>
                 {invoices.length > 0 && <Button onClick={allInvoices}>All Invoices</Button>}
@@ -38,7 +44,7 @@ const InvoiceTable = ({invoices, title="Latest Invoices"}: InvoiceTableProps) =>
             <Column>Due Date</Column>
             <Empty>No invoices found</Empty>
             {
-                (invoices||[]).map(invoice =>
+                (invoices || []).map(invoice =>
                     <InvoiceTableRowItem key={invoice.invoice.id} {...invoice} />)
             }
         </Table>

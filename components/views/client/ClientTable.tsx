@@ -14,13 +14,13 @@ const ClientTablePropTypes = {
 
 const ClientTable = ({title = "Clients"}: ClientTableProps) => {
   const clientSlice = useSelector(clientSliceSelector)
-  const loadClientError = useSelector(loadClientErrorSelector)
-  const loadClientState = useSelector(loadClientStateSelector)
-  const loading = loadClientState === 'loading';
+  const loadeError = useSelector(loadClientErrorSelector)
+  const loadState = useSelector(loadClientStateSelector)
+  const loading = loadState === 'loading';
   const clients = clientSlice.list;
 
   return (
-    <Table title={title} loading={loading} error={loadClientError}>
+    <Table title={title} loading={loading} error={loadeError}>
       <Column>Client Name</Column>
       <Column>Company Name</Column>
       <Column>Total Billed</Column>
