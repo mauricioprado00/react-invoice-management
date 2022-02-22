@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
 import { MapType } from "models/UtilityModels";
 import { createSelector } from "reselect";
+import { isSet } from "util/types";
 import { AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
 import {
@@ -12,13 +13,13 @@ import {
 
 export type ClientsState = {
   list: ClientWithTotalsList;
-  loadClientsRequests: MapType<RequestInformation>;
+  requests:MapType<MapType<RequestInformation>>
 };
 
 const initialState: ClientsState = {
   list: [],
   // group all of these into a new attribute
-  loadClientsRequests: {},
+  requests: {},
 };
 
 const findClientIndex = (clients: ClientWithTotalsList, id: string) =>
@@ -59,18 +60,21 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(loadClients.pending, (client, action) => {
-      client.loadClientsRequests[action.meta.requestId] = {
+        if (client.requests['loadClients'] === undefined) {
+          client.requests['loadClients'] = {};
+        }
+        client.requests['loadClients'][action.meta.requestId] = {
         time: Date.now(),
         state: "loading",
       };
     });
     builder.addCase(
       loadClients.fulfilled,
-      requestFullfilledReducer("loadClientsRequests", 5)
+      requestFullfilledReducer("loadClients", 5)
     );
     builder.addCase(
       loadClients.rejected,
-      requestRejectedReducer("loadClientsRequests", 5)
+      requestRejectedReducer("loadClients", 5)
     );
   },
 });
@@ -89,7 +93,7 @@ export const clientSliceSelector = (state: RootState): ClientsState =>
 
 export const clientSliceLastRequestSelector = createSelector(
   clientSliceSelector,
-  ({ loadClientsRequests: rs }) => rs[Object.keys(rs).pop() as string]
+  ({ requests: rs }) => rs.loadClients ? rs.loadClients[Object.keys(rs.loadClients).pop() as string] : null
 );
 
 export const loadClientErrorSelector = createSelector(

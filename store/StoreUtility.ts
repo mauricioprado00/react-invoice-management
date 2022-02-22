@@ -37,11 +37,11 @@ export const requestFullfilledReducer =
     ): void;
   } =>
   (stateSlice, action): void => {
-    let request = stateSlice[requestType][action.meta.requestId];
+    let request = stateSlice.requests[requestType][action.meta.requestId];
     if (request) {
       request.state = "loaded";
     }
-    sliceMap(stateSlice[requestType], keep);
+    sliceMap(stateSlice.requests[requestType], keep);
   };
 
 export const requestRejectedReducer =
@@ -73,7 +73,7 @@ export const requestRejectedReducer =
     ): void;
   } =>
   (stateSlice, action): void => {
-    let request = stateSlice[requestType][action.meta.requestId];
+    let request = stateSlice.requests[requestType][action.meta.requestId];
     if (request) {
       request.state = "error";
       if (action.meta.aborted) {
@@ -81,5 +81,5 @@ export const requestRejectedReducer =
       }
       request.error = action.error;
     }
-    sliceMap(stateSlice[requestType], keep);
+    sliceMap(stateSlice.requests[requestType], keep);
   };
