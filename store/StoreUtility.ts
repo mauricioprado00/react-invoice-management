@@ -1,4 +1,8 @@
-import { PayloadAction, SerializedError } from "@reduxjs/toolkit";
+import {
+  createSelector,
+  PayloadAction,
+  SerializedError,
+} from "@reduxjs/toolkit";
 import { WritableDraft } from "immer/dist/internal";
 import { MapType } from "models/UtilityModels";
 
@@ -126,3 +130,50 @@ export const requestReducers = (requestType: string, keep: number) => {
     rejected: requestRejectedReducer(requestType, keep),
   };
 };
+
+type AnyState = any;
+type StateWithRequests = {
+  requests: MapType<MapType<RequestInformation>>;
+};
+
+type StateSliceSelector<S extends StateWithRequests> = {
+  (root: AnyState): S;
+};
+
+// selectors
+export const createLastRequestSelector = <S extends StateWithRequests>(
+  requestType: string,
+  stateSliceSelector: StateSliceSelector<S>
+) =>
+  createSelector(stateSliceSelector, ({ requests: rs }) =>
+    rs[requestType]
+      ? rs[requestType][Object.keys(rs[requestType]).pop() as string]
+      : null
+  );
+
+export const createRequestErrorSelector = <S extends StateWithRequests>(
+  requestType: string,
+  stateSliceSelector: StateSliceSelector<S>
+) =>
+  createSelector(
+    createLastRequestSelector(requestType, stateSliceSelector),
+    r => (r ? r.error : null)
+  );
+export const createRequestStateSelector = <S extends StateWithRequests>(
+  requestType: string,
+  stateSliceSelector: StateSliceSelector<S>
+) =>
+  createSelector(
+    createLastRequestSelector(requestType, stateSliceSelector),
+    r => (r ? r.state : "loading")
+  );
+
+export const createRequestSelectors = <S extends StateWithRequests>(
+  requestType: string,
+  stateSliceSelector: StateSliceSelector<S>
+) => ({
+  lastSelector: createLastRequestSelector(requestType, stateSliceSelector),
+  errorSelector: createRequestErrorSelector(requestType, stateSliceSelector),
+  stateSelector: createRequestStateSelector(requestType, stateSliceSelector),
+});
+

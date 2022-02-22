@@ -5,6 +5,7 @@ import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
 import {
+  createRequestSelectors,
   requestFullfilledReducer,
   RequestInformation,
   requestPendingReducer,
@@ -60,7 +61,7 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    const {pending, fulfilled, rejected} = requestReducers("loadClients", 5);
+    const { pending, fulfilled, rejected } = requestReducers("loadClients", 5);
     builder.addCase(loadClients.pending, pending);
     builder.addCase(loadClients.fulfilled, fulfilled);
     builder.addCase(loadClients.rejected, rejected);
@@ -79,23 +80,11 @@ export const isMostValuableClient = (client: ClientWithTotals) =>
 export const clientSliceSelector = (state: RootState): ClientsState =>
   state.entities.client;
 
-export const clientSliceLastRequestSelector = createSelector(
-  clientSliceSelector,
-  ({ requests: rs }) =>
-    rs.loadClients
-      ? rs.loadClients[Object.keys(rs.loadClients).pop() as string]
-      : null
-);
-
-export const loadClientErrorSelector = createSelector(
-  clientSliceLastRequestSelector,
-  r => (r ? r.error : null)
-);
-
-export const loadClientStateSelector = createSelector(
-  clientSliceLastRequestSelector,
-  r => (r ? r.state : "loading")
-);
+export const {
+  lastSelector: clientSliceLastRequestSelector,
+  errorSelector: loadClientErrorSelector,
+  stateSelector: loadClientStateSelector,
+} = createRequestSelectors("loadClients", clientSliceSelector);
 
 export const getMostValuableClientsSelector = createSelector(
   clientSliceSelector,
