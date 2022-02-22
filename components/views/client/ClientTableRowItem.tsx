@@ -20,7 +20,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
         { label: 'Remove', type: 'remove' },
     ];
     return (
-        <tr key="nothing">
+        <tr key="nothing" tabIndex={0}>
             <td className="px-2 py-4 whitespace-nowrap">
                 <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">

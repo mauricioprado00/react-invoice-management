@@ -20,7 +20,7 @@ const InvoiceTableRowItem = ({
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
     )
     return (
-        <tr key="nothing">
+        <tr key="nothing" tabIndex={0}>
             <td className="px-2 py-4 whitespace-nowrap">
                 <div className="text-left">{invoice_number}</div>
             </td>
