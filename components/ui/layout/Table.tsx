@@ -71,7 +71,7 @@ const Table = ({ title, loading, children, error }: TableProps) => {
                         <LoadingMask /> :
                         (rows.length ?
                             <div className="p-3">
-                                <div className="overflow-x-auto">
+                                <div>
                                     <table className="table-auto w-full">
                                         <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                             <tr>
