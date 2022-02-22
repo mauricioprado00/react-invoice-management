@@ -9,6 +9,8 @@ export type RequestInformation = {
   error?: SerializedError;
 };
 
+type StateSlice = WritableDraft<MapType<any>>
+
 // will reduce a map object and keep the latest key values
 export const sliceMap = <T>(map: MapType<T>, keep: number): void => {
   const keys = Object.keys(map);
@@ -23,7 +25,7 @@ export const requestFullfilledReducer =
     keep: number
   ): {
     (
-      stateSlice: WritableDraft<MapType<any>>,
+      stateSlice: StateSlice,
       action: PayloadAction<
         any,
         string,
@@ -50,7 +52,7 @@ export const requestRejectedReducer =
     keep: number
   ): {
     (
-      stateSlice: WritableDraft<MapType<any>>,
+      stateSlice: StateSlice,
       action: PayloadAction<
         any,
         string,
@@ -81,5 +83,38 @@ export const requestRejectedReducer =
       }
       request.error = action.error;
     }
+    sliceMap(stateSlice.requests[requestType], keep);
+  };
+
+export const requestPendingReducer =
+  (
+    requestType: string,
+    keep: number
+  ): {
+    (
+      stateSlice: StateSlice,
+      action: PayloadAction<
+        any,
+        string,
+        {
+          arg: void;
+          requestId: string;
+          requestStatus: "pending";
+        },
+        never
+      >
+    ): void;
+  } =>
+  (stateSlice, action): void => {
+    if (stateSlice.requests === undefined) {
+      stateSlice.requests = [];
+    }
+    if (stateSlice.requests[requestType] === undefined) {
+      stateSlice.requests[requestType] = {};
+    }
+    stateSlice.requests[requestType][action.meta.requestId] = {
+      time: Date.now(),
+      state: "loading",
+    };
     sliceMap(stateSlice.requests[requestType], keep);
   };
