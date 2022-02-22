@@ -8,6 +8,7 @@ import {
   requestFullfilledReducer,
   RequestInformation,
   requestPendingReducer,
+  requestReducers,
   requestRejectedReducer,
 } from "./StoreUtility";
 
@@ -59,18 +60,10 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(
-      loadClients.pending,
-      requestPendingReducer("loadClients", 5)
-    );
-    builder.addCase(
-      loadClients.fulfilled,
-      requestFullfilledReducer("loadClients", 5)
-    );
-    builder.addCase(
-      loadClients.rejected,
-      requestRejectedReducer("loadClients", 5)
-    );
+    const {pending, fulfilled, rejected} = requestReducers("loadClients", 5);
+    builder.addCase(loadClients.pending, pending);
+    builder.addCase(loadClients.fulfilled, fulfilled);
+    builder.addCase(loadClients.rejected, rejected);
   },
 });
 

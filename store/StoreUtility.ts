@@ -9,7 +9,7 @@ export type RequestInformation = {
   error?: SerializedError;
 };
 
-type StateSlice = WritableDraft<MapType<any>>
+type StateSlice = WritableDraft<MapType<any>>;
 
 // will reduce a map object and keep the latest key values
 export const sliceMap = <T>(map: MapType<T>, keep: number): void => {
@@ -118,3 +118,11 @@ export const requestPendingReducer =
     };
     sliceMap(stateSlice.requests[requestType], keep);
   };
+
+export const requestReducers = (requestType: string, keep: number) => {
+  return {
+    pending: requestPendingReducer(requestType, keep),
+    fulfilled: requestFullfilledReducer(requestType, keep),
+    rejected: requestRejectedReducer(requestType, keep),
+  };
+};
