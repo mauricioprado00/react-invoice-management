@@ -6,12 +6,9 @@ import { AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
 import {
   createRequestSelectors,
-  requestFullfilledReducer,
   RequestInformation,
-  requestPendingReducer,
   requestReducers,
-  requestRejectedReducer,
-} from "./StoreUtility";
+} from "./RequestUtility";
 
 export type ClientsState = {
   list: ClientWithTotalsList;
