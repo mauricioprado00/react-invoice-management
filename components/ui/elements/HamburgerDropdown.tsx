@@ -23,11 +23,11 @@ const HamburgerDropdownPropTypes = {
 }
 
 const HamburgerDropdown = ({ items = [] }: HamburgerDropdownProps) => {
-    const ref = useRef({ blur: () => null, focus: () => null });
+    const ref = useRef<HTMLDivElement>(null);
     const [display, setDisplay]: DisplayState = useState('none');
     const clickHandler = useCallback(() => {
         setDisplay((display: string) => display == 'none' ? '' : 'none')
-        ref.current.focus();
+        if(ref.current) ref.current.focus();
     }, []);
     const blurHandler = useCallback((e) => {
         setDisplay('none');
@@ -35,7 +35,7 @@ const HamburgerDropdown = ({ items = [] }: HamburgerDropdownProps) => {
     const keyupHandler = useCallback((e) => {
         switch (e.code) {
             case 'Escape':
-                ref.current.blur();
+                if(ref.current) ref.current.blur();
 
                 break;
             case 'Enter':

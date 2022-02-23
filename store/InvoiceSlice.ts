@@ -22,7 +22,7 @@ const initialState: ClientInvoicesState = {
 };
 
 const findClientInvoiceIndex = (clientInvoices: ClientInvoiceList, id: string) =>
-  clientInvoices.findIndex((clientInvoice: ClientInvoice) => clientInvoice.id === id);
+  clientInvoices.findIndex((clientInvoice: ClientInvoice) => clientInvoice.invoice.id === id);
 const findClientInvoice = (clientInvoices: ClientInvoiceList, id: string) =>
   clientInvoices[findClientInvoiceIndex(clientInvoices, id)];
 
