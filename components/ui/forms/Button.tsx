@@ -1,4 +1,7 @@
 import PropTypes from 'prop-types'
+import { useCallback } from 'react'
+
+type ClickHandler =  (e:React.MouseEvent<HTMLButtonElement>) => void
 
 export enum ButtonStyle {
     PillGray,
@@ -7,9 +10,7 @@ export enum ButtonStyle {
 }
 export type ButtonProps = {
     children: any,
-    onClick?: {
-        (e: any): void
-    },
+    onClick?: ClickHandler,
     style: ButtonStyle
 }
 export const ButtonPropTypes = {
@@ -25,10 +26,16 @@ const styles = {
 }
 
 const Button = ({ children, onClick, style }: ButtonProps) => {
+    const clickHandler = useCallback((e) => {
+        e.preventDefault();
+        if (onClick) {
+            onClick(e);
+        }
+    }, [onClick]);
     const classNames = styles[style];
     console.log(children)
 
-    return (<a href="" onClick={onClick} className={classNames}>
+    return (<a href="" onClick={clickHandler} className={classNames}>
         {children}
     </a>)
 }
