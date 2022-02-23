@@ -11,6 +11,7 @@ import { newBearerToken } from 'store/UserSlice';
 import { enableMapSet } from 'immer';
 import { loadClientInvoices } from 'store/InvoiceSlice';
 import AddInvoice from 'components/views/invoice/AddInvoice';
+import AddClient from 'components/views/client/AddClient';
 
 let client = createClient('//localhost:3139', '111');
 enableMapSet();
@@ -44,6 +45,7 @@ const Home: NextPage = () => {
       <ClientTable />
       <InvoiceTable />
       <AddInvoice />
+      <AddClient />
     </Provider>
   )
 }
