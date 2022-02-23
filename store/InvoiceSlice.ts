@@ -9,6 +9,7 @@ import {
   RequestInformation,
   requestReducers,
 } from "./RequestUtility";
+import { useSelector } from "react-redux";
 
 export type ClientInvoicesState = {
   list: ClientInvoiceList;
@@ -121,3 +122,12 @@ export const getClientInvoicesByCompanyNameSelector = (companyName: string) =>
       clientInvoice => clientInvoice.client.companyDetails.name === companyName
     )
   );
+
+export const getClientInvoiceOptionsSelector = createSelector(
+  clientInvoiceListSelector,
+  clientList => clientInvoiceListToOptions(clientList)
+);
+
+// hooks
+export const useClientInvoiceOptions = () =>
+  useSelector(getClientInvoiceOptionsSelector);

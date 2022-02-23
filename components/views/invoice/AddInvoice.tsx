@@ -6,19 +6,16 @@ import InputText, { InputTextType } from 'components/ui/forms/InputText'
 import Select from '../../ui/forms/Select'
 import Button, { ButtonStyle } from '../../ui/forms/Button'
 import Card from '../../ui/layout/Card'
+import { useClientOptions } from 'store/ClientSlice'
 
-function AddInvoice(props) {
-
+function AddInvoice(props:any) {
+    const clientOptions = useClientOptions();
     return (
         <Card title="Add Invoice">
             <Form>
                 <FieldsetRow>
                     <InputText label="Invoice Number" required={true} />
-                    <Select label="Client" required={true} options={[
-                        { value: "1", label: "Chochin,KL" },
-                        { value: "2", label: "Mumbai,MH" },
-                        { value: "3", label: "Bangalore,KA" },
-                    ]} />
+                    <Select label="Client" required={true} options={clientOptions} />
                 </FieldsetRow>
                 <FieldsetRow>
                     <InputText type={InputTextType.Date} label="Date" placeholder="Date" required={true} />

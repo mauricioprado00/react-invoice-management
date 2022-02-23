@@ -3,7 +3,7 @@ import { InvoiceTableRowItemProps, InvoiceTableRowItemPropTypes } from './Invoic
 import PropTypes from 'prop-types'
 import { Table, Column, Empty } from 'components/ui/layout/Table'
 import HeaderContent from 'components/ui/layout/HeaderContent'
-import Button from 'components/ui/forms/Button'
+import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { clientInvoiceSliceSelector, loadClientInvoiceErrorSelector, loadClientInvoiceStateSelector } from 'store/InvoiceSlice'
@@ -35,8 +35,8 @@ const InvoiceTable = ({ title = "Latest Invoices" }: InvoiceTableProps) => {
     return (
         <Table title={title || "Latest Invoices"} loading={loading}  error={loadError}>
             {loaded && <HeaderContent>
-                <Button onClick={newInvoice}>New Invoice</Button>
-                {invoices.length > 0 && <Button onClick={allInvoices}>All Invoices</Button>}
+                <Button style={ButtonStyle.FlatGreen} onClick={newInvoice}>New Invoice</Button>
+                {invoices.length > 0 && <Button style={ButtonStyle.FlatGreen} onClick={allInvoices}>All Invoices</Button>}
             </HeaderContent>}
             <Column>Invoice Number</Column>
             <Column>Company Name</Column>

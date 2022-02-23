@@ -6,7 +6,7 @@ import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from '../../ui/forms/Button'
 import Card from '../../ui/layout/Card'
 
-function AddClient(props) {
+function AddClient(props:any) {
 
     return (
         <Card title="Add Client">

@@ -12,7 +12,7 @@ export type SelectProps = {
     label: string,
     required?: boolean,
     placeholder?: string,
-    options: Array<SelectOption>
+    options: SelectOption[]
 };
 
 export const SelectOptionPropTypes = {

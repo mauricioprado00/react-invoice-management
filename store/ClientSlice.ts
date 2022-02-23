@@ -9,6 +9,7 @@ import {
   RequestInformation,
   requestReducers,
 } from "./RequestUtility";
+import { useSelector } from "react-redux";
 
 export type ClientsState = {
   list: ClientWithTotalsList;
@@ -71,7 +72,7 @@ export default slice.reducer;
 
 // utility functions
 export const clientListToOptions = (clients: ClientWithTotalsList) =>
-  clients.map(client => ({ value: client.id, label: client.name }));
+  clients.map(client => ({ value: client.id.toString(), label: client.name }));
 
 // business logic
 export const isMostValuableClient = (client: ClientWithTotals) =>
@@ -101,3 +102,11 @@ export const getClientsByCompanyNameSelector = (companyName: string) =>
   createSelector(clientListSelector, clientList =>
     clientList.filter(client => client.companyDetails.name === companyName)
   );
+
+export const getClientOptionsSelector = createSelector(
+  clientListSelector,
+  clientList => clientListToOptions(clientList)
+);
+
+// hooks
+export const useClientOptions = () => useSelector(getClientOptionsSelector);
