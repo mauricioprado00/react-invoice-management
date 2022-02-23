@@ -10,6 +10,7 @@ import { loadClients } from 'store/ClientSlice';
 import { newBearerToken } from 'store/UserSlice';
 import { enableMapSet } from 'immer';
 import { loadClientInvoices } from 'store/InvoiceSlice';
+import AddInvoice from 'components/views/invoice/AddInvoice';
 
 let client = createClient('//localhost:3139', '111');
 enableMapSet();
@@ -42,6 +43,7 @@ const Home: NextPage = () => {
       <button onClick={() => setUserId(userId => userId === '111' ? '222' : '111')}>Change User</button>
       <ClientTable />
       <InvoiceTable />
+      <AddInvoice />
     </Provider>
   )
 }
