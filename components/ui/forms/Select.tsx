@@ -28,7 +28,7 @@ export const SelectPropTypes = {
 }
 
 function Select({ label, required = false, placeholder="select option", options }: SelectProps) {
-    return <div className="w-full flex flex-col mb-3">
+    return <div className="mb-3 space-y-2 w-full text-xs">
         <label className="font-semibold text-gray-600 py-2">
             {label}
             {required && <abbr title="required">*</abbr>}
