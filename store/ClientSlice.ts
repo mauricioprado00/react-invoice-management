@@ -69,6 +69,10 @@ export const { clientAdded, clientRemoved, clientsReceived } = slice.actions;
 
 export default slice.reducer;
 
+// utility functions
+export const clientListToOptions = (clients: ClientWithTotalsList) =>
+  clients.map(client => ({ value: client.id, label: client.name }));
+
 // business logic
 export const isMostValuableClient = (client: ClientWithTotals) =>
   client.totalBilled > 5000;
@@ -83,14 +87,17 @@ export const {
   stateSelector: loadClientStateSelector,
 } = createRequestSelectors("loadClients", clientSliceSelector);
 
-export const getMostValuableClientsSelector = createSelector(
+export const clientListSelector = createSelector(
   clientSliceSelector,
-  clientSlice => clientSlice.list.filter(isMostValuableClient)
+  clientSlice => clientSlice.list
+);
+
+export const getMostValuableClientsSelector = createSelector(
+  clientListSelector,
+  clientList => clientList.filter(isMostValuableClient)
 );
 
 export const getClientsByCompanyNameSelector = (companyName: string) =>
-  createSelector(clientSliceSelector, clientSlice =>
-    clientSlice.list.filter(
-      client => client.companyDetails.name === companyName
-    )
+  createSelector(clientListSelector, clientList =>
+    clientList.filter(client => client.companyDetails.name === companyName)
   );

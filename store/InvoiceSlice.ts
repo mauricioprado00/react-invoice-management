@@ -21,8 +21,13 @@ const initialState: ClientInvoicesState = {
   requests: {},
 };
 
-const findClientInvoiceIndex = (clientInvoices: ClientInvoiceList, id: string) =>
-  clientInvoices.findIndex((clientInvoice: ClientInvoice) => clientInvoice.invoice.id === id);
+const findClientInvoiceIndex = (
+  clientInvoices: ClientInvoiceList,
+  id: string
+) =>
+  clientInvoices.findIndex(
+    (clientInvoice: ClientInvoice) => clientInvoice.invoice.id === id
+  );
 const findClientInvoice = (clientInvoices: ClientInvoiceList, id: string) =>
   clientInvoices[findClientInvoiceIndex(clientInvoices, id)];
 
@@ -58,24 +63,41 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    const { pending, fulfilled, rejected } = requestReducers("loadClientInvoices", 5);
+    const { pending, fulfilled, rejected } = requestReducers(
+      "loadClientInvoices",
+      5
+    );
     builder.addCase(loadClientInvoices.pending, pending);
     builder.addCase(loadClientInvoices.fulfilled, fulfilled);
     builder.addCase(loadClientInvoices.rejected, rejected);
   },
 });
 
-export const { clientInvoiceAdded, clientInvoiceRemoved, clientInvoicesReceived } = slice.actions;
+export const {
+  clientInvoiceAdded,
+  clientInvoiceRemoved,
+  clientInvoicesReceived,
+} = slice.actions;
 
 export default slice.reducer;
+
+// utility functions
+export const clientInvoiceListToOptions = (
+  clientInvoiceList: ClientInvoiceList
+) =>
+  clientInvoiceList.map(clientInvoice => ({
+    value: clientInvoice.invoice.id,
+    label: clientInvoice.invoice.invoice_number,
+  }));
 
 // business logic
 export const isMostValuableClientInvoice = (clientInvoice: ClientInvoice) =>
   clientInvoice.invoice.value > 5000;
 
 // selectors
-export const clientInvoiceSliceSelector = (state: RootState): ClientInvoicesState =>
-  state.entities.invoice;
+export const clientInvoiceSliceSelector = (
+  state: RootState
+): ClientInvoicesState => state.entities.invoice;
 
 export const {
   lastSelector: clientInvoiceSliceLastRequestSelector,
@@ -83,14 +105,19 @@ export const {
   stateSelector: loadClientInvoiceStateSelector,
 } = createRequestSelectors("loadClientInvoices", clientInvoiceSliceSelector);
 
-export const getMostValuableClientInvoicesSelector = createSelector(
+export const clientInvoiceListSelector = createSelector(
   clientInvoiceSliceSelector,
-  clientInvoiceSlice => clientInvoiceSlice.list.filter(isMostValuableClientInvoice)
+  clientInvoiceSlice => clientInvoiceSlice.list
+);
+
+export const getMostValuableClientInvoicesSelector = createSelector(
+  clientInvoiceListSelector,
+  clientInvoiceList => clientInvoiceList.filter(isMostValuableClientInvoice)
 );
 
 export const getClientInvoicesByCompanyNameSelector = (companyName: string) =>
-  createSelector(clientInvoiceSliceSelector, clientInvoiceSlice =>
-    clientInvoiceSlice.list.filter(
+  createSelector(clientInvoiceListSelector, clientInvoiceList =>
+    clientInvoiceList.filter(
       clientInvoice => clientInvoice.client.companyDetails.name === companyName
     )
   );
