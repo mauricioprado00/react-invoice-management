@@ -1,5 +1,6 @@
 import {
   createAsyncThunk,
+  createSelector,
   createSlice,
   SerializedError,
 } from "@reduxjs/toolkit";
@@ -7,12 +8,13 @@ import {
 import { AppThunkAPI } from "./configureStore";
 import { RootState } from "./RootSlice";
 
-export type RequestState = "loading" | "loaded" | "error" | "aborted";
 export type UsersState = {
   bearerToken: string | null;
+  userId: string | null
 };
 const initialState: UsersState = {
   bearerToken: null,
+  userId: null,
 };
 
 export const newBearerToken = createAsyncThunk<
@@ -32,6 +34,7 @@ const slice = createSlice({
   reducers: {
     newBearerTokenSet: (user, action) => {
         user.bearerToken = action.payload;
+        user.userId = action.payload;
     }
   },
   extraReducers: builder => {
@@ -46,3 +49,8 @@ export default slice.reducer;
 // selectors
 export const userSliceSelector = (state: RootState): UsersState =>
   state.user;
+
+export const userIdSelector = createSelector(
+  userSliceSelector,
+  user => user.userId,
+)
