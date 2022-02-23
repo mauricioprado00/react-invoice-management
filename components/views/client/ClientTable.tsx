@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
 import { Table, Column, Empty } from 'components/ui/layout/Table'
-import { useSelector } from 'react-redux'
-import { clientSliceLastRequestSelector, clientSliceSelector, loadClientErrorSelector, loadClientStateSelector } from 'store/ClientSlice'
+import { useClientList, useLoadClientError, useLoadClientState } from 'store/ClientSlice'
 
 export type ClientTableProps = {
   title?: string
@@ -12,15 +11,14 @@ const ClientTablePropTypes = {
   title: PropTypes.string
 }
 
-const ClientTable = ({title = "Clients"}: ClientTableProps) => {
-  const clientSlice = useSelector(clientSliceSelector)
-  const loadeError = useSelector(loadClientErrorSelector)
-  const loadState = useSelector(loadClientStateSelector)
+const ClientTable = ({ title = "Clients" }: ClientTableProps) => {
+  const clients = useClientList()
+  const loadError = useLoadClientError()
+  const loadState = useLoadClientState()
   const loading = loadState === 'loading';
-  const clients = clientSlice.list;
 
   return (
-    <Table title={title} loading={loading} error={loadeError}>
+    <Table title={title} loading={loading} error={loadError}>
       <Column>Client Name</Column>
       <Column>Company Name</Column>
       <Column>Total Billed</Column>

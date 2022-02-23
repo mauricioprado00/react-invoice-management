@@ -5,8 +5,7 @@ import { Table, Column, Empty } from 'components/ui/layout/Table'
 import HeaderContent from 'components/ui/layout/HeaderContent'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { useCallback } from 'react'
-import { useSelector } from 'react-redux'
-import { clientInvoiceSliceSelector, loadClientInvoiceErrorSelector, loadClientInvoiceStateSelector } from 'store/InvoiceSlice'
+import { useInvoiceList, useLoadInvoiceError, useLoadInvoiceState } from 'store/InvoiceSlice'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -17,11 +16,10 @@ const InvoiceTablePropTypes = {
 }
 
 const InvoiceTable = ({ title = "Latest Invoices" }: InvoiceTableProps) => {
-    const invoiceSlice = useSelector(clientInvoiceSliceSelector)
-    const loadError = useSelector(loadClientInvoiceErrorSelector)
-    const loadState = useSelector(loadClientInvoiceStateSelector)
+    const invoices = useInvoiceList()
+    const loadError = useLoadInvoiceError()
+    const loadState = useLoadInvoiceState()
     const loading = loadState === 'loading';
-    const invoices = invoiceSlice.list;
 
     const loaded = !loading;
     const newInvoice = useCallback((e) => {

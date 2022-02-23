@@ -110,3 +110,7 @@ export const getClientOptionsSelector = createSelector(
 
 // hooks
 export const useClientOptions = () => useSelector(getClientOptionsSelector);
+export const useClientSlice = () => useSelector(clientSliceSelector);
+export const useClientList = () => useSelector(clientListSelector);
+export const useLoadClientError = () => useSelector(loadClientErrorSelector);
+export const useLoadClientState = () => useSelector(loadClientStateSelector);
