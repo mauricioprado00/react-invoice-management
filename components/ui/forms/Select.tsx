@@ -23,7 +23,7 @@ export const SelectOptionPropTypes = {
 export const SelectPropTypes = {
     label: PropTypes.string.isRequired,
     required: PropTypes.bool,
-    placeholder: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     options: PropTypes.arrayOf(PropTypes.exact(SelectOptionPropTypes))
 }
 
