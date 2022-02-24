@@ -7,12 +7,15 @@ import Button, { ButtonStyle } from '../../ui/forms/Button'
 import Card from '../../ui/layout/Card'
 
 function AddClient(props:any) {
+    const changeHandler = () => {
+        console.log('it changed');
+    }
 
     return (
         <Card title="Add Client">
             <Form>
                 <FieldsetRow>
-                    <InputText label="Name" required={true} />
+                    <InputText label="Name" required={true} value={"pepe"} onChange={changeHandler} />
                     <InputText label="Email" placeholder="Email ID" required={true} />
                 </FieldsetRow>
                 <FieldsetRow>

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
-import InputText, { InputTextType } from 'components/ui/forms/InputText'
+import InputText from 'components/ui/forms/InputText'
 import Select from '../../ui/forms/Select'
 import Button, { ButtonStyle } from '../../ui/forms/Button'
 import Card from '../../ui/layout/Card'
@@ -18,8 +18,8 @@ function AddInvoice(props:any) {
                     <Select label="Client" required={true} options={clientOptions} />
                 </FieldsetRow>
                 <FieldsetRow>
-                    <InputText type={InputTextType.Date} label="Date" placeholder="Date" required={true} />
-                    <InputText type={InputTextType.Date} label="Due Date" placeholder="Due Date" required={true} />
+                    <InputText type="date" label="Date" placeholder="Date" required={true} />
+                    <InputText type="date" label="Due Date" placeholder="Due Date" required={true} />
                 </FieldsetRow>
                 <InputText label="Value" required={true} />
                 <FieldsetRow alignRight={true}>
