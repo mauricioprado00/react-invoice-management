@@ -52,7 +52,7 @@ const classes = {
         noerror: '',
     }
 }
-
+// TODO extract shared logic to reuse in Select (and other FORM elements)
 const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
 
     // TODO useMemo.... and stuff.
