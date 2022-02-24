@@ -14,7 +14,7 @@ export interface InputTextProps extends React.ComponentPropsWithoutRef<'input'> 
     error?: string, // usefull for async validations
     onValid?: (e: Event) => void,
     onChange?: (e: InputChangeEvent) => void,
-    validators?: Array<Validator>
+    validators?: Validator[]
 };
 
 export const InputTextPropTypes = {
@@ -25,7 +25,7 @@ export const InputTextPropTypes = {
     required: PropTypes.bool,
     onValid: PropTypes.func,
     onChange: PropTypes.func,
-    validators: PropTypes.arrayOf(PropTypes.func)
+    validators: PropTypes.arrayOf(PropTypes.func.isRequired)
 }
 
 export interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement>

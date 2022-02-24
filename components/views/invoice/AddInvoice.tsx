@@ -14,14 +14,14 @@ function AddInvoice(props:any) {
         <Card title="Add Invoice">
             <Form>
                 <FieldsetRow>
-                    <InputText label="Invoice Number" required={true} />
+                    <InputText name="invoiceNumber" label="Invoice Number" required={true} />
                     <Select label="Client" required={true} options={clientOptions} />
                 </FieldsetRow>
                 <FieldsetRow>
-                    <InputText type="date" label="Date" placeholder="Date" required={true} />
-                    <InputText type="date" label="Due Date" placeholder="Due Date" required={true} />
+                    <InputText name="date" type="date" label="Date" placeholder="Date" required={true} />
+                    <InputText name="dueDate" type="date" label="Due Date" placeholder="Due Date" required={true} />
                 </FieldsetRow>
-                <InputText label="Value" required={true} />
+                <InputText name="something" label="Value" required={true} />
                 <FieldsetRow alignRight={true}>
                     <Button style={ButtonStyle.PillGray}>Cancel</Button>
                     <Button style={ButtonStyle.PillGreen}>Save</Button>
