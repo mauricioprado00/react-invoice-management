@@ -9,6 +9,7 @@ import { MapType, MapTypeFill } from 'models/UtilityModels'
 type AddClientState = {
     valid: MapType<boolean>,
     values: MapType<string>,
+    reset: number,
 }
 
 const elements = [
@@ -22,7 +23,8 @@ const elements = [
 
 const initialAddClientState: AddClientState = {
     valid: MapTypeFill(elements, true),
-    values: MapTypeFill(elements, '')
+    values: MapTypeFill(elements, ''),
+    reset: 0,
 }
 function AddClient() {
     const [state, setState] = useState(initialAddClientState)
@@ -39,9 +41,19 @@ function AddClient() {
         }))
     }
 
-    const handlers = {
+    const shared = {
+        reset: state.reset,
         onValid: validHandler,
         onChange: changeHandler,
+    }
+
+    const saveHandler = () => {
+        setState(prev => {
+            return {
+                ...prev,
+                reset: prev.reset+1
+            }
+        })
     }
     console.log({ state });
 
@@ -50,27 +62,33 @@ function AddClient() {
             <Form>
                 <FieldsetRow>
                     <InputText name="name" label="Name" required={true}
-                        value={state.values.name} {...handlers} />
+                        value={state.values.name}
+                        {...shared} />
 
                     <InputText name="email" label="Email" placeholder="Email ID"
-                        required={true} value={state.values.email} {...handlers} />
+                        required={true} value={state.values.email}
+                        {...shared} />
                 </FieldsetRow>
                 <FieldsetRow>
                     <InputText name="companyName" label="Company Name" required={true}
-                        value={state.values.companyName} {...handlers} />
+                        value={state.values.companyName}
+                        {...shared} />
 
                     <InputText name="address" label="Address" required={true} 
-                        value={state.values.address} {...handlers} />
+                        value={state.values.address}
+                        {...shared} />
                 </FieldsetRow>
                 <FieldsetRow>
                     <InputText name="regNumber" label="Reg Number" required={true} 
-                        value={state.values.regNumber} {...handlers}/>
+                        value={state.values.regNumber}
+                        {...shared}/>
                     <InputText name="vatNumber" label="Vat Number" required={true}
-                        value={state.values.vatNumber} {...handlers}/>
+                        value={state.values.vatNumber}
+                        {...shared}/>
                 </FieldsetRow>
                 <FieldsetRow alignRight={true}>
                     <Button style={ButtonStyle.PillGray}>Cancel</Button>
-                    <Button style={ButtonStyle.PillGreen}>Save</Button>
+                    <Button onClick={saveHandler} style={ButtonStyle.PillGreen}>Save</Button>
                 </FieldsetRow>
             </Form>
         </Card>
