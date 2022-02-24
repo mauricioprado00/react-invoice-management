@@ -5,6 +5,7 @@ import InputText, { InputChangeEvent } from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from '../../ui/forms/Button'
 import Card from '../../ui/layout/Card'
 import { MapType, MapTypeFill } from 'models/UtilityModels'
+import { emailValidator, numberValidator } from '../../../library/validation'
 
 type AddClientState = {
     valid: MapType<boolean>,
@@ -67,6 +68,7 @@ function AddClient() {
 
                     <InputText name="email" label="Email" placeholder="Email ID"
                         required={true} value={state.values.email}
+                        validators={[emailValidator("wrong email")]}
                         {...shared} />
                 </FieldsetRow>
                 <FieldsetRow>
@@ -80,10 +82,13 @@ function AddClient() {
                 </FieldsetRow>
                 <FieldsetRow>
                     <InputText name="regNumber" label="Reg Number" required={true} 
-                        value={state.values.regNumber}
+                        value={state.values.regNumber} 
+                        validators={[numberValidator('Please provide a valid %')]}
                         {...shared}/>
                     <InputText name="vatNumber" label="Vat Number" required={true}
-                        value={state.values.vatNumber}
+                        value={state.values.vatNumber} 
+                        validators={[numberValidator('The % is not valid')]}
+                        error="This is wrong regardless (for async validations)."
                         {...shared}/>
                 </FieldsetRow>
                 <FieldsetRow alignRight={true}>
