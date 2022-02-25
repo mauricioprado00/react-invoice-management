@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useEffect, useMemo, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { validationMessage, Validator } from "library/validation";
 import classNames from "classnames";
@@ -12,7 +12,7 @@ export interface InputTextProps extends React.ComponentPropsWithoutRef<'input'> 
     name: string,
     reset?: number,
     error?: string, // usefull for async validations
-    onValid?: (name: string, valid:boolean) => void,
+    onValid?: (name: string, valid: boolean) => void,
     onChange?: (e: InputChangeEvent) => void,
     validators?: Validator[]
 };
@@ -28,13 +28,11 @@ export const InputTextPropTypes = {
     validators: PropTypes.arrayOf(PropTypes.func.isRequired)
 }
 
-export interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement>
-{
+export interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement> {
     fieldName: string
 }
 
-export interface InputFocusEvent extends React.FocusEvent<HTMLInputElement>
-{
+export interface InputFocusEvent extends React.FocusEvent<HTMLInputElement> {
     fieldName: string
 }
 
@@ -73,13 +71,13 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
         onBlur = null,
         ...inputProps
     } = props;
-    const changeHandler = useCallback((e:InputChangeEvent) => {
+    const changeHandler = useCallback((e: InputChangeEvent) => {
         if (onChange) {
             e.fieldName = name;
             onChange(e);
         }
     }, [onChange, name]);
-    const blurHandler = useCallback((e:InputFocusEvent) => {
+    const blurHandler = useCallback((e: InputFocusEvent) => {
         setTouch(reset);
         if (onBlur) {
             e.fieldName = name;
@@ -89,41 +87,43 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
     let errorMessages = [];
     let expressErrors = true;
 
-    valid = true;
-    
-        if (required === true) {
-            if (value.toString().trim() === '') {
-                errorMessages.push('Please fill out this field.');
-            }
+    let newValid = true;
+
+    if (required === true) {
+        if (value.toString().trim() === '') {
+            errorMessages.push('Please fill out this field.');
         }
+    }
 
-        validators.forEach(validator => {
-            let errorMessage = validator(value.toString());
-            if (errorMessage) errorMessages.push(validationMessage(label, errorMessage));
-        })
+    validators.forEach(validator => {
+        let errorMessage = validator(value.toString());
+        if (errorMessage) errorMessages.push(validationMessage(label, errorMessage));
+    })
 
-        
-        valid = errorMessages.length === 0;
-    console.log({name, touch, reset});
+
+    newValid = errorMessages.length === 0;
+    console.log({ name, touch, reset });
     if (touch !== reset) {
         expressErrors = false;
-    } 
+    }
 
     if (error !== null) {
         expressErrors = true;
         errorMessages.push(error);
     }
 
-    useMemo(() => {
-        setValid(valid);
-        if (onValid) {
-            onValid(name, valid);
+    useEffect(() => {
+        if (valid !== newValid) {
+            if (onValid) {
+                setTimeout(onValid.bind(null, name, newValid));
+            }
+            setValid(newValid);
         }
 
-    }, [valid, name, onValid])
+    }, [valid, newValid, name, onValid])
 
     if (expressErrors) {
-        if(errorMessages.length > 0) {
+        if (errorMessages.length > 0) {
             labelClasses.push(classes.label.invalid);
             inputClasses.push(classes.input.invalid);
         } else {
@@ -150,7 +150,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
             {...inputProps}
             className={classNames(...inputClasses)}
             required={required} />
-            {expressErrors && <p className="text-red text-xs text-red-600 dark:text-red-500">{errorMessages}</p>}
+        {expressErrors && <p className="text-red text-xs text-red-600 dark:text-red-500">{errorMessages}</p>}
     </div>;
 });
 
@@ -162,8 +162,8 @@ const MemoInputText = React.memo(InputText);
 
 // since validators should not mutate during different render cicles
 // we can just create a memo out of them safely, to prevent re-renders
-const ImmutableValidatorsInputText = forwardRef<HTMLInputElement, InputTextProps>(({validators, ...props}, ref) => {
-    let [currentValidators, setValidators] = useState<Validator[]|undefined|null>(null);
+const ImmutableValidatorsInputText = forwardRef<HTMLInputElement, InputTextProps>(({ validators, ...props }, ref) => {
+    let [currentValidators, setValidators] = useState<Validator[] | undefined | null>(null);
 
     if (currentValidators === null) {
         currentValidators = validators;
