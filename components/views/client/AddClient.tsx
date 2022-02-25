@@ -115,11 +115,11 @@ function AddClient() {
                 <FieldsetRow>
                     <InputText name="regNumber" label="Reg Number" required={true} 
                         value={state.values.regNumber} 
-                        validators={[numberValidator('Please provide a valid %')]}
+                        validators={[numberValidator('Please provide a valid %.')]}
                         {...shared}/>
                     <InputText name="vatNumber" label="Vat Number" required={true}
                         value={state.values.vatNumber} 
-                        validators={[numberValidator('The % is not valid')]}
+                        validators={[numberValidator('The % is not valid.')]}
                         error="This is wrong regardless (for async validations)."
                         {...shared}/>
                 </FieldsetRow>

@@ -14,7 +14,8 @@ export interface InputTextProps extends React.ComponentPropsWithoutRef<'input'> 
     error?: string, // usefull for async validations
     onValid?: (name: string, valid: boolean) => void,
     onChange?: (e: InputChangeEvent) => void,
-    validators?: Validator[]
+    validators?: Validator[],
+    singleError?: boolean,
 };
 
 export const InputTextPropTypes = {
@@ -25,7 +26,8 @@ export const InputTextPropTypes = {
     required: PropTypes.bool,
     onValid: PropTypes.func,
     onChange: PropTypes.func,
-    validators: PropTypes.arrayOf(PropTypes.func.isRequired)
+    validators: PropTypes.arrayOf(PropTypes.func.isRequired),
+    singleError: PropTypes.bool,
 }
 
 export interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement> {
@@ -68,6 +70,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
         onValid,
         onChange = null,
         onBlur = null,
+        singleError = true,
         ...inputProps
     } = props;
     const changeHandler = useCallback((e: InputChangeEvent) => {
@@ -137,6 +140,10 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
         inputClasses.push(classes.input.noerror);
     }
 
+    if (singleError) {
+        errorMessages = errorMessages.slice(0, 1);
+    }
+
     return <div className="mb-3 space-y-2 w-full text-xs">
         <label className={classNames(...labelClasses)}>
             {label + " "}
@@ -152,7 +159,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
             {...inputProps}
             className={classNames(...inputClasses)}
             required={required} />
-        {expressErrors && <p className="text-red text-xs text-red-600 dark:text-red-500">{errorMessages}</p>}
+        {expressErrors && <p className="text-red text-xs text-red-600 dark:text-red-500">{errorMessages.join(' ')}</p>}
     </div>;
 });
 
