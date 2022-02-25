@@ -53,7 +53,6 @@ const classes = {
 // TODO extract shared logic to reuse in Select (and other FORM elements)
 const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
 
-    // TODO useMemo.... and stuff.
     let [valid, setValid] = useState(false);
     const labelClasses = [classes.label.default];
     const inputClasses = [classes.input.default];
@@ -102,13 +101,16 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
 
 
     newValid = errorMessages.length === 0;
-    console.log({ name, touch, reset });
+
     if (touch !== reset) {
         expressErrors = false;
     }
 
     if (error !== null) {
-        expressErrors = true;
+        if (expressErrors === false) {
+            expressErrors = true;
+            errorMessages = [];
+        }
         errorMessages.push(error);
     }
 
