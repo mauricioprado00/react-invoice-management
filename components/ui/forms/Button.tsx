@@ -33,7 +33,6 @@ const Button = ({ children, onClick, style }: ButtonProps) => {
         }
     }, [onClick]);
     const classNames = styles[style];
-    console.log(children)
 
     return (<a href="" onClick={clickHandler} className={classNames}>
         {children}
