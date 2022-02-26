@@ -25,8 +25,8 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
         let result = await upsertClient(client) as any
         if (result.error === undefined) {
             clientFormApi.reset();
+            if (onSave) onSave();
         }
-        if (onSave) onSave();
     }
     const loading = state === "loading";
 
