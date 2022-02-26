@@ -15,16 +15,19 @@ import {
   requestReducers,
 } from "./RequestUtility";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export type ClientsState = {
   list: MapType<ClientWithTotals>;
   requests: MapType<MapType<RequestInformation>>;
+  init: boolean;
 };
 
 const initialState: ClientsState = {
   list: {},
   // group all of these into a new attribute
   requests: {},
+  init: false,
 };
 
 export type UpsertClientResult = {
@@ -46,7 +49,7 @@ export const upsertClient = createAsyncThunk<
 >("client/add", async (client, thunkAPI): Promise<UpsertClientResult> => {
   const following = client.id ? clientUpdated : clientAdded;
   const result = thunkAPI.extra.serviceApi.upsertClient(client, client =>
-    thunkAPI.dispatch(following({totalBilled: 0, ...client}))
+    thunkAPI.dispatch(following({ totalBilled: 0, ...client }))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
@@ -78,6 +81,7 @@ const slice = createSlice({
   reducers: {
     clientsReceived: (state, action: PayloadAction<ClientWithTotals[]>) => {
       action.payload.forEach(client => (state.list[client.id] = client));
+      state.init = true;
     },
     clientUpdated: (state, action: PayloadAction<ClientWithTotals>) => {
       state.list[action.payload.id] = action.payload;
@@ -156,24 +160,50 @@ export const getClientsByCompanyNameSelector = (companyName: string) =>
     clientList.filter(client => client.companyDetails.name === companyName)
   );
 
+export const clientByIdSelector = (id: string|null) =>
+  createSelector(clientListSelector, clientList =>
+    clientList.filter(client => client.id === id).pop() || null
+  );
+
 export const getClientOptionsSelector = createSelector(
   clientListSelector,
   clientList => clientListToOptions(clientList)
 );
 
+export const clientInitSelector = createSelector(
+  clientSliceSelector,
+  clientSlice => clientSlice.init
+);
+
 // hooks
-export const useClientOptions = () => useSelector(getClientOptionsSelector);
+const useClientSelector = <TState, TSelected>(
+  selector: (state: TState) => TSelected
+) => {
+  const init = useClientInit();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (init === false) {
+      dispatch(loadClients());
+    }
+  }, [init, dispatch]);
+  return useSelector<TState, TSelected>(selector);
+};
+
+export const useClientOptions = () =>
+  useClientSelector(getClientOptionsSelector);
 export const useClientSlice = () => useSelector(clientSliceSelector);
-export const useClientList = () => useSelector(clientListSelector);
+export const useClientList = () => useClientSelector(clientListSelector);
 export const useLoadClientError = () => useSelector(loadClientErrorSelector);
 export const useLoadClientState = () => useSelector(loadClientStateSelector);
+export const useClientInit = () => useSelector(clientInitSelector);
+export const useClientById = (id:string|null) => useSelector(clientByIdSelector(id));
 export const useUpsertClient = () => {
   const dispatch = useDispatch();
   return (client: Client) => dispatch(upsertClient(client));
 };
 export const useUpsertClientLastRequest = () =>
-  useSelector(upsertClientLastRequestSelector);
+  useClientSelector(upsertClientLastRequestSelector);
 export const useUpsertClientError = () =>
-  useSelector(upsertClientErrorSelector);
+  useClientSelector(upsertClientErrorSelector);
 export const useUpsertClientState = () =>
-  useSelector(upsertClientStateSelector);
+  useClientSelector(upsertClientStateSelector);
