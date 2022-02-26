@@ -27,7 +27,7 @@ export const CardPropTypes = {
 }
 
 const styles = {
-    base: 'relative flex bg-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover relative'
+    base: 'flex bg-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover'
 }
 
 type CardStyle = {

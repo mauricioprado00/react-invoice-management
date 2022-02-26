@@ -26,8 +26,8 @@ function ClientData({ client }: ClientDataProps) {
                     <h2 className="text-gray-800 text-3xl font-bold">{client.name}</h2>
                     <p className="text-gray-400 mt-2">{client.email}</p>
                     <p className="mt-2 text-gray-600">
-                        <b>Company</b>: {client.companyDetails.name} <br />
-                        <b>Address</b>: {client.companyDetails.address} <br />
+                        {client.companyDetails.name} <br />
+                        {client.companyDetails.address} <br />
                         <b>Reg Number</b>: {client.companyDetails.regNumber} <br />
                         <b>Vat Number</b>: {client.companyDetails.vatNumber} <br />
                     </p>

@@ -36,7 +36,7 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     }
 
     return (
-        <Card title={title}>
+        <Card title={title} fullscreen={true} background={true}>
             <ClientForm onSave={saveHandler} onCancel={cancelHandler} client={client} disabled={loading} />
             {error && <ErrorBanner error={error}>Could not save the client.</ErrorBanner>}
         </Card>

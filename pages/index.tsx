@@ -10,6 +10,7 @@ import { newBearerToken } from 'store/UserSlice';
 import { enableMapSet } from 'immer';
 import { loadClientInvoices } from 'store/InvoiceSlice';
 import Dashboard from 'components/views/Dashboard';
+import Page from 'components/ui/layout/Page';
 
 let client = createClient('//localhost:3139', '111');
 enableMapSet();
@@ -17,7 +18,9 @@ enableMapSet();
 const Home: NextPage = () => {
   return (
     <Provider store={store}>
-      <Dashboard />
+      <Page>
+        <Dashboard />
+      </Page>
     </Provider>
   )
 }
