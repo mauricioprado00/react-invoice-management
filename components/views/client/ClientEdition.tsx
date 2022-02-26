@@ -31,11 +31,8 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const loading = state === "loading";
 
     const cancelHandler = () => {
-        console.log('canceled to save the client');
         if (onCancel) onCancel();
     }
-
-    console.log({ editing: client, clientId });
 
     return (
         <Card title="Add Client">
