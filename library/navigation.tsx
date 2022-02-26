@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
-export const useGoClient = () => {
+export const useGoClientEdit = () => {
     const router = useRouter();
     return (id:string|null=null) => {
         if (id) {
@@ -12,8 +12,15 @@ export const useGoClient = () => {
     }
 }
 
+export const useGoClientDashboard = () => {
+    const router = useRouter();
+    return (id:string) => {
+        router.push('/client-dashboard?' + new URLSearchParams({id}));
+    }
+}
+
 export const useGoNewClient = () => {
-    const goClient = useGoClient();
+    const goClient = useGoClientEdit();
     return useCallback(() => {goClient()}, [goClient])
 }
 

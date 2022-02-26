@@ -199,7 +199,7 @@ export const useClientList = () => useClientSelector(clientListSelector);
 export const useLoadClientError = () => useSelector(loadClientErrorSelector);
 export const useLoadClientState = () => useSelector(loadClientStateSelector);
 export const useClientInit = () => useSelector(clientInitSelector);
-export const useClientById = (id:string|null) => useSelector(clientByIdSelector(id));
+export const useClientById = (id:string|null) => useClientSelector(clientByIdSelector(id));
 export const useUpsertClient = () => {
   const dispatch = useDispatch();
   return (client: Client) => dispatch(upsertClient(client));

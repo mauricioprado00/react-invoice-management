@@ -29,13 +29,14 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
         }
     }
     const loading = state === "loading";
+    const title = clientId ? 'Edit Client' : 'Add Client';
 
     const cancelHandler = () => {
         if (onCancel) onCancel();
     }
 
     return (
-        <Card title="Add Client">
+        <Card title={title}>
             <ClientForm onSave={saveHandler} onCancel={cancelHandler} client={client} disabled={loading} />
             {error && <ErrorBanner error={error}>Could not save the client.</ErrorBanner>}
         </Card>

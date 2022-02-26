@@ -4,7 +4,7 @@ import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
 import HamburgerDropdown from '../../ui/elements/HamburgerDropdown'
 import { isMostValuableClient } from 'store/ClientSlice'
 import { getAvatarImageUrl } from '../../ui/forms/AvatarSelector'
-import { useGoClient } from 'library/navigation'
+import { useGoClientDashboard, useGoClientEdit } from 'library/navigation'
 import { useState } from 'react'
 
 export type ClientTableRowItemProps = ClientWithTotals
@@ -13,14 +13,15 @@ export const ClientTableRowItemPropTypes = ClientWithTotalsPropTypes
 
 const ClientTableRowItem = (client: ClientTableRowItemProps) => {
     const { name, email, totalBilled, companyDetails } = client
-    const goClient = useGoClient();
+    const goEdit = useGoClientEdit();
+    const goDashboard = useGoClientDashboard();
     const isMostValuable = isMostValuableClient(client);
     const totalBilledClassnames = classNames(
         "text-left font-medium", isMostValuable ? "text-red-500" : "text-green-500"
     );
     const [actions] = useState(() => [
-        { label: 'Edit', type: 'edit', handler:() => goClient(client.id) },
-        { label: 'Profile', type: 'profile' },
+        { label: 'Edit', type: 'edit', handler:() => goEdit(client.id) },
+        { label: 'Profile', type: 'profile', handler:() => goDashboard(client.id)  },
         { label: 'Invoices', type: 'invoices' },
         { label: 'Remove', type: 'remove' },
     ]);
