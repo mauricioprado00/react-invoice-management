@@ -68,7 +68,7 @@ const slice = createSlice({
       client.list = action.payload;
     },
     clientAdded: (client, action) => {
-      client.list.push(action.payload);
+      client.list.push({...action.payload, totalBilled: action.payload.totalBilled || 0});
     },
     clientRemoved: (client, action) => {
       const { id } = action.payload;

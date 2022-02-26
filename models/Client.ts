@@ -9,6 +9,7 @@ export type Client = {
   user_id?: string;
   name: string;
   email: string;
+  avatar?: string | null;
   companyDetails: CompanyDetails;
 };
 

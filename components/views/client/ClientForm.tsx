@@ -7,6 +7,7 @@ import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { MapType, MapTypeFill, MapTypeSome } from 'models/UtilityModels'
 import { emailValidator, numberValidator } from 'library/validation'
 import { Client } from 'models/Client'
+import AvatarSelector from 'components/ui/forms/AvatarSelector';
 
 export type SaveClientEvent = {
     client: Client,
@@ -17,6 +18,7 @@ type ClientFormState = {
     values: MapType<string>,
     reset: number,
     showErrors: boolean,
+    avatar?: string,
 }
 
 type ClientFormProps = {
@@ -67,6 +69,13 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
         }))
     }, []);
 
+    const selectAvatar = useCallback((avatar: string) => {
+        setState(prev => ({
+            ...prev,
+            avatar
+        }));
+    }, [])
+
     const shared = {
         reset: state.reset,
         onValid: validHandler,
@@ -99,7 +108,6 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
     }
 
     const saveHandler = () => {
-        console.log({allValid: allValid()});
         if (!allValid()) {
             setShowErrors(true);
             return;
@@ -109,6 +117,7 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
                 id: -1,
                 name: state.values.name,
                 email: state.values.email,
+                avatar: state.avatar,
                 companyDetails: {
                     name: state.values.companyName,
                     address: state.values.address,
@@ -122,6 +131,7 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
 
     return (
         <Form>
+            <AvatarSelector selected={state.avatar} onChange={selectAvatar} />
             <FieldsetRow>
                 <InputText name="name" label="Name" required={true}
                     value={state.values.name}
