@@ -157,7 +157,7 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
 
     return (
         <Form>
-            <AvatarSelector selected={state.avatar} onChange={selectAvatar} />
+            <AvatarSelector selected={state.values.avatar} onChange={selectAvatar} />
             <FieldsetRow>
                 <InputText name="name" label="Name" required={true}
                     value={state.values.name}
