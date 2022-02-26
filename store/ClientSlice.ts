@@ -152,3 +152,6 @@ export const useAddClient = () => {
     dispatch(addClient(client))
   };
 }
+export const useAddClientLastRequest = () => useSelector(addClientLastRequestSelector);
+export const useAddClientError = () => useSelector(addClientErrorSelector);
+export const useAddClientState = () => useSelector(addClientStateSelector);

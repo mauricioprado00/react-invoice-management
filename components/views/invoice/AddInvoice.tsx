@@ -23,8 +23,8 @@ function AddInvoice(props:any) {
                 </FieldsetRow>
                 <InputText name="something" label="Value" required={true} />
                 <FieldsetRow alignRight={true}>
-                    <Button style={ButtonStyle.PillGray}>Cancel</Button>
-                    <Button style={ButtonStyle.PillGreen}>Save</Button>
+                    <Button styled={ButtonStyle.PillGray}>Cancel</Button>
+                    <Button styled={ButtonStyle.PillGreen}>Save</Button>
                 </FieldsetRow>
             </Form>
         </Card>

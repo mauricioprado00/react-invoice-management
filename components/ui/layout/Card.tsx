@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
@@ -7,8 +7,9 @@ export enum CardBackground {
     OceanWater=1,
     pepe
 }
+
 export type CardProps = {
-    children: Array<JSX.Element> | JSX.Element | string,
+    children: ReactNode,
     title?: string,
     fullscreen?: boolean,
     center?: boolean,

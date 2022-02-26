@@ -8,10 +8,10 @@ export enum ButtonStyle {
     PillGreen,
     FlatGreen,
 }
-export type ButtonProps = {
+export interface ButtonProps extends  React.ComponentPropsWithoutRef<'button'> {
     children: any,
     onClick?: ClickHandler,
-    style: ButtonStyle
+    styled: ButtonStyle
 }
 export const ButtonPropTypes = {
     children: PropTypes.node.isRequired,
@@ -25,18 +25,24 @@ const styles = {
     [ButtonStyle.FlatGreen]: 'bg-emerald-700 rounded-lg font-bold text-white text-center px-4 py-1 transition duration-300 ease-in-out hover:bg-blue-600 mr-6',
 }
 
-const Button = ({ children, onClick, style }: ButtonProps) => {
+const disabledStyles = {
+    [ButtonStyle.PillGray]: 'mb-2 md:mb-0 bg-gray-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-gray-500',
+    [ButtonStyle.PillGreen]: 'mb-2 md:mb-0 bg-gray-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-gray-500',
+    [ButtonStyle.FlatGreen]: 'bg-emerald-700 rounded-lg font-bold text-white text-center px-4 py-1 transition duration-300 ease-in-out hover:bg-blue-600 mr-6',
+}
+
+const Button = ({ children, onClick, styled, ...buttonProps }: ButtonProps) => {
     const clickHandler = useCallback((e) => {
         e.preventDefault();
         if (onClick) {
             onClick(e);
         }
     }, [onClick]);
-    const classNames = styles[style];
+    const classNames = buttonProps.disabled ? disabledStyles[styled]: styles[styled];
 
-    return (<a href="" onClick={clickHandler} className={classNames}>
+    return (<button onClick={clickHandler} className={classNames} {...buttonProps}>
         {children}
-    </a>)
+    </button>)
 }
 
 Button.propTypes = ButtonPropTypes;

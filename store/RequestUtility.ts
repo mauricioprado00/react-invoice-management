@@ -6,7 +6,7 @@ import {
 import { WritableDraft } from "immer/dist/internal";
 import { MapType } from "models/UtilityModels";
 
-export type RequestState = "loading" | "loaded" | "error" | "aborted";
+export type RequestState = "none" | "loading" | "loaded" | "error" | "aborted";
 export type RequestInformation = {
   time: number;
   state: RequestState;
@@ -165,7 +165,7 @@ export const createRequestStateSelector = <S extends StateWithRequests>(
 ) =>
   createSelector(
     createLastRequestSelector(requestType, stateSliceSelector),
-    r => (r ? r.state : "loading")
+    r => (r ? r.state : "none")
   );
 
 export const createRequestSelectors = <S extends StateWithRequests>(

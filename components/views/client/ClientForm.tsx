@@ -22,11 +22,13 @@ type ClientFormState = {
 type ClientFormProps = {
     onSave: (data: SaveClientEvent) => void,
     onCancel: () => void,
+    disabled?: boolean
 }
 
 const ClientFormPropTypes = {
-    onSave: PropTypes.func,
-    onCancel: PropTypes.func,
+    onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    disabled: PropTypes.bool
 }
 
 const elements = [
@@ -44,7 +46,7 @@ const initialClientFormState: ClientFormState = {
     reset: 0,
     showErrors: false,
 }
-function ClientForm({ onSave, onCancel }: ClientFormProps) {
+function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
     const [state, setState] = useState(initialClientFormState)
     const validHandler = useCallback((name: string, valid: boolean) => {
         setState(prev => ({
@@ -70,6 +72,7 @@ function ClientForm({ onSave, onCancel }: ClientFormProps) {
         onValid: validHandler,
         onChange: changeHandler,
         showErrors: state.showErrors,
+        disabled,
     }
 
     const setShowErrors = (show: boolean) => {
@@ -150,8 +153,8 @@ function ClientForm({ onSave, onCancel }: ClientFormProps) {
                     {...shared} />
             </FieldsetRow>
             <FieldsetRow alignRight={true}>
-                <Button onClick={cancelHandler} style={ButtonStyle.PillGray}>Cancel</Button>
-                <Button onClick={saveHandler} style={ButtonStyle.PillGreen}>Save</Button>
+                <Button onClick={cancelHandler} styled={ButtonStyle.PillGray} disabled={disabled}>Cancel</Button>
+                <Button onClick={saveHandler} styled={ButtonStyle.PillGreen} disabled={disabled}>Save</Button>
             </FieldsetRow>
         </Form>
     )
