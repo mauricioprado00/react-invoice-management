@@ -1,11 +1,38 @@
-import { ClientWithTotalsList } from 'models/Client'
+import { Client, ClientWithTotalsList } from 'models/Client'
 import { ClientInvoice, ClientInvoiceList } from 'models/Invoice'
+import { MapType } from 'models/UtilityModels'
 interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
 }
-const getClients = (url: string) => async (init: ApiInitParams) => {
+
+const addClient = (url: string) => (client:Client) => async (init: ApiInitParams) => {
+  const fetchPromise = fetch(url, {
+    ...init,
+    method: 'POST',
+    headers: {
+      ...init.headers,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(client)
+  })
+  const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
+  return jsonResponse.client
+}
+
+const getClients = (url: string) => (arg:void) => async (init: ApiInitParams) => {
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
   const jsonResponse = await httpResponse.json()
   if(init.signal.aborted) {
     throw new Error("Aborted operation")
@@ -13,9 +40,12 @@ const getClients = (url: string) => async (init: ApiInitParams) => {
   return jsonResponse.clients
 }
 
-const getInvoices = (url: string) => async (init: ApiInitParams) => {
+const getInvoices = (url: string) => (arg:void) => async (init: ApiInitParams) => {
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
   const jsonResponse = await httpResponse.json()
   if(init.signal.aborted) {
     throw new Error("Aborted operation")
@@ -44,8 +74,8 @@ const authorized = (endpoint: any, userId: string) => (init: {}) =>
 
 const ignore = () => {}
 
-const endpoint = <Type>(endpoint: any, userId: string, then:Then<Type>): AbortableEndpointResult<Type> => {
-  const result = abortable(authorized(endpoint, userId))
+const endpoint = <Type>(endpoint: any, userId: string, then:Then<Type>, epExtra:MapType<any>): AbortableEndpointResult<Type> => {
+  const result = abortable(authorized(endpoint(epExtra), userId))
   result.promise.then<Type>(then).catch(ignore)
   return result;
 }
@@ -71,9 +101,11 @@ const createClient = (url:string, bearerToken:string) => ({
   abortAll,
   newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
   getClients: (then:Then<ClientWithTotalsList>): AbortableEndpointResult<ClientWithTotalsList> =>
-    endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then),
+    endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then, {}),
   getInvoices: (then:Then<ClientInvoiceList>): AbortableEndpointResult<ClientInvoiceList> =>
-    endpoint<ClientInvoiceList>(getInvoices(url + '/invoices'), bearerToken, then),
+    endpoint<ClientInvoiceList>(getInvoices(url + '/invoices'), bearerToken, then, {}),
+  addClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
+    endpoint<Client>(addClient(url + '/clients'), bearerToken, then, client),
 })
 
 

@@ -9,7 +9,7 @@ import {
   RequestInformation,
   requestReducers,
 } from "./RequestUtility";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export type ClientsState = {
   list: ClientWithTotalsList;
@@ -27,6 +27,23 @@ const findClientIndex = (clients: ClientWithTotalsList, id: string) =>
 const findClient = (clients: ClientWithTotalsList, id: string) =>
   clients[findClientIndex(clients, id)];
 
+
+export const addClient = createAsyncThunk<
+  // Return type of the payload creator
+  Client,
+  // First argument to the payload creator
+  Client,
+  AppThunkAPI
+>("client/add", async (client, thunkAPI): Promise<Client> => {
+  const result = thunkAPI.extra.serviceApi.addClient(client, client =>
+    thunkAPI.dispatch(clientAdded(client))
+  );
+  thunkAPI.signal.addEventListener("abort", result.abort);
+  result.promise.catch((errorMessage) => thunkAPI.rejectWithValue(errorMessage))
+  const savedClient = await result.promise;
+  return savedClient;
+});
+
 export const loadClients = createAsyncThunk<
   // Return type of the payload creator
   ClientWithTotalsList,
@@ -38,6 +55,7 @@ export const loadClients = createAsyncThunk<
     thunkAPI.dispatch(clientsReceived(clients))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
+  result.promise.catch((errorMessage) => thunkAPI.rejectWithValue(errorMessage))
   const clients = await result.promise;
   return clients;
 });
@@ -59,10 +77,18 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    const { pending, fulfilled, rejected } = requestReducers("loadClients", 5);
-    builder.addCase(loadClients.pending, pending);
-    builder.addCase(loadClients.fulfilled, fulfilled);
-    builder.addCase(loadClients.rejected, rejected);
+    {
+      const { pending, fulfilled, rejected } = requestReducers("loadClients", 5);
+      builder.addCase(loadClients.pending, pending);
+      builder.addCase(loadClients.fulfilled, fulfilled);
+      builder.addCase(loadClients.rejected, rejected);
+    }
+    {
+      const { pending, fulfilled, rejected } = requestReducers("addClient", 5);
+      builder.addCase(addClient.pending, pending);
+      builder.addCase(addClient.fulfilled, fulfilled);
+      builder.addCase(addClient.rejected, rejected);
+    }
   },
 });
 
@@ -87,6 +113,12 @@ export const {
   errorSelector: loadClientErrorSelector,
   stateSelector: loadClientStateSelector,
 } = createRequestSelectors("loadClients", clientSliceSelector);
+
+export const {
+  lastSelector: addClientLastRequestSelector,
+  errorSelector: addClientErrorSelector,
+  stateSelector: addClientStateSelector,
+} = createRequestSelectors("addClient", clientSliceSelector);
 
 export const clientListSelector = createSelector(
   clientSliceSelector,
@@ -114,3 +146,9 @@ export const useClientSlice = () => useSelector(clientSliceSelector);
 export const useClientList = () => useSelector(clientListSelector);
 export const useLoadClientError = () => useSelector(loadClientErrorSelector);
 export const useLoadClientState = () => useSelector(loadClientStateSelector);
+export const useAddClient = () => {
+  const dispatch = useDispatch();
+  return  (client:Client) => {
+    dispatch(addClient(client))
+  };
+}

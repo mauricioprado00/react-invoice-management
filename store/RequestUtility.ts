@@ -34,7 +34,7 @@ export const requestFullfilledReducer =
         any,
         string,
         {
-          arg: void;
+          arg: any;
           requestId: string;
           requestStatus: "fulfilled";
         },
@@ -61,7 +61,7 @@ export const requestRejectedReducer =
         any,
         string,
         {
-          arg: void;
+          arg: any;
           requestId: string;
           requestStatus: "rejected";
           aborted: boolean;
@@ -101,7 +101,7 @@ export const requestPendingReducer =
         any,
         string,
         {
-          arg: void;
+          arg: any;
           requestId: string;
           requestStatus: "pending";
         },
