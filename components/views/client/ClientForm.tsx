@@ -9,8 +9,12 @@ import { emailValidator, numberValidator } from 'library/validation'
 import { Client } from 'models/Client'
 import AvatarSelector from 'components/ui/forms/AvatarSelector';
 
+type ClientFormApi = {
+    reset: () => void
+}
 export type SaveClientEvent = {
     client: Client,
+    clientFormApi: ClientFormApi
 }
 
 type ClientFormState = {
@@ -101,9 +105,10 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
         setState(prev => ({ ...initialClientFormState, reset: prev.reset + 1 }))
     }
 
+    const clientFormApi = {reset};
+
     const cancelHandler = () => {
         onCancel();
-        setShowErrors(false);
         reset();
     }
 
@@ -124,10 +129,10 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
                     vatNumber: state.values.vatNumber,
                     regNumber: state.values.regNumber,
                 }
-            }
+            },
+            clientFormApi
         });
     }
-    console.log({ state });
 
     return (
         <Form>
@@ -159,7 +164,6 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
                 <InputText name="vatNumber" label="Vat Number" required={true}
                     value={state.values.vatNumber}
                     validators={[numberValidator('The % is not valid.')]}
-                    error="This is wrong regardless (for async validations)."
                     {...shared} />
             </FieldsetRow>
             <FieldsetRow alignRight={true}>

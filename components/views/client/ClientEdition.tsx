@@ -3,6 +3,7 @@ import Card from 'components/ui/layout/Card'
 import ClientForm, { SaveClientEvent } from './ClientForm'
 import { useAddClient, useAddClientError, useAddClientLastRequest, useAddClientState } from 'store/ClientSlice'
 import ErrorBanner from 'components/utility/ErrorBanner'
+import { PayloadAction } from '@reduxjs/toolkit'
 
 type ClientProps = {
 
@@ -15,9 +16,11 @@ function ClientEdition(props: ClientProps) {
     const lastRequest = useAddClientLastRequest();
     const addError = useAddClientError();
     const addState = useAddClientState();
-    const onSave = ({ client }: SaveClientEvent) => {
-        console.log('saving the client', client);
-        addClient(client)
+    const onSave = async ({ client, clientFormApi }: SaveClientEvent) => {
+        let result = await addClient(client) as any
+        if (result.error === undefined) {
+            clientFormApi.reset();
+        }
     }
     const loading = addState === "loading";
 

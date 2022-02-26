@@ -22,26 +22,32 @@ const initialState: ClientsState = {
   requests: {},
 };
 
+export type AddClientResult = {
+  client: Client,
+  success?: boolean
+}
+
 const findClientIndex = (clients: ClientWithTotalsList, id: string) =>
   clients.findIndex((client: Client) => client.id === id);
 const findClient = (clients: ClientWithTotalsList, id: string) =>
   clients[findClientIndex(clients, id)];
 
-
 export const addClient = createAsyncThunk<
   // Return type of the payload creator
-  Client,
+  AddClientResult,
   // First argument to the payload creator
   Client,
   AppThunkAPI
->("client/add", async (client, thunkAPI): Promise<Client> => {
+>("client/add", async (client, thunkAPI): Promise<AddClientResult> => {
   const result = thunkAPI.extra.serviceApi.addClient(client, client =>
     thunkAPI.dispatch(clientAdded(client))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
-  result.promise.catch((errorMessage) => thunkAPI.rejectWithValue(errorMessage))
-  const savedClient = await result.promise;
-  return savedClient;
+  result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
+  return {
+    client: await result.promise,
+    success: true,
+  };
 });
 
 export const loadClients = createAsyncThunk<
@@ -55,7 +61,7 @@ export const loadClients = createAsyncThunk<
     thunkAPI.dispatch(clientsReceived(clients))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
-  result.promise.catch((errorMessage) => thunkAPI.rejectWithValue(errorMessage))
+  result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
   const clients = await result.promise;
   return clients;
 });
@@ -68,7 +74,10 @@ const slice = createSlice({
       client.list = action.payload;
     },
     clientAdded: (client, action) => {
-      client.list.push({...action.payload, totalBilled: action.payload.totalBilled || 0});
+      client.list.push({
+        ...action.payload,
+        totalBilled: action.payload.totalBilled || 0,
+      });
     },
     clientRemoved: (client, action) => {
       const { id } = action.payload;
@@ -78,7 +87,10 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     {
-      const { pending, fulfilled, rejected } = requestReducers("loadClients", 5);
+      const { pending, fulfilled, rejected } = requestReducers(
+        "loadClients",
+        5
+      );
       builder.addCase(loadClients.pending, pending);
       builder.addCase(loadClients.fulfilled, fulfilled);
       builder.addCase(loadClients.rejected, rejected);
@@ -148,10 +160,9 @@ export const useLoadClientError = () => useSelector(loadClientErrorSelector);
 export const useLoadClientState = () => useSelector(loadClientStateSelector);
 export const useAddClient = () => {
   const dispatch = useDispatch();
-  return  (client:Client) => {
-    dispatch(addClient(client))
-  };
-}
-export const useAddClientLastRequest = () => useSelector(addClientLastRequestSelector);
+  return (client: Client) => dispatch(addClient(client));
+};
+export const useAddClientLastRequest = () =>
+  useSelector(addClientLastRequestSelector);
 export const useAddClientError = () => useSelector(addClientErrorSelector);
 export const useAddClientState = () => useSelector(addClientStateSelector);
