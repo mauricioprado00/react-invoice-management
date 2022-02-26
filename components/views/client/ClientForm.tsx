@@ -78,7 +78,10 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
     const selectAvatar = useCallback((avatar: string) => {
         setState(prev => ({
             ...prev,
-            avatar
+            values: {
+                ...prev.values,
+                avatar
+            }
         }));
     }, [])
 
@@ -124,7 +127,7 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
                 id: state.values.id,
                 name: state.values.name,
                 email: state.values.email,
-                avatar: state.avatar,
+                avatar: state.values.avatar,
                 companyDetails: {
                     name: state.values.companyName,
                     address: state.values.address,

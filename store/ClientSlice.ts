@@ -49,7 +49,7 @@ export const upsertClient = createAsyncThunk<
 >("client/add", async (client, thunkAPI): Promise<UpsertClientResult> => {
   const following = client.id ? clientUpdated : clientAdded;
   const result = thunkAPI.extra.serviceApi.upsertClient(client, client =>
-    thunkAPI.dispatch(following({ totalBilled: 0, ...client }))
+    thunkAPI.dispatch(following({ ...client }))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
@@ -83,11 +83,14 @@ const slice = createSlice({
       action.payload.forEach(client => (state.list[client.id] = client));
       state.init = true;
     },
-    clientUpdated: (state, action: PayloadAction<ClientWithTotals>) => {
-      state.list[action.payload.id] = action.payload;
+    clientUpdated: (state, action: PayloadAction<Client>) => {
+      state.list[action.payload.id] = {
+        totalBilled: state.list[action.payload.id].totalBilled,
+        ...action.payload
+      };
     },
-    clientAdded: (state, action: PayloadAction<ClientWithTotals>) => {
-      state.list[action.payload.id] = action.payload;
+    clientAdded: (state, action: PayloadAction<Client>) => {
+      state.list[action.payload.id] = {totalBilled: 0, ...action.payload};
     },
     clientRemoved: (state, action: PayloadAction<ClientWithTotals>) => {
       const { id } = action.payload;
