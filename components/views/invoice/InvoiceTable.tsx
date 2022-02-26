@@ -19,7 +19,7 @@ const InvoiceTable = ({ title = "Latest Invoices" }: InvoiceTableProps) => {
     const invoices = useInvoiceList()
     const loadError = useLoadInvoiceError()
     const loadState = useLoadInvoiceState()
-    const loading = loadState === 'loading';
+    const loading = loadState === 'loading' || loadState === 'none';
 
     const loaded = !loading;
     const newInvoice = useCallback((e) => {
@@ -31,7 +31,7 @@ const InvoiceTable = ({ title = "Latest Invoices" }: InvoiceTableProps) => {
         e.preventDefault();
     }, [])
     return (
-        <Table title={title || "Latest Invoices"} loading={loading}  error={loadError}>
+        <Table title={title || "Latest Invoices"} loading={loading} error={loadError}>
             {loaded && <HeaderContent>
                 <Button styled={ButtonStyle.FlatGreen} onClick={newInvoice}>New Invoice</Button>
                 {invoices.length > 0 && <Button styled={ButtonStyle.FlatGreen} onClick={allInvoices}>All Invoices</Button>}

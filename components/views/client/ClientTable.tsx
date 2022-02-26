@@ -15,7 +15,7 @@ const ClientTable = ({ title = "Clients" }: ClientTableProps) => {
   const clients = useClientList()
   const loadError = useLoadClientError()
   const loadState = useLoadClientState()
-  const loading = loadState === 'loading';
+  const loading = loadState === 'loading' || loadState === 'none';
 
   return (
     <Table title={title} loading={loading} error={loadError}>
