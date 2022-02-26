@@ -16,6 +16,7 @@ export interface InputTextProps extends React.ComponentPropsWithoutRef<'input'> 
     onChange?: (e: InputChangeEvent) => void,
     validators?: Validator[],
     singleError?: boolean,
+    showErrors?: boolean,
 };
 
 export const InputTextPropTypes = {
@@ -28,6 +29,7 @@ export const InputTextPropTypes = {
     onChange: PropTypes.func,
     validators: PropTypes.arrayOf(PropTypes.func.isRequired),
     singleError: PropTypes.bool,
+    showErrors: PropTypes.bool,
 }
 
 export interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement> {
@@ -71,6 +73,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
         onChange = null,
         onBlur = null,
         singleError = true,
+        showErrors = false,
         ...inputProps
     } = props;
     const changeHandler = useCallback((e: InputChangeEvent) => {
@@ -107,6 +110,10 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
 
     if (touch !== reset) {
         expressErrors = false;
+    }
+
+    if (showErrors) { // requested by parent component, must show
+        expressErrors = true;
     }
 
     if (error !== null) {

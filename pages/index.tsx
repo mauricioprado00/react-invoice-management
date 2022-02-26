@@ -3,7 +3,6 @@ import ClientTable from 'components/views/client/ClientTable'
 import InvoiceTable from 'components/views/invoice/InvoiceTable';
 import { useEffect, useMemo, useState } from 'react';
 import createClient from 'api/apiclient';
-import { ClientInvoiceList, ClientInvoiceListN, InvoiceList, InvoiceListN } from 'models/Invoice';
 import store from 'store/configureStore'
 import { Provider } from 'react-redux';
 import { loadClients } from 'store/ClientSlice';
@@ -11,7 +10,7 @@ import { newBearerToken } from 'store/UserSlice';
 import { enableMapSet } from 'immer';
 import { loadClientInvoices } from 'store/InvoiceSlice';
 import AddInvoice from 'components/views/invoice/AddInvoice';
-import AddClient from 'components/views/client/AddClient';
+import ClientEdition from 'components/views/client/ClientEdition';
 
 let client = createClient('//localhost:3139', '111');
 enableMapSet();
@@ -45,7 +44,7 @@ const Home: NextPage = () => {
       <ClientTable />
       <InvoiceTable />
       <AddInvoice />
-      <AddClient />
+      <ClientEdition />
     </Provider>
   )
 }
