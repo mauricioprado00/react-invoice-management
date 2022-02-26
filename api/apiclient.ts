@@ -5,10 +5,10 @@ interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
 }
 
-const addClient = (url: string) => (client:Client) => async (init: ApiInitParams) => {
+const upsertClient = (url: string) => (client:Client) => async (init: ApiInitParams) => {
   const fetchPromise = fetch(url, {
     ...init,
-    method: 'POST',
+    method: client.id ? 'PUT' : 'POST',
     headers: {
       ...init.headers,
       'Accept': 'application/json',
@@ -104,8 +104,8 @@ const createClient = (url:string, bearerToken:string) => ({
     endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then, {}),
   getInvoices: (then:Then<ClientInvoiceList>): AbortableEndpointResult<ClientInvoiceList> =>
     endpoint<ClientInvoiceList>(getInvoices(url + '/invoices'), bearerToken, then, {}),
-  addClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
-    endpoint<Client>(addClient(url + '/clients'), bearerToken, then, client),
+  upsertClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
+    endpoint<Client>(upsertClient(url + '/clients'), bearerToken, then, client),
 })
 
 

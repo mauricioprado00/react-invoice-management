@@ -1,5 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  AnyClient,
+  Client,
+  ClientWithTotals,
+  ClientWithTotalsList,
+} from "models/Client";
 import { MapType } from "models/UtilityModels";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
@@ -12,35 +17,36 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 export type ClientsState = {
-  list: ClientWithTotalsList;
+  list: MapType<ClientWithTotals>;
   requests: MapType<MapType<RequestInformation>>;
 };
 
 const initialState: ClientsState = {
-  list: [],
+  list: {},
   // group all of these into a new attribute
   requests: {},
 };
 
-export type AddClientResult = {
-  client: Client,
-  success?: boolean
-}
+export type UpsertClientResult = {
+  client: Client;
+  success?: boolean;
+};
 
 const findClientIndex = (clients: ClientWithTotalsList, id: string) =>
   clients.findIndex((client: Client) => client.id === id);
 const findClient = (clients: ClientWithTotalsList, id: string) =>
   clients[findClientIndex(clients, id)];
 
-export const addClient = createAsyncThunk<
+export const upsertClient = createAsyncThunk<
   // Return type of the payload creator
-  AddClientResult,
+  UpsertClientResult,
   // First argument to the payload creator
   Client,
   AppThunkAPI
->("client/add", async (client, thunkAPI): Promise<AddClientResult> => {
-  const result = thunkAPI.extra.serviceApi.addClient(client, client =>
-    thunkAPI.dispatch(clientAdded(client))
+>("client/add", async (client, thunkAPI): Promise<UpsertClientResult> => {
+  const following = client.id ? clientUpdated : clientAdded;
+  const result = thunkAPI.extra.serviceApi.upsertClient(client, client =>
+    thunkAPI.dispatch(following({totalBilled: 0, ...client}))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
@@ -70,19 +76,18 @@ const slice = createSlice({
   name: "client",
   initialState,
   reducers: {
-    clientsReceived: (client, action) => {
-      client.list = action.payload;
+    clientsReceived: (state, action: PayloadAction<ClientWithTotals[]>) => {
+      action.payload.forEach(client => (state.list[client.id] = client));
     },
-    clientAdded: (client, action) => {
-      client.list.push({
-        ...action.payload,
-        totalBilled: action.payload.totalBilled || 0,
-      });
+    clientUpdated: (state, action: PayloadAction<ClientWithTotals>) => {
+      state.list[action.payload.id] = action.payload;
     },
-    clientRemoved: (client, action) => {
+    clientAdded: (state, action: PayloadAction<ClientWithTotals>) => {
+      state.list[action.payload.id] = action.payload;
+    },
+    clientRemoved: (state, action: PayloadAction<ClientWithTotals>) => {
       const { id } = action.payload;
-      const index = findClientIndex(client.list, id);
-      client.list.splice(index, 1);
+      delete state.list[id];
     },
   },
   extraReducers: builder => {
@@ -96,15 +101,19 @@ const slice = createSlice({
       builder.addCase(loadClients.rejected, rejected);
     }
     {
-      const { pending, fulfilled, rejected } = requestReducers("addClient", 5);
-      builder.addCase(addClient.pending, pending);
-      builder.addCase(addClient.fulfilled, fulfilled);
-      builder.addCase(addClient.rejected, rejected);
+      const { pending, fulfilled, rejected } = requestReducers(
+        "upsertClient",
+        5
+      );
+      builder.addCase(upsertClient.pending, pending);
+      builder.addCase(upsertClient.fulfilled, fulfilled);
+      builder.addCase(upsertClient.rejected, rejected);
     }
   },
 });
 
-export const { clientAdded, clientRemoved, clientsReceived } = slice.actions;
+export const { clientAdded, clientUpdated, clientRemoved, clientsReceived } =
+  slice.actions;
 
 export default slice.reducer;
 
@@ -127,14 +136,14 @@ export const {
 } = createRequestSelectors("loadClients", clientSliceSelector);
 
 export const {
-  lastSelector: addClientLastRequestSelector,
-  errorSelector: addClientErrorSelector,
-  stateSelector: addClientStateSelector,
-} = createRequestSelectors("addClient", clientSliceSelector);
+  lastSelector: upsertClientLastRequestSelector,
+  errorSelector: upsertClientErrorSelector,
+  stateSelector: upsertClientStateSelector,
+} = createRequestSelectors("upsertClient", clientSliceSelector);
 
 export const clientListSelector = createSelector(
   clientSliceSelector,
-  clientSlice => clientSlice.list
+  clientSlice => Object.values(clientSlice.list)
 );
 
 export const getMostValuableClientsSelector = createSelector(
@@ -158,11 +167,13 @@ export const useClientSlice = () => useSelector(clientSliceSelector);
 export const useClientList = () => useSelector(clientListSelector);
 export const useLoadClientError = () => useSelector(loadClientErrorSelector);
 export const useLoadClientState = () => useSelector(loadClientStateSelector);
-export const useAddClient = () => {
+export const useUpsertClient = () => {
   const dispatch = useDispatch();
-  return (client: Client) => dispatch(addClient(client));
+  return (client: Client) => dispatch(upsertClient(client));
 };
-export const useAddClientLastRequest = () =>
-  useSelector(addClientLastRequestSelector);
-export const useAddClientError = () => useSelector(addClientErrorSelector);
-export const useAddClientState = () => useSelector(addClientStateSelector);
+export const useUpsertClientLastRequest = () =>
+  useSelector(upsertClientLastRequestSelector);
+export const useUpsertClientError = () =>
+  useSelector(upsertClientErrorSelector);
+export const useUpsertClientState = () =>
+  useSelector(upsertClientStateSelector);

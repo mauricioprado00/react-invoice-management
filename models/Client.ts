@@ -5,7 +5,7 @@ import { CompanyDetails, CompanyDetailsPropType } from "./CompanyDetails";
 // typescript types
 
 export type Client = {
-  id: number | string;
+  id: string;
   user_id?: string;
   name: string;
   email: string;
@@ -16,6 +16,10 @@ export type Client = {
 export interface ClientWithTotals extends Client {
   totalBilled: number;
 }
+
+export type AnyClient = Client & {
+  totalBilled?: number;
+};
 
 export type ClientN = null | Client;
 export type ClientList = Client[];
@@ -29,9 +33,14 @@ export const ClientPropTypes = {
   user_id: PropTypes.string,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  avatar: PropTypes.string,
   companyDetails: PropTypes.exact(CompanyDetailsPropType)
 }
 
 export const ClientWithTotalsPropTypes = Object.assign({...ClientPropTypes} , {
   totalBilled: PropTypes.number.isRequired,
+})
+
+export const AnyClientPropTypes = Object.assign({...ClientPropTypes} , {
+  totalBilled: PropTypes.number,
 })

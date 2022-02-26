@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from "prop-types";
 import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
@@ -6,14 +6,14 @@ import InputText, { InputChangeEvent } from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { MapType, MapTypeFill, MapTypeSome } from 'models/UtilityModels'
 import { emailValidator, numberValidator } from 'library/validation'
-import { Client } from 'models/Client'
+import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import AvatarSelector from 'components/ui/forms/AvatarSelector';
 
 type ClientFormApi = {
     reset: () => void
 }
 export type SaveClientEvent = {
-    client: Client,
+    client: AnyClient,
     clientFormApi: ClientFormApi
 }
 
@@ -28,13 +28,15 @@ type ClientFormState = {
 type ClientFormProps = {
     onSave: (data: SaveClientEvent) => void,
     onCancel: () => void,
-    disabled?: boolean
+    disabled?: boolean,
+    client: AnyClient | null
 }
 
 const ClientFormPropTypes = {
     onSave: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    client: PropTypes.exact(AnyClientPropTypes),
 }
 
 const elements = [
@@ -52,7 +54,7 @@ const initialClientFormState: ClientFormState = {
     reset: 0,
     showErrors: false,
 }
-function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
+function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormProps) {
     const [state, setState] = useState(initialClientFormState)
     const validHandler = useCallback((name: string, valid: boolean) => {
         setState(prev => ({
@@ -119,7 +121,7 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
         }
         onSave({
             client: {
-                id: -1,
+                id: state.values.id,
                 name: state.values.name,
                 email: state.values.email,
                 avatar: state.avatar,
@@ -133,6 +135,25 @@ function ClientForm({ onSave, onCancel, disabled = false }: ClientFormProps) {
             clientFormApi
         });
     }
+
+    useEffect(() => {
+        if (client) {
+            setState(prev => ({
+                ...initialClientFormState, 
+                reset: prev.reset,
+                values: {
+                    id: client.id,
+                    name: client.name,
+                    email: client.email,
+                    avatar: client.avatar || '',
+                    companyName: client.companyDetails.name,
+                    address: client.companyDetails.address,
+                    vatNumber: client.companyDetails.vatNumber,
+                    regNumber: client.companyDetails.regNumber,
+                }
+            }));
+        }
+    }, [client]);
 
     return (
         <Form>
