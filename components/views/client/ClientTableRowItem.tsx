@@ -5,7 +5,7 @@ import HamburgerDropdown from '../../ui/elements/HamburgerDropdown'
 import { isMostValuableClient } from 'store/ClientSlice'
 import { getAvatarImageUrl } from '../../ui/forms/AvatarSelector'
 import { useGoClientDashboard, useGoClientEdit, useGoClientIdDashboard } from 'library/navigation'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 export type ClientTableRowItemProps = ClientWithTotals
 
@@ -20,14 +20,17 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
         "text-left font-medium", isMostValuable ? "text-red-500" : "text-green-500"
     );
     const [actions] = useState(() => [
-        { label: 'Edit', type: 'edit', handler:() => goEdit(client.id) },
-        { label: 'Profile', type: 'profile', handler: goDashboard  },
+        { label: 'Edit', type: 'edit', handler: () => goEdit(client.id) },
+        { label: 'Profile', type: 'profile', handler: goDashboard },
         { label: 'Invoices', type: 'invoices' },
         { label: 'Remove', type: 'remove' },
     ]);
+    const stopPropagation = useCallback(e => e.stopPropagation(), []);
+    const keyupHandler = useCallback(e => e.code === 'Enter' && goDashboard(), [goDashboard]);
+
 
     return (
-        <tr key="nothing" tabIndex={0} onClick={goDashboard}>
+        <tr key="nothing" tabIndex={0} onClick={goDashboard} onKeyUp={keyupHandler}>
             <td className="px-2 py-4 whitespace-nowrap">
                 <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">
@@ -49,7 +52,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
             <td className="p-2 whitespace-nowrap">
                 <div className={totalBilledClassnames}>${totalBilled}</div>
             </td>
-            <td className="p-2 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+            <td className="p-2 whitespace-nowrap" onClick={stopPropagation} onKeyUp={stopPropagation}>
                 <HamburgerDropdown items={actions} />
             </td>
         </tr>

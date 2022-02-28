@@ -82,7 +82,7 @@ const HamburgerDropdown = ({ items = [] }: HamburgerDropdownProps) => {
                 <div style={{ display }} className="z-10 origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
                     <div className="py-1" role="none">
                         {items.map(item =>
-                            <a key={item.type} data-action={item.type} onClick={handleAction} href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabIndex={-1} id="menu-item-0">{item.label}</a>
+                            <a key={item.type} tabIndex={0} data-action={item.type} onClick={handleAction} href="#" className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" id="menu-item-0">{item.label}</a>
                         )}
                     </div>
                 </div>
