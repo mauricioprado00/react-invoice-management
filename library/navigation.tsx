@@ -3,20 +3,27 @@ import { useCallback } from "react";
 
 export const useGoClientEdit = () => {
     const router = useRouter();
-    return (id:string|null=null) => {
+    return useCallback((id:string|null=null) => {
         if (id) {
             router.push('/client?' + new URLSearchParams({id}));
         } else {
             router.push('/client');
         }
-    }
+    }, [router]);
+}
+
+export const useGoClientIdDashboard = (id:string) => {
+    const router = useRouter();
+    return useCallback(() => {
+        router.push('/client-dashboard?' + new URLSearchParams({id}));
+    }, [router, id]);
 }
 
 export const useGoClientDashboard = () => {
     const router = useRouter();
-    return (id:string) => {
+    return useCallback((id:string) => {
         router.push('/client-dashboard?' + new URLSearchParams({id}));
-    }
+    }, [router]);
 }
 
 export const useGoNewClient = () => {
