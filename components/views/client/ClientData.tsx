@@ -16,10 +16,10 @@ function ClientData({ client }: ClientDataProps) {
     return (
         <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
             <div className=" h-32 overflow-hidden">
-                <img className="w-full" src="https://images.unsplash.com/photo-1578836537282-3171d77f8632?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt />
+                <img className="w-full" src="https://images.unsplash.com/photo-1578836537282-3171d77f8632?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt="background image" />
             </div>
             <div className="flex justify-center px-5  -mt-12">
-                <img className="h-32 w-32 bg-white p-2 rounded-full   " src={imageUrl} />
+                <img className="h-32 w-32 bg-white p-2 rounded-full" src={imageUrl} alt="profile avatar" />
             </div>
             <div className=" ">
                 <div className="text-center px-14">
