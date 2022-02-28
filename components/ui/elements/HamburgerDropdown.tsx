@@ -1,6 +1,7 @@
-import React, { SyntheticEvent, useCallback, useRef, useState } from 'react'
+import React, { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import Hamburger from './Hamburger'
+import useUnmount from '../../../library/useUnmount';
 
 export type HamburgerDropdownItem = {
     label: string,
@@ -35,6 +36,7 @@ const HamburgerDropdownPropTypes = {
 
 const HamburgerDropdown = ({ items = [] }: HamburgerDropdownProps) => {
     const ref = useRef<HTMLDivElement>(null);
+    const unmount = useUnmount();
     const [display, setDisplay]: DisplayState = useState('none');
     const handleAction = useCallback((e: HamburgerActionMouseEvent) => {
         const action = e.target.dataset.action;
@@ -49,8 +51,13 @@ const HamburgerDropdown = ({ items = [] }: HamburgerDropdownProps) => {
         if (ref.current) ref.current.focus();
     }, []);
     const blurHandler = useCallback((e) => {
-        setTimeout(() => setDisplay('none'), 300);
-    }, [])
+        let handler;
+        let id:string;
+        handler = setTimeout(() => {setDisplay('none'); unmount.remove(id)}, 300);
+        // prevent the timeout to be called (and state changed) 
+        // after this component was unmounted
+        id = unmount.add(clearTimeout.bind(null, handler));        
+    }, [unmount])
     const keyupHandler = useCallback((e) => {
         switch (e.code) {
             case 'Escape':
