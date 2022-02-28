@@ -1,0 +1,21 @@
+version: "3.8"
+
+
+services:
+  frontend:
+    build:
+      context: ./docker/npm/
+    volumes:
+      - .:/app/
+    ports:
+      - "3000:3000"
+    command: "npm run dev"
+
+  backend:
+    build:
+      context: ./docker/npm/
+    volumes:
+      - ../invoice-rest-api:/app/
+    ports:
+      - 3139:3139
+    command: "npm run start"
