@@ -32,7 +32,7 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const title = clientId ? 'Edit Client' : 'Add Client';
 
     const cancelHandler = () => {
-        if (onCancel) onCancel();
+        if (onCancel) {onCancel(); return true;}
     }
 
     return (

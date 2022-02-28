@@ -28,7 +28,7 @@ type ClientFormState = {
 
 type ClientFormProps = {
     onSave: (data: SaveClientEvent) => void,
-    onCancel: () => void,
+    onCancel: () => boolean | void,
     disabled?: boolean,
     client: AnyClient | null
 }
@@ -88,8 +88,10 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
     const clientFormApi = {reset};
 
     const cancelHandler = () => {
-        onCancel();
-        reset();
+        let result = onCancel();
+        if (result !== true) { // true == handled
+            reset();
+        }
     }
 
     const saveHandler = () => {
