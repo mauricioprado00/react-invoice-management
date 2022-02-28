@@ -98,14 +98,6 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
     }
 
     const allValid = (): boolean => !MapTypeSome(state.valid, value => value !== true)
-    const resetErrors = () => {
-        setState(prev => {
-            return {
-                ...prev,
-                reset: prev.reset + 1
-            }
-        })
-    }
     const reset = () => {
         setState(prev => ({ ...initialClientFormState, reset: prev.reset + 1 }))
     }
