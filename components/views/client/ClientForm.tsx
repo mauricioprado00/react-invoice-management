@@ -8,6 +8,7 @@ import { MapType, MapTypeFill, MapTypeSome } from 'models/UtilityModels'
 import { emailValidator, numberValidator } from 'library/validation'
 import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import AvatarSelector from 'components/ui/forms/AvatarSelector';
+import produce from 'immer';
 
 type ClientFormApi = {
     reset: () => void
@@ -57,32 +58,14 @@ const initialClientFormState: ClientFormState = {
 function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormProps) {
     const [state, setState] = useState(initialClientFormState)
     const validHandler = useCallback((name: string, valid: boolean) => {
-        setState(prev => ({
-            ...prev,
-            valid: {
-                ...prev.valid,
-                [name]: valid,
-            }
-        }))
+        setState(prev => produce(prev, draft => { draft.valid[name] = valid }))
     }, [])
     const changeHandler = useCallback((e: InputChangeEvent) => {
-        setState(prev => ({
-            ...prev,
-            values: {
-                ...prev.values,
-                [e.fieldName]: e.target.value
-            }
-        }))
+        setState(prev => produce(prev, draft => { draft.values[e.fieldName] = e.target.value }));
     }, []);
 
     const selectAvatar = useCallback((avatar: string) => {
-        setState(prev => ({
-            ...prev,
-            values: {
-                ...prev.values,
-                avatar
-            }
-        }));
+        setState(prev => produce(prev, draft => { draft.values.avatar = avatar } ));
     }, [])
 
     const shared = {
