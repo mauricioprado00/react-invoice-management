@@ -11,6 +11,13 @@ services:
       - "3000:3000"
     command: "npm run dev"
 
+  build:
+    build:
+      context: ./docker/npm/
+    volumes:
+      - .:/app/
+    command: "sh -c 'cp -Rf /app /clone; cd /clone; npm run build'"
+
   backend:
     build:
       context: ./docker/npm/
