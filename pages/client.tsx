@@ -1,27 +1,13 @@
 import type { NextPage } from 'next'
-import store from 'store/configureStore'
-import { Provider } from 'react-redux';
 import ClientEdition from 'components/views/client/ClientEdition';
 import { useGoIndex, useParamClientId } from 'library/navigation';
-import Page from 'components/ui/layout/Page';
+import PageWithStore from 'components/utility/PageWithStore';
 
 const Client: NextPage = () => {
     const goIndex = useGoIndex();
     const clientId = useParamClientId();
 
-    return (
-        <Page>
-            <ClientEdition onCancel={goIndex} onSave={goIndex} clientId={clientId} />
-        </Page>
-    )
+    return <ClientEdition onCancel={goIndex} onSave={goIndex} clientId={clientId} />
 }
 
-const ClientPage = () => {
-    return <>
-        <Provider store={store}>
-            <Client />
-        </Provider>
-    </>
-}
-
-export default ClientPage
+export default PageWithStore(Client)
