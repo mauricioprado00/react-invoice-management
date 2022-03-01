@@ -10,12 +10,18 @@ const Client: NextPage = () => {
     const clientId = useParamClientId();
 
     return (
-        <Provider store={store}>
-            <Page>
-                <ClientEdition onCancel={goIndex} onSave={goIndex} clientId={clientId} />
-            </Page>
-        </Provider>
+        <Page>
+            <ClientEdition onCancel={goIndex} onSave={goIndex} clientId={clientId} />
+        </Page>
     )
 }
 
-export default Client
+const ClientPage = () => {
+    return <>
+        <Provider store={store}>
+            <Client />
+        </Provider>
+    </>
+}
+
+export default ClientPage

@@ -2,7 +2,6 @@ import {
   createAsyncThunk,
   createSelector,
   createSlice,
-  SerializedError,
 } from "@reduxjs/toolkit";
 
 import { AppThunkAPI } from "./configureStore";

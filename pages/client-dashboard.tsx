@@ -17,4 +17,12 @@ const ClientDashboard: NextPage = () => {
     )
 }
 
-export default ClientDashboard
+const ClientDashboardPage = () => {
+    return <>
+        <Provider store={store}>
+            <ClientDashboard />
+        </Provider>
+    </>
+}
+
+export default ClientDashboardPage
