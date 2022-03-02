@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from "prop-types";
 import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
-import InputText, { InputChangeEvent } from 'components/ui/forms/InputText'
+import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { MapType, MapTypeFill, MapTypeSome } from 'models/UtilityModels'
 import { confirmPasswordValidator, emailValidator, passwordValidator } from 'library/validation'
-import produce from 'immer';
 import { UserWithPassword, UserWithPasswordPropTypes } from 'models/User';
+import useForm from '../../../hooks/use-form';
 
 type SignupFormApi = {
     reset: () => void
@@ -15,13 +14,6 @@ type SignupFormApi = {
 export type SaveUserEvent = {
     user: UserWithPassword,
     signupFormApi: SignupFormApi
-}
-
-type SignupFormState = {
-    valid: MapType<boolean>,
-    values: MapType<string>,
-    reset: number,
-    showErrors: boolean,
 }
 
 type SignupFormProps = {
@@ -44,59 +36,30 @@ const elements = [
     "confirmPassword",
 ];
 
-const initialSignupFormState: SignupFormState = {
-    valid: MapTypeFill(elements, false),
-    values: MapTypeFill(elements, ''),
-    reset: 0,
-    showErrors: false,
-}
 function SignupForm({ onSave, onCancel, disabled = false }: SignupFormProps) {
-    const [state, setState] = useState(initialSignupFormState)
-    const validHandler = useCallback((name: string, valid: boolean) => {
-        setState(prev => produce(prev, draft => { draft.valid[name] = valid }))
-    }, [])
-    const changeHandler = useCallback((e: InputChangeEvent) => {
-        setState(prev => produce(prev, draft => { draft.values[e.fieldName] = e.target.value }));
-    }, []);
-
-    const shared = {
-        reset: state.reset,
-        onValid: validHandler,
-        onChange: changeHandler,
-        showErrors: state.showErrors,
-        disabled,
-    }
-
-    const setShowErrors = (show: boolean) => {
-        setState(prev => ({ ...prev, showErrors: show }));
-    }
-
-    const allValid = (): boolean => !MapTypeSome(state.valid, value => value !== true)
-    const reset = () => {
-        setState(prev => ({ ...initialSignupFormState, reset: prev.reset + 1 }))
-    }
-
-    const signupFormApi = {reset};
+    // extract some hooks from here. 
+    const form = useForm({elements, disabled});
+    const signupFormApi = {reset: form.reset};
 
     const cancelHandler = () => {
         let result = onCancel();
         if (result !== true) { // true == handled
-            reset();
+            form.reset();
         }
     }
 
     const saveHandler = () => {
-        if (!allValid()) {
-            setShowErrors(true);
+        if (!form.allValid()) {
+            form.setShowErrors(true);
             return;
         }
         onSave({
             user: {
-                id: state.values.id,
-                name: state.values.name,
-                email: state.values.email,
-                password: state.values.password,
-                confirmPassword: state.values.confirmPassword,
+                id: form.state.values.id,
+                name: form.state.values.name,
+                email: form.state.values.email,
+                password: form.state.values.password,
+                confirmPassword: form.state.values.confirmPassword,
             },
             signupFormApi
         });
@@ -106,27 +69,27 @@ function SignupForm({ onSave, onCancel, disabled = false }: SignupFormProps) {
         <Form>
             <FieldsetRow>
                 <InputText name="name" label="Name" required={true}
-                    value={state.values.name}
-                    {...shared} />
+                    value={form.state.values.name}
+                    {...form.inputProps} />
 
                 <InputText name="email" label="Email" placeholder="Email ID"
-                    required={true} value={state.values.email}
+                    required={true} value={form.state.values.email}
                     validators={[emailValidator("wrong email")]}
-                    {...shared} />
+                    {...form.inputProps} />
             </FieldsetRow>
             <FieldsetRow>
                 <InputText name="password" label="Password" required={true}
                     type="password"
-                    value={state.values.password}
+                    value={form.state.values.password}
                     validators={[passwordValidator()]}
-                    {...shared} />
+                    {...form.inputProps} />
 
                 <InputText name="confirmPassword" label="Confirm Password" required={true}
                     type="password"
-                    value={state.values.confirmPassword}
-                    validationExtra={state.values.password}
+                    value={form.state.values.confirmPassword}
+                    validationExtra={form.state.values.password}
                     validators={[confirmPasswordValidator("Password does not match")]}
-                    {...shared} />
+                    {...form.inputProps} />
             </FieldsetRow>
             <FieldsetRow alignRight={true}>
                 <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>
