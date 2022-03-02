@@ -3,6 +3,7 @@ import React from 'react'
 import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import SignupForm, { SaveUserEvent } from './SignupForm'
+import { registerUser, useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
 
 type SignupProps = {
     onCancel?: () => void,
@@ -13,20 +14,18 @@ const SignupPropTypes = {
     onSave: PropTypes.func,
 }
 function Signup({ onCancel, onSave }: SignupProps) {
-    const error = false;
-    const state = 'loaded';
-    // const insertClient = useInsertUser();
-    // const error = useInsertClientError();
-    // const state = useInsertClientState();
+    const registerUser = useRegisterUser();
+    const error = useRegisterUserError();
+    const state = useRegisterUserState();
     const saveHandler = async ({ user, signupFormApi }: SaveUserEvent) => {
-        // let result = await insertUser(user) as any
-        // if (result.error === undefined) {
-        //     signupFormApi.reset();
-        //     if (onSave) onSave();
-        // }
+        let result = await registerUser(user) as any
+        if (result.error === undefined) {
+            signupFormApi.reset();
+            if (onSave) onSave();
+        }
         if (onSave) onSave();
     }
-    const loading = false;//state === "loading";
+    const loading = state === "loading";
     const cancelHandler = () => {
         if (onCancel) {onCancel(); return true;}
     }
