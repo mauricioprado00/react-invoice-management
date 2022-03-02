@@ -17,6 +17,7 @@ export interface InputTextProps extends React.ComponentPropsWithoutRef<'input'> 
     validators?: Validator[],
     singleError?: boolean,
     showErrors?: boolean,
+    validationExtra?: any,
 };
 
 export const InputTextPropTypes = {
@@ -30,6 +31,7 @@ export const InputTextPropTypes = {
     validators: PropTypes.arrayOf(PropTypes.func.isRequired),
     singleError: PropTypes.bool,
     showErrors: PropTypes.bool,
+    valiationExtra: PropTypes.any,
 }
 
 export interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement> {
@@ -74,6 +76,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
         onBlur = null,
         singleError = true,
         showErrors = false,
+        validationExtra,
         ...inputProps
     } = props;
     const changeHandler = useCallback((e: InputChangeEvent) => {
@@ -101,7 +104,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
     }
 
     validators.forEach(validator => {
-        let errorMessage = validator(value.toString());
+        let errorMessage = validator(value.toString(), validationExtra);
         if (errorMessage) errorMessages.push(validationMessage(label, errorMessage));
     })
 

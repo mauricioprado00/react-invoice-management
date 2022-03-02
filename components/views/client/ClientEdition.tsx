@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useCallback } from 'react'
 import Card from 'components/ui/layout/Card'
 import ClientForm, { SaveClientEvent } from './ClientForm'
-import { useClientById, useClientList, useUpsertClient, useUpsertClientError, useUpsertClientState } from 'store/ClientSlice'
+import { useClientById, useUpsertClient, useUpsertClientError, useUpsertClientState } from 'store/ClientSlice'
 import ErrorBanner from 'components/utility/ErrorBanner'
-import { PayloadAction } from '@reduxjs/toolkit'
 
 type ClientProps = {
     onCancel?: () => void,
@@ -31,9 +30,9 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const loading = state === "loading";
     const title = clientId ? 'Edit Client' : 'Add Client';
 
-    const cancelHandler = () => {
+    const cancelHandler = useCallback(() => {
         if (onCancel) {onCancel(); return true;}
-    }
+    }, [onCancel]);
 
     return (
         <Card title={title} fullscreen={true} background={true}>
