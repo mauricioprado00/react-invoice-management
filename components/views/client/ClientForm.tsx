@@ -168,8 +168,8 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
                     {...shared} />
             </FieldsetRow>
             <FieldsetRow alignRight={true}>
-                <Button onClick={cancelHandler} styled={ButtonStyle.PillGray} disabled={disabled}>Cancel</Button>
-                <Button onClick={saveHandler} styled={ButtonStyle.PillGreen} disabled={disabled}>Save</Button>
+                <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>
+                <Button onClick={saveHandler} styled={ButtonStyle.PillPrimary} disabled={disabled}>Save</Button>
             </FieldsetRow>
         </Form>
     )

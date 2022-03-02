@@ -33,8 +33,8 @@ const InvoiceTable = ({ title = "Latest Invoices" }: InvoiceTableProps) => {
     return (
         <Table title={title || "Latest Invoices"} loading={loading} error={loadError}>
             {loaded && <HeaderContent>
-                <Button styled={ButtonStyle.FlatGreen} onClick={newInvoice}>New Invoice</Button>
-                {invoices.length > 0 && <Button styled={ButtonStyle.FlatGreen} onClick={allInvoices}>All Invoices</Button>}
+                <Button styled={ButtonStyle.FlatPrimary} onClick={newInvoice}>New Invoice</Button>
+                {invoices.length > 0 && <Button styled={ButtonStyle.FlatPrimary} onClick={allInvoices}>All Invoices</Button>}
             </HeaderContent>}
             <Column>Invoice Number</Column>
             <Column>Company Name</Column>

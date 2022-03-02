@@ -25,8 +25,8 @@ const ClientTable = ({ title = "Clients" }: ClientTableProps) => {
   return (
     <Table title={title} loading={loading} error={loadError}>
       {!loading && <HeaderContent>
-          <Button styled={ButtonStyle.FlatGreen} onClick={newClientHandler}>New Client</Button>
-          {clients.length > 0 && <Button styled={ButtonStyle.FlatGreen}>All Clients</Button>}
+          <Button styled={ButtonStyle.FlatPrimary} onClick={newClientHandler}>New Client</Button>
+          {clients.length > 0 && <Button styled={ButtonStyle.FlatPrimary}>All Clients</Button>}
       </HeaderContent>}
       <Column>Client Name</Column>
       <Column>Company Name</Column>

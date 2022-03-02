@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import Link from "../utility/Link";
 
 const classnames = {
-  all: " text-gray-800 text-sm font-semibold mr-4 ",
+  all: " text-gray-800 text-sm font-semibold mr-4 cursor-pointer ",
   current: " text-purple-600 ",
-  other: " hover:text-purple-600 ",
+  other: " hover:text-blue-600 ",
 };
 const mobileClassnames = {
   all: " text-gray-800 text-sm font-semibold mb-1",
   current: " text-purple-600 ",
-  other: " hover:text-purple-600 ",
+  other: " hover:text-blue-600 ",
 };
 const links = [
   {
