@@ -9,6 +9,7 @@ import { emailValidator, numberValidator } from 'library/validation'
 import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import AvatarSelector from 'components/ui/forms/AvatarSelector';
 import produce from 'immer';
+import useForm from '../../../hooks/use-form';
 
 type ClientFormApi = {
     reset: () => void
@@ -56,36 +57,13 @@ const initialClientFormState: ClientFormState = {
     showErrors: false,
 }
 function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormProps) {
-    const [state, setState] = useState(initialClientFormState)
-    const validHandler = useCallback((name: string, valid: boolean) => {
-        setState(prev => produce(prev, draft => { draft.valid[name] = valid }))
-    }, [])
-    const changeHandler = useCallback((e: InputChangeEvent) => {
-        setState(prev => produce(prev, draft => { draft.values[e.fieldName] = e.target.value }));
-    }, []);
-
+    const form = useForm({elements, disabled});
+    const {state, reset, setState} = form;
+    const clientFormApi = {reset};
     const selectAvatar = useCallback((avatar: string) => {
         setState(prev => produce(prev, draft => { draft.values.avatar = avatar } ));
-    }, [])
+    }, [setState])
 
-    const shared = {
-        reset: state.reset,
-        onValid: validHandler,
-        onChange: changeHandler,
-        showErrors: state.showErrors,
-        disabled,
-    }
-
-    const setShowErrors = (show: boolean) => {
-        setState(prev => ({ ...prev, showErrors: show }));
-    }
-
-    const allValid = (): boolean => !MapTypeSome(state.valid, value => value !== true)
-    const reset = () => {
-        setState(prev => ({ ...initialClientFormState, reset: prev.reset + 1 }))
-    }
-
-    const clientFormApi = {reset};
 
     const cancelHandler = () => {
         let result = onCancel();
@@ -95,21 +73,21 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
     }
 
     const saveHandler = () => {
-        if (!allValid()) {
-            setShowErrors(true);
+        if (!form.allValid()) {
+            form.setShowErrors(true);
             return;
         }
         onSave({
             client: {
-                id: state.values.id,
-                name: state.values.name,
-                email: state.values.email,
-                avatar: state.values.avatar,
+                id: form.state.values.id,
+                name: form.state.values.name,
+                email: form.state.values.email,
+                avatar: form.state.values.avatar,
                 companyDetails: {
-                    name: state.values.companyName,
-                    address: state.values.address,
-                    vatNumber: state.values.vatNumber,
-                    regNumber: state.values.regNumber,
+                    name: form.state.values.companyName,
+                    address: form.state.values.address,
+                    vatNumber: form.state.values.vatNumber,
+                    regNumber: form.state.values.regNumber,
                 }
             },
             clientFormApi
@@ -118,9 +96,9 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
 
     useEffect(() => {
         if (client) {
+            reset();
             setState(prev => ({
-                ...initialClientFormState, 
-                reset: prev.reset,
+                ...prev,
                 values: {
                     id: client.id,
                     name: client.name,
@@ -133,7 +111,7 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
                 }
             }));
         }
-    }, [client]);
+    }, [setState, reset, client]);
 
     return (
         <Form>
@@ -141,31 +119,31 @@ function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormPr
             <FieldsetRow>
                 <InputText name="name" label="Name" required={true}
                     value={state.values.name}
-                    {...shared} />
+                    {...form.inputProps} />
 
                 <InputText name="email" label="Email" placeholder="Email ID"
                     required={true} value={state.values.email}
                     validators={[emailValidator("wrong email")]}
-                    {...shared} />
+                    {...form.inputProps} />
             </FieldsetRow>
             <FieldsetRow>
                 <InputText name="companyName" label="Company Name" required={true}
                     value={state.values.companyName}
-                    {...shared} />
+                    {...form.inputProps} />
 
                 <InputText name="address" label="Address" required={true}
                     value={state.values.address}
-                    {...shared} />
+                    {...form.inputProps} />
             </FieldsetRow>
             <FieldsetRow>
                 <InputText name="regNumber" label="Reg Number" required={true}
                     value={state.values.regNumber}
                     validators={[numberValidator('Please provide a valid %.')]}
-                    {...shared} />
+                    {...form.inputProps} />
                 <InputText name="vatNumber" label="Vat Number" required={true}
                     value={state.values.vatNumber}
                     validators={[numberValidator('The % is not valid.')]}
-                    {...shared} />
+                    {...form.inputProps} />
             </FieldsetRow>
             <FieldsetRow alignRight={true}>
                 <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>

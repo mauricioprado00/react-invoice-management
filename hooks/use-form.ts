@@ -52,12 +52,13 @@ const useForm = ({ elements, disabled }: useFormProps) => {
       setState(prev => ({ ...prev, showErrors: show }));
     },
     allValid: (): boolean => !MapTypeSome(state.valid, value => value !== true),
-    reset: () => {
+    reset: useCallback(() => {
       setState(prev => ({
         ...createInitialFormState(elements),
         reset: prev.reset + 1,
       }));
-    },
+    }, [elements]),
+    setState,
   };
 };
 

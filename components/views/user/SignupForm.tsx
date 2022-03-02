@@ -37,7 +37,6 @@ const elements = [
 ];
 
 function SignupForm({ onSave, onCancel, disabled = false }: SignupFormProps) {
-    // extract some hooks from here. 
     const form = useForm({elements, disabled});
     const signupFormApi = {reset: form.reset};
 
