@@ -6,14 +6,12 @@ import SignupForm, { SaveUserEvent } from './SignupForm'
 import { useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
 
 type SignupProps = {
-    onCancel?: () => void,
     onSave?: () => void,
 }
 const SignupPropTypes = {
-    onCancel: PropTypes.func,
     onSave: PropTypes.func,
 }
-function Signup({ onCancel, onSave }: SignupProps) {
+function Signup({ onSave }: SignupProps) {
     const registerUser = useRegisterUser();
     const error = useRegisterUserError();
     const state = useRegisterUserState();
@@ -25,13 +23,10 @@ function Signup({ onCancel, onSave }: SignupProps) {
         }
     }
     const loading = state === "loading";
-    const cancelHandler = () => {
-        if (onCancel) {onCancel(); return true;}
-    }
 
     return (
         <Card title="Sign Up" fullscreen={true} background={true}>
-            <SignupForm onSave={saveHandler} onCancel={cancelHandler} disabled={loading} />
+            <SignupForm onSave={saveHandler} disabled={loading} />
             {error && <ErrorBanner error={error}>Could not sign up.</ErrorBanner>}
         </Card>
     )

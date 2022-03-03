@@ -18,13 +18,11 @@ export type SaveUserEvent = {
 
 type SignupFormProps = {
     onSave: (data: SaveUserEvent) => void,
-    onCancel: () => boolean | void,
     disabled?: boolean
 }
 
 const SignupFormPropTypes = {
     onSave: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     user: PropTypes.exact(UserWithPasswordPropTypes),
 }
@@ -36,16 +34,9 @@ const elements = [
     "confirmPassword",
 ];
 
-function SignupForm({ onSave, onCancel, disabled = false }: SignupFormProps) {
+function SignupForm({ onSave, disabled = false }: SignupFormProps) {
     const form = useForm({elements, disabled});
     const signupFormApi = {reset: form.reset};
-
-    const cancelHandler = () => {
-        let result = onCancel();
-        if (result !== true) { // true == handled
-            form.reset();
-        }
-    }
 
     const saveHandler = () => {
         if (!form.allValid()) {
@@ -91,8 +82,7 @@ function SignupForm({ onSave, onCancel, disabled = false }: SignupFormProps) {
                     {...form.inputProps} />
             </FieldsetRow>
             <FieldsetRow alignRight={true}>
-                <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>
-                <Button onClick={saveHandler} styled={ButtonStyle.PillPrimary} disabled={disabled}>Save</Button>
+                <Button onClick={saveHandler} styled={ButtonStyle.PillPrimary} disabled={disabled}>Register</Button>
             </FieldsetRow>
         </Form>
     )
