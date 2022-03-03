@@ -2,6 +2,12 @@ import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "../utility/Link";
 
+/**
+ * Designs from 
+ * @url https://tailwindcomponents.com/component/navbar
+ * @author shuvro_008 https://tailwindcomponents.com/u/shuvro_008
+ */
+
 const classnames = {
   all: " text-gray-800 text-sm font-semibold mr-4 cursor-pointer ",
   current: " text-purple-600 ",
@@ -67,7 +73,7 @@ function NavBar() {
             ))}
           </div>
           <div className="hidden sm:flex sm:items-center">
-            <Link href="/signin">
+            <Link href="/login">
               <a href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
                 Sign in
               </a>
@@ -103,7 +109,7 @@ function NavBar() {
                 </Link>
               ))}
               <div className="flex justify-between items-center border-t-2 pt-2">
-                <Link href="/signin">
+                <Link href="/login">
                   <a className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
                     Sign in
                   </a>

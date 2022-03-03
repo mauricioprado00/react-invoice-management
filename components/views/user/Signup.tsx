@@ -3,7 +3,7 @@ import React from 'react'
 import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import SignupForm, { SaveUserEvent } from './SignupForm'
-import { registerUser, useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
+import { useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
 
 type SignupProps = {
     onCancel?: () => void,
@@ -23,7 +23,6 @@ function Signup({ onCancel, onSave }: SignupProps) {
             signupFormApi.reset();
             if (onSave) onSave();
         }
-        if (onSave) onSave();
     }
     const loading = state === "loading";
     const cancelHandler = () => {

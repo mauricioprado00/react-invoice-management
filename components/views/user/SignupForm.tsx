@@ -6,7 +6,7 @@ import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { confirmPasswordValidator, emailValidator, passwordValidator } from 'library/validation'
 import { UserWithPassword, UserWithPasswordPropTypes } from 'models/User';
-import useForm from '../../../hooks/use-form';
+import useForm from 'hooks/use-form';
 
 type SignupFormApi = {
     reset: () => void

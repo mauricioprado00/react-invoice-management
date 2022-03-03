@@ -15,6 +15,11 @@ export interface UserWithPassword extends User {
   confirmPassword: string;
 }
 
+export type UserLogin = {
+  email: string;
+  password: string;
+}
+
 export type AnyUser = User & {
   password: string;
   confirmPassword: string;
@@ -24,6 +29,9 @@ export type UserN = null | User;
 export type UserList = User[];
 export type UserListN = null | UserList;
 export type UserWithPasswordList = UserWithPassword[];
+export type UserLoginN = null | UserLogin;
+export type UserLoginList = UserLogin[];
+export type UserLoginListN = null | UserLoginList;
 
 // React PropTypes definitions for components
 
@@ -40,6 +48,11 @@ export const UserWithPasswordPropTypes = Object.assign(
     confirmPassword: PropTypes.string.isRequired,
   }
 );
+
+export const UserLoginPropTypes = {
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+}
 
 export const AnyUserPropTypes = Object.assign(
   { ...UserPropTypes },

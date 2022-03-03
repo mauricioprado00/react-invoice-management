@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect} from 'react'
 import PropTypes from "prop-types";
 import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
-import InputText, { InputChangeEvent } from 'components/ui/forms/InputText'
+import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { MapType, MapTypeFill, MapTypeSome } from 'models/UtilityModels'
 import { emailValidator, numberValidator } from 'library/validation'
 import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import AvatarSelector from 'components/ui/forms/AvatarSelector';
 import produce from 'immer';
-import useForm from '../../../hooks/use-form';
+import useForm from 'hooks/use-form';
 
 type ClientFormApi = {
     reset: () => void
@@ -17,14 +16,6 @@ type ClientFormApi = {
 export type SaveClientEvent = {
     client: AnyClient,
     clientFormApi: ClientFormApi
-}
-
-type ClientFormState = {
-    valid: MapType<boolean>,
-    values: MapType<string>,
-    reset: number,
-    showErrors: boolean,
-    avatar?: string,
 }
 
 type ClientFormProps = {
@@ -48,14 +39,9 @@ const elements = [
     "address",
     "regNumber",
     "vatNumber",
+    "avatar",
 ];
 
-const initialClientFormState: ClientFormState = {
-    valid: MapTypeFill(elements, false),
-    values: MapTypeFill(elements, ''),
-    reset: 0,
-    showErrors: false,
-}
 function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormProps) {
     const form = useForm({elements, disabled});
     const {state, reset, setState} = form;
