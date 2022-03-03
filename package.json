@@ -16,6 +16,7 @@
     "contexts": "file:contexts",
     "library": "file:library",
     "models": "file:models",
+    "hooks": "file:hooks",
     "next": "^12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
