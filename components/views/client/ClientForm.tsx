@@ -39,7 +39,7 @@ const elements = [
     "address",
     "regNumber",
     "vatNumber",
-    "avatar",
+    //"avatar", NO because vhe state. Valid is not handled for the custom Avatar Selector
 ];
 
 function ClientForm({ onSave, onCancel, disabled = false, client }: ClientFormProps) {
