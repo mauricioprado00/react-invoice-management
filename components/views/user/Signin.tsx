@@ -3,7 +3,8 @@ import React from 'react'
 import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import SigninForm, { LoginUserEvent } from './SigninForm'
-//import { useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
+import { useLoginUser, userLoggedIn } from 'store/UserSlice'
+//import { useLoginUser, useLoginUserError, useLoginUserState } from 'store/UserSlice'
 
 type SigninProps = {
     onLogin?: () => void,
@@ -14,11 +15,12 @@ const SigninPropTypes = {
 function Signin({ onLogin }: SigninProps) {
     const error = false;
     const state = 'loaded';
-    // const registerUser = useRegisterUser();
-    // const error = useRegisterUserError();
-    // const state = useRegisterUserState();
+    const loginUser = useLoginUser();
+    // const error = useLoginUserError();
+    // const state = useLoginUserState();
     const loginHandler = async ({ userLogin, signinFormApi }: LoginUserEvent) => {
-        // let result = await registerUser(user) as any
+        let result = await loginUser(userLogin) as any
+        console.log({userLogin, result});
         // if (result.error === undefined) {
         //     signinFormApi.reset();
         //     if (onLogin) onLogin();

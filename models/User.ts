@@ -25,6 +25,17 @@ export type AnyUser = User & {
   confirmPassword: string;
 };
 
+export type LoginData = {
+  user_id: string,
+  email: string,
+  name: string,
+  token: string,
+}
+
+export type RegisterData = {
+  user_id: string,
+}
+
 export type UserN = null | User;
 export type UserList = User[];
 export type UserListN = null | UserList;

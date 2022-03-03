@@ -16,6 +16,7 @@ import {
 } from "./RequestUtility";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { newBearerTokenSet } from "./UserSlice";
 
 export type ClientsState = {
   list: MapType<ClientWithTotals>;
@@ -98,6 +99,9 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
+    builder.addCase(newBearerTokenSet, (state) => {
+      return {...initialState}
+    });
     {
       const { pending, fulfilled, rejected } = requestReducers(
         "loadClients",

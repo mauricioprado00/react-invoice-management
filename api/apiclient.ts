@@ -1,6 +1,6 @@
 import { Client, ClientWithTotalsList } from 'models/Client'
 import { ClientInvoice, ClientInvoiceList } from 'models/Invoice'
-import { UserWithPassword } from 'models/User'
+import { LoginData, RegisterData, UserLogin, UserWithPassword } from 'models/User'
 import { MapType } from 'models/UtilityModels'
 interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
@@ -48,6 +48,28 @@ const registerUser = (url: string) => (user:UserWithPassword) => async (init: Ap
     throw new Error("Aborted operation")
   }
   return jsonResponse
+}
+
+const loginUser = (url: string) => (userLogin:UserLogin) => async (init: ApiInitParams) => {
+  const fetchPromise = fetch(url, {
+    ...init,
+    method: 'POST',
+    headers: {
+      ...init.headers,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(userLogin)
+  })
+  const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
+  return jsonResponse as LoginData
 }
 
 const getClients = (url: string) => (arg:void) => async (init: ApiInitParams) => {
@@ -129,8 +151,10 @@ const createClient = (url:string, bearerToken:string) => ({
     endpoint<ClientInvoiceList>(getInvoices(url + '/invoices'), bearerToken, then, {}),
   upsertClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
     endpoint<Client>(upsertClient(url + '/clients'), bearerToken, then, client),
-  registerUser: (user:UserWithPassword, then:Then<UserWithPassword>): AbortableEndpointResult<UserWithPassword> =>
-    endpoint<UserWithPassword>(registerUser(url + '/register'), bearerToken, then, user),
+  registerUser: (user:UserWithPassword, then:Then<RegisterData>): AbortableEndpointResult<RegisterData> =>
+    endpoint<RegisterData>(registerUser(url + '/register'), bearerToken, then, user),
+  loginUser: (userLogin:UserLogin, then:Then<LoginData>): AbortableEndpointResult<LoginData> =>
+    endpoint<LoginData>(loginUser(url + '/login'), bearerToken, then, userLogin),
 })
 
 
