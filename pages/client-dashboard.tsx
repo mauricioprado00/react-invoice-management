@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { useParamClientId } from 'library/navigation';
 import ClientShow from 'components/views/client/ClientShow';
-import PageWithStore from 'components/utility/PageWithStore';
+import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 
 const ClientDashboard: NextPage = () => {
     const clientId = useParamClientId();
@@ -9,4 +9,4 @@ const ClientDashboard: NextPage = () => {
     return <ClientShow clientId={clientId} />
 }
 
-export default PageWithStore(ClientDashboard)
+export default AuthPageWithStore(ClientDashboard)

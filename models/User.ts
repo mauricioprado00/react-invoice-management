@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Client } from "./Client";
 
 import { CompanyDetails, CompanyDetailsPropType } from "./CompanyDetails";
 
@@ -15,7 +16,7 @@ export interface UserWithPassword extends User {
   confirmPassword: string;
 }
 
-export type UserLogin = {
+export type LoginCredentials = {
   email: string;
   password: string;
 }
@@ -25,7 +26,7 @@ export type AnyUser = User & {
   confirmPassword: string;
 };
 
-export type LoginData = {
+export type LoginResponse = {
   user_id: string,
   email: string,
   name: string,
@@ -34,6 +35,10 @@ export type LoginData = {
 
 export type RegisterData = {
   user_id: string,
+}
+
+export type Me = Omit<Client, "user_id"> & {
+  password: string,
 }
 
 export type UserN = null | User;

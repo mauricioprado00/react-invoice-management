@@ -1,6 +1,6 @@
 import { Client, ClientWithTotalsList } from 'models/Client'
 import { ClientInvoice, ClientInvoiceList } from 'models/Invoice'
-import { LoginData, RegisterData, UserLogin, UserWithPassword } from 'models/User'
+import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me } from 'models/User'
 import { MapType } from 'models/UtilityModels'
 interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
@@ -50,7 +50,7 @@ const registerUser = (url: string) => (user:UserWithPassword) => async (init: Ap
   return jsonResponse
 }
 
-const loginUser = (url: string) => (userLogin:UserLogin) => async (init: ApiInitParams) => {
+const loginUser = (url: string) => (loginCredentials:LoginCredentials) => async (init: ApiInitParams) => {
   const fetchPromise = fetch(url, {
     ...init,
     method: 'POST',
@@ -59,7 +59,7 @@ const loginUser = (url: string) => (userLogin:UserLogin) => async (init: ApiInit
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(userLogin)
+    body: JSON.stringify(loginCredentials)
   })
   const httpResponse = await fetchPromise
   if (httpResponse.ok !== true) {
@@ -69,7 +69,28 @@ const loginUser = (url: string) => (userLogin:UserLogin) => async (init: ApiInit
   if(init.signal.aborted) {
     throw new Error("Aborted operation")
   }
-  return jsonResponse as LoginData
+  return jsonResponse as LoginResponse
+}
+
+const getMe = (url: string) => (arg:void) => async (init: ApiInitParams) => {
+  const fetchPromise = fetch(url, {
+    ...init,
+    method: 'GET',
+    headers: {
+      ...init.headers,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+  const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
+  return jsonResponse as Me
 }
 
 const getClients = (url: string) => (arg:void) => async (init: ApiInitParams) => {
@@ -153,8 +174,10 @@ const createClient = (url:string, bearerToken:string) => ({
     endpoint<Client>(upsertClient(url + '/clients'), bearerToken, then, client),
   registerUser: (user:UserWithPassword, then:Then<RegisterData>): AbortableEndpointResult<RegisterData> =>
     endpoint<RegisterData>(registerUser(url + '/register'), bearerToken, then, user),
-  loginUser: (userLogin:UserLogin, then:Then<LoginData>): AbortableEndpointResult<LoginData> =>
-    endpoint<LoginData>(loginUser(url + '/login'), bearerToken, then, userLogin),
+  loginUser: (loginCredentials:LoginCredentials, then:Then<LoginResponse>): AbortableEndpointResult<LoginResponse> =>
+    endpoint<LoginResponse>(loginUser(url + '/login'), bearerToken, then, loginCredentials),
+  getMe: (then:Then<Me>): AbortableEndpointResult<Me> =>
+    endpoint<Me>(getMe(url + '/me'), bearerToken, then, {}),
 })
 
 

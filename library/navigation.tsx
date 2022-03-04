@@ -46,6 +46,13 @@ export const useGoIndex = () => {
     }, [router]);
 }
 
+export const useGoLogin = () => {
+    const router = useRouter();
+    return useCallback(() => {
+        router.push('/login');
+    }, [router]);
+}
+
 export const useParamClientId = ():string|null => {
     const router = useRouter();
     if (router.query.id) {

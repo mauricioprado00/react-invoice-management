@@ -23,6 +23,22 @@ export const sliceMap = <T>(map: MapType<T>, keep: number): void => {
   }
 };
 
+export const initStateRequestId = (stateSlice:WritableDraft<StateSlice>, requestType: string, requestId:string) => {
+  if (stateSlice.requests === undefined) {
+    stateSlice.requests = [];
+  }
+  if (stateSlice.requests[requestType] === undefined) {
+    stateSlice.requests[requestType] = {};
+  }
+  if (stateSlice.requests[requestType][requestId] === undefined) {
+    stateSlice.requests[requestType][requestId] = {
+      time: Date.now(),
+    };  
+  }
+
+  return stateSlice.requests[requestType][requestId] as RequestInformation;
+}
+
 export const requestFullfilledReducer =
   (
     requestType: string,
@@ -43,10 +59,9 @@ export const requestFullfilledReducer =
     ): void;
   } =>
   (stateSlice, action): void => {
-    let request = stateSlice.requests[requestType][action.meta.requestId];
-    if (request) {
-      request.state = "loaded";
-    }
+    // fullfilled
+    const request = initStateRequestId(stateSlice, requestType, action.meta.requestId);
+    request.state = 'loaded';
     sliceMap(stateSlice.requests[requestType], keep);
   };
 
@@ -79,14 +94,13 @@ export const requestRejectedReducer =
     ): void;
   } =>
   (stateSlice, action): void => {
-    let request = stateSlice.requests[requestType][action.meta.requestId];
-    if (request) {
-      request.state = "error";
-      if (action.meta.aborted) {
-        request.state = "aborted";
-      }
-      request.error = action.error;
+    // rejected
+    const request = initStateRequestId(stateSlice, requestType, action.meta.requestId);
+    request.state = 'error';
+    if (action.meta.aborted) {
+      request.state = "aborted";
     }
+    request.error = action.error;
     sliceMap(stateSlice.requests[requestType], keep);
   };
 
@@ -110,16 +124,9 @@ export const requestPendingReducer =
     ): void;
   } =>
   (stateSlice, action): void => {
-    if (stateSlice.requests === undefined) {
-      stateSlice.requests = [];
-    }
-    if (stateSlice.requests[requestType] === undefined) {
-      stateSlice.requests[requestType] = {};
-    }
-    stateSlice.requests[requestType][action.meta.requestId] = {
-      time: Date.now(),
-      state: "loading",
-    };
+    // pending
+    const request = initStateRequestId(stateSlice, requestType, action.meta.requestId);
+    request.state = 'loading';
     sliceMap(stateSlice.requests[requestType], keep);
   };
 
