@@ -75,8 +75,8 @@ export const loginUser = createAsyncThunk<
   // First argument to the payload creator
   LoginCredentials,
   AppThunkAPI
->("user/login", async (userLogin, thunkAPI): Promise<LoginUserResult> => {
-  const result = thunkAPI.extra.serviceApi.loginUser(userLogin, loginData => {
+>("user/login", async (loginCredentials, thunkAPI): Promise<LoginUserResult> => {
+  const result = thunkAPI.extra.serviceApi.loginUser(loginCredentials, loginData => {
     thunkAPI.dispatch(userLoggedIn({ ...loginData }));
     thunkAPI.dispatch(newBearerToken(loginData.token));
   });
@@ -258,7 +258,7 @@ export const useRegisterUserState = () =>
 
 export const useLoginUser = () => {
   const dispatch = useDispatch();
-  return (userLogin: LoginCredentials) => dispatch(loginUser(userLogin));
+  return (loginCredentials: LoginCredentials) => dispatch(loginUser(loginCredentials));
 };
 export const useLoginUserRequest = () => useSelector(loginUserRequestSelector);
 export const useLoginUserError = () => useSelector(loginUserErrorSelector);

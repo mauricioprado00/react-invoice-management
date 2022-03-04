@@ -4,15 +4,15 @@ import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
 import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { emailValidator, passwordValidator } from 'library/validation'
-import { UserLogin, UserLoginPropTypes } from 'models/User';
+import { emailValidator } from 'library/validation'
+import { LoginCredentials, LoginCredentialsPropTypes } from 'models/User';
 import useForm from 'hooks/use-form';
 
 type SigninFormApi = {
     reset: () => void
 }
 export type LoginUserEvent = {
-    userLogin: UserLogin,
+    loginCredentials: LoginCredentials,
     signinFormApi: SigninFormApi
 }
 
@@ -24,7 +24,6 @@ type SigninFormProps = {
 const SigninFormPropTypes = {
     onLogin: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    userLogin: PropTypes.exact(UserLoginPropTypes),
 }
 
 const elements = [
@@ -42,7 +41,7 @@ function SigninForm({ onLogin, disabled = false }: SigninFormProps) {
             return;
         }
         onLogin({
-            userLogin: {
+            loginCredentials: {
                 email: form.state.values.email,
                 password: form.state.values.password,
             },

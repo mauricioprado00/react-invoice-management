@@ -63,7 +63,7 @@ export const UserWithPasswordPropTypes = Object.assign(
   }
 );
 
-export const UserLoginPropTypes = {
+export const LoginCredentialsPropTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
 }
@@ -78,7 +78,7 @@ export const AnyUserPropTypes = Object.assign(
 
 export const MePropTypes = Object.assign(
   {...UserPropTypes},
-  {...UserLoginPropTypes},
+  {...LoginCredentialsPropTypes},
   {
     companyDetails: PropTypes.exact(CompanyDetailsPropType)
   }
