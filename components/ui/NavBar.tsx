@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "../utility/Link";
+import Link from "next/link";
 
 /**
  * Designs from 

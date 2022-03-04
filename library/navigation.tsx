@@ -1,6 +1,5 @@
-//import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useCallback } from "react";
-import { useRouter } from "store/RouteSlice";
 
 export const useGoRoute = (url:string) => {
     const router = useRouter();
