@@ -1,3 +1,12 @@
+// this was an attempt of controling the url/content via a redux state
+// which worked fine, one could navigate through the page and then replay the
+// navigation and actions via the chrome redux extension
+// the problem is that when user hits the go back button
+// there wasn't a way to tell that the redux action had to change
+// or that simply the url was wrong and it was bringing him back
+// it is disabled in navigation.tsx
+// and links in utility/Link are not used anymore
+
 import { useRouter as useNextRouter } from "next/router";
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useEffect, useMemo } from "react";

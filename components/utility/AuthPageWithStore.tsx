@@ -14,7 +14,6 @@ function CheckAuthorizedUsers(props: CheckAuthorizedUsersProps) {
     const goLogin = useGoLogin();
     const loading = loggedIn === null;
     useInitLoggedFromStorage();
-    console.log({loggedIn})
     if (loggedIn === false) {
         goLogin();
     }

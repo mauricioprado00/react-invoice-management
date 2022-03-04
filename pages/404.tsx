@@ -1,12 +1,8 @@
 import type { NextPage } from 'next'
-import ClientEdition from 'components/views/client/ClientEdition';
-import { useGoIndex, useParamClientId } from 'library/navigation';
 import PageWithStore from 'components/utility/PageWithStore';
-import Link from 'components/utility/Link';
+import Link from 'next/link';
 
 const Four04: NextPage = () => {
-    const goIndex = useGoIndex();
-    const clientId = useParamClientId();
 
     return (
         <>
@@ -17,7 +13,7 @@ const Four04: NextPage = () => {
                             <h1 className="text-9xl font-bold text-purple-400">404</h1>
                             <h1 className="text-6xl font-medium py-8">oops! Page not found</h1>
                             <p className="text-2xl pb-8 px-12 font-medium">Oops! The page you are looking for does not exist. It might have been moved or deleted.</p>
-                            <Link href="/">
+                            <Link href="/" passHref={true}>
                             <button className="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 text-white font-semibold px-6 py-3 rounded-md mr-6">
                                 HOME
                             </button>

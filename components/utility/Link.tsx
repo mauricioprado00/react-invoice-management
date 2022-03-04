@@ -1,3 +1,5 @@
+// deprecated component to use with a redux "location" slice
+// see RouteSlice
 import React, { ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { useGoRoute } from 'library/navigation'
