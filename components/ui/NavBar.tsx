@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useIsLoggedIn } from "store/UserSlice";
 
 /**
  * Designs from 
@@ -33,6 +34,18 @@ const links = [
     also: ["/client-dashboard", "/client"],
   },
 ];
+
+const visitorLinks = [
+  {
+    label: "Product",
+    url: '/product'
+  },
+  {
+    label: "Pricing",
+    url: '/pricing'
+  },
+];
+
 const first = () => links[0];
 
 type Link = ReturnType<typeof first>;
@@ -42,10 +55,13 @@ const isCurrent = (current: string, link: Link) => {
   return current === link.url || also.indexOf(current) !== -1;
 };
 function NavBar() {
+  const isLoggedIn = useIsLoggedIn();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const toggleMobileMenu = useCallback(() => { setShowMobileMenu(prev => !prev) }, []);
   const router = useRouter();
   const current = router.pathname;
+  const isVisitor = isLoggedIn !== true;
+  const myLinks = isVisitor ? visitorLinks : links;
 
   return (
     <div className="bg-white shadow fixed top-0 left-0 right-0 z-10">
@@ -60,7 +76,7 @@ function NavBar() {
             </svg>
           </div>
           <div className="hidden sm:flex sm:items-center">
-            {links.map((link) => (
+            {myLinks.map((link) => (
               <Link key={link.url} href={link.url}>
                 <a
                   className={
@@ -73,16 +89,30 @@ function NavBar() {
             ))}
           </div>
           <div className="hidden sm:flex sm:items-center">
-            <Link href="/login">
-              <a href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
-                Sign in
-              </a>
-            </Link>
-            <Link href="/get-started">
-              <a href="#" className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-purple-600 hover:border-purple-600">
-                Sign up
-              </a>
-            </Link>
+            {isVisitor ? [
+              <Link key="login" href="/login">
+                <a href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
+                  Sign in
+                </a>
+              </Link>,
+              <Link key="signup" href="/get-started">
+                <a href="#" className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-purple-600 hover:border-purple-600">
+                  Sign up
+                </a>
+              </Link>
+            ] : [
+              <Link key="logout" href="/logout">
+                <a href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
+                  Logout
+                </a>
+              </Link>,
+              <Link key="me" href="/me">
+                <a href="#" className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-purple-600 hover:border-purple-600">
+                  My Profile
+                </a>
+              </Link>
+            ]
+            }
           </div>
           <div className="sm:hidden cursor-pointer" onClick={toggleMobileMenu}>
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-purple-600" viewBox="0 0 24 24">
@@ -97,7 +127,7 @@ function NavBar() {
           <div className="block sm:hidden bg-white border-t-2 py-2">
             <div className="flex flex-col">
 
-              {links.map((link) => (
+              {myLinks.map((link) => (
                 <Link key={link.url} href={link.url}>
                   <a
                     className={
@@ -108,17 +138,33 @@ function NavBar() {
                   </a>
                 </Link>
               ))}
+
               <div className="flex justify-between items-center border-t-2 pt-2">
-                <Link href="/login">
-                  <a className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
-                    Sign in
-                  </a>
-                </Link>
-                <Link href="/get-started">
-                  <a className="text-gray-800 text-sm font-semibold border px-4 py-1 rounded-lg hover:text-purple-600 hover:border-purple-600">
-                    Sign up
-                  </a>
-                </Link>
+                {isVisitor ? [
+                  <Link key="login" href="/login">
+                    <a className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
+                      Sign in
+                    </a>
+                  </Link>,
+                  <Link key="signup" href="/get-started">
+                    <a className="text-gray-800 text-sm font-semibold border px-4 py-1 rounded-lg hover:text-purple-600 hover:border-purple-600">
+                      Sign up
+                    </a>
+                  </Link>
+                ] : [
+                  <Link key="logout" href="/logout">
+                    <a className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
+                      Logout
+                    </a>
+                  </Link>,
+                  <Link key="me" href="/me">
+                    <a className="text-gray-800 text-sm font-semibold border px-4 py-1 rounded-lg hover:text-purple-600 hover:border-purple-600">
+                      My Profile
+                    </a>
+                  </Link>
+
+                ]
+                }
               </div>
             </div>
           </div>
