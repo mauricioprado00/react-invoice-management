@@ -8,6 +8,10 @@ export const useGoRoute = (url:string) => {
     }, [router, url])
 }
 
+export const useGoDashboard = () => {
+    return useGoRoute('/');
+}
+
 export const useGoClientEdit = () => {
     const router = useRouter();
     return useCallback((id:string|null=null) => {
@@ -39,17 +43,11 @@ export const useGoNewClient = () => {
 }
 
 export const useGoIndex = () => {
-    const router = useRouter();
-    return useCallback(() => {
-        router.push('/');
-    }, [router]);
+    return useGoRoute('/');
 }
 
 export const useGoLogin = () => {
-    const router = useRouter();
-    return useCallback(() => {
-        router.push('/login');
-    }, [router]);
+    return useGoRoute('/login');
 }
 
 export const useParamClientId = ():string|null => {
