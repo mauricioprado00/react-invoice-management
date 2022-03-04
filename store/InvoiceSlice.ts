@@ -9,17 +9,20 @@ import {
   RequestInformation,
   requestReducers,
 } from "./RequestUtility";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export type ClientInvoicesState = {
   list: ClientInvoiceList;
   requests: MapType<MapType<RequestInformation>>;
+  init: boolean;
 };
 
 const initialState: ClientInvoicesState = {
   list: [],
   // group all of these into a new attribute
   requests: {},
+  init: false,
 };
 
 const findClientInvoiceIndex = (
@@ -53,6 +56,7 @@ const slice = createSlice({
   reducers: {
     clientInvoicesReceived: (clientInvoice, action) => {
       clientInvoice.list = action.payload;
+      clientInvoice.init = true;
     },
     clientInvoiceAdded: (clientInvoice, action) => {
       clientInvoice.list.push(action.payload);
@@ -111,6 +115,17 @@ export const clientInvoiceListSelector = createSelector(
   clientInvoiceSlice => clientInvoiceSlice.list
 );
 
+export const clientInvoiceCountSelector = createSelector(
+  clientInvoiceListSelector,
+  invoiceList => invoiceList.length
+);
+
+export const clientInvoiceSumSelector = createSelector(
+  clientInvoiceListSelector,
+  invoiceList =>
+    invoiceList.reduce((prev, invoice) => prev + invoice.invoice.value, 0)
+);
+
 export const getMostValuableClientInvoicesSelector = createSelector(
   clientInvoiceListSelector,
   clientInvoiceList => clientInvoiceList.filter(isMostValuableClientInvoice)
@@ -128,10 +143,35 @@ export const getClientInvoiceOptionsSelector = createSelector(
   clientList => clientInvoiceListToOptions(clientList)
 );
 
+export const clientInvoiceInitSelector = createSelector(
+  clientInvoiceSliceSelector,
+  clientInvoiceSlice => clientInvoiceSlice.init
+);
+
 // hooks
+const useInvoiceSelector = <TState, TSelected>(
+  selector: (state: TState) => TSelected
+) => {
+  const init = useInvoiceInit();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (init === false) {
+      dispatch(loadClientInvoices());
+    }
+  }, [init, dispatch]);
+  return useSelector<TState, TSelected>(selector);
+};
+
 export const useClientInvoiceOptions = () =>
   useSelector(getClientInvoiceOptionsSelector);
-export const useInvoiceSlice = () => useSelector(clientInvoiceSliceSelector)
-export const useInvoiceList = () => useSelector(clientInvoiceListSelector)
-export const useLoadInvoiceError = () => useSelector(loadClientInvoiceErrorSelector)
-export const useLoadInvoiceState = () => useSelector(loadClientInvoiceStateSelector)
+export const useInvoiceSlice = () => useSelector(clientInvoiceSliceSelector);
+export const useInvoiceList = () => useSelector(clientInvoiceListSelector);
+export const useLoadInvoiceError = () =>
+  useSelector(loadClientInvoiceErrorSelector);
+export const useLoadInvoiceState = () =>
+  useSelector(loadClientInvoiceStateSelector);
+export const useInvoiceInit = () => useSelector(clientInvoiceInitSelector);
+
+export const useInvoiceCount = () =>
+  useInvoiceSelector(clientInvoiceCountSelector);
+export const useInvoiceSum = () => useInvoiceSelector(clientInvoiceSumSelector);

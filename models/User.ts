@@ -37,17 +37,15 @@ export type RegisterData = {
   user_id: string,
 }
 
-export type Me = Omit<Client, "user_id"> & {
+export type Me = Omit<Omit<Client, "user_id">, "companyDetails"> & {
   password: string,
+  companyDetails?: CompanyDetails
 }
 
 export type UserN = null | User;
 export type UserList = User[];
 export type UserListN = null | UserList;
 export type UserWithPasswordList = UserWithPassword[];
-export type UserLoginN = null | UserLogin;
-export type UserLoginList = UserLogin[];
-export type UserLoginListN = null | UserLoginList;
 
 // React PropTypes definitions for components
 
@@ -77,3 +75,11 @@ export const AnyUserPropTypes = Object.assign(
     confirmPassword: PropTypes.string,
   }
 );
+
+export const MePropTypes = Object.assign(
+  {...UserPropTypes},
+  {...UserLoginPropTypes},
+  {
+    companyDetails: PropTypes.exact(CompanyDetailsPropType)
+  }
+)
