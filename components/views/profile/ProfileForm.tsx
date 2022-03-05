@@ -48,7 +48,7 @@ const elements = [
     //"avatar", NO because vhe state. Valid is not handled for the custom Avatar Selector
 ];
 
-function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFields = [] }: ProfileFormProps) {
+function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFields }: ProfileFormProps) {
     const form = useForm({ elements, disabled, disabledFields });
     const { state, reset, setState } = form;
     const profileFormApi = { reset };
