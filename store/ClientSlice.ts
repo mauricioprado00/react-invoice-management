@@ -209,7 +209,7 @@ export const useClientOptions = () =>
 export const useClientSlice = () => useSelector(clientSliceSelector);
 export const useClientList = () => useClientSelector(clientListSelector);
 export const useLoadClientError = () => useSelector(loadClientErrorSelector);
-export const useLoadClientState = () => useSelector(loadClientStateSelector);
+const useLoadClientState = () => useSelector(loadClientStateSelector);
 export const useClientLoading = () => {
   const state = useLoadClientState();
   return state === "none" || state === "loading";

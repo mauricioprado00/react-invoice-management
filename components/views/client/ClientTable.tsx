@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
 import { Table, Column, Empty } from 'components/ui/layout/Table'
-import { useClientList, useLoadClientError, useLoadClientState } from 'store/ClientSlice'
+import { useClientList, useClientLoading, useLoadClientError } from 'store/ClientSlice'
 import HeaderContent from '../../ui/layout/HeaderContent'
 import Button, { ButtonStyle } from '../../ui/forms/Button'
 import { useGoNewClient } from 'library/navigation'
@@ -18,8 +18,7 @@ const ClientTable = ({ title = "Clients" }: ClientTableProps) => {
   
   const clients = useClientList()
   const loadError = useLoadClientError()
-  const loadState = useLoadClientState()
-  const loading = loadState === 'loading' || loadState === 'none';
+  const loading = useClientLoading()
   const newClientHandler = useGoNewClient();
 
   return (
