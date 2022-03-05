@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from "prop-types";
 import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
-import { getAvatarImageUrl } from '../../ui/forms/AvatarSelector';
-import ProfileCard from '../user/ProfileCard';
+import ProfileCard from '../profile/ProfileCard';
 
 type ClientDataProps = {
     client: ClientWithTotals

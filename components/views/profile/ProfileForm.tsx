@@ -10,8 +10,6 @@ import AvatarSelector, { someAvatar } from 'components/ui/forms/AvatarSelector';
 import produce from 'immer';
 import useForm from 'hooks/use-form';
 import { Me, MePropTypes } from 'models/User';
-import { MapTypeFill } from 'models/UtilityModels';
-import { current } from 'immer';
 
 type ProfileFormApi = {
     reset: () => void
@@ -113,7 +111,6 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
 
     return (
         <Form>
-            <button onClick={forceReload}>reset the form</button>
             <AvatarSelector selected={state.values.avatar} onChange={selectAvatar}
                 disabled={state.disabled.avatar} />
             <FieldsetRow>

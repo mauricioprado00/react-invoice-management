@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import { useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/UserSlice'
-import ProfileForm, { SaveProfileEvent } from './ProfileForm'
+import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
 import { MeFull } from 'models/User'
 
 type ProfileEditionProps = {

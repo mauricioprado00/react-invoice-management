@@ -1,9 +1,8 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import PropTypes from "prop-types";
-import { getAvatarImageUrl } from '../../ui/forms/AvatarSelector';
 import { Me, MePropTypes } from 'models/User';
 import { useInvoiceCount, useInvoiceSum } from 'store/InvoiceSlice';
-import ProfileCard from './ProfileCard';
+import ProfileCard from '../profile/ProfileCard';
 
 type ProfileDataProps = {
     me: Me, 
