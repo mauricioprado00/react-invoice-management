@@ -45,7 +45,7 @@ export const upsertClient = createAsyncThunk<
   Client,
   AppThunkAPI
 >("client/add", async (client, thunkAPI): Promise<UpsertClientResult> => {
-  const following = client.id ? clientUpdated : clientAdded;
+  const following = client.id ? updated : added;
   const result = thunkAPI.extra.serviceApi.upsertClient(client, client =>
     thunkAPI.dispatch(following({ ...client }))
   );
@@ -64,9 +64,9 @@ export const loadClients = createAsyncThunk<
   void,
   AppThunkAPI
 >("client/load", async (arg, thunkAPI): Promise<ClientWithTotalsList> => {
-  thunkAPI.dispatch(clientsRequested());
+  thunkAPI.dispatch(requested());
   const result = thunkAPI.extra.serviceApi.getClients(clients =>
-    thunkAPI.dispatch(clientsReceived(clients))
+    thunkAPI.dispatch(received(clients))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
@@ -78,23 +78,23 @@ const slice = createSlice({
   name: "client",
   initialState,
   reducers: {
-    clientsRequested: state => {
+    requested: state => {
       state.status = "began_fetching";
     },
-    clientsReceived: (state, action: PayloadAction<ClientWithTotals[]>) => {
+    received: (state, action: PayloadAction<ClientWithTotals[]>) => {
       action.payload.forEach(client => (state.list[client.id] = client));
       state.status = "loaded";
     },
-    clientUpdated: (state, action: PayloadAction<Client>) => {
+    updated: (state, action: PayloadAction<Client>) => {
       state.list[action.payload.id] = {
         totalBilled: state.list[action.payload.id].totalBilled,
         ...action.payload,
       };
     },
-    clientAdded: (state, action: PayloadAction<Client>) => {
+    added: (state, action: PayloadAction<Client>) => {
       state.list[action.payload.id] = { totalBilled: 0, ...action.payload };
     },
-    clientRemoved: (state, action: PayloadAction<ClientWithTotals>) => {
+    removed: (state, action: PayloadAction<ClientWithTotals>) => {
       const { id } = action.payload;
       delete state.list[id];
     },
@@ -125,11 +125,11 @@ const slice = createSlice({
 });
 
 export const {
-  clientAdded,
-  clientUpdated,
-  clientRemoved,
-  clientsReceived,
-  clientsRequested,
+  added,
+  updated,
+  removed,
+  received,
+  requested,
 } = slice.actions;
 
 export default slice.reducer;
