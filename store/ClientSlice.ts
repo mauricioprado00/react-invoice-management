@@ -65,8 +65,8 @@ export const loadClients = createAsyncThunk<
   AppThunkAPI
 >("client/load", async (arg, thunkAPI): Promise<ClientWithTotalsList> => {
   const status = clientStatusSelector(thunkAPI.getState());
-  if (status !== 'initial') {
-    throw "Already loaded clients"
+  if (status !== "initial") {
+    throw "Already loaded clients";
   }
   thunkAPI.dispatch(clientsRequested());
   const result = thunkAPI.extra.serviceApi.getClients(clients =>
@@ -213,6 +213,10 @@ export const useClientSlice = () => useSelector(clientSliceSelector);
 export const useClientList = () => useClientSelector(clientListSelector);
 export const useLoadClientError = () => useSelector(loadClientErrorSelector);
 export const useLoadClientState = () => useSelector(loadClientStateSelector);
+export const useClientLoading = () => {
+  const state = useLoadClientState();
+  return state === "none" || state === "loading";
+};
 export const useClientStatus = () => useSelector(clientStatusSelector);
 export const useClientById = (id: string | null) =>
   useClientSelector(clientByIdSelector(id));

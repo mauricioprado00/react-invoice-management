@@ -1,7 +1,7 @@
 import { useGoClientIdEdit } from 'library/navigation'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useClientById, useLoadClientState } from 'store/ClientSlice'
+import { useClientById, useClientLoading } from 'store/ClientSlice'
 import ClientCard from './ClientCard'
 
 type ClientProps = {
@@ -12,8 +12,7 @@ const ClientPropTypes = {
 }
 function ClientShow({ clientId }: ClientProps) {
     const client = useClientById(clientId);
-    const state = useLoadClientState();
-    const loading = state === 'none' || state === 'loading';
+    const loading = useClientLoading();
     const goEditClient = useGoClientIdEdit(clientId);
 
     return (
