@@ -1,9 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  Client,
-  ClientWithTotals,
-  ClientWithTotalsList,
-} from "models/Client";
+import { Client, ClientWithTotals, ClientWithTotalsList } from "models/Client";
 import { MapType } from "models/UtilityModels";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
@@ -17,17 +13,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userLoggedOut } from "./UserSlice";
 
+type ClientStatus = "initial" | "began_fetching" | "loaded";
+
 export type ClientsState = {
   list: MapType<ClientWithTotals>;
   requests: MapType<MapType<RequestInformation>>;
-  init: boolean;
+  status: ClientStatus;
 };
 
 const initialState: ClientsState = {
   list: {},
   // group all of these into a new attribute
   requests: {},
-  init: false,
+  status: "initial",
 };
 
 export type UpsertClientResult = {
@@ -66,6 +64,11 @@ export const loadClients = createAsyncThunk<
   void,
   AppThunkAPI
 >("client/load", async (arg, thunkAPI): Promise<ClientWithTotalsList> => {
+  const status = clientStatusSelector(thunkAPI.getState());
+  if (status !== 'initial') {
+    throw "Already loaded clients"
+  }
+  thunkAPI.dispatch(clientsRequested());
   const result = thunkAPI.extra.serviceApi.getClients(clients =>
     thunkAPI.dispatch(clientsReceived(clients))
   );
@@ -79,18 +82,21 @@ const slice = createSlice({
   name: "client",
   initialState,
   reducers: {
+    clientsRequested: state => {
+      state.status = "began_fetching";
+    },
     clientsReceived: (state, action: PayloadAction<ClientWithTotals[]>) => {
       action.payload.forEach(client => (state.list[client.id] = client));
-      state.init = true;
+      state.status = "loaded";
     },
     clientUpdated: (state, action: PayloadAction<Client>) => {
       state.list[action.payload.id] = {
         totalBilled: state.list[action.payload.id].totalBilled,
-        ...action.payload
+        ...action.payload,
       };
     },
     clientAdded: (state, action: PayloadAction<Client>) => {
-      state.list[action.payload.id] = {totalBilled: 0, ...action.payload};
+      state.list[action.payload.id] = { totalBilled: 0, ...action.payload };
     },
     clientRemoved: (state, action: PayloadAction<ClientWithTotals>) => {
       const { id } = action.payload;
@@ -98,8 +104,8 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(userLoggedOut, (state) => {
-      return {...initialState}
+    builder.addCase(userLoggedOut, state => {
+      return { ...initialState };
     });
     {
       const { pending, fulfilled, rejected } = requestReducers(
@@ -122,8 +128,13 @@ const slice = createSlice({
   },
 });
 
-export const { clientAdded, clientUpdated, clientRemoved, clientsReceived } =
-  slice.actions;
+export const {
+  clientAdded,
+  clientUpdated,
+  clientRemoved,
+  clientsReceived,
+  clientsRequested,
+} = slice.actions;
 
 export default slice.reducer;
 
@@ -166,9 +177,10 @@ export const getClientsByCompanyNameSelector = (companyName: string) =>
     clientList.filter(client => client.companyDetails.name === companyName)
   );
 
-export const clientByIdSelector = (id: string|null) =>
-  createSelector(clientListSelector, clientList =>
-    clientList.filter(client => client.id === id).pop() || null
+export const clientByIdSelector = (id: string | null) =>
+  createSelector(
+    clientListSelector,
+    clientList => clientList.filter(client => client.id === id).pop() || null
   );
 
 export const getClientOptionsSelector = createSelector(
@@ -176,22 +188,22 @@ export const getClientOptionsSelector = createSelector(
   clientList => clientListToOptions(clientList)
 );
 
-export const clientInitSelector = createSelector(
+export const clientStatusSelector = createSelector(
   clientSliceSelector,
-  clientSlice => clientSlice.init
+  clientSlice => clientSlice.status
 );
 
 // hooks
 const useClientSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected
 ) => {
-  const init = useClientInit();
+  const status = useClientStatus();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (init === false) {
+    if (status === "initial") {
       dispatch(loadClients());
     }
-  }, [init, dispatch]);
+  }, [status, dispatch]);
   return useSelector<TState, TSelected>(selector);
 };
 
@@ -201,8 +213,9 @@ export const useClientSlice = () => useSelector(clientSliceSelector);
 export const useClientList = () => useClientSelector(clientListSelector);
 export const useLoadClientError = () => useSelector(loadClientErrorSelector);
 export const useLoadClientState = () => useSelector(loadClientStateSelector);
-export const useClientInit = () => useSelector(clientInitSelector);
-export const useClientById = (id:string|null) => useClientSelector(clientByIdSelector(id));
+export const useClientStatus = () => useSelector(clientStatusSelector);
+export const useClientById = (id: string | null) =>
+  useClientSelector(clientByIdSelector(id));
 export const useUpsertClient = () => {
   const dispatch = useDispatch();
   return (client: Client) => dispatch(upsertClient(client));
