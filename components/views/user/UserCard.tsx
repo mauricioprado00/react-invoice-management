@@ -4,17 +4,17 @@ import { Me, MePropTypes } from 'models/User';
 import { useInvoiceCount, useInvoiceSum } from 'store/InvoiceSlice';
 import ProfileCard from '../profile/ProfileCard';
 
-type ProfileDataProps = {
+type UserCardProps = {
     me: Me, 
     onEdit?: () => void,
 }
 
-const ProfileDataPropTypes = {
+const UserCardPropTypes = {
     me: PropTypes.exact(MePropTypes),
     onEdit: PropTypes.func,
 }
 
-function ProfileData({ me, onEdit }: ProfileDataProps) {
+function UserCard({ me, onEdit }: UserCardProps) {
     const invoiceCount = useInvoiceCount();
     const invoiceSum = useInvoiceSum();
     return (
@@ -30,6 +30,6 @@ function ProfileData({ me, onEdit }: ProfileDataProps) {
     )
 }
 
-ProfileData.propTypes = ProfileDataPropTypes
+UserCard.propTypes = UserCardPropTypes
 
-export default ProfileData
+export default UserCard

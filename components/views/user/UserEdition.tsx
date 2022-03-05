@@ -6,15 +6,15 @@ import { useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/Us
 import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
 import { MeFull } from 'models/User'
 
-type ProfileEditionProps = {
+type UserEditionProps = {
     onCancel?: () => void,
     onSave?: () => void,
 }
-const ProfileEditionPropTypes = {
+const UserEditionPropTypes = {
     onCancel: PropTypes.func,
     onSave: PropTypes.func,
 }
-function ProfileEdition({ onCancel, onSave }: ProfileEditionProps) {
+function UserEdition({ onCancel, onSave }: UserEditionProps) {
     const me = useMe();
     const updateMe = useUpdateMe();
     const error = useUpdateMeError();
@@ -42,6 +42,6 @@ function ProfileEdition({ onCancel, onSave }: ProfileEditionProps) {
     )
 }
 
-ProfileEdition.propTypes = ProfileEditionPropTypes;
+UserEdition.propTypes = UserEditionPropTypes;
 
-export default ProfileEdition
+export default UserEdition

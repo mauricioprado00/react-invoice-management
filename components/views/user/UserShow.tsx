@@ -1,15 +1,12 @@
 import { useGoEditMe } from 'library/navigation'
-import PropTypes from 'prop-types'
 import React from 'react'
 import { useLoadMeState, useMe } from 'store/UserSlice'
-import ProfileData from './ProfileData'
+import UserCard from './UserCard'
 
-type ProfileShowProps = {
-}
-const ClientShowPropTypes = {
-}
+type UserShowProps = {}
+const ClientShowPropTypes = {}
 
-function ProfileShow({ }: ProfileShowProps) {
+function UserShow({ }: UserShowProps) {
     const me = useMe();
     const state = useLoadMeState();
     const loading = state === 'none' || state === 'loading';
@@ -19,11 +16,11 @@ function ProfileShow({ }: ProfileShowProps) {
         <div className="h-screen bg-gray-200  dark:bg-gray-800   flex flex-wrap items-center  justify-center">
             {loading && "loading data"}
             {!loading && !me && "sorry we could not find your profile data"}
-            {me && <ProfileData me={me} onEdit={goEditMe} />}
+            {me && <UserCard me={me} onEdit={goEditMe} />}
         </div>
     )
 }
 
-ProfileShow.propTypes = ClientShowPropTypes;
+UserShow.propTypes = ClientShowPropTypes;
 
-export default ProfileShow
+export default UserShow
