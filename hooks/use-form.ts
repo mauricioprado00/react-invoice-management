@@ -6,24 +6,33 @@ import { useCallback, useState } from "react";
 type FormState = {
   valid: MapType<boolean>;
   values: MapType<string>;
+  disabled: MapType<boolean>;
   reset: number;
   showErrors: boolean;
 };
 
-const createInitialFormState = (elements: string[]): FormState => ({
-  valid: MapTypeFill(elements, false),
-  values: MapTypeFill(elements, ""),
-  reset: 0,
-  showErrors: false,
-});
+const createInitialFormState = (elements: string[], disabledFields: string[]): FormState => {
+  const state = {
+    valid: MapTypeFill(elements, false),
+    values: MapTypeFill(elements, ""),
+    disabled: MapTypeFill(disabledFields, true),
+    reset: 0,
+    showErrors: false,
+  };
+
+  disabledFields.forEach(field => state.valid[field] = true);
+
+  return state;
+};
 
 type useFormProps = {
   elements: string[];
   disabled: boolean;
+  disabledFields?: string[];
 };
 
-const useForm = ({ elements, disabled }: useFormProps) => {
-  const [state, setState] = useState(createInitialFormState(elements));
+const useForm = ({ elements, disabled, disabledFields = [] }: useFormProps) => {
+  const [state, setState] = useState(createInitialFormState(elements, disabledFields));
   const validHandler = useCallback((name: string, valid: boolean) => {
     setState(prev =>
       produce(prev, draft => {
@@ -56,18 +65,18 @@ const useForm = ({ elements, disabled }: useFormProps) => {
   return {
     state,
     inputProps,
-    resolveProps: (disabled: boolean) =>
-      disabled ? disabledInputProps : inputProps,
+    resolveProps: (name: string) =>
+      state.disabled[name] === true ? disabledInputProps : inputProps,
     setShowErrors: (show: boolean) => {
       setState(prev => ({ ...prev, showErrors: show }));
     },
     allValid: (): boolean => !MapTypeSome(state.valid, value => value !== true),
     reset: useCallback(() => {
       setState(prev => ({
-        ...createInitialFormState(elements),
+        ...createInitialFormState(elements, disabledFields),
         reset: prev.reset + 1,
       }));
-    }, [elements]),
+    }, [elements, disabledFields]),
     setState,
   };
 };

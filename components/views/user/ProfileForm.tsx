@@ -51,9 +51,8 @@ const elements = [
 ];
 
 function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFields = [] }: ProfileFormProps) {
-    const form = useForm({ elements, disabled });
+    const form = useForm({ elements, disabled, disabledFields });
     const { state, reset, setState } = form;
-    const [isDisabled] = useState(Object.assign(MapTypeFill(elements, false), MapTypeFill(disabledFields, true)));
     const profileFormApi = { reset };
     const selectAvatar = useCallback((avatar: string) => {
         setState(prev => produce(prev, draft => { draft.values.avatar = avatar }));
@@ -88,6 +87,10 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
             profileFormApi
         });
     }
+    const [reloadForm, setReloadform] = useState(1)
+    const forceReload = useCallback(() => {
+        setReloadform(prev => prev + 1)
+    }, []);
 
     useEffect(() => {
         if (profile) {
@@ -106,39 +109,41 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
                 }
             }));
         }
-    }, [setState, reset, profile]);
+    }, [setState, reset, profile, reloadForm]);
 
     return (
         <Form>
-            <AvatarSelector selected={state.values.avatar} onChange={selectAvatar} disabled={isDisabled.avatar} />
+            <button onClick={forceReload}>reset the form</button>
+            <AvatarSelector selected={state.values.avatar} onChange={selectAvatar}
+                disabled={state.disabled.avatar} />
             <FieldsetRow>
                 <InputText name="name" label="Name" required={true}
                     value={state.values.name}
-                    {...form.resolveProps(isDisabled.name)} />
+                    {...form.resolveProps('name')} />
 
                 <InputText name="email" label="Email" placeholder="Email ID"
                     required={true} value={state.values.email}
                     validators={[emailValidator("wrong email")]}
-                    {...form.resolveProps(isDisabled.email)} />
+                    {...form.resolveProps('email')} />
             </FieldsetRow>
             <FieldsetRow>
                 <InputText name="companyName" label="Company Name" required={true}
                     value={state.values.companyName}
-                    {...form.resolveProps(isDisabled.companyName)} />
+                    {...form.resolveProps('companyName')} />
 
                 <InputText name="address" label="Address" required={true}
                     value={state.values.address}
-                    {...form.resolveProps(isDisabled.address)} />
+                    {...form.resolveProps('address')} />
             </FieldsetRow>
             <FieldsetRow>
                 <InputText name="regNumber" label="Reg Number" required={true}
                     value={state.values.regNumber}
                     validators={[numberValidator('Please provide a valid %.')]}
-                    {...form.resolveProps(isDisabled.regNumber)} />
+                    {...form.resolveProps('regNumber')} />
                 <InputText name="vatNumber" label="Vat Number" required={true}
                     value={state.values.vatNumber}
                     validators={[numberValidator('The % is not valid.')]}
-                    {...form.resolveProps(isDisabled.vatNumber)} />
+                    {...form.resolveProps('vatNumber')} />
             </FieldsetRow>
             <FieldsetRow alignRight={true}>
                 <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>
