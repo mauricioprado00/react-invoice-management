@@ -2,12 +2,13 @@ import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 import Card from 'components/ui/layout/Card'
 import ClientForm, { SaveClientEvent } from './ClientForm'
-import { useClientById, useClientLoading, useUpsertClient, useUpsertClientError, useUpsertClientState } from 'store/ClientSlice'
+import { UpsertClientResult, useClientById, useClientLoading, useUpsertClient, useUpsertClientError, useUpsertClientState } from 'store/ClientSlice'
 import ErrorBanner from 'components/utility/ErrorBanner'
+import { Client } from 'models/Client'
 
 type ClientProps = {
-    onCancel?: () => void,
-    onSave?: () => void,
+    onCancel?: (client:Client|null) => void,
+    onSave?: (client:Client) => void,
     clientId: string | null,
 }
 const ClientPropTypes = {
@@ -23,8 +24,9 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const loading = useClientLoading();
     const saveHandler = async ({ client }: SaveClientEvent) => {
         let result = await upsertClient(client) as any
-        if (result.upsertError === undefined) {
-            if (onSave) onSave();
+        if (result.error === undefined) {
+            const response = result.payload as UpsertClientResult
+            if (onSave) onSave(response.client);
         }
     }
     const saving = upsertState === "loading";
@@ -33,8 +35,8 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const showForm = adding || (!adding && client !== null && !loading);
 
     const cancelHandler = useCallback(() => {
-        if (onCancel) { onCancel(); return true; }
-    }, [onCancel]);
+        if (onCancel) { onCancel(client); return true; }
+    }, [onCancel, client]);
 
     return (
         <Card title={title} fullscreen={true} background={true}>
