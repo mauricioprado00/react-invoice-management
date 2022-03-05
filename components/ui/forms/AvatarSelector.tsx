@@ -40,14 +40,16 @@ export const getAvatarImageUrl = (avatar: string | null | undefined) => {
 
 type AvatarSelectorProps = {
     selected: string | undefined | null,
-    onChange: (selected: string) => void
+    onChange: (selected: string) => void,
+    disabled?: boolean,
 }
 
-function AvatarSelector({ selected = defaultAvatar, onChange }: AvatarSelectorProps) {
+function AvatarSelector({ selected = defaultAvatar, onChange, disabled = false }: AvatarSelectorProps) {
     const [showOptions, setShowOptions] = useState(false);
     const clickHandler = useCallback(() => {
-        setShowOptions(prev => !prev);
-    }, []);
+        if (!disabled)
+            setShowOptions(prev => !prev);
+    }, [disabled]);
 
     const selectHandler = useCallback((e: AvatarMouseEvent) => {
         setShowOptions(false);

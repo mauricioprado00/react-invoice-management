@@ -110,7 +110,7 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
 
     return (
         <Form>
-            <AvatarSelector selected={state.values.avatar} onChange={selectAvatar} />
+            <AvatarSelector selected={state.values.avatar} onChange={selectAvatar} disabled={isDisabled.avatar} />
             <FieldsetRow>
                 <InputText name="name" label="Name" required={true}
                     value={state.values.name}
