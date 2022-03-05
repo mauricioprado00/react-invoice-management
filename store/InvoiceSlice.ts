@@ -45,9 +45,9 @@ export const loadClientInvoices = createAsyncThunk<
   void,
   AppThunkAPI
 >("invoice/load", async (arg, thunkAPI): Promise<ClientInvoiceList> => {
-  thunkAPI.dispatch(clientInvoiceRequested());
+  thunkAPI.dispatch(requested());
   const result = thunkAPI.extra.serviceApi.getInvoices(clientInvoices =>
-    thunkAPI.dispatch(clientInvoicesReceived(clientInvoices))
+    thunkAPI.dispatch(received(clientInvoices))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   const clientInvoices = await result.promise;
@@ -58,17 +58,17 @@ const slice = createSlice({
   name: "invoice",
   initialState,
   reducers: {
-    clientInvoiceRequested: (clientInvoice) => {
+    requested: (clientInvoice) => {
       clientInvoice.status = 'began_fetching';
     },
-    clientInvoicesReceived: (clientInvoice, action) => {
+    received: (clientInvoice, action) => {
       clientInvoice.list = action.payload;
       clientInvoice.status = 'loaded';
     },
-    clientInvoiceAdded: (clientInvoice, action) => {
+    added: (clientInvoice, action) => {
       clientInvoice.list.push(action.payload);
     },
-    clientInvoiceRemoved: (clientInvoice, action) => {
+    removed: (clientInvoice, action) => {
       const { id } = action.payload;
       const index = findClientInvoiceIndex(clientInvoice.list, id);
       clientInvoice.list.splice(index, 1);
@@ -89,10 +89,10 @@ const slice = createSlice({
 });
 
 export const {
-  clientInvoiceAdded,
-  clientInvoiceRemoved,
-  clientInvoicesReceived,
-  clientInvoiceRequested,
+  added,
+  removed,
+  received,
+  requested,
 } = slice.actions;
 
 export default slice.reducer;
