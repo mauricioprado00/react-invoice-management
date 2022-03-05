@@ -1,18 +1,18 @@
 import React, { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import { Client, ClientPropTypes } from 'models/Client'
+import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import { Me, MePropTypes } from 'models/User'
 import { getAvatarImageUrl } from '../../ui/forms/AvatarSelector'
 import CompanyInfo from '../company/CompanyInfo'
 
 type ProfileCardProps = {
-    profile: Client | Me,
+    profile: AnyClient | Me,
     children: ReactNode,
     onEdit?: () => void,
 }
 export const ProfileCardPropTypes = {
     profile: PropTypes.oneOfType([
-        PropTypes.exact(ClientPropTypes),
+        PropTypes.exact(AnyClientPropTypes),
         PropTypes.exact(MePropTypes),
     ]).isRequired,
     children: PropTypes.node,
