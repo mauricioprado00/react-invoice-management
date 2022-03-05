@@ -13,17 +13,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userLoggedOut } from "./UserSlice";
 
+type InvoiceStatus = "initial" | "began_fetching" | "loaded";
+
 export type ClientInvoicesState = {
   list: ClientInvoiceList;
   requests: MapType<MapType<RequestInformation>>;
-  init: boolean;
+  status: InvoiceStatus;
 };
 
 const initialState: ClientInvoicesState = {
   list: [],
   // group all of these into a new attribute
   requests: {},
-  init: false,
+  status: "initial",
 };
 
 const findClientInvoiceIndex = (
@@ -43,6 +45,11 @@ export const loadClientInvoices = createAsyncThunk<
   void,
   AppThunkAPI
 >("invoice/load", async (arg, thunkAPI): Promise<ClientInvoiceList> => {
+  const status = clientInvoiceStatusSelector(thunkAPI.getState());
+  if (status !== 'initial') {
+    throw "Already loaded invoices"
+  }
+  thunkAPI.dispatch(clientInvoiceRequested());
   const result = thunkAPI.extra.serviceApi.getInvoices(clientInvoices =>
     thunkAPI.dispatch(clientInvoicesReceived(clientInvoices))
   );
@@ -55,9 +62,12 @@ const slice = createSlice({
   name: "invoice",
   initialState,
   reducers: {
+    clientInvoiceRequested: (clientInvoice) => {
+      clientInvoice.status = 'began_fetching';
+    },
     clientInvoicesReceived: (clientInvoice, action) => {
       clientInvoice.list = action.payload;
-      clientInvoice.init = true;
+      clientInvoice.status = 'loaded';
     },
     clientInvoiceAdded: (clientInvoice, action) => {
       clientInvoice.list.push(action.payload);
@@ -86,6 +96,7 @@ export const {
   clientInvoiceAdded,
   clientInvoiceRemoved,
   clientInvoicesReceived,
+  clientInvoiceRequested,
 } = slice.actions;
 
 export default slice.reducer;
@@ -147,22 +158,22 @@ export const getClientInvoiceOptionsSelector = createSelector(
   clientList => clientInvoiceListToOptions(clientList)
 );
 
-export const clientInvoiceInitSelector = createSelector(
+export const clientInvoiceStatusSelector = createSelector(
   clientInvoiceSliceSelector,
-  clientInvoiceSlice => clientInvoiceSlice.init
+  clientInvoiceSlice => clientInvoiceSlice.status
 );
 
 // hooks
 const useInvoiceSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected
 ) => {
-  const init = useInvoiceInit();
+  const status = useInvoiceStatus();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (init === false) {
+    if (status === 'initial') {
       dispatch(loadClientInvoices());
     }
-  }, [init, dispatch]);
+  }, [status, dispatch]);
   return useSelector<TState, TSelected>(selector);
 };
 
@@ -174,7 +185,7 @@ export const useLoadInvoiceError = () =>
   useSelector(loadClientInvoiceErrorSelector);
 export const useLoadInvoiceState = () =>
   useSelector(loadClientInvoiceStateSelector);
-export const useInvoiceInit = () => useSelector(clientInvoiceInitSelector);
+export const useInvoiceStatus = () => useSelector(clientInvoiceStatusSelector);
 
 export const useInvoiceCount = () =>
   useInvoiceSelector(clientInvoiceCountSelector);
