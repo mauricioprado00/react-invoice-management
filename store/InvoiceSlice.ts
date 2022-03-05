@@ -180,8 +180,12 @@ export const useInvoiceSlice = () => useSelector(clientInvoiceSliceSelector);
 export const useInvoiceList = () => useSelector(clientInvoiceListSelector);
 export const useLoadInvoiceError = () =>
   useSelector(loadClientInvoiceErrorSelector);
-export const useLoadInvoiceState = () =>
+const useLoadInvoiceState = () =>
   useSelector(loadClientInvoiceStateSelector);
+export const useInvoiceLoading = () => {
+  const state = useLoadInvoiceState();
+  return state === "none" || state === "loading";
+};
 export const useInvoiceStatus = () => useSelector(clientInvoiceStatusSelector);
 
 export const useInvoiceCount = () =>

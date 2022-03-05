@@ -5,7 +5,7 @@ import { Table, Column, Empty } from 'components/ui/layout/Table'
 import HeaderContent from 'components/ui/layout/HeaderContent'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { useCallback } from 'react'
-import { useInvoiceList, useLoadInvoiceError, useLoadInvoiceState } from 'store/InvoiceSlice'
+import { useInvoiceList, useInvoiceLoading, useLoadInvoiceError } from 'store/InvoiceSlice'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -18,8 +18,7 @@ const InvoiceTablePropTypes = {
 const InvoiceTable = ({ title = "Latest Invoices" }: InvoiceTableProps) => {
     const invoices = useInvoiceList()
     const loadError = useLoadInvoiceError()
-    const loadState = useLoadInvoiceState()
-    const loading = loadState === 'loading' || loadState === 'none';
+    const loading = useInvoiceLoading();
 
     const loaded = !loading;
     const newInvoice = useCallback((e) => {
