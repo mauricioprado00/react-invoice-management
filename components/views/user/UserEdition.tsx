@@ -19,6 +19,7 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
     const updateMe = useUpdateMe();
     const error = useUpdateMeError();
     const state = useUpdateMeState();
+    // Todo improve saveHandler, see ClientEdition
     const saveHandler = async ({ profile }: SaveProfileEvent) => {
         let result = await updateMe({ ...me as MeFull, ...profile }) as any
         if (result.error === undefined) {

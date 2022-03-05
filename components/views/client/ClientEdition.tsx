@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 import Card from 'components/ui/layout/Card'
-import ClientForm, { SaveClientEvent } from './ClientForm'
 import { UpsertClientResult, useClientById, useClientLoading, useUpsertClient, useUpsertClientError, useUpsertClientState } from 'store/ClientSlice'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import { Client } from 'models/Client'
+import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
 
 type ClientProps = {
     onCancel?: (client:Client|null) => void,
@@ -22,8 +22,8 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const upsertError = useUpsertClientError();
     const upsertState = useUpsertClientState();
     const loading = useClientLoading();
-    const saveHandler = async ({ client }: SaveClientEvent) => {
-        let result = await upsertClient(client) as any
+    const saveHandler = async ({ profile }: SaveProfileEvent) => {
+        let result = await upsertClient(profile) as any
         if (result.error === undefined) {
             const response = result.payload as UpsertClientResult
             if (onSave) onSave(response.client);
@@ -42,7 +42,8 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
         <Card title={title} fullscreen={true} background={true}>
             {!showForm && loading && "loading data"}
             {!showForm && !loading && !client && "sorry we could not find the client"}
-            {showForm && <ClientForm onSave={saveHandler} onCancel={cancelHandler} client={client} disabled={saving} />}
+            {showForm && <ProfileForm onSave={saveHandler}
+                onCancel={cancelHandler} profile={client} disabled={saving} />}
             {upsertError && <ErrorBanner error={upsertError}>Could not save the client.</ErrorBanner>}
         </Card>
     )
