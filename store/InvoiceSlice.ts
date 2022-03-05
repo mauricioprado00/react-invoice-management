@@ -11,7 +11,7 @@ import {
 } from "./RequestUtility";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { userLoggedOut } from "./UserSlice";
+import { userLoggedIn, userLoggedOut } from "./UserSlice";
 
 type InvoiceStatus = "initial" | "began_fetching" | "loaded";
 let loadInvoiceBegan = false;
@@ -76,8 +76,10 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(userLoggedOut, (state) => {
+    builder.addCase(userLoggedIn, () => {
       loadInvoiceBegan = false;
+    })
+    builder.addCase(userLoggedOut, (state) => {
       return {...initialState}
     });
     const { pending, fulfilled, rejected } = requestReducers(

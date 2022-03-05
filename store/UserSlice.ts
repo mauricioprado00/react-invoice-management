@@ -178,6 +178,7 @@ const slice = createSlice({
       return { ...initialState };
     },
     userLoggedIn: (user, action: PayloadAction<LoginResponse>) => {
+      user.init = true;
       user.loginData = action.payload;
     },
     meLoaded: (user, action: PayloadAction<Me>) => {

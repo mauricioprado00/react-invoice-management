@@ -11,7 +11,7 @@ import {
 } from "./RequestUtility";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { userLoggedOut } from "./UserSlice";
+import { userLoggedIn, userLoggedOut } from "./UserSlice";
 
 type ClientStatus = "initial" | "began_fetching" | "loaded";
 let loadClientBegan = false;
@@ -101,8 +101,10 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(userLoggedOut, state => {
+    builder.addCase(userLoggedIn, () => {
       loadClientBegan = false;
+    })
+    builder.addCase(userLoggedOut, state => {
       return { ...initialState };
     });
     {
