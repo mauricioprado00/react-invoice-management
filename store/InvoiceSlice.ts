@@ -45,10 +45,6 @@ export const loadClientInvoices = createAsyncThunk<
   void,
   AppThunkAPI
 >("invoice/load", async (arg, thunkAPI): Promise<ClientInvoiceList> => {
-  const status = clientInvoiceStatusSelector(thunkAPI.getState());
-  if (status !== 'initial') {
-    throw "Already loaded invoices"
-  }
   thunkAPI.dispatch(clientInvoiceRequested());
   const result = thunkAPI.extra.serviceApi.getInvoices(clientInvoices =>
     thunkAPI.dispatch(clientInvoicesReceived(clientInvoices))
@@ -164,16 +160,17 @@ export const clientInvoiceStatusSelector = createSelector(
 );
 
 // hooks
+let loadInvoiceBegan = false;
 const useInvoiceSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected
 ) => {
-  const status = useInvoiceStatus();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (status === 'initial') {
+    if (!loadInvoiceBegan) {
+      loadInvoiceBegan = true;
       dispatch(loadClientInvoices());
     }
-  }, [status, dispatch]);
+  }, [dispatch]);
   return useSelector<TState, TSelected>(selector);
 };
 
