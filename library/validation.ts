@@ -95,6 +95,12 @@ export const swiftValidator = () => (value: string) => {
 
 export const emptyOr =
   (validator: Validator) => (value: string, extra?: any) => {
-    if (value === "") return null;
+    if (value.trim() === "") return null;
     return validator(value, extra);
   };
+
+  export const notBothEmpty: ValidatorCreator =
+  (message: string | null) => (value: string, compare: string) => {
+    return value.trim() === '' && compare.trim() === '' ? message : null;
+  };
+

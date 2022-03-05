@@ -4,7 +4,7 @@ import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
 import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { emailValidator, emptyOr, ibanValidator, numberValidator, swiftValidator } from 'library/validation'
+import { emailValidator, emptyOr, ibanValidator, notBothEmpty, numberValidator, swiftValidator } from 'library/validation'
 import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import AvatarSelector, { someAvatar } from 'components/ui/forms/AvatarSelector';
 import produce from 'immer';
@@ -161,11 +161,13 @@ function ProfileForm({
             {withBank && <FieldsetRow>
                 <InputText name="iban" label="IBAN" required={false}
                     value={state.values.iban}
-                    validators={[emptyOr(ibanValidator())]}
+                    validationExtra={form.state.values.swift}
+                    validators={[emptyOr(ibanValidator()), notBothEmpty("Provide one payment method")]}
                     {...form.resolveProps('iban')} />
                 <InputText name="swift" label="Swift Code" required={false}
                     value={state.values.swift}
-                    validators={[emptyOr(swiftValidator())]}
+                    validationExtra={form.state.values.iban}
+                    validators={[emptyOr(swiftValidator()), notBothEmpty("Provide one payment method")]}
                     {...form.resolveProps('swift')} />
             </FieldsetRow>}
             <FieldsetRow alignRight={true}>
