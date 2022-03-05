@@ -20,10 +20,9 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const upsertClient = useUpsertClient();
     const error = useUpsertClientError();
     const state = useUpsertClientState();
-    const saveHandler = async ({ client, clientFormApi }: SaveClientEvent) => {
+    const saveHandler = async ({ client }: SaveClientEvent) => {
         let result = await upsertClient(client) as any
         if (result.error === undefined) {
-            clientFormApi.reset();
             if (onSave) onSave();
         }
     }

@@ -19,10 +19,9 @@ function ProfileEdition({ onCancel, onSave }: ProfileEditionProps) {
     const updateMe = useUpdateMe();
     const error = useUpdateMeError();
     const state = useUpdateMeState();
-    const saveHandler = async ({ profile, profileFormApi }: SaveProfileEvent) => {
+    const saveHandler = async ({ profile }: SaveProfileEvent) => {
         let result = await updateMe({ ...me as MeFull, ...profile }) as any
         if (result.error === undefined) {
-            profileFormApi.reset();
             if (onSave) onSave();
         }
     }
