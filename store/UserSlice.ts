@@ -10,7 +10,6 @@ import {
   LoginCredentials,
   UserWithPassword,
   Me,
-  MeFull,
 } from "models/User";
 import { MapType } from "models/UtilityModels";
 import { useCallback, useEffect } from "react";
@@ -53,7 +52,7 @@ export type LoginUserResult = {
 };
 
 export type UpdateMeResult = {
-  me: MeFull;
+  me: Me;
   success?: boolean;
 };
 
@@ -156,7 +155,7 @@ export const updateMe = createAsyncThunk<
   // Return type of the payload creator
   UpdateMeResult,
   // First argument to the payload creator
-  MeFull,
+  Me,
   AppThunkAPI
 >("me/update", async (me, thunkAPI): Promise<UpdateMeResult> => {
   const result = thunkAPI.extra.serviceApi.updateMe(me, x => {
@@ -184,7 +183,7 @@ const slice = createSlice({
     meLoaded: (user, action: PayloadAction<Me>) => {
       user.me = action.payload;
     },
-    meUpdated: (user, action: PayloadAction<MeFull>) => {
+    meUpdated: (user, action: PayloadAction<Me>) => {
       user.me = action.payload;
     },
     storageTokenValidated: (user, action: PayloadAction<boolean>) => {
@@ -352,7 +351,7 @@ export const useLogoutUser = () => {
 
 export const useUpdateMe = () => {
   const dispatch = useDispatch();
-  return (me: MeFull) => dispatch(updateMe(me));
+  return (me: Me) => dispatch(updateMe(me));
 };
 export const useUpdateMeRequest = () => useSelector(updateMeRequestSelector);
 export const useUpdateMeError = () => useSelector(updateMeErrorSelector);

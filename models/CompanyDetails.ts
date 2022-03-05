@@ -7,6 +7,8 @@ export type CompanyDetails = {
   vatNumber: string
   regNumber: string
   address: string
+  iban?: string | null,
+  switft?: string | null,
 }
 export type CompanyDetailsN = null | CompanyDetails
 export type CompanyDetailsList = CompanyDetails[]
@@ -19,4 +21,13 @@ export const CompanyDetailsPropType = {
   vatNumber: PropTypes.string.isRequired,
   regNumber: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
+}
+
+export const CompanyDetailsFullPropType = {
+  name: PropTypes.string.isRequired,
+  vatNumber: PropTypes.string.isRequired,
+  regNumber: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
+  iban: PropTypes.string,
+  switft: PropTypes.string,
 }

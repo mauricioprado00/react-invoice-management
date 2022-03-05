@@ -1,6 +1,6 @@
 import { Client, ClientWithTotalsList } from 'models/Client'
-import { ClientInvoice, ClientInvoiceList } from 'models/Invoice'
-import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me, MeFull } from 'models/User'
+import { ClientInvoiceList } from 'models/Invoice'
+import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me } from 'models/User'
 import { MapType } from 'models/UtilityModels'
 interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
@@ -93,7 +93,7 @@ const getMe = (url: string) => (arg:void) => async (init: ApiInitParams) => {
   return jsonResponse as Me
 }
 
-const updateMe = (url: string) => (me:MeFull) => async (init: ApiInitParams) => {
+const updateMe = (url: string) => (me:Me) => async (init: ApiInitParams) => {
   const fetchPromise = fetch(url, {
     ...init,
     method: 'PUT',
@@ -117,7 +117,7 @@ const updateMe = (url: string) => (me:MeFull) => async (init: ApiInitParams) => 
   if (jsonResponse.success !== true) {
     throw new Error("Operation error")
   }
-  return jsonResponse.user as MeFull
+  return jsonResponse.user as Me
 }
 
 const getClients = (url: string) => (arg:void) => async (init: ApiInitParams) => {
@@ -205,8 +205,8 @@ const createClient = (url:string, bearerToken:string) => ({
     endpoint<LoginResponse>(loginUser(url + '/login'), bearerToken, then, loginCredentials),
   getMe: (then:Then<Me>): AbortableEndpointResult<Me> =>
     endpoint<Me>(getMe(url + '/me'), bearerToken, then, {}),
-  updateMe: (me:MeFull, then:Then<MeFull>): AbortableEndpointResult<MeFull> =>
-    endpoint<MeFull>(updateMe(url + '/me/company'), bearerToken, then, me),
+  updateMe: (me:Me, then:Then<Me>): AbortableEndpointResult<Me> =>
+    endpoint<Me>(updateMe(url + '/me/company'), bearerToken, then, me),
 })
 
 

@@ -4,7 +4,7 @@ import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import { useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/UserSlice'
 import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
-import { MeFull } from 'models/User'
+import { Me } from 'models/User'
 
 type UserEditionProps = {
     onCancel?: () => void,
@@ -21,7 +21,7 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
     const state = useUpdateMeState();
     // Todo improve saveHandler, see ClientEdition
     const saveHandler = async ({ profile }: SaveProfileEvent) => {
-        let result = await updateMe({ ...me as MeFull, ...profile }) as any
+        let result = await updateMe({ ...me as Me, ...profile }) as any
         if (result.error === undefined) {
             if (onSave) onSave();
         }

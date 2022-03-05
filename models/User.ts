@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Client } from "./Client";
 
-import { CompanyDetails, CompanyDetailsPropType } from "./CompanyDetails";
+import { CompanyDetails, CompanyDetailsFullPropType, CompanyDetailsPropType } from "./CompanyDetails";
 
 // typescript types
 
@@ -42,13 +42,6 @@ export type Me = Omit<Omit<Client, "user_id">, "companyDetails"> & {
   companyDetails?: CompanyDetails;
 };
 
-export type MeFull = Me & {
-  companyDetails: CompanyDetails & {
-    iban?: string | null;
-    switft?: string | null;
-  };
-};
-
 export type UserN = null | User;
 export type UserList = User[];
 export type UserListN = null | UserList;
@@ -87,6 +80,9 @@ export const MePropTypes = Object.assign(
   { ...UserPropTypes },
   { ...LoginCredentialsPropTypes },
   {
-    companyDetails: PropTypes.exact(CompanyDetailsPropType),
+    companyDetails: PropTypes.oneOfType([
+      PropTypes.exact(CompanyDetailsPropType),
+      PropTypes.exact(CompanyDetailsFullPropType),
+    ])
   }
 );
