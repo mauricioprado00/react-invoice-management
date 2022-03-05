@@ -37,17 +37,11 @@ export const hasAlphaValidator = () => (value: string) => {
 };
 
 export const hasAlphaLowercaseValidator = () => (value: string) => {
-  return regexpValidator(
-    /[a-z]/,
-    "Must contain an lowercase letter."
-  )(value);
+  return regexpValidator(/[a-z]/, "Must contain an lowercase letter.")(value);
 };
 
 export const hasAlphaUppercaseValidator = () => (value: string) => {
-  return regexpValidator(
-    /[A-Z]/,
-    "Must contain an uppercase letter."
-  )(value);
+  return regexpValidator(/[A-Z]/, "Must contain an uppercase letter.")(value);
 };
 
 export const hasNumberValidator = () => (value: string) => {
@@ -83,4 +77,18 @@ export const confirmPasswordValidator: ValidatorCreator =
 
 export const validationMessage = (label: string, message: string) => {
   return message.split("%").join(label);
+};
+
+export const ibanValidator = () => (value: string) => {
+  return regexpValidator(
+    /^[A-Z]{2}(?:[ ]?[0-9]){18,20}$/,
+    "Must be a valid iban. e.g. DE89370400440532013000"
+  )(value);
+};
+
+export const swiftValidator = () => (value: string) => {
+  return regexpValidator(
+    /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/,
+    "Must be a valid swift code. e.g. CTCBIDJASBY"
+  )(value);
 };

@@ -37,7 +37,7 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
         <Card title={title} fullscreen={true} background={true}>
             <ProfileForm onSave={saveHandler}
                 onCancel={cancelHandler} profile={me} disabled={loading}
-                disabledFields={['avatar', 'email', 'name']} />
+                disabledFields={['avatar', 'email', 'name']} withBank={true} />
             {error && <ErrorBanner error={error}>Could not save your profile.</ErrorBanner>}
         </Card>
     )

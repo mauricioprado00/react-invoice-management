@@ -4,7 +4,7 @@ import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
 import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { emailValidator, numberValidator } from 'library/validation'
+import { emailValidator, ibanValidator, numberValidator, swiftValidator } from 'library/validation'
 import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import AvatarSelector, { someAvatar } from 'components/ui/forms/AvatarSelector';
 import produce from 'immer';
@@ -25,6 +25,7 @@ type ProfileFormProps = {
     disabled?: boolean,
     profile: AnyClient | Me | null,
     disabledFields?: string[],
+    withBank?: boolean,
 }
 
 const ProfileFormPropTypes = {
@@ -36,6 +37,7 @@ const ProfileFormPropTypes = {
         PropTypes.exact(MePropTypes),
     ]),
     disabledFields: PropTypes.arrayOf(PropTypes.string),
+    withBank: PropTypes.bool,
 }
 
 const elements = [
@@ -48,8 +50,20 @@ const elements = [
     //"avatar", NO because vhe state. Valid is not handled for the custom Avatar Selector
 ];
 
-function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFields }: ProfileFormProps) {
-    const form = useForm({ elements, disabled, disabledFields });
+const elements_bank = elements.concat([
+    "iban",
+    "swift",
+]);
+
+function ProfileForm({
+    onSave,
+    onCancel,
+    disabled = false,
+    profile,
+    disabledFields,
+    withBank = false
+}: ProfileFormProps) {
+    const form = useForm({ elements: withBank ? elements_bank : elements, disabled, disabledFields });
     const { state, reset, setState } = form;
     const profileFormApi = { reset };
     const selectAvatar = useCallback((avatar: string) => {
@@ -75,12 +89,15 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
                 name: form.state.values.name,
                 email: form.state.values.email,
                 avatar: form.state.values.avatar,
-                companyDetails: {
+                companyDetails: Object.assign({
                     name: form.state.values.companyName,
                     address: form.state.values.address,
                     vatNumber: form.state.values.vatNumber,
                     regNumber: form.state.values.regNumber,
-                }
+                }, !withBank ? {} : {
+                    iban: form.state.values.iban,
+                    swift: form.state.values.swift,
+                })
             },
             profileFormApi
         });
@@ -100,6 +117,8 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
                     address: profile.companyDetails ? profile.companyDetails.address : '',
                     vatNumber: profile.companyDetails ? profile.companyDetails.vatNumber : '',
                     regNumber: profile.companyDetails ? profile.companyDetails.regNumber : '',
+                    iban: profile.companyDetails ? profile.companyDetails.iban || '' : '',
+                    swift: profile.companyDetails ? profile.companyDetails.swift || '' : '',
                 }
             }));
         }
@@ -138,6 +157,17 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
                     validators={[numberValidator('The % is not valid.')]}
                     {...form.resolveProps('vatNumber')} />
             </FieldsetRow>
+
+            {withBank && <FieldsetRow>
+                <InputText name="iban" label="IBAN" required={false}
+                    value={state.values.iban}
+                    validators={[ibanValidator()]}
+                    {...form.resolveProps('iban')} />
+                <InputText name="swift" label="Swift Code" required={false}
+                    value={state.values.swift}
+                    validators={[swiftValidator()]}
+                    {...form.resolveProps('swift')} />
+            </FieldsetRow>}
             <FieldsetRow alignRight={true}>
                 <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>
                 <Button onClick={saveHandler} styled={ButtonStyle.PillPrimary} disabled={disabled}>Save</Button>
