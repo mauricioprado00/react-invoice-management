@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
+import { useLogoutUser } from "store/UserSlice";
 
 export const useGoRoute = (url:string) => {
     const router = useRouter();
@@ -56,4 +57,14 @@ export const useParamClientId = ():string|null => {
         return router.query.id.toString();
     }
     return null;
+}
+
+export const useLogout = () => {
+    const router = useRouter();
+    const logoutUser = useLogoutUser();
+
+    return useCallback(() => {
+        logoutUser();
+        router.push('/login');
+    }, [router, logoutUser]);
 }

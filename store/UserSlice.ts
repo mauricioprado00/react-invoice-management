@@ -12,7 +12,7 @@ import {
   Me,
 } from "models/User";
 import { MapType } from "models/UtilityModels";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppThunkAPI } from "./configureStore";
@@ -75,18 +75,26 @@ export const loginUser = createAsyncThunk<
   // First argument to the payload creator
   LoginCredentials,
   AppThunkAPI
->("user/login", async (loginCredentials, thunkAPI): Promise<LoginUserResult> => {
-  const result = thunkAPI.extra.serviceApi.loginUser(loginCredentials, loginData => {
-    thunkAPI.dispatch(userLoggedIn({ ...loginData }));
-    thunkAPI.dispatch(newBearerToken(loginData.token));
-  });
-  thunkAPI.signal.addEventListener("abort", result.abort);
-  result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
-  return {
-    loginData: await result.promise,
-    success: true,
-  };
-});
+>(
+  "user/login",
+  async (loginCredentials, thunkAPI): Promise<LoginUserResult> => {
+    const result = thunkAPI.extra.serviceApi.loginUser(
+      loginCredentials,
+      loginData => {
+        thunkAPI.dispatch(userLoggedIn({ ...loginData }));
+        thunkAPI.dispatch(newBearerToken(loginData.token));
+      }
+    );
+    thunkAPI.signal.addEventListener("abort", result.abort);
+    result.promise.catch(errorMessage =>
+      thunkAPI.rejectWithValue(errorMessage)
+    );
+    return {
+      loginData: await result.promise,
+      success: true,
+    };
+  }
+);
 
 export const newBearerToken = createAsyncThunk<
   // Return type of the payload creator
@@ -142,6 +150,10 @@ const slice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    userLoggedOut: () => {
+      localStorage.removeItem("userSlice.bearerToken");
+      return { ...initialState };
+    },
     userLoggedIn: (user, action: PayloadAction<LoginResponse>) => {
       user.loginData = action.payload;
     },
@@ -192,6 +204,7 @@ const slice = createSlice({
 
 export const {
   userRegistered,
+  userLoggedOut,
   userLoggedIn,
   meLoaded,
   storageTokenValidated,
@@ -247,7 +260,10 @@ export const {
 // hooks
 export const useRegisterUser = () => {
   const dispatch = useDispatch();
-  return (user: UserWithPassword) => dispatch(registerUser(user));
+  return useCallback(
+    (user: UserWithPassword) => dispatch(registerUser(user)),
+    [dispatch]
+  );
 };
 export const useRegisterUserRequest = () =>
   useSelector(registerUserRequestSelector);
@@ -258,7 +274,11 @@ export const useRegisterUserState = () =>
 
 export const useLoginUser = () => {
   const dispatch = useDispatch();
-  return (loginCredentials: LoginCredentials) => dispatch(loginUser(loginCredentials));
+  return useCallback(
+    (loginCredentials: LoginCredentials) =>
+      dispatch(loginUser(loginCredentials)),
+    [dispatch]
+  );
 };
 export const useLoginUserRequest = () => useSelector(loginUserRequestSelector);
 export const useLoginUserError = () => useSelector(loginUserErrorSelector);
@@ -279,3 +299,10 @@ export const useMe = () => useSelector(meSelector);
 export const useLoadMeRequest = () => useSelector(loadMeRequestSelector);
 export const useLoadMeError = () => useSelector(loadMeErrorSelector);
 export const useLoadMeState = () => useSelector(loadMeStateSelector);
+
+export const useLogoutUser = () => {
+  const dispatch = useDispatch();
+  return useCallback(() => {
+    dispatch(userLoggedOut());
+  }, [dispatch]);
+};

@@ -11,6 +11,7 @@ import {
 } from "./RequestUtility";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { userLoggedOut } from "./UserSlice";
 
 export type ClientInvoicesState = {
   list: ClientInvoiceList;
@@ -68,6 +69,9 @@ const slice = createSlice({
     },
   },
   extraReducers: builder => {
+    builder.addCase(userLoggedOut, (state) => {
+      return {...initialState}
+    });
     const { pending, fulfilled, rejected } = requestReducers(
       "loadClientInvoices",
       5

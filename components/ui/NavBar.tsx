@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useIsLoggedIn } from "store/UserSlice";
+import { useLogout } from "library/navigation";
 
 /**
  * Designs from 
@@ -55,6 +56,7 @@ const isCurrent = (current: string, link: Link) => {
   return current === link.url || also.indexOf(current) !== -1;
 };
 function NavBar() {
+  const logout = useLogout();
   const isLoggedIn = useIsLoggedIn();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const toggleMobileMenu = useCallback(() => { setShowMobileMenu(prev => !prev) }, []);
@@ -101,11 +103,9 @@ function NavBar() {
                 </a>
               </Link>
             ] : [
-              <Link key="logout" href="/logout">
-                <a href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
-                  Logout
-                </a>
-              </Link>,
+              <a key="logout" onClick={logout} href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
+                Logout
+              </a>,
               <Link key="me" href="/me">
                 <a href="#" className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-purple-600 hover:border-purple-600">
                   My Profile
@@ -152,11 +152,9 @@ function NavBar() {
                     </a>
                   </Link>
                 ] : [
-                  <Link key="logout" href="/logout">
-                    <a className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
-                      Logout
-                    </a>
-                  </Link>,
+                  <a key="logout" onClick={logout} className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
+                    Logout
+                  </a>,
                   <Link key="me" href="/me">
                     <a className="text-gray-800 text-sm font-semibold border px-4 py-1 rounded-lg hover:text-purple-600 hover:border-purple-600">
                       My Profile
