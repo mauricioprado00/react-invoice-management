@@ -29,6 +29,8 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     }
     const saving = upsertState === "loading";
     const title = clientId ? 'Edit Client' : 'Add Client';
+    const adding = clientId === null;
+    const showForm = adding || (!adding && client !== null && !loading);
 
     const cancelHandler = useCallback(() => {
         if (onCancel) { onCancel(); return true; }
@@ -36,9 +38,9 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
 
     return (
         <Card title={title} fullscreen={true} background={true}>
-            {loading && "loading data"}
-            {!loading && !client && "sorry we could not find the client"}
-            {client && <ClientForm onSave={saveHandler} onCancel={cancelHandler} client={client} disabled={saving} />}
+            {!showForm && loading && "loading data"}
+            {!showForm && !loading && !client && "sorry we could not find the client"}
+            {showForm && <ClientForm onSave={saveHandler} onCancel={cancelHandler} client={client} disabled={saving} />}
             {upsertError && <ErrorBanner error={upsertError}>Could not save the client.</ErrorBanner>}
         </Card>
     )
