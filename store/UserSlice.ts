@@ -53,9 +53,9 @@ export type LoginUserResult = {
 };
 
 export type UpdateMeResult = {
-  me: MeFull,
-  success?: boolean
-}
+  me: MeFull;
+  success?: boolean;
+};
 
 export const registerUser = createAsyncThunk<
   // Return type of the payload creator
@@ -159,8 +159,8 @@ export const updateMe = createAsyncThunk<
   MeFull,
   AppThunkAPI
 >("me/update", async (me, thunkAPI): Promise<UpdateMeResult> => {
-  const result = thunkAPI.extra.serviceApi.updateMe(me, x =>{
-    thunkAPI.dispatch(meUpdated({ ...x }))
+  const result = thunkAPI.extra.serviceApi.updateMe(me, x => {
+    thunkAPI.dispatch(meUpdated({ ...x }));
   });
   thunkAPI.signal.addEventListener("abort", result.abort);
   result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
@@ -169,7 +169,6 @@ export const updateMe = createAsyncThunk<
     success: true,
   };
 });
-
 
 const slice = createSlice({
   name: "user",
@@ -358,4 +357,3 @@ export const useUpdateMe = () => {
 export const useUpdateMeRequest = () => useSelector(updateMeRequestSelector);
 export const useUpdateMeError = () => useSelector(updateMeErrorSelector);
 export const useUpdateMeState = () => useSelector(updateMeStateSelector);
-

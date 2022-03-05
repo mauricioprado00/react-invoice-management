@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from "prop-types";
 import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
@@ -11,7 +11,7 @@ import produce from 'immer';
 import useForm from 'hooks/use-form';
 import { Me, MePropTypes } from 'models/User';
 import { MapTypeFill } from 'models/UtilityModels';
-import {current} from 'immer';
+import { current } from 'immer';
 
 type ProfileFormApi = {
     reset: () => void
@@ -51,12 +51,12 @@ const elements = [
 ];
 
 function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFields = [] }: ProfileFormProps) {
-    const form = useForm({elements, disabled});
-    const {state, reset, setState} = form;
+    const form = useForm({ elements, disabled });
+    const { state, reset, setState } = form;
     const [isDisabled] = useState(Object.assign(MapTypeFill(elements, false), MapTypeFill(disabledFields, true)));
-    const profileFormApi = {reset};
+    const profileFormApi = { reset };
     const selectAvatar = useCallback((avatar: string) => {
-        setState(prev => produce(prev, draft => { draft.values.avatar = avatar } ));
+        setState(prev => produce(prev, draft => { draft.values.avatar = avatar }));
     }, [setState])
 
 

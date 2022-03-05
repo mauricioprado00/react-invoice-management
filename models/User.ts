@@ -19,7 +19,7 @@ export interface UserWithPassword extends User {
 export type LoginCredentials = {
   email: string;
   password: string;
-}
+};
 
 export type AnyUser = User & {
   password: string;
@@ -27,27 +27,27 @@ export type AnyUser = User & {
 };
 
 export type LoginResponse = {
-  user_id: string,
-  email: string,
-  name: string,
-  token: string,
-}
+  user_id: string;
+  email: string;
+  name: string;
+  token: string;
+};
 
 export type RegisterData = {
-  user_id: string,
-}
+  user_id: string;
+};
 
 export type Me = Omit<Omit<Client, "user_id">, "companyDetails"> & {
-  password: string,
-  companyDetails?: CompanyDetails
-}
+  password: string;
+  companyDetails?: CompanyDetails;
+};
 
 export type MeFull = Me & {
   companyDetails: CompanyDetails & {
-    iban?: string | null
-    switft?: string | null
-  }
-}
+    iban?: string | null;
+    switft?: string | null;
+  };
+};
 
 export type UserN = null | User;
 export type UserList = User[];
@@ -73,7 +73,7 @@ export const UserWithPasswordPropTypes = Object.assign(
 export const LoginCredentialsPropTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-}
+};
 
 export const AnyUserPropTypes = Object.assign(
   { ...UserPropTypes },
@@ -84,9 +84,9 @@ export const AnyUserPropTypes = Object.assign(
 );
 
 export const MePropTypes = Object.assign(
-  {...UserPropTypes},
-  {...LoginCredentialsPropTypes},
+  { ...UserPropTypes },
+  { ...LoginCredentialsPropTypes },
   {
-    companyDetails: PropTypes.exact(CompanyDetailsPropType)
+    companyDetails: PropTypes.exact(CompanyDetailsPropType),
   }
-)
+);

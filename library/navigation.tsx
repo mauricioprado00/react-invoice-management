@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useLogoutUser } from "store/UserSlice";
 
-export const useGoRoute = (url:string) => {
+export const useGoRoute = (url: string) => {
     const router = useRouter();
     return useCallback(() => {
         router.push(url);
@@ -15,32 +15,32 @@ export const useGoDashboard = () => {
 
 export const useGoClientEdit = () => {
     const router = useRouter();
-    return useCallback((id:string|null=null) => {
+    return useCallback((id: string | null = null) => {
         if (id) {
-            router.push('/client?' + new URLSearchParams({id}));
+            router.push('/client?' + new URLSearchParams({ id }));
         } else {
             router.push('/client');
         }
     }, [router]);
 }
 
-export const useGoClientIdDashboard = (id:string) => {
+export const useGoClientIdDashboard = (id: string) => {
     const router = useRouter();
     return useCallback(() => {
-        router.push('/client-dashboard?' + new URLSearchParams({id}));
+        router.push('/client-dashboard?' + new URLSearchParams({ id }));
     }, [router, id]);
 }
 
 export const useGoClientDashboard = () => {
     const router = useRouter();
-    return useCallback((id:string) => {
-        router.push('/client-dashboard?' + new URLSearchParams({id}));
+    return useCallback((id: string) => {
+        router.push('/client-dashboard?' + new URLSearchParams({ id }));
     }, [router]);
 }
 
 export const useGoNewClient = () => {
     const goClient = useGoClientEdit();
-    return useCallback(() => {goClient()}, [goClient])
+    return useCallback(() => { goClient() }, [goClient])
 }
 
 export const useGoIndex = () => {
@@ -51,7 +51,7 @@ export const useGoLogin = () => {
     return useGoRoute('/login');
 }
 
-export const useParamClientId = ():string|null => {
+export const useParamClientId = (): string | null => {
     const router = useRouter();
     if (router.query.id) {
         return router.query.id.toString();

@@ -30,17 +30,17 @@ const allAvatars = [
 
 const defaultAvatar = '1.png';
 
-export const someAvatar = (avatar:string|null|undefined) => {
+export const someAvatar = (avatar: string | null | undefined) => {
     return avatar || allAvatars[0]
 }
 
-export const getAvatarImageUrl = (avatar:string|null|undefined) => {
+export const getAvatarImageUrl = (avatar: string | null | undefined) => {
     return "/avatar/" + (allAvatars.some(i => i === avatar) ? avatar : defaultAvatar);
 }
 
 type AvatarSelectorProps = {
     selected: string | undefined | null,
-    onChange: (selected:string) => void
+    onChange: (selected: string) => void
 }
 
 function AvatarSelector({ selected = defaultAvatar, onChange }: AvatarSelectorProps) {
@@ -49,7 +49,7 @@ function AvatarSelector({ selected = defaultAvatar, onChange }: AvatarSelectorPr
         setShowOptions(prev => !prev);
     }, []);
 
-    const selectHandler = useCallback((e:AvatarMouseEvent)=> {
+    const selectHandler = useCallback((e: AvatarMouseEvent) => {
         setShowOptions(false);
         onChange(e.target.dataset.id);
     }, [onChange]);

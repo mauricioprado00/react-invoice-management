@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import AuthPageWithStore from 'components/utility/AuthPageWithStore';
-import ProfileShow from 'components/views/user/ProfileShow';
 import ProfileEdition from 'components/views/user/ProfileEdition';
 import { useGoMe } from 'library/navigation';
 
