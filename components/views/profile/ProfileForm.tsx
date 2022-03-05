@@ -85,10 +85,6 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
             profileFormApi
         });
     }
-    const [reloadForm, setReloadform] = useState(1)
-    const forceReload = useCallback(() => {
-        setReloadform(prev => prev + 1)
-    }, []);
 
     useEffect(() => {
         if (profile) {
@@ -107,7 +103,7 @@ function ProfileForm({ onSave, onCancel, disabled = false, profile, disabledFiel
                 }
             }));
         }
-    }, [setState, reset, profile, reloadForm]);
+    }, [setState, reset, profile]);
 
     return (
         <Form>
