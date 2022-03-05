@@ -51,7 +51,6 @@ const registerUser = (url: string) => (user:UserWithPassword) => async (init: Ap
 }
 
 const loginUser = (url: string) => (loginCredentials:LoginCredentials) => async (init: ApiInitParams) => {
-  console.log({doingfetch: loginCredentials});
   const fetchPromise = fetch(url, {
     ...init,
     method: 'POST',

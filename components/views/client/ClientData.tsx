@@ -13,7 +13,6 @@ const ClientDataPropTypes = {
 }
 
 function ClientData({ client }: ClientDataProps) {
-    console.log(client);
     return (
         <ProfileCard profile={client}>
             <div className="text-center w-1/2 p-4 hover:bg-gray-100">
