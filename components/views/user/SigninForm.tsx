@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import PropTypes from "prop-types";
 import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
@@ -33,9 +33,9 @@ const elements = [
 
 function SigninForm({ onLogin, disabled = false }: SigninFormProps) {
     const form = useForm({elements, disabled});
-    const signinFormApi = {reset: form.reset};
+    const [signinFormApi] = useState({reset: form.reset});
 
-    const saveHandler = () => {
+    const saveHandler = useCallback(() => {
         if (!form.allValid()) {
             form.setShowErrors(true);
             return;
@@ -47,7 +47,13 @@ function SigninForm({ onLogin, disabled = false }: SigninFormProps) {
             },
             signinFormApi
         });
-    }
+    }, [onLogin, form, signinFormApi]);
+
+    const keyupHandler = useCallback((e:React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.code === 'Enter') {
+            saveHandler();
+        }
+    }, [saveHandler]);
 
     return (
         <Form>
@@ -61,6 +67,7 @@ function SigninForm({ onLogin, disabled = false }: SigninFormProps) {
                 <InputText name="password" label="Password" required={true}
                     type="password"
                     value={form.state.values.password}
+                    onKeyUp={keyupHandler}
                     {...form.inputProps} />
             </FieldsetRow>
             <FieldsetRow alignRight={true}>
