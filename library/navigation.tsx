@@ -24,10 +24,21 @@ export const useGoClientEdit = () => {
     }, [router]);
 }
 
-export const useGoClientIdDashboard = (id: string) => {
+export const useGoClientIdEdit = (id:string | null = null) => {
     const router = useRouter();
     return useCallback(() => {
-        router.push('/client-dashboard?' + new URLSearchParams({ id }));
+        if (id) {
+            router.push('/client?' + new URLSearchParams({ id }));
+        } else {
+            router.push('/client');
+        }
+    }, [router, id]);
+}
+
+export const useGoClientIdDashboard = (id: string | null) => {
+    const router = useRouter();
+    return useCallback(() => {
+        if (id) router.push('/client-dashboard?' + new URLSearchParams({ id }));
     }, [router, id]);
 }
 

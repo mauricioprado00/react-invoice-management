@@ -1,7 +1,7 @@
 import { InputChangeEvent } from "components/ui/forms/InputText";
 import produce from "immer";
 import { MapType, MapTypeFill, MapTypeSome } from "models/UtilityModels";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 type FormState = {
   valid: MapType<boolean>;
@@ -31,8 +31,9 @@ type useFormProps = {
   disabledFields?: string[];
 };
 
-const useForm = ({ elements, disabled, disabledFields = [] }: useFormProps) => {
-  const [state, setState] = useState(createInitialFormState(elements, disabledFields));
+const useForm = ({ elements, disabled, disabledFields }: useFormProps) => {
+  const disFields = useMemo(() => disabledFields || [], [disabledFields]);
+  const [state, setState] = useState(createInitialFormState(elements, disFields));
   const validHandler = useCallback((name: string, valid: boolean) => {
     setState(prev =>
       produce(prev, draft => {
@@ -73,10 +74,10 @@ const useForm = ({ elements, disabled, disabledFields = [] }: useFormProps) => {
     allValid: (): boolean => !MapTypeSome(state.valid, value => value !== true),
     reset: useCallback(() => {
       setState(prev => ({
-        ...createInitialFormState(elements, disabledFields),
+        ...createInitialFormState(elements, disFields),
         reset: prev.reset + 1,
       }));
-    }, [elements, disabledFields]),
+    }, [elements, disFields]),
     setState,
   };
 };

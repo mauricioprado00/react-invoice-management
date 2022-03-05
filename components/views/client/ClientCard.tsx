@@ -3,17 +3,18 @@ import PropTypes from "prop-types";
 import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
 import ProfileCard from '../profile/ProfileCard';
 
-type ClientDataProps = {
-    client: ClientWithTotals
+type ClientCardProps = {
+    client: ClientWithTotals,
+    onEdit?: () => void,
 }
 
-const ClientDataPropTypes = {
+const ClientCardPropTypes = {
     client: PropTypes.exact(ClientWithTotalsPropTypes),
 }
 
-function ClientData({ client }: ClientDataProps) {
+function ClientCard({ client, onEdit }: ClientCardProps) {
     return (
-        <ProfileCard profile={client}>
+        <ProfileCard profile={client} onEdit={onEdit}>
             <div className="text-center w-1/2 p-4 hover:bg-gray-100">
                 <p><span className="font-semibold">${client.totalBilled}</span> Total Billed</p>
             </div>
@@ -25,6 +26,6 @@ function ClientData({ client }: ClientDataProps) {
     )
 }
 
-ClientData.propTypes = ClientDataPropTypes
+ClientCard.propTypes = ClientCardPropTypes
 
-export default ClientData
+export default ClientCard
