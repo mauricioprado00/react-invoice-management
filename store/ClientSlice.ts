@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { userLoggedOut } from "./UserSlice";
 
 type ClientStatus = "initial" | "began_fetching" | "loaded";
+let loadClientBegan = false;
 
 export type ClientsState = {
   list: MapType<ClientWithTotals>;
@@ -101,6 +102,7 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(userLoggedOut, state => {
+      loadClientBegan = false;
       return { ...initialState };
     });
     {
@@ -190,7 +192,6 @@ export const clientStatusSelector = createSelector(
 );
 
 // hooks
-let loadClientBegan = false;
 const useClientSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected
 ) => {

@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { userLoggedOut } from "./UserSlice";
 
 type InvoiceStatus = "initial" | "began_fetching" | "loaded";
+let loadInvoiceBegan = false;
 
 export type ClientInvoicesState = {
   list: ClientInvoiceList;
@@ -76,6 +77,7 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(userLoggedOut, (state) => {
+      loadInvoiceBegan = false;
       return {...initialState}
     });
     const { pending, fulfilled, rejected } = requestReducers(
@@ -160,7 +162,6 @@ export const clientInvoiceStatusSelector = createSelector(
 );
 
 // hooks
-let loadInvoiceBegan = false;
 const useInvoiceSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected
 ) => {
