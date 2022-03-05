@@ -64,10 +64,6 @@ export const loadClients = createAsyncThunk<
   void,
   AppThunkAPI
 >("client/load", async (arg, thunkAPI): Promise<ClientWithTotalsList> => {
-  const status = clientStatusSelector(thunkAPI.getState());
-  if (status !== "initial") {
-    throw "Already loaded clients";
-  }
   thunkAPI.dispatch(clientsRequested());
   const result = thunkAPI.extra.serviceApi.getClients(clients =>
     thunkAPI.dispatch(clientsReceived(clients))
@@ -194,16 +190,17 @@ export const clientStatusSelector = createSelector(
 );
 
 // hooks
+let loadClientBegan = false;
 const useClientSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected
 ) => {
-  const status = useClientStatus();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (status === "initial") {
+    if (!loadClientBegan) {
+      loadClientBegan = true;
       dispatch(loadClients());
     }
-  }, [status, dispatch]);
+  }, [dispatch]);
   return useSelector<TState, TSelected>(selector);
 };
 
