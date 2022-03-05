@@ -39,15 +39,25 @@ const useForm = ({ elements, disabled }: useFormProps) => {
     );
   }, []);
 
+  const inputProps = {
+    reset: state.reset,
+    onValid: validHandler,
+    onChange: changeHandler,
+    showErrors: state.showErrors,
+    disabled,
+  };
+
+  const disabledInputProps = {
+    disabled: true,
+    reset: state.reset,
+    onValid: validHandler,
+  };
+
   return {
     state,
-    inputProps: {
-      reset: state.reset,
-      onValid: validHandler,
-      onChange: changeHandler,
-      showErrors: state.showErrors,
-      disabled,
-    },
+    inputProps,
+    resolveProps: (disabled: boolean) =>
+      disabled ? disabledInputProps : inputProps,
     setShowErrors: (show: boolean) => {
       setState(prev => ({ ...prev, showErrors: show }));
     },

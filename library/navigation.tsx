@@ -68,3 +68,11 @@ export const useLogout = () => {
         router.push('/login');
     }, [router, logoutUser]);
 }
+
+export const useGoMe = () => {
+    return useGoRoute('/me');
+}
+
+export const useGoEditMe = () => {
+    return useGoRoute('/update-profile');
+}

@@ -10,6 +10,7 @@ import {
   LoginCredentials,
   UserWithPassword,
   Me,
+  MeFull,
 } from "models/User";
 import { MapType } from "models/UtilityModels";
 import { useCallback, useEffect } from "react";
@@ -50,6 +51,11 @@ export type LoginUserResult = {
   loginData: LoginResponse;
   success?: boolean;
 };
+
+export type UpdateMeResult = {
+  me: MeFull,
+  success?: boolean
+}
 
 export const registerUser = createAsyncThunk<
   // Return type of the payload creator
@@ -146,6 +152,25 @@ export const loadMe = createAsyncThunk<
   return me;
 });
 
+export const updateMe = createAsyncThunk<
+  // Return type of the payload creator
+  UpdateMeResult,
+  // First argument to the payload creator
+  MeFull,
+  AppThunkAPI
+>("me/update", async (me, thunkAPI): Promise<UpdateMeResult> => {
+  const result = thunkAPI.extra.serviceApi.updateMe(me, x =>{
+    thunkAPI.dispatch(meUpdated({ ...x }))
+  });
+  thunkAPI.signal.addEventListener("abort", result.abort);
+  result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
+  return {
+    me: await result.promise,
+    success: true,
+  };
+});
+
+
 const slice = createSlice({
   name: "user",
   initialState,
@@ -158,6 +183,9 @@ const slice = createSlice({
       user.loginData = action.payload;
     },
     meLoaded: (user, action: PayloadAction<Me>) => {
+      user.me = action.payload;
+    },
+    meUpdated: (user, action: PayloadAction<MeFull>) => {
       user.me = action.payload;
     },
     storageTokenValidated: (user, action: PayloadAction<boolean>) => {
@@ -199,6 +227,12 @@ const slice = createSlice({
       builder.addCase(loadMe.fulfilled, fulfilled);
       builder.addCase(loadMe.rejected, rejected);
     }
+    {
+      const { pending, fulfilled, rejected } = requestReducers("updateMe", 1);
+      builder.addCase(updateMe.pending, pending);
+      builder.addCase(updateMe.fulfilled, fulfilled);
+      builder.addCase(updateMe.rejected, rejected);
+    }
   },
 });
 
@@ -207,6 +241,7 @@ export const {
   userLoggedOut,
   userLoggedIn,
   meLoaded,
+  meUpdated,
   storageTokenValidated,
   newBearerTokenSet,
 } = slice.actions;
@@ -257,6 +292,12 @@ export const {
   stateSelector: loadMeStateSelector,
 } = createRequestSelectors("loadMe", userSliceSelector);
 
+export const {
+  lastSelector: updateMeRequestSelector,
+  errorSelector: updateMeErrorSelector,
+  stateSelector: updateMeStateSelector,
+} = createRequestSelectors("updateMe", userSliceSelector);
+
 // hooks
 export const useRegisterUser = () => {
   const dispatch = useDispatch();
@@ -289,10 +330,13 @@ export const useBearerToken = () => useSelector(bearerTokenSelector);
 export const useIsLoggedIn = () => useSelector(isLoggedInSelector);
 
 export const useInitLoggedFromStorage = () => {
+  const bearerToken = useBearerToken();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(initLoggedFromStorage());
-  }, [dispatch]);
+    if (bearerToken === null) {
+      dispatch(initLoggedFromStorage());
+    }
+  }, [dispatch, bearerToken]);
 };
 
 export const useMe = () => useSelector(meSelector);
@@ -306,3 +350,12 @@ export const useLogoutUser = () => {
     dispatch(userLoggedOut());
   }, [dispatch]);
 };
+
+export const useUpdateMe = () => {
+  const dispatch = useDispatch();
+  return (me: MeFull) => dispatch(updateMe(me));
+};
+export const useUpdateMeRequest = () => useSelector(updateMeRequestSelector);
+export const useUpdateMeError = () => useSelector(updateMeErrorSelector);
+export const useUpdateMeState = () => useSelector(updateMeStateSelector);
+

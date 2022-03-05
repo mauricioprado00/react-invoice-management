@@ -1,6 +1,6 @@
 import { Client, ClientWithTotalsList } from 'models/Client'
 import { ClientInvoice, ClientInvoiceList } from 'models/Invoice'
-import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me } from 'models/User'
+import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me, MeFull } from 'models/User'
 import { MapType } from 'models/UtilityModels'
 interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
@@ -94,6 +94,33 @@ const getMe = (url: string) => (arg:void) => async (init: ApiInitParams) => {
   return jsonResponse as Me
 }
 
+const updateMe = (url: string) => (me:MeFull) => async (init: ApiInitParams) => {
+  const fetchPromise = fetch(url, {
+    ...init,
+    method: 'PUT',
+    headers: {
+      ...init.headers,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(me.companyDetails)
+  })
+  const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
+
+  // only this EP has success property
+  if (jsonResponse.success !== true) {
+    throw new Error("Operation error")
+  }
+  return jsonResponse.user as MeFull
+}
+
 const getClients = (url: string) => (arg:void) => async (init: ApiInitParams) => {
   const fetchPromise = fetch(url, init)
   const httpResponse = await fetchPromise
@@ -179,6 +206,8 @@ const createClient = (url:string, bearerToken:string) => ({
     endpoint<LoginResponse>(loginUser(url + '/login'), bearerToken, then, loginCredentials),
   getMe: (then:Then<Me>): AbortableEndpointResult<Me> =>
     endpoint<Me>(getMe(url + '/me'), bearerToken, then, {}),
+  updateMe: (me:MeFull, then:Then<MeFull>): AbortableEndpointResult<MeFull> =>
+    endpoint<MeFull>(updateMe(url + '/me/company'), bearerToken, then, me),
 })
 
 

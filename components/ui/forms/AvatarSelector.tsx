@@ -30,6 +30,10 @@ const allAvatars = [
 
 const defaultAvatar = '1.png';
 
+export const someAvatar = (avatar:string|null|undefined) => {
+    return avatar || allAvatars[0]
+}
+
 export const getAvatarImageUrl = (avatar:string|null|undefined) => {
     return "/avatar/" + (allAvatars.some(i => i === avatar) ? avatar : defaultAvatar);
 }

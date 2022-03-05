@@ -42,6 +42,13 @@ export type Me = Omit<Omit<Client, "user_id">, "companyDetails"> & {
   companyDetails?: CompanyDetails
 }
 
+export type MeFull = Me & {
+  companyDetails: CompanyDetails & {
+    iban?: string | null
+    switft?: string | null
+  }
+}
+
 export type UserN = null | User;
 export type UserList = User[];
 export type UserListN = null | UserList;
