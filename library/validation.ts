@@ -92,3 +92,9 @@ export const swiftValidator = () => (value: string) => {
     "Must be a valid swift code. e.g. CTCBIDJASBY"
   )(value);
 };
+
+export const emptyOr =
+  (validator: Validator) => (value: string, extra?: any) => {
+    if (value === "") return null;
+    return validator(value, extra);
+  };
