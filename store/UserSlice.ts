@@ -23,6 +23,8 @@ import {
 } from "./RequestUtility";
 import { RootState } from "./RootSlice";
 
+let loadMeBegan = false;
+
 export type UsersState = {
   validatedToken: boolean;
   bearerToken: string | null;
@@ -180,6 +182,7 @@ const slice = createSlice({
     userLoggedIn: (user, action: PayloadAction<LoginResponse>) => {
       user.validatedToken = true;
       user.loginData = action.payload;
+      loadMeBegan = false;
     },
     meLoaded: (user, action: PayloadAction<Me>) => {
       user.me = action.payload;
@@ -298,6 +301,19 @@ export const {
 } = createRequestSelectors("updateMe", userSliceSelector);
 
 // hooks
+const useMeSelector = <TState, TSelected>(
+  selector: (state: TState) => TSelected
+) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!loadMeBegan) {
+      loadMeBegan = true;
+      dispatch(loadMe());
+    }
+  }, [dispatch]);
+  return useSelector<TState, TSelected>(selector);
+};
+
 export const useRegisterUser = () => {
   const dispatch = useDispatch();
   return useCallback(
@@ -338,7 +354,7 @@ export const useInitLoggedFromStorage = () => {
   }, [dispatch, bearerToken]);
 };
 
-export const useMe = () => useSelector(meSelector);
+export const useMe = () => useMeSelector(meSelector);
 export const useLoadMeRequest = () => useSelector(loadMeRequestSelector);
 export const useLoadMeError = () => useSelector(loadMeErrorSelector);
 const useLoadMeState = () => useSelector(loadMeStateSelector);
