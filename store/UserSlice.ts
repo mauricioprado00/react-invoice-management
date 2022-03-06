@@ -341,7 +341,11 @@ export const useInitLoggedFromStorage = () => {
 export const useMe = () => useSelector(meSelector);
 export const useLoadMeRequest = () => useSelector(loadMeRequestSelector);
 export const useLoadMeError = () => useSelector(loadMeErrorSelector);
-export const useLoadMeState = () => useSelector(loadMeStateSelector);
+const useLoadMeState = () => useSelector(loadMeStateSelector);
+export const useMeLoading = () => {
+  const state = useLoadMeState();
+  return state === 'none' || state === 'loading';
+}
 
 export const useLogoutUser = () => {
   const dispatch = useDispatch();

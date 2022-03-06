@@ -1,6 +1,6 @@
 import { useGoEditMe } from 'library/navigation'
 import React from 'react'
-import { useLoadMeState, useMe } from 'store/UserSlice'
+import { useMe, useMeLoading } from 'store/UserSlice'
 import UserCard from './UserCard'
 
 type UserShowProps = {}
@@ -8,8 +8,7 @@ const ClientShowPropTypes = {}
 
 function UserShow({ }: UserShowProps) {
     const me = useMe();
-    const state = useLoadMeState();
-    const loading = state === 'none' || state === 'loading';
+    const loading = useMeLoading();
     const goEditMe = useGoEditMe();
 
     return (
