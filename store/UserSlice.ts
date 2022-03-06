@@ -24,7 +24,7 @@ import {
 import { RootState } from "./RootSlice";
 
 export type UsersState = {
-  init: boolean;
+  validatedToken: boolean;
   bearerToken: string | null;
   requests: MapType<MapType<RequestInformation>>;
   registerData: RegisterData | null;
@@ -33,7 +33,7 @@ export type UsersState = {
 };
 
 const initialState: UsersState = {
-  init: false,
+  validatedToken: false,
   bearerToken: null,
   requests: {},
   registerData: null,
@@ -85,9 +85,9 @@ export const loginUser = createAsyncThunk<
   async (loginCredentials, thunkAPI): Promise<LoginUserResult> => {
     const result = thunkAPI.extra.serviceApi.loginUser(
       loginCredentials,
-      loginData => {
+      async (loginData) => {
+        await thunkAPI.dispatch(newBearerToken(loginData.token));
         thunkAPI.dispatch(userLoggedIn({ ...loginData }));
-        thunkAPI.dispatch(newBearerToken(loginData.token));
       }
     );
     thunkAPI.signal.addEventListener("abort", result.abort);
@@ -129,8 +129,8 @@ export const initLoggedFromStorage = createAsyncThunk<
   thunkAPI.extra.serviceApi.newBearerToken(bearerToken);
   thunkAPI.dispatch(newBearerTokenSet(bearerToken));
   const result = await thunkAPI.dispatch(loadMe());
-  const tokenIsValid = result.meta.requestStatus === "fulfilled";
-  thunkAPI.dispatch(storageTokenValidated(tokenIsValid));
+  const validatedToken = result.meta.requestStatus === "fulfilled";
+  thunkAPI.dispatch(storageTokenValidated(validatedToken));
 });
 
 export const loadMe = createAsyncThunk<
@@ -178,7 +178,7 @@ const slice = createSlice({
       return { ...initialState };
     },
     userLoggedIn: (user, action: PayloadAction<LoginResponse>) => {
-      user.init = true;
+      user.validatedToken = true;
       user.loginData = action.payload;
     },
     meLoaded: (user, action: PayloadAction<Me>) => {
@@ -188,7 +188,7 @@ const slice = createSlice({
       user.me = action.payload;
     },
     storageTokenValidated: (user, action: PayloadAction<boolean>) => {
-      user.init = true;
+      user.validatedToken = true;
       if (action.payload === false) {
         user.bearerToken = null;
         localStorage.removeItem("userSlice.bearerToken");
@@ -257,15 +257,15 @@ export const bearerTokenSelector = createSelector(
   userSlice => userSlice.bearerToken
 );
 
-export const initSelector = createSelector(
+const validatedTokenSelector = createSelector(
   userSliceSelector,
-  userSlice => userSlice.init
+  userSlice => userSlice.validatedToken
 );
 
 export const isLoggedInSelector = createSelector(
   bearerTokenSelector,
-  initSelector,
-  (bearerToken, init) => (init === false ? null : bearerToken !== null)
+  validatedTokenSelector,
+  (bearerToken, validatedToken) => (validatedToken === false ? null : bearerToken !== null)
 );
 
 export const meSelector = createSelector(
