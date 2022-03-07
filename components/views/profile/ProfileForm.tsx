@@ -26,6 +26,7 @@ type ProfileFormProps = {
     profile: AnyClient | Me | null,
     disabledFields?: string[],
     withBank?: boolean,
+    message?: string,
 }
 
 const ProfileFormPropTypes = {
@@ -38,6 +39,7 @@ const ProfileFormPropTypes = {
     ]),
     disabledFields: PropTypes.arrayOf(PropTypes.string),
     withBank: PropTypes.bool,
+    message: PropTypes.string,
 }
 
 const elements = [
@@ -61,7 +63,8 @@ function ProfileForm({
     disabled = false,
     profile,
     disabledFields,
-    withBank = false
+    withBank = false,
+    message
 }: ProfileFormProps) {
     const form = useForm({ elements: withBank ? elements_bank : elements, disabled, disabledFields });
     const { state, reset, setState } = form;
@@ -174,6 +177,11 @@ function ProfileForm({
                 <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>
                 <Button onClick={saveHandler} styled={ButtonStyle.PillPrimary} disabled={disabled}>Save</Button>
             </FieldsetRow>
+
+            {message && <FieldsetRow>                
+                    <span className="block text-gray-500">{message}</span>
+            </FieldsetRow>}
+
         </Form>
     )
 }

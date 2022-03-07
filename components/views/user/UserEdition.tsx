@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
-import { useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/UserSlice'
+import { useIsProfileFilled, useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/UserSlice'
 import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
 import { Me } from 'models/User'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
@@ -20,7 +20,7 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
     const updateMe = useUpdateMe();
     const error = useUpdateMeError();
     const state = useUpdateMeState();
-    // Todo improve saveHandler, see ClientEdition
+    const isProfileFilled = useIsProfileFilled();
     const saveHandler = async ({ profile }: SaveProfileEvent) => {
         let result = await updateMe({ ...me as Me, ...profile })
         if (isFullfilledThunk(result)) {
@@ -29,6 +29,7 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
     }
     const loading = state === "loading";
     const title = 'Profile Edition';
+    const message = !isProfileFilled ? 'Please fill out before continue' : null;
 
     const cancelHandler = useCallback(() => {
         if (onCancel) { onCancel(); return true; }
@@ -38,7 +39,8 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
         <Card title={title} fullscreen={true} background={true}>
             <ProfileForm onSave={saveHandler}
                 onCancel={cancelHandler} profile={me} disabled={loading}
-                disabledFields={['avatar', 'email', 'name']} withBank={true} />
+                disabledFields={['avatar', 'email', 'name']} withBank={true} 
+                message={message}/>
             {error && <ErrorBanner error={error}>Could not save your profile.</ErrorBanner>}
         </Card>
     )
