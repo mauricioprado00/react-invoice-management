@@ -17,7 +17,8 @@ function Signin({ onLogin }: SigninProps) {
     const error = useLoginUserError();
     const state = useLoginUserState();
     const loginHandler = async ({ loginCredentials, signinFormApi }: LoginUserEvent) => {
-        let result = await loginUser(loginCredentials) as any
+        let result = await loginUser(loginCredentials)
+        console.log(result);
         if (result.error === undefined) {
             signinFormApi.reset();
             if (onLogin) onLogin();

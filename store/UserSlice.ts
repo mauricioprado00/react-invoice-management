@@ -4,6 +4,7 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
+import { useThunkDispatch } from "hooks/use-thunk-dispatch";
 import {
   LoginResponse,
   RegisterData,
@@ -329,7 +330,7 @@ export const useRegisterUserState = () =>
   useSelector(registerUserStateSelector);
 
 export const useLoginUser = () => {
-  const dispatch = useDispatch();
+  const dispatch = useThunkDispatch<LoginUserResult>();
   return useCallback(
     (loginCredentials: LoginCredentials) =>
       dispatch(loginUser(loginCredentials)),
