@@ -305,7 +305,7 @@ export const {
 const useMeSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected
 ) => {
-  const dispatch = useDispatch();
+  const dispatch = useThunkDispatch();
   useEffect(() => {
     if (!loadMeBegan) {
       loadMeBegan = true;
@@ -316,7 +316,7 @@ const useMeSelector = <TState, TSelected>(
 };
 
 export const useRegisterUser = () => {
-  const dispatch = useDispatch();
+  const dispatch = useThunkDispatch();
   return useCallback(
     (user: UserWithPassword) => dispatch(registerUser(user)),
     [dispatch]
@@ -347,7 +347,7 @@ export const useIsLoggedIn = () => useSelector(isLoggedInSelector);
 
 export const useInitLoggedFromStorage = () => {
   const bearerToken = useBearerToken();
-  const dispatch = useDispatch();
+  const dispatch = useThunkDispatch();
   useEffect(() => {
     if (bearerToken === null) {
       dispatch(initLoggedFromStorage());
@@ -372,7 +372,7 @@ export const useLogoutUser = () => {
 };
 
 export const useUpdateMe = () => {
-  const dispatch = useDispatch();
+  const dispatch = useThunkDispatch();
   return (me: Me) => dispatch(updateMe(me));
 };
 export const useUpdateMeRequest = () => useSelector(updateMeRequestSelector);

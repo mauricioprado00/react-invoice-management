@@ -4,6 +4,7 @@ import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import SignupForm, { SaveUserEvent } from './SignupForm'
 import { useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
+import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 
 type SignupProps = {
     onSave?: () => void,
@@ -16,8 +17,8 @@ function Signup({ onSave }: SignupProps) {
     const error = useRegisterUserError();
     const state = useRegisterUserState();
     const saveHandler = async ({ user, signupFormApi }: SaveUserEvent) => {
-        let result = await registerUser(user) as any
-        if (result.error === undefined) {
+        let result = await registerUser(user)
+        if (isFullfilledThunk(result)) {
             signupFormApi.reset();
             if (onSave) onSave();
         }

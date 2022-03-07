@@ -5,6 +5,7 @@ import { UpsertClientResult, useClientById, useClientLoading, useUpsertClient, u
 import ErrorBanner from 'components/utility/ErrorBanner'
 import { Client } from 'models/Client'
 import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
+import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 
 type ClientProps = {
     onCancel?: (client:Client|null) => void,
@@ -23,10 +24,9 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const upsertState = useUpsertClientState();
     const loading = useClientLoading();
     const saveHandler = async ({ profile }: SaveProfileEvent) => {
-        let result = await upsertClient(profile) as any
-        if (result.error === undefined) {
-            const response = result.payload as UpsertClientResult
-            if (onSave) onSave(response.client);
+        let result = await upsertClient(profile)
+        if (isFullfilledThunk(result)) {
+            if (onSave) onSave(result.payload.client);
         }
     }
     const saving = upsertState === "loading";

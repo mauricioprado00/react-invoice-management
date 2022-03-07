@@ -5,6 +5,7 @@ import ErrorBanner from 'components/utility/ErrorBanner'
 import { useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/UserSlice'
 import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
 import { Me } from 'models/User'
+import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 
 type UserEditionProps = {
     onCancel?: () => void,
@@ -21,8 +22,8 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
     const state = useUpdateMeState();
     // Todo improve saveHandler, see ClientEdition
     const saveHandler = async ({ profile }: SaveProfileEvent) => {
-        let result = await updateMe({ ...me as Me, ...profile }) as any
-        if (result.error === undefined) {
+        let result = await updateMe({ ...me as Me, ...profile })
+        if (isFullfilledThunk(result)) {
             if (onSave) onSave();
         }
     }

@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userLoggedIn, userLoggedOut } from "./UserSlice";
+import { useThunkDispatch } from "hooks/use-thunk-dispatch";
 
 type ClientStatus = "initial" | "began_fetching" | "loaded";
 let loadClientBegan = false;
@@ -197,7 +198,7 @@ export const clientStatusSelector = createSelector(
 const useClientSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected
 ) => {
-  const dispatch = useDispatch();
+  const dispatch = useThunkDispatch();
   useEffect(() => {
     if (!loadClientBegan) {
       loadClientBegan = true;
@@ -221,7 +222,7 @@ export const useClientStatus = () => useSelector(clientStatusSelector);
 export const useClientById = (id: string | null) =>
   useClientSelector(clientByIdSelector(id));
 export const useUpsertClient = () => {
-  const dispatch = useDispatch();
+  const dispatch = useThunkDispatch();
   return (client: Client) => dispatch(upsertClient(client));
 };
 export const useUpsertClientLastRequest = () =>
