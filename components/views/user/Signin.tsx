@@ -4,6 +4,7 @@ import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import SigninForm, { LoginUserEvent } from './SigninForm'
 import { useLoginUser, useLoginUserError, useLoginUserState } from 'store/UserSlice'
+import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 //import { useLoginUser, useLoginUserError, useLoginUserState } from 'store/UserSlice'
 
 type SigninProps = {
@@ -18,8 +19,7 @@ function Signin({ onLogin }: SigninProps) {
     const state = useLoginUserState();
     const loginHandler = async ({ loginCredentials, signinFormApi }: LoginUserEvent) => {
         let result = await loginUser(loginCredentials)
-        console.log(result);
-        if (result.error === undefined) {
+        if (isFullfilledThunk(result)) {
             signinFormApi.reset();
             if (onLogin) onLogin();
         }

@@ -1,18 +1,31 @@
+import { PayloadAction, SerializedError } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 
-type Error = {
-    message: string
-}
-type ErrorPayloadAction = {
-    error?: Error
-}
-type CustomPayload<T> = {
-    payload: T
-}
 type AnyThunk = (...args:any) => any
-type ThunkResult<T extends AnyThunk, P> = ReturnType<T> & Promise<CustomPayload<P>> & 
-    Promise<ErrorPayloadAction>
-export const useThunkDispatch = <P>() => {
+export const useThunkDispatch = () => {
     const dispatch = useDispatch();
-    return <T extends AnyThunk,>(thunk:T):ThunkResult<T, P> => { return dispatch(thunk) as ThunkResult<T, P>;}
+    return <T extends AnyThunk>(thunk:T):ReturnType<T> => { return dispatch(thunk) as ReturnType<T>;}
+}
+
+export const isFullfilledThunk = <R,A>(r:PayloadAction<R, string, {
+    arg: A;
+    requestId: string;
+    requestStatus: "fulfilled";
+}, never> | PayloadAction<unknown, string, {
+    arg: A;
+    requestId: string;
+    requestStatus: "rejected";
+    aborted: boolean;
+    condition: boolean;
+} & ({
+    rejectedWithValue: true;
+} | ({
+    rejectedWithValue: false;
+} & {})), SerializedError>):r is PayloadAction<R, string, {
+    arg: A;
+    requestId: string;
+    requestStatus: "fulfilled";
+}, never> => {
+
+    return !('error' in r);
 }

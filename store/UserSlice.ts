@@ -330,7 +330,7 @@ export const useRegisterUserState = () =>
   useSelector(registerUserStateSelector);
 
 export const useLoginUser = () => {
-  const dispatch = useThunkDispatch<LoginUserResult>();
+  const dispatch = useThunkDispatch();
   return useCallback(
     (loginCredentials: LoginCredentials) =>
       dispatch(loginUser(loginCredentials)),
