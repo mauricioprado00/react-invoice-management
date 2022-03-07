@@ -88,7 +88,7 @@ export const loginUser = createAsyncThunk<
   async (loginCredentials, thunkAPI): Promise<LoginUserResult> => {
     const result = thunkAPI.extra.serviceApi.loginUser(
       loginCredentials,
-      async (loginData) => {
+      async loginData => {
         await thunkAPI.dispatch(newBearerToken(loginData.token));
         thunkAPI.dispatch(userLoggedIn({ ...loginData }));
       }
@@ -269,7 +269,8 @@ const validatedTokenSelector = createSelector(
 export const isLoggedInSelector = createSelector(
   bearerTokenSelector,
   validatedTokenSelector,
-  (bearerToken, validatedToken) => (validatedToken === false ? null : bearerToken !== null)
+  (bearerToken, validatedToken) =>
+    validatedToken === false ? null : bearerToken !== null
 );
 
 export const meSelector = createSelector(
@@ -300,6 +301,17 @@ export const {
   errorSelector: updateMeErrorSelector,
   stateSelector: updateMeStateSelector,
 } = createRequestSelectors("updateMe", userSliceSelector);
+
+// business logic
+
+export const isProfileFilledSelector = createSelector(meSelector, me =>
+  [
+    me?.companyDetails?.address,
+    me?.companyDetails?.name,
+    me?.companyDetails?.regNumber,
+    me?.companyDetails?.vatNumber,
+  ].reduce((filled, value) => filled && value !== undefined, true)
+);
 
 // hooks
 const useMeSelector = <TState, TSelected>(
@@ -361,8 +373,9 @@ export const useLoadMeError = () => useSelector(loadMeErrorSelector);
 const useLoadMeState = () => useSelector(loadMeStateSelector);
 export const useMeLoading = () => {
   const state = useLoadMeState();
-  return state === 'none' || state === 'loading';
-}
+  return state === "none" || state === "loading";
+};
+export const useIsProfileFilled = () => useMeSelector(isProfileFilledSelector);
 
 export const useLogoutUser = () => {
   const dispatch = useDispatch();

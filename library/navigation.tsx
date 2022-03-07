@@ -9,6 +9,11 @@ export const useGoRoute = (url: string) => {
     }, [router, url])
 }
 
+export const useIsRoute = (path: string) => {
+    const router = useRouter();
+    return path === router.pathname;
+}
+
 export const useGoDashboard = () => {
     return useGoRoute('/');
 }
@@ -24,7 +29,7 @@ export const useGoClientEdit = () => {
     }, [router]);
 }
 
-export const useGoClientIdEdit = (id:string | null = null) => {
+export const useGoClientIdEdit = (id: string | null = null) => {
     const router = useRouter();
     return useCallback(() => {
         if (id) {
@@ -86,4 +91,8 @@ export const useGoMe = () => {
 
 export const useGoEditMe = () => {
     return useGoRoute('/update-profile');
+}
+
+export const useIsEditMe = () => {
+    return useIsRoute('/update-profile');
 }
