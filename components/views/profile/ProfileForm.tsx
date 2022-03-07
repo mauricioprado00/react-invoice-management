@@ -26,7 +26,7 @@ type ProfileFormProps = {
     profile: AnyClient | Me | null,
     disabledFields?: string[],
     withBank?: boolean,
-    message?: string,
+    message?: string | null,
 }
 
 const ProfileFormPropTypes = {
