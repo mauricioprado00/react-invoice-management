@@ -3,24 +3,28 @@ import React from 'react'
 import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import SignupForm, { SaveUserEvent } from './SignupForm'
-import { useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
+import { useLoginUser, useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 
 type SignupProps = {
-    onSave?: () => void,
+    onRegisteredAndLoggedIn?: () => boolean,
 }
 const SignupPropTypes = {
-    onSave: PropTypes.func,
+    onRegisteredAndLoggedIn: PropTypes.func,
 }
-function Signup({ onSave }: SignupProps) {
+function Signup({ onRegisteredAndLoggedIn }: SignupProps) {
+    const loginUser = useLoginUser();
     const registerUser = useRegisterUser();
     const error = useRegisterUserError();
     const state = useRegisterUserState();
     const saveHandler = async ({ user, signupFormApi }: SaveUserEvent) => {
         let result = await registerUser(user)
         if (isFullfilledThunk(result)) {
-            signupFormApi.reset();
-            if (onSave) onSave();
+            let loginResult = await loginUser(user);
+            if (isFullfilledThunk(loginResult)) {
+                if (onRegisteredAndLoggedIn) if (onRegisteredAndLoggedIn()) return;
+                signupFormApi.reset();
+            }
         }
     }
     const loading = state === "loading";
