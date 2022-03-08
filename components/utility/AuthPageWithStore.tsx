@@ -31,7 +31,7 @@ function CheckProfileIsFilled(props:CheckProps) {
     const goEditMe = useGoEditMe();
     const isEditMe = useIsEditMe();
     const loading = useMeLoading();
-    const mustEditFirst = !isProfileFilled && !isEditMe;
+    const mustEditFirst = !loading && !isProfileFilled && !isEditMe;
     if (mustEditFirst) {
         goEditMe();
     }
