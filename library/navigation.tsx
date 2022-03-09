@@ -18,27 +18,34 @@ export const useGoDashboard = () => {
     return useGoRoute('/');
 }
 
-export const useGoClientEdit = () => {
+const useGoEdit = (url: string) => {
     const router = useRouter();
-    return useCallback((id: string | null = null) => {
+    const cb = useCallback((id: string | null = null) => {
         if (id) {
-            router.push('/client?' + new URLSearchParams({ id }));
+            router.push(url + '?' + new URLSearchParams({ id }));
         } else {
-            router.push('/client');
+            router.push(url);
         }
-    }, [router]);
+    }, [router, url]);
+
+    return cb;
 }
 
-export const useGoClientIdEdit = (id: string | null = null) => {
+const useGoEditId = (url: string) => {
     const router = useRouter();
-    return useCallback(() => {
-        if (id) {
-            router.push('/client?' + new URLSearchParams({ id }));
-        } else {
-            router.push('/client');
-        }
-    }, [router, id]);
+    return useCallback((id: string | null = null) => {
+        return () => {
+            if (id) {
+                router.push(url + '?' + new URLSearchParams({ id }));
+            } else {
+                router.push(url);
+            }
+        };
+    }, [router, url]);
 }
+
+export const useGoClientEdit = () => useGoEdit('/client');
+export const useGoClientIdEdit = (id: string | null = null) => useGoEditId('/client')(id)
 
 export const useGoClientIdDashboard = (id: string | null) => {
     const router = useRouter();
@@ -54,6 +61,24 @@ export const useGoClientDashboard = () => {
     }, [router]);
 }
 
+export const useGoInvoiceEdit = () => useGoEdit('/invoice');
+export const useGoInvoiceIdEdit = (id: string | null = null) => useGoEditId('/invoice')(id)
+
+export const useGoInvoiceIdDashboard = (id: string | null) => {
+    const router = useRouter();
+    return useCallback(() => {
+        if (id) router.push('/invoice-dashboard?' + new URLSearchParams({ id }));
+    }, [router, id]);
+}
+
+export const useGoInvoiceDashboard = () => {
+    const router = useRouter();
+    return useCallback((id: string) => {
+        router.push('/invoice-dashboard?' + new URLSearchParams({ id }));
+    }, [router]);
+}
+
+
 export const useGoNewClient = () => {
     const goClient = useGoClientEdit();
     return useCallback(() => { goClient() }, [goClient])
@@ -67,13 +92,17 @@ export const useGoLogin = () => {
     return useGoRoute('/login');
 }
 
-export const useParamClientId = (): string | null => {
+const useParamId = (): string | null => {
     const router = useRouter();
     if (router.query.id) {
         return router.query.id.toString();
     }
     return null;
 }
+
+export const useParamClientId = useParamId;
+
+export const useParamInvoiceId = useParamId;
 
 export const useLogout = () => {
     const router = useRouter();
