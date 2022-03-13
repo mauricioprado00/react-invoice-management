@@ -19,12 +19,12 @@ const ClientTable = ({ title = "Clients" }: ClientTableProps) => {
   const clients = useClientList()
   const loadError = useLoadClientError()
   const loading = useClientLoading()
-  const newClientHandler = useGoNewClient();
+  const goNewClient = useGoNewClient();
 
   return (
     <Table title={title} loading={loading} error={loadError}>
       {!loading && <HeaderContent>
-          <Button styled={ButtonStyle.FlatPrimary} onClick={newClientHandler}>New Client</Button>
+          <Button styled={ButtonStyle.FlatPrimary} onClick={goNewClient}>New Client</Button>
           {clients.length > 0 && <Button styled={ButtonStyle.FlatPrimary}>All Clients</Button>}
       </HeaderContent>}
       <Column>Client Name</Column>

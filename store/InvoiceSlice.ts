@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ClientInvoice, ClientInvoiceList } from "models/Invoice";
 import { MapType } from "models/UtilityModels";
 import { createSelector } from "reselect";
@@ -12,21 +12,27 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userLoggedIn, userLoggedOut } from "./UserSlice";
+import { useThunkDispatch } from "hooks/use-thunk-dispatch";
 
 type InvoiceStatus = "initial" | "began_fetching" | "loaded";
 let loadInvoiceBegan = false;
 
 export type ClientInvoicesState = {
-  list: ClientInvoiceList;
+  list: MapType<ClientInvoice>;
   requests: MapType<MapType<RequestInformation>>;
   status: InvoiceStatus;
 };
 
 const initialState: ClientInvoicesState = {
-  list: [],
+  list: {},
   // group all of these into a new attribute
   requests: {},
   status: "initial",
+};
+
+export type UpsertInvoiceResult = {
+  clientInvoice: ClientInvoice;
+  success?: boolean;
 };
 
 const findClientInvoiceIndex = (
@@ -38,6 +44,31 @@ const findClientInvoiceIndex = (
   );
 const findClientInvoice = (clientInvoices: ClientInvoiceList, id: string) =>
   clientInvoices[findClientInvoiceIndex(clientInvoices, id)];
+
+export const upsertInvoice = createAsyncThunk<
+  // Return type of the payload creator
+  UpsertInvoiceResult,
+  // First argument to the payload creator
+  ClientInvoice,
+  AppThunkAPI
+>(
+  "invoice/add",
+  async (clientInvoice, thunkAPI): Promise<UpsertInvoiceResult> => {
+    const following = clientInvoice.invoice.id ? updated : added;
+    const result = thunkAPI.extra.serviceApi.upsertInvoice(
+      clientInvoice,
+      clientInvoice => thunkAPI.dispatch(following(clientInvoice))
+    );
+    thunkAPI.signal.addEventListener("abort", result.abort);
+    result.promise.catch(errorMessage =>
+      thunkAPI.rejectWithValue(errorMessage)
+    );
+    return {
+      clientInvoice: await result.promise,
+      success: true,
+    };
+  }
+);
 
 export const loadClientInvoices = createAsyncThunk<
   // Return type of the payload creator
@@ -59,45 +90,59 @@ const slice = createSlice({
   name: "invoice",
   initialState,
   reducers: {
-    requested: (clientInvoice) => {
-      clientInvoice.status = 'began_fetching';
+    requested: state => {
+      state.status = "began_fetching";
     },
-    received: (clientInvoice, action) => {
-      clientInvoice.list = action.payload;
-      clientInvoice.status = 'loaded';
+    received: (state, action: PayloadAction<ClientInvoice[]>) => {
+      action.payload.forEach(
+        clientInvoice => (state.list[clientInvoice.invoice.id] = clientInvoice)
+      );
+      state.status = "loaded";
     },
-    added: (clientInvoice, action) => {
-      clientInvoice.list.push(action.payload);
+    updated: (state, action: PayloadAction<ClientInvoice>) => {
+      state.list[action.payload.invoice.id] = {
+        ...action.payload,
+      };
     },
-    removed: (clientInvoice, action) => {
-      const { id } = action.payload;
-      const index = findClientInvoiceIndex(clientInvoice.list, id);
-      clientInvoice.list.splice(index, 1);
+    added: (state, action: PayloadAction<ClientInvoice>) => {
+      state.list[action.payload.invoice.id] = { ...action.payload };
+    },
+    removed: (state, action: PayloadAction<ClientInvoice>) => {
+      const { id } = action.payload.invoice;
+      delete state.list[id];
     },
   },
   extraReducers: builder => {
     builder.addCase(userLoggedIn, () => {
       loadInvoiceBegan = false;
-    })
-    builder.addCase(userLoggedOut, (state) => {
-      return {...initialState}
     });
-    const { pending, fulfilled, rejected } = requestReducers(
-      "loadClientInvoices",
-      5
-    );
-    builder.addCase(loadClientInvoices.pending, pending);
-    builder.addCase(loadClientInvoices.fulfilled, fulfilled);
-    builder.addCase(loadClientInvoices.rejected, rejected);
+    builder.addCase(userLoggedOut, state => {
+      return { ...initialState };
+    });
+
+    {
+      const { pending, fulfilled, rejected } = requestReducers(
+        "loadClientInvoices",
+        5
+      );
+      builder.addCase(loadClientInvoices.pending, pending);
+      builder.addCase(loadClientInvoices.fulfilled, fulfilled);
+      builder.addCase(loadClientInvoices.rejected, rejected);
+    }
+    {
+      const { pending, fulfilled, rejected } = requestReducers(
+        "upsertInvoice",
+        5
+      );
+      builder.addCase(upsertInvoice.pending, pending);
+      builder.addCase(upsertInvoice.fulfilled, fulfilled);
+      builder.addCase(upsertInvoice.rejected, rejected);
+    }
+
   },
 });
 
-export const {
-  added,
-  removed,
-  received,
-  requested,
-} = slice.actions;
+export const { added, updated, removed, received, requested } = slice.actions;
 
 export default slice.reducer;
 
@@ -125,9 +170,15 @@ export const {
   stateSelector: loadClientInvoiceStateSelector,
 } = createRequestSelectors("loadClientInvoices", clientInvoiceSliceSelector);
 
+export const {
+  lastSelector: upsertInvoiceLastRequestSelector,
+  errorSelector: upsertInvoiceErrorSelector,
+  stateSelector: upsertInvoiceStateSelector,
+} = createRequestSelectors("upsertInvoice", clientInvoiceSliceSelector);
+
 export const clientInvoiceListSelector = createSelector(
   clientInvoiceSliceSelector,
-  clientInvoiceSlice => clientInvoiceSlice.list
+  clientInvoiceSlice => Object.values(clientInvoiceSlice.list)
 );
 
 export const clientInvoiceCountSelector = createSelector(
@@ -180,11 +231,11 @@ const useInvoiceSelector = <TState, TSelected>(
 export const useClientInvoiceOptions = () =>
   useSelector(getClientInvoiceOptionsSelector);
 export const useInvoiceSlice = () => useSelector(clientInvoiceSliceSelector);
-export const useInvoiceList = () => useInvoiceSelector(clientInvoiceListSelector);
+export const useInvoiceList = () =>
+  useInvoiceSelector(clientInvoiceListSelector);
 export const useLoadInvoiceError = () =>
   useSelector(loadClientInvoiceErrorSelector);
-const useLoadInvoiceState = () =>
-  useSelector(loadClientInvoiceStateSelector);
+const useLoadInvoiceState = () => useSelector(loadClientInvoiceStateSelector);
 export const useInvoiceLoading = () => {
   const state = useLoadInvoiceState();
   return state === "none" || state === "loading";
@@ -194,3 +245,13 @@ export const useInvoiceStatus = () => useSelector(clientInvoiceStatusSelector);
 export const useInvoiceCount = () =>
   useInvoiceSelector(clientInvoiceCountSelector);
 export const useInvoiceSum = () => useInvoiceSelector(clientInvoiceSumSelector);
+export const useUpsertInvoice = () => {
+  const dispatch = useThunkDispatch();
+  return (clientInvoice: ClientInvoice) => dispatch(upsertInvoice(clientInvoice));
+};
+export const useUpsertInvoiceLastRequest = () =>
+  useInvoiceSelector(upsertInvoiceLastRequestSelector);
+export const useUpsertInvoiceError = () =>
+  useInvoiceSelector(upsertInvoiceErrorSelector);
+export const useUpsertInvoiceState = () =>
+  useInvoiceSelector(upsertInvoiceStateSelector);

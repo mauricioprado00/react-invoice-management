@@ -1,5 +1,5 @@
 import { Client, ClientWithTotalsList } from 'models/Client'
-import { ClientInvoiceList } from 'models/Invoice'
+import { ClientInvoice, ClientInvoiceList, Invoice } from 'models/Invoice'
 import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me } from 'models/User'
 import { MapType } from 'models/UtilityModels'
 interface ApiInitParams extends RequestInit {
@@ -26,6 +26,28 @@ const upsertClient = (url: string) => (client:Client) => async (init: ApiInitPar
     throw new Error("Aborted operation")
   }
   return jsonResponse.client
+}
+
+const upsertInvoice = (url: string) => (clientInvoice:ClientInvoice) => async (init: ApiInitParams) => {
+  const fetchPromise = fetch(url, {
+    ...init,
+    method: clientInvoice.invoice.id ? 'PUT' : 'POST',
+    headers: {
+      ...init.headers,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(clientInvoice.invoice)
+  })
+  const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
+  return {...clientInvoice, invoice: jsonResponse.invoice}
 }
 
 const registerUser = (url: string) => (user:UserWithPassword) => async (init: ApiInitParams) => {
@@ -207,6 +229,8 @@ const createClient = (url:string, bearerToken:string) => ({
     endpoint<Me>(getMe(url + '/me'), bearerToken, then, {}),
   updateMe: (me:Me, then:Then<Me>): AbortableEndpointResult<Me> =>
     endpoint<Me>(updateMe(url + '/me/company'), bearerToken, then, me),
+  upsertInvoice: (clientInvoice:ClientInvoice, then:Then<ClientInvoice>): AbortableEndpointResult<ClientInvoice> =>
+    endpoint<ClientInvoice>(upsertInvoice(url + '/invoices'), bearerToken, then, clientInvoice),
 })
 
 

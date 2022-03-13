@@ -84,6 +84,11 @@ export const useGoNewClient = () => {
     return useCallback(() => { goClient() }, [goClient])
 }
 
+export const useGoNewInvoice = () => {
+    const goInvoice = useGoInvoiceEdit();
+    return useCallback(() => { goInvoice() }, [goInvoice])
+}
+
 export const useGoIndex = () => {
     return useGoRoute('/');
 }

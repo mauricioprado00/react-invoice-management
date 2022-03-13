@@ -1,7 +1,30 @@
+import PropTypes from 'prop-types'
 import { InputChangeEvent } from "components/ui/forms/InputText";
 import produce from "immer";
 import { MapType, MapTypeFill, MapTypeSome } from "models/UtilityModels";
 import { useCallback, useMemo, useState } from "react";
+
+type FormElementChangeEvent = {
+  target: {
+    value: string,
+  }
+  fieldName: string,
+}
+export type FormElementProps = {
+  reset?: number;
+  onValid?: (name: string, valid: boolean) => void;
+  onChange?: (e: FormElementChangeEvent) => void;
+  showErrors?: boolean;
+  disabled?: boolean;
+}
+
+export const FormElementPropTypes = {
+  reset: PropTypes.number,
+  onValid: PropTypes.func,
+  onChange: PropTypes.func,
+  showErrors: PropTypes.bool,
+  disabled: PropTypes.bool,
+}
 
 type FormState = {
   valid: MapType<boolean>;
@@ -41,7 +64,7 @@ const useForm = ({ elements, disabled, disabledFields }: useFormProps) => {
       })
     );
   }, []);
-  const changeHandler = useCallback((e: InputChangeEvent) => {
+  const changeHandler = useCallback((e: FormElementChangeEvent) => {
     setState(prev =>
       produce(prev, draft => {
         draft.values[e.fieldName] = e.target.value;
@@ -49,7 +72,7 @@ const useForm = ({ elements, disabled, disabledFields }: useFormProps) => {
     );
   }, []);
 
-  const inputProps = {
+  const inputProps:FormElementProps = {
     reset: state.reset,
     onValid: validHandler,
     onChange: changeHandler,
