@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from "prop-types";
 import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
 import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { ClientInvoice, Invoice, InvoicePropTypes } from 'models/Invoice'
-import produce from 'immer';
+import { ClientInvoice, Invoice, InvoiceDetail, InvoicePropTypes } from 'models/Invoice'
 import useForm from 'hooks/use-form';
-import { Client, ClientPropTypes } from 'models/Client';
 import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'components/ui/forms/ClientSelector';
-import { dateToTimestamp } from 'library/date';
+import InvoiceItems, { InvoiceItemsChangeEvent } from '../../ui/forms/InvoiceItems';
+import produce from 'immer';
 
 type InvoiceFormApi = {
     reset: () => void
@@ -58,8 +57,18 @@ function InvoiceForm({
     clientList
 }: InvoiceFormProps) {
     const form = useForm({ elements, disabled, disabledFields });
+    const [items, setItems] = useState<InvoiceDetail[]>([])
     const { state, reset, setState } = form;
-    const invoiceFormApi = { reset };
+    const total = items.reduce((carry, item) => carry + item.quantity * item.rate, 0);
+    const invoiceFormApi = useMemo(() => ({ reset }), [reset]);
+    const handleItemsChange = useCallback((e: InvoiceItemsChangeEvent): void => {
+        setItems(e.items);
+    }, []);
+    const handleItemsValid = useCallback((name: string, valid: boolean): void => {
+        setState(state => produce(state, (draft) => {
+            draft.valid['items'] = valid;
+        }))
+    }, [setState]);
 
     const cancelHandler = () => {
         let result = onCancel();
@@ -68,7 +77,7 @@ function InvoiceForm({
         }
     }
 
-    const saveHandler = () => {
+    const saveHandler = useCallback(() => {
         if (!form.allValid()) {
             form.setShowErrors(true);
             return;
@@ -82,30 +91,27 @@ function InvoiceForm({
                     invoice_number: form.state.values.invoice_number,
                     dueDate: new Date(form.state.values.dueDate).getTime(),
                     date: new Date(form.state.values.date).getTime(),
-                    value: parseFloat(form.state.values.value) || 500,
+                    value: total,
                     client_id: form.state.values.client_id,
                     projectCode: form.state.values.projectCode,
                     meta: {
-                        details: [
-                            {
-                                description: "description 1",
-                                value: 100,
-                            },
-                            {
-                                description: "description 2",
-                                value: 200,
-                            },
-                            {
-                                description: "description 3",
-                                value: 400,
-                            },
-                        ],
+                        details: items,
+                        billTo: {
+                            name: "someone",
+                            address: "somewhere",
+                            vatNumber: "239234823",
+                            regNumber: "123123",
+                        },
+                        payTo: {
+                            accountNumber: "12313123",
+                            accountType: "iban"
+                        }
                     },
                 },
             },
             invoiceFormApi
         });
-    }
+    }, [clientList, form, invoiceFormApi, items, onSave, total]);
 
     useEffect(() => {
         if (invoice) {
@@ -151,6 +157,11 @@ function InvoiceForm({
                 />
             </FieldsetRow>
 
+            <InvoiceItems name="items" showErrors={state.showErrors} onChange={handleItemsChange} onValid={handleItemsValid} />
+
+            <FieldsetRow alignRight={true}>
+                Total: {total.toFixed(2)}
+            </FieldsetRow>
             <FieldsetRow alignRight={true}>
                 <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>
                 <Button onClick={saveHandler} styled={ButtonStyle.PillPrimary} disabled={disabled}>Save</Button>
@@ -159,7 +170,6 @@ function InvoiceForm({
             {message && <FieldsetRow>
                 <span className="block text-gray-500">{message}</span>
             </FieldsetRow>}
-
         </Form>
     )
 }

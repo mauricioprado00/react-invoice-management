@@ -72,28 +72,28 @@ const useForm = ({ elements, disabled, disabledFields }: useFormProps) => {
     );
   }, []);
 
-  const inputProps:FormElementProps = {
+  const inputProps:FormElementProps = useMemo(() => ({
     reset: state.reset,
     onValid: validHandler,
     onChange: changeHandler,
     showErrors: state.showErrors,
     disabled,
-  };
+  }), [state, changeHandler, validHandler, disabled]);
 
-  const disabledInputProps = {
+  const disabledInputProps = useMemo(() => ({
     disabled: true,
     reset: state.reset,
     onValid: validHandler,
-  };
+  }), [validHandler, state]);
 
   return {
     state,
     inputProps,
-    resolveProps: (name: string) =>
-      state.disabled[name] === true ? disabledInputProps : inputProps,
-    setShowErrors: (show: boolean) => {
+    resolveProps: useCallback((name: string) =>
+      state.disabled[name] === true ? disabledInputProps : inputProps, [state, disabledInputProps, inputProps]),
+    setShowErrors: useCallback((show: boolean) => {
       setState(prev => ({ ...prev, showErrors: show }));
-    },
+    }, []),
     allValid: (): boolean => !MapTypeSome(state.valid, value => value !== true),
     reset: useCallback(() => {
       setState(prev => ({

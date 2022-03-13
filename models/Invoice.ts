@@ -12,8 +12,26 @@ export type Invoice = {
   dueDate: number;
   value: number;
   projectCode?: string;
-  meta?: Record<string, any>
+  meta?: {
+    details: InvoiceDetail[];
+    billTo: {
+      name: string;
+      address: string;
+      vatNumber: string;
+      regNumber: string;
+    };
+    payTo: {
+      accountNumber: string;
+      accountType: "iban" | "swift";
+    };
+  };
 };
+
+export type InvoiceDetail = {
+  detail: string,
+  quantity: number,
+  rate: number,
+}
 
 export type InvoiceN = null | Invoice;
 export type InvoiceList = Invoice[];

@@ -15,6 +15,7 @@ export type CardProps = {
     center?: boolean,
     background?: string | boolean | number,
     bgopacity?: boolean,
+    size?: "small" | "medium" | "big" | 'full'
 };
 
 export const CardPropTypes = {
@@ -24,11 +25,22 @@ export const CardPropTypes = {
     center: PropTypes.bool,
     background: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     bgopacity: PropTypes.bool,
+    size: PropTypes.oneOf(["small", "medium", "big"])
 }
 
 const styles = {
-    base: 'flex bg-center bg-gray-50 pt-20 pb-4 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover'
+    base: 'flex bg-center bg-gray-50 pt-20 pb-4 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover',
+    containerBase: 'w-full space-y-8 p-10 bg-white rounded-xl shadow-lg z-0',
 }
+
+const sizeClasses = {
+    small: "max-w-xl",
+    medium: "max-w-2xl",
+    big: "max-w-4xl",
+    full: '',
+}
+
+const defaultSize = "medium"
 
 type CardStyle = {
     backgroundImage?: string
@@ -39,8 +51,9 @@ const backgrounds = {
     [CardBackground.OceanWater as number]: 'https://images.unsplash.com/photo-1532423622396-10a3f979251a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80'
 }
 
-function Card({ children, title, fullscreen=false, center=true, background=false, bgopacity=false }: CardProps) {
+function Card({ children, title, fullscreen=false, center=true, background=false, bgopacity=false, size = defaultSize}: CardProps) {
     const mainClassnames = [styles.base];
+    const secClasses = [styles.containerBase];
     const style:CardStyle = {}
 
     if (fullscreen) {
@@ -50,6 +63,8 @@ function Card({ children, title, fullscreen=false, center=true, background=false
     if (center) {
         mainClassnames.push('items-center justify-center')
     }
+
+    secClasses.push(sizeClasses[size]);
 
     if (background) {
         let type = typeof background
@@ -68,7 +83,7 @@ function Card({ children, title, fullscreen=false, center=true, background=false
         {bgopacity && <div className="absolute bg-black opacity-60 inset-0 z-0" />}
 
 
-        <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg z-10">
+        <div className={classNames(...secClasses)}>
             <div className="grid  gap-8 grid-cols-1">
                 <div className="flex flex-col ">
                     {title && <div className="flex flex-col sm:flex-row items-center">

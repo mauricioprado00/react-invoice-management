@@ -7,7 +7,7 @@ import classNames from "classnames";
 // and error styles from https://tailwindcomponents.com/component/tailwind-css-form-validation
 
 export interface InputTextProps extends React.ComponentPropsWithoutRef<'input'> {
-    label: string,
+    label?: string,
     required?: boolean,
     name: string,
     reset?: number,
@@ -18,10 +18,11 @@ export interface InputTextProps extends React.ComponentPropsWithoutRef<'input'> 
     singleError?: boolean,
     showErrors?: boolean,
     validationExtra?: any,
+    requiredMessage?: string
 };
 
 export const InputTextPropTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     name: PropTypes.string.isRequired,
     error: PropTypes.string,
     reset: PropTypes.number,
@@ -32,6 +33,7 @@ export const InputTextPropTypes = {
     singleError: PropTypes.bool,
     showErrors: PropTypes.bool,
     valiationExtra: PropTypes.any,
+    requiredMessage: PropTypes.string,
 }
 
 export interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement> {
@@ -65,10 +67,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
     const [touch, setTouch] = useState(-1);
     const {
         label,
-        name,
         reset = 0,
-        required = false,
-        value = '',
         validators = [],
         error = null,
         onValid,
@@ -77,8 +76,10 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
         singleError = true,
         showErrors = false,
         validationExtra,
+        requiredMessage = 'Please fill out this field.',
         ...inputProps
     } = props;
+    const {readOnly, value = '', name, required = false} = inputProps;
     const changeHandler = useCallback((e: InputChangeEvent) => {
         if (onChange) {
             e.fieldName = name;
@@ -99,7 +100,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
 
     if (required === true) {
         if (value.toString().trim() === '') {
-            errorMessages.push('Please fill out this field.');
+            errorMessages.push(requiredMessage);
         }
     }
 
@@ -137,7 +138,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
 
     }, [valid, newValid, name, onValid])
 
-    if (expressErrors) {
+    if (expressErrors && !readOnly) {
         if (errorMessages.length > 0) {
             labelClasses.push(classes.label.invalid);
             inputClasses.push(classes.input.invalid);
@@ -155,21 +156,19 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
     }
 
     return <div className="mb-3 space-y-2 w-full text-xs">
-        <label className={classNames(...labelClasses)}>
+        {label && <label className={classNames(...labelClasses)}>
             {label + " "}
 
             {required && <abbr title="required">*</abbr>}
-        </label>
+        </label>}
         <input
             ref={ref}
-            value={value}
             onChange={changeHandler}
             onBlur={blurHandler}
-            name={name}
             {...inputProps}
             className={classNames(...inputClasses)}
-            required={required} />
-        {expressErrors && <p className="text-red text-xs text-red-600 dark:text-red-500">{errorMessages.join(' ')}</p>}
+            />
+        <p className="text-red text-xs text-red-600 dark:text-red-500">{expressErrors && errorMessages.length ? errorMessages.join(' ') : '\u00A0'}</p>
     </div>;
 });
 
