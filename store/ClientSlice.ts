@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userLoggedIn, userLoggedOut } from "./UserSlice";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
+import {added as invoiceAdded } from "./InvoiceSlice"
+import { ClientInvoice } from "models/Invoice";
 
 type ClientStatus = "initial" | "began_fetching" | "loaded";
 let loadClientBegan = false;
@@ -108,6 +110,9 @@ const slice = createSlice({
     builder.addCase(userLoggedOut, state => {
       return { ...initialState };
     });
+    builder.addCase(invoiceAdded, (state, action: PayloadAction<ClientInvoice>) => {
+      state.list[action.payload.client.id].totalBilled += action.payload.invoice.value;
+    })
     {
       const { pending, fulfilled, rejected } = requestReducers(
         "loadClients",

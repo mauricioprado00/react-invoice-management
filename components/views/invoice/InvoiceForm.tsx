@@ -85,6 +85,22 @@ function InvoiceForm({
                     value: parseFloat(form.state.values.value) || 500,
                     client_id: form.state.values.client_id,
                     projectCode: form.state.values.projectCode,
+                    meta: {
+                        details: [
+                            {
+                                description: "description 1",
+                                value: 100,
+                            },
+                            {
+                                description: "description 2",
+                                value: 200,
+                            },
+                            {
+                                description: "description 3",
+                                value: 400,
+                            },
+                        ],
+                    },
                 },
             },
             invoiceFormApi
