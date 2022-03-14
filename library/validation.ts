@@ -23,6 +23,14 @@ export const numberValidator: ValidatorCreator =
     return !/^[0-9]+$/.test(value) ? message || Messages.Email : null;
   };
 
+export const gtValidator =
+  (ref: number, message: string|null) => (value: string) => {
+    const float: number = parseFloat(value);
+    return float !== NaN && float <= ref
+      ? message || "Must be higher than " + ref
+      : null;
+  };
+
 export const minLengthValidator = (length: number) => (value: string) => {
   return value.length < length
     ? "Must be contain at least " + length + " characters."
@@ -99,8 +107,7 @@ export const emptyOr =
     return validator(value, extra);
   };
 
-  export const notBothEmpty: ValidatorCreator =
+export const notBothEmpty: ValidatorCreator =
   (message: string | null) => (value: string, compare: string) => {
-    return value.trim() === '' && compare.trim() === '' ? message : null;
+    return value.trim() === "" && compare.trim() === "" ? message : null;
   };
-

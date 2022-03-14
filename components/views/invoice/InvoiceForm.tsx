@@ -131,6 +131,8 @@ function InvoiceForm({
         }
     }, [setState, reset, invoice]);
 
+    console.log({state});
+
     return (
         <Form>
             <FieldsetRow>

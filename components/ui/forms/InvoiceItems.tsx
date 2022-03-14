@@ -6,6 +6,7 @@ import useForm, { FormElementProps, FormElementPropTypes } from 'hooks/use-form'
 import InputText from './InputText'
 import produce from 'immer'
 import { InvoiceDetail } from 'models/Invoice'
+import { gtValidator } from 'library/validation'
 
 export type InvoiceItemsChangeEvent = {
     items: InvoiceDetail[],
@@ -132,6 +133,7 @@ function InvoiceItem({ id, onChange, showErrors }: InvoiceItemProps) {
             <SecCell align="right">
                 <InputText name="rate" type="number" min="0" required={true}
                     value={state.values.rate}
+                    validators={[gtValidator(0, "cannot be zero")]}
                     {...common}
                     {...form.resolveProps('rate')} />
 
@@ -146,7 +148,7 @@ function InvoiceItem({ id, onChange, showErrors }: InvoiceItemProps) {
     </>
 }
 
-const isItemEmpty = (item: InvoiceItem) => !item.detail && !item.quantity && !item.rate;
+const isItemEmpty = (item: InvoiceItem) => !item.detail && !item.rate;
 const allButLastEmpty = (state:ItemsState) => 
     Object.values(state.items).filter(item => !(isItemEmpty(item) && item.id === state.lastId))
 function InvoiceItems({ name, onValid, onChange, showErrors }: InvoiceItemsProps) {
