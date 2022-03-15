@@ -132,7 +132,7 @@ function InvoiceForm({
             },
             invoiceFormApi
         });
-    }, [clientList, form, invoiceFormApi, items, onSave, total]);
+    }, [clientList, form, invoiceFormApi, items, onSave, paymentTypes, state.values.payment, total]);
 
     useEffect(() => {
         if (invoice) {
