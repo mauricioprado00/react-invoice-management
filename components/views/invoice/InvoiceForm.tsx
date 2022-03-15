@@ -71,6 +71,8 @@ function InvoiceForm({
     const { state, reset, setState } = form;
     const total = items.reduce((carry, item) => carry + item.quantity * item.rate, 0);
     const invoiceFormApi = useMemo(() => ({ reset }), [reset]);
+    const { client_id } = state.values;
+
     const handleItemsChange = useCallback((e: InvoiceItemsChangeEvent): void => {
         setItems(e.items);
     }, []);
@@ -154,12 +156,27 @@ function InvoiceForm({
 
     // Initialize payment type
     useEffect(() => {
-        
+
         setState(prev => produce(prev, draft => {
             const [paymentType] = paymentTypes;
             draft.values.payment = paymentType.accountNumber;
         }))
     }, [setState, paymentTypes])
+
+    // Load the client company details into the "bill to" fields
+    useEffect(() => {
+        const [client] = client_id ? clientList.filter(c => c.id === client_id) : [];
+        setState(state => produce(state, draft => {
+            draft.values.prev_client_id = client_id;
+            if (!client) return;
+            draft.values.name = client.companyDetails?.name;
+            draft.values.address = client.companyDetails?.address;
+            draft.values.vatNumber = client.companyDetails?.vatNumber;
+            draft.values.regNumber = client.companyDetails?.regNumber;
+        }));
+    }, [client_id, clientList, setState]);
+
+    // TODO allow to update client company details if changes detected.
 
     return (
         <Form>
