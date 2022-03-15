@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { InputLabel, MenuItem, Select } from '@mui/material'
+import { InputLabel, MenuItem, Select, SelectChangeEvent, SelectProps } from '@mui/material'
 import classNames from 'classnames'
 import { styled } from '@mui/system'
 import { PaymentType, PaymentTypePropTypes } from 'models/Invoice'
+import { FormElementProps, FormElementPropTypes } from 'hooks/use-form'
+
+export type PaymentChangeEvent = {
+    fieldName: string,
+    payment: string,
+}
 
 export type PaymentSelectorProps = {
     label: string,
@@ -11,15 +17,20 @@ export type PaymentSelectorProps = {
     name: string,
     paymentTypes: PaymentType[],
     value: string,
-}
+} & Omit<SelectProps<string>, 'onChange'> & FormElementProps;
 
-export const PaymentSelectorPropTypes = {
-    label: PropTypes.string.isRequired,
-    required: PropTypes.bool,
-    name: PropTypes.string.isRequired,
-    paymentTypes: PropTypes.arrayOf(PropTypes.exact(PaymentTypePropTypes)),
-    value: PropTypes.string.isRequired,
-}
+export const PaymentSelectorPropTypes = Object.assign(
+    {},
+    FormElementPropTypes,
+    {
+        label: PropTypes.string.isRequired,
+        required: PropTypes.bool,
+        name: PropTypes.string.isRequired,
+        paymentTypes: PropTypes.arrayOf(PropTypes.exact(PaymentTypePropTypes)),
+        value: PropTypes.string.isRequired,
+        onChange: PropTypes.func,
+    }
+)
 
 const classes = {
     label: {
@@ -41,8 +52,25 @@ width: 100%;
 height: 2.5rem;
 `)
 
-function PaymentSelector({ label, required, paymentTypes, value }: PaymentSelectorProps) {
+function PaymentSelector({ name, label, required, paymentTypes, value, onChange, onValid }: PaymentSelectorProps) {
     const labelClasses = [classes.label.default, classes.label.noerror];
+    const handleChange = useCallback((e: SelectChangeEvent<unknown>) => {
+        if (onChange) {
+            onChange({
+                fieldName: name,
+                target: {
+                    value: e.target.value as string,
+                }
+            })
+        }
+    }, [onChange, name]);
+
+    useEffect(() => {
+        if (onValid) {
+            onValid(name, !required || Boolean(value))
+        }
+    }, [name, onValid, required, value]);
+
     return (
         <div className="mb-3 space-y-2 w-full text-xs">
             <label className={classNames(...labelClasses)}>
@@ -52,6 +80,7 @@ function PaymentSelector({ label, required, paymentTypes, value }: PaymentSelect
             <CustomSelect
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
+                onChange={handleChange}
                 value={value}
             >
                 {paymentTypes.map(paymentType =>

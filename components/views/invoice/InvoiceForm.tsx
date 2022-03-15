@@ -47,6 +47,7 @@ const elements = [
     "date",
     "dueDate",
     //"value", not handled by useForm
+    "payment",
     "client_id",
     "projectCode",
     "name",
@@ -183,7 +184,8 @@ function InvoiceForm({
 
                 {state.values.payment && <PaymentSelector name="payment" label="Payable to" required={false}
                     value={state.values.payment}
-                    paymentTypes={paymentTypes} />}
+                    paymentTypes={paymentTypes}
+                    {...form.resolveProps('payment')} />}
 
                 <ClientSelector name="client_id" label="Client" clientList={clientList} required={true}
                     value={state.values.client_id}
