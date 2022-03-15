@@ -106,7 +106,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
 
     validators.forEach(validator => {
         let errorMessage = validator(value.toString(), validationExtra);
-        if (errorMessage) errorMessages.push(validationMessage(label, errorMessage));
+        if (errorMessage) errorMessages.push(validationMessage(label || 'value', errorMessage));
     })
 
 
