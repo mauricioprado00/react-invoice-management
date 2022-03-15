@@ -56,7 +56,7 @@ export const InvoicePropTypes = {
   client_id: PropTypes.string.isRequired,
   date: PropTypes.number.isRequired,
   dueDate: PropTypes.number.isRequired,
-  company: PropTypes.string.isRequired,
+  company: PropTypes.string,
   value: PropTypes.number.isRequired,
   projectCode: PropTypes.string,
   meta: PropTypes.object,
