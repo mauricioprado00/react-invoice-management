@@ -12,13 +12,16 @@ export const InvoiceTableRowItemPropTypes = {
 }
 
 const InvoiceTableRowItem = ({
-    invoice: { invoice_number, value, dueDate },
+    invoice: { invoice_number, value, dueDate, meta },
     client: { companyDetails: { name: company } }
 }: InvoiceTableRowItemProps) => {
     const isOverLimit = value >= 5000;
     const valueBilledClassnames = classNames(
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
     )
+    if (meta?.billTo?.name) {
+        company = meta.billTo.name;
+    }
     return (
         <tr key="nothing" tabIndex={0}>
             <td className="px-2 py-4 whitespace-nowrap">
