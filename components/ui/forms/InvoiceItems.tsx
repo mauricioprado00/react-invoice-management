@@ -208,7 +208,7 @@ function InvoiceItems({ name, onValid, onChange, showErrors }: InvoiceItemsProps
                     </TableHead>
                     <TableBody>
                         {itemArr.map(item => <InvoiceItem onChange={handleChange} key={item.id} id={item.id}
-                            showErrors={showErrors && (item.id !== state.lastId || !isItemEmpty(item))} />)}
+                            showErrors={showErrors && (item.id !== state.lastId || !isItemEmpty(item) || itemArr.length === 1)} />)}
                     </TableBody>
                 </Table>
             </TableContainer>

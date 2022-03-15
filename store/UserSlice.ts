@@ -5,6 +5,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
+import { PaymentType } from "models/Invoice";
 import {
   LoginResponse,
   RegisterData,
@@ -278,6 +279,27 @@ export const meSelector = createSelector(
   userSlice => userSlice.me
 );
 
+export const paymentSelector = createSelector(
+  meSelector,
+  me => {
+    const types = [];
+    if (me?.companyDetails?.swift) {
+      types.push({
+        accountType: "swift",
+        accountNumber: me?.companyDetails?.swift,
+      })
+    }
+    if (me?.companyDetails?.iban) {
+      types.push({
+        accountType: "iban",
+        accountNumber: me?.companyDetails?.iban,
+      })
+    }
+
+    return types as PaymentType[];
+  }
+)
+
 export const {
   lastSelector: registerUserRequestSelector,
   errorSelector: registerUserErrorSelector,
@@ -391,3 +413,5 @@ export const useUpdateMe = () => {
 export const useUpdateMeRequest = () => useSelector(updateMeRequestSelector);
 export const useUpdateMeError = () => useSelector(updateMeErrorSelector);
 export const useUpdateMeState = () => useSelector(updateMeStateSelector);
+
+export const usePaymentSelector = () => useMeSelector(paymentSelector);

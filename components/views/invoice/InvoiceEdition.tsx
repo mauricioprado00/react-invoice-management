@@ -7,6 +7,7 @@ import InvoiceForm, { SaveInvoiceEvent } from './InvoiceForm'
 import { useClientList, useClientLoading } from 'store/ClientSlice'
 import { useInvoiceLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
+import { usePaymentSelector } from 'store/UserSlice'
 
 type InvoiceProps = {
     onCancel?: (clientInvoice:Partial<ClientInvoice>|null) => void,
@@ -21,6 +22,7 @@ const InvoicePropTypes = {
 function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
     const invoice = null;
     const clientList = useClientList();
+    const paymentTypes = usePaymentSelector();
     // const invoice = useInvoiceById(invoiceId);
     const upsertInvoice = useUpsertInvoice();
     const upsertError = useUpsertInvoiceError();
@@ -45,7 +47,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
     if (loading) {
         content = "loading data";
     } else if (adding || invoice !== null) {
-        content = <InvoiceForm onSave={saveHandler} clientList={clientList}
+        content = <InvoiceForm onSave={saveHandler} clientList={clientList} paymentTypes={paymentTypes}
         onCancel={cancelHandler} invoice={invoice} disabled={saving} />;
     } else {
         if (adding && !invoice) {

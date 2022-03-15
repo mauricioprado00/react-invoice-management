@@ -2,6 +2,10 @@ import PropTypes from "prop-types";
 import { Client } from "./Client";
 
 // typescript types
+export type PaymentType = {
+  accountNumber: string;
+  accountType: "iban" | "swift";
+}
 
 export type Invoice = {
   id: string;
@@ -20,10 +24,7 @@ export type Invoice = {
       vatNumber: string;
       regNumber: string;
     };
-    payTo: {
-      accountNumber: string;
-      accountType: "iban" | "swift";
-    };
+    payTo: PaymentType;
   };
 };
 
@@ -60,3 +61,9 @@ export const InvoicePropTypes = {
   projectCode: PropTypes.string,
   meta: PropTypes.object,
 };
+
+
+export const PaymentTypePropTypes = {
+  accountNumber: PropTypes.string.isRequired,
+  accountType: PropTypes.oneOf(["iban", "swift"])
+}

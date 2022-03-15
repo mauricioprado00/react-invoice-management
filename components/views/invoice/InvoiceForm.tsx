@@ -4,11 +4,13 @@ import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
 import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { ClientInvoice, Invoice, InvoiceDetail, InvoicePropTypes } from 'models/Invoice'
+import { ClientInvoice, Invoice, InvoiceDetail, InvoicePropTypes, PaymentType, PaymentTypePropTypes } from 'models/Invoice'
 import useForm from 'hooks/use-form';
 import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'components/ui/forms/ClientSelector';
 import InvoiceItems, { InvoiceItemsChangeEvent } from '../../ui/forms/InvoiceItems';
 import produce from 'immer';
+import { numberValidator } from 'library/validation';
+import PaymentSelector from '../../ui/forms/PaymentSelector';
 
 type InvoiceFormApi = {
     reset: () => void
@@ -26,6 +28,7 @@ type InvoiceFormProps = {
     disabledFields?: string[],
     message?: string | null,
     clientList: ClientSelectorProps['clientList'],
+    paymentTypes: PaymentType[],
 }
 
 const InvoiceFormPropTypes = {
@@ -35,7 +38,8 @@ const InvoiceFormPropTypes = {
     invoice: PropTypes.exact(InvoicePropTypes),
     disabledFields: PropTypes.arrayOf(PropTypes.string),
     message: PropTypes.string,
-    clientList: ClientSelectorPropTypes.clientList
+    clientList: ClientSelectorPropTypes.clientList,
+    paymentTypes: PropTypes.arrayOf(PropTypes.exact(PaymentTypePropTypes)),
 }
 
 const elements = [
@@ -45,6 +49,10 @@ const elements = [
     //"value", not handled by useForm
     "client_id",
     "projectCode",
+    "name",
+    "address",
+    "regNumber",
+    "vatNumber",
 ];
 
 function InvoiceForm({
@@ -54,7 +62,8 @@ function InvoiceForm({
     invoice,
     disabledFields,
     message,
-    clientList
+    clientList,
+    paymentTypes
 }: InvoiceFormProps) {
     const form = useForm({ elements, disabled, disabledFields });
     const [items, setItems] = useState<InvoiceDetail[]>([])
@@ -83,29 +92,40 @@ function InvoiceForm({
             return;
         }
         const [client] = clientList.filter(client => client.id === form.state.values.client_id);
+        const {
+            id,
+            invoice_number,
+            dueDate,
+            date,
+            client_id,
+            projectCode,
+            name,
+            address,
+            vatNumber,
+            regNumber,
+        } = form.state.values;
         onSave({
             clientInvoice: {
                 client,
                 invoice: {
-                    id: form.state.values.id,
-                    invoice_number: form.state.values.invoice_number,
-                    dueDate: new Date(form.state.values.dueDate).getTime(),
-                    date: new Date(form.state.values.date).getTime(),
+                    id,
+                    invoice_number,
+                    dueDate: new Date(dueDate).getTime(),
+                    date: new Date(date).getTime(),
                     value: total,
-                    client_id: form.state.values.client_id,
-                    projectCode: form.state.values.projectCode,
+                    client_id,
+                    projectCode,
                     meta: {
                         details: items,
                         billTo: {
-                            name: "someone",
-                            address: "somewhere",
-                            vatNumber: "239234823",
-                            regNumber: "123123",
+                            name,
+                            address,
+                            vatNumber,
+                            regNumber,
                         },
-                        payTo: {
-                            accountNumber: "12313123",
-                            accountType: "iban"
-                        }
+                        payTo: paymentTypes.filter(
+                            t => t.accountNumber === state.values.payment
+                        )[0]
                     },
                 },
             },
@@ -131,7 +151,14 @@ function InvoiceForm({
         }
     }, [setState, reset, invoice]);
 
-    console.log({state});
+    // Initialize payment type
+    useEffect(() => {
+        
+        setState(prev => produce(prev, draft => {
+            const [paymentType] = paymentTypes;
+            draft.values.payment = paymentType.accountNumber;
+        }))
+    }, [setState, paymentTypes])
 
     return (
         <Form>
@@ -140,23 +167,46 @@ function InvoiceForm({
                     value={state.values.invoice_number}
                     {...form.resolveProps('invoice_number')} />
 
-                <InputText name="date" type="date" label="Date" placeholder="Date"
-                    required={true} value={state.values.date}
-                    {...form.resolveProps('date')} />
-            </FieldsetRow>
-            <FieldsetRow>
-                <InputText name="dueDate" type="date" label="Due Date" required={true}
-                    value={state.values.dueDate}
-                    {...form.resolveProps('dueDate')} />
                 <InputText name="projectCode" label="Project Code" required={true}
                     value={state.values.projectCode}
                     {...form.resolveProps('projectCode')} />
             </FieldsetRow>
             <FieldsetRow>
+                <InputText name="date" type="date" label="Date" placeholder="Date"
+                    required={true} value={state.values.date}
+                    {...form.resolveProps('date')} />
+                <InputText name="dueDate" type="date" label="Due Date" required={true}
+                    value={state.values.dueDate}
+                    {...form.resolveProps('dueDate')} />
+            </FieldsetRow>
+            <FieldsetRow>
+
+                {state.values.payment && <PaymentSelector name="payment" label="Payable to" required={false}
+                    value={state.values.payment}
+                    paymentTypes={paymentTypes} />}
+
                 <ClientSelector name="client_id" label="Client" clientList={clientList} required={true}
                     value={state.values.client_id}
                     {...form.resolveProps('client_id')}
                 />
+            </FieldsetRow>
+            <FieldsetRow>
+                <InputText name="name" label="Bill to" required={true}
+                    value={state.values.name}
+                    {...form.resolveProps('name')} />
+                <InputText name="address" label="Address" required={true}
+                    value={state.values.address}
+                    {...form.resolveProps('projectCode')} />
+            </FieldsetRow>
+            <FieldsetRow>
+                <InputText name="regNumber" label="Reg Number" required={true}
+                    value={state.values.regNumber}
+                    validators={[numberValidator('Please provide a valid %.')]}
+                    {...form.resolveProps('regNumber')} />
+                <InputText name="vatNumber" label="Vat Number" required={true}
+                    value={state.values.vatNumber}
+                    validators={[numberValidator('The % is not valid.')]}
+                    {...form.resolveProps('vatNumber')} />
             </FieldsetRow>
 
             <InvoiceItems name="items" showErrors={state.showErrors} onChange={handleItemsChange} onValid={handleItemsValid} />
@@ -164,6 +214,7 @@ function InvoiceForm({
             <FieldsetRow alignRight={true}>
                 Total: {total.toFixed(2)}
             </FieldsetRow>
+            {state.showErrors && !form.allValid() && <p className="text-red text-xs text-red-600 dark:text-red-500">Your invoice has missing or incorrect data, please review</p>}
             <FieldsetRow alignRight={true}>
                 <Button onClick={cancelHandler} styled={ButtonStyle.PillSecondary} disabled={disabled}>Cancel</Button>
                 <Button onClick={saveHandler} styled={ButtonStyle.PillPrimary} disabled={disabled}>Save</Button>
