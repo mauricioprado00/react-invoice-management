@@ -34,7 +34,8 @@ export const ClientPropTypes = {
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   avatar: PropTypes.string,
-  companyDetails: PropTypes.exact(CompanyDetailsPropType).isRequired
+  companyDetails: PropTypes.exact(CompanyDetailsPropType).isRequired,
+  totalBilled: PropTypes.number,
 }
 
 export const ClientWithTotalsPropTypes = Object.assign({...ClientPropTypes} , {

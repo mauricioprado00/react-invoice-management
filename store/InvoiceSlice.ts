@@ -54,10 +54,20 @@ export const upsertInvoice = createAsyncThunk<
 >(
   "invoice/add",
   async (clientInvoice, thunkAPI): Promise<UpsertInvoiceResult> => {
-    const following = clientInvoice.invoice.id ? updated : added;
     const result = thunkAPI.extra.serviceApi.upsertInvoice(
       clientInvoice,
-      clientInvoice => thunkAPI.dispatch(following(clientInvoice))
+      clientInvoice => {
+        if (clientInvoice.invoice.id) {
+          const prevInvoice = invoiceByIdSelector(clientInvoice.invoice.id)(thunkAPI.getState());
+          // thunkAPI.dispatch(removed())
+          if (prevInvoice) {  
+            thunkAPI.dispatch(beforeUpdate(prevInvoice))
+          }
+          thunkAPI.dispatch(updated(clientInvoice))
+        } else {
+          thunkAPI.dispatch(added(clientInvoice))
+        }
+      }
     );
     thunkAPI.signal.addEventListener("abort", result.abort);
     result.promise.catch(errorMessage =>
@@ -98,6 +108,9 @@ const slice = createSlice({
         clientInvoice => (state.list[clientInvoice.invoice.id] = clientInvoice)
       );
       state.status = "loaded";
+    },
+    beforeUpdate: (state, action: PayloadAction<ClientInvoice>) => {
+      // Dummy action to allow other slices listen to this event.
     },
     updated: (state, action: PayloadAction<ClientInvoice>) => {
       state.list[action.payload.invoice.id] = {
@@ -141,7 +154,7 @@ const slice = createSlice({
   },
 });
 
-export const { added, updated, removed, received, requested } = slice.actions;
+export const { added, beforeUpdate, updated, removed, received, requested } = slice.actions;
 
 export default slice.reducer;
 
