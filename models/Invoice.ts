@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Client } from "./Client";
+import { Client, ClientPropTypes } from "./Client";
 
 // typescript types
 export type PaymentType = {
@@ -61,6 +61,11 @@ export const InvoicePropTypes = {
   projectCode: PropTypes.string,
   meta: PropTypes.object,
 };
+
+export const ClientInvoicePropTypes = {
+  invoice: PropTypes.exact(InvoicePropTypes),
+  client: PropTypes.exact(ClientPropTypes),
+}
 
 
 export const PaymentTypePropTypes = {

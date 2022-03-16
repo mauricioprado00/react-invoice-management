@@ -138,7 +138,6 @@ const slice = createSlice({
       builder.addCase(upsertInvoice.fulfilled, fulfilled);
       builder.addCase(upsertInvoice.rejected, rejected);
     }
-
   },
 });
 
@@ -204,6 +203,12 @@ export const getClientInvoicesByCompanyNameSelector = (companyName: string) =>
     )
   );
 
+export const invoiceByIdSelector = (id: string | null) =>
+  createSelector(
+    clientInvoiceListSelector,
+    clientInvoiceList => clientInvoiceList.filter(clientInvoice => clientInvoice.invoice.id === id).pop() || null
+  );
+
 export const getClientInvoiceOptionsSelector = createSelector(
   clientInvoiceListSelector,
   clientList => clientInvoiceListToOptions(clientList)
@@ -241,13 +246,16 @@ export const useInvoiceLoading = () => {
   return state === "none" || state === "loading";
 };
 export const useInvoiceStatus = () => useSelector(clientInvoiceStatusSelector);
+export const useInvoiceById = (id: string | null) =>
+  useInvoiceSelector(invoiceByIdSelector(id));
 
 export const useInvoiceCount = () =>
   useInvoiceSelector(clientInvoiceCountSelector);
 export const useInvoiceSum = () => useInvoiceSelector(clientInvoiceSumSelector);
 export const useUpsertInvoice = () => {
   const dispatch = useThunkDispatch();
-  return (clientInvoice: ClientInvoice) => dispatch(upsertInvoice(clientInvoice));
+  return (clientInvoice: ClientInvoice) =>
+    dispatch(upsertInvoice(clientInvoice));
 };
 export const useUpsertInvoiceLastRequest = () =>
   useInvoiceSelector(upsertInvoiceLastRequestSelector);

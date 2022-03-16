@@ -5,7 +5,7 @@ import ErrorBanner from 'components/utility/ErrorBanner'
 import { ClientInvoice, Invoice } from 'models/Invoice'
 import InvoiceForm, { SaveInvoiceEvent } from './InvoiceForm'
 import { useClientList, useClientLoading } from 'store/ClientSlice'
-import { useInvoiceLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'
+import { useInvoiceById, useInvoiceLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 import { usePaymentSelector } from 'store/UserSlice'
 
@@ -20,7 +20,7 @@ const InvoicePropTypes = {
     invoiceId: PropTypes.string,
 }
 function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
-    const invoice = null;
+    const invoice = useInvoiceById(invoiceId);
     const clientList = useClientList();
     const paymentTypes = usePaymentSelector();
     // const invoice = useInvoiceById(invoiceId);
@@ -39,7 +39,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
     const adding = invoiceId === null;
 
     const cancelHandler = useCallback(() => {
-        if (onCancel) { onCancel({invoice: invoice || undefined}); return true; }
+        if (onCancel) { onCancel(invoice || null); return true; }
     }, [onCancel, invoice]);
 
     let content;
@@ -48,7 +48,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
         content = "loading data";
     } else if (adding || invoice !== null) {
         content = <InvoiceForm onSave={saveHandler} clientList={clientList} paymentTypes={paymentTypes}
-        onCancel={cancelHandler} invoice={invoice} disabled={saving} />;
+        onCancel={cancelHandler} clientInvoice={invoice} disabled={saving} />;
     } else {
         if (adding && !invoice) {
             content = "sorry we could not find the invoice";
