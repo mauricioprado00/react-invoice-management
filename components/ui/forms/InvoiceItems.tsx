@@ -5,7 +5,7 @@ import { styled } from '@mui/system'
 import useForm, { FormElementProps, FormElementPropTypes } from 'hooks/use-form'
 import InputText from './InputText'
 import produce from 'immer'
-import { InvoiceDetail } from 'models/Invoice'
+import { InvoiceDetail, InvoiceDetailPropTypes } from 'models/Invoice'
 import { gtValidator } from 'library/validation'
 
 export type InvoiceItemsChangeEvent = {
@@ -18,6 +18,7 @@ export type InvoiceItemsProps = {
     onValid?: (name: string, valid: boolean) => void;
     onChange?: (e: InvoiceItemsChangeEvent) => void;
     showErrors?: boolean;
+    details: InvoiceDetail[] | undefined
 }
 
 export const InvoiceItemsPropTypes = Object.assign(
@@ -25,6 +26,7 @@ export const InvoiceItemsPropTypes = Object.assign(
     FormElementPropTypes,
     {
         name: PropTypes.string.isRequired,
+        details: PropTypes.arrayOf(PropTypes.exact(InvoiceDetailPropTypes))
     }
 );
 
@@ -46,6 +48,7 @@ type InvoiceItemProps = {
     id: number,
     onChange?: (item: InvoiceItem) => void,
     showErrors?: boolean,
+    item: InvoiceItem
 }
 
 type InvoiceItem = {
@@ -84,17 +87,24 @@ const initialItemsState: ItemsState = {
 
 const mainColumnWidth = '50%';
 
-function InvoiceItem({ id, onChange, showErrors }: InvoiceItemProps) {
-    const form = useForm({ elements, disabled: false, });
+function InvoiceItem({ id, item, onChange, showErrors }: InvoiceItemProps) {
+    const formProps = useMemo(() => {
+        return {
+            elements,
+            disabled: false,
+            initialValues: {
+                detail: item.detail,
+                quantity: item.quantity.toString(),
+                rate: item.rate.toString(),
+            }
+        }
+    }, [item]);
+
+    const form = useForm(formProps);
     const { state, reset, setState } = form;
     const { detail, quantity, rate } = state.values;
     const amount = useMemo(() => (parseInt(quantity) || 0) * (parseFloat(rate) || 0), [quantity, rate]);
     const allValid = form.allValid();
-    useEffect(() => {
-        setState(state => produce(state, draft => {
-            Object.assign(draft.values, emptyItem);
-        }))
-    }, [setState])
     useEffect(() => {
         if (onChange) {
             onChange({
@@ -107,7 +117,7 @@ function InvoiceItem({ id, onChange, showErrors }: InvoiceItemProps) {
         }
     }, [id, allValid, onChange, state]);
     const formShowErrors = state.showErrors;
-    const {setShowErrors} = form;
+    const { setShowErrors } = form;
     useEffect(() => {
         setShowErrors(showErrors || false);
     }, [setShowErrors, showErrors])
@@ -149,11 +159,11 @@ function InvoiceItem({ id, onChange, showErrors }: InvoiceItemProps) {
 }
 
 const isItemEmpty = (item: InvoiceItem) => !item.detail && !item.rate;
-const allButLastEmpty = (state:ItemsState) => 
+const allButLastEmpty = (state: ItemsState) =>
     Object.values(state.items).filter(item => !(isItemEmpty(item) && item.id === state.lastId))
-function InvoiceItems({ name, onValid, onChange, showErrors }: InvoiceItemsProps) {
+function InvoiceItems({ name, details, onValid, onChange, showErrors }: InvoiceItemsProps) {
     const [state, setState] = useState<ItemsState>(initialItemsState);
-    const [lastValid, setLastValid] = useState<boolean|null>(null);
+    const [lastValid, setLastValid] = useState<boolean | null>(null);
     const itemArr = Object.values(state.items);
     const items = state.items;
     const handleChange = useCallback((item: InvoiceItem) => {
@@ -187,12 +197,30 @@ function InvoiceItems({ name, onValid, onChange, showErrors }: InvoiceItemsProps
     }, [state, onValid, lastValid, name])
 
     useEffect(() => {
-        if(onChange) onChange({
+        if (onChange) onChange({
             fieldName: name,
             items: allButLastEmpty(state)
-                .map(({detail, quantity, rate}) => ({detail, quantity, rate})),
+                .map(({ detail, quantity, rate }) => ({ detail, quantity, rate })),
         });
     }, [items, onChange, name, state]);
+
+    // Load details from Props
+    useEffect(() => {
+        if (details !== undefined) {
+            setState(state => produce(state, (draft) => {
+                draft.items = {};
+                details.forEach((detail, idx) => {
+                    const id = state.lastId + idx + 1;
+                    draft.items[id] = {
+                        ...detail,
+                        id,
+                        valid: false,
+                    }
+                })
+                draft.lastId = state.lastId + details.length;
+            }))
+        }
+    }, [details, setState])
 
     return (
         <>
@@ -207,8 +235,10 @@ function InvoiceItems({ name, onValid, onChange, showErrors }: InvoiceItemsProps
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {itemArr.map(item => <InvoiceItem onChange={handleChange} key={item.id} id={item.id}
-                            showErrors={showErrors && (item.id !== state.lastId || !isItemEmpty(item) || itemArr.length === 1)} />)}
+                        {itemArr.map(item =>
+                            <InvoiceItem onChange={handleChange} key={item.id} id={item.id}
+                                item={item}
+                                showErrors={showErrors && (item.id !== state.lastId || !isItemEmpty(item) || itemArr.length === 1)} />)}
                     </TableBody>
                 </Table>
             </TableContainer>

@@ -66,7 +66,35 @@ function InvoiceForm({
     clientList,
     paymentTypes
 }: InvoiceFormProps) {
-    const form = useForm({ elements, disabled, disabledFields });
+    const formProps = useMemo(() => {
+        let initialValues = undefined;
+
+        if (clientInvoice) {
+            const c = clientInvoice.client.companyDetails;
+            const b = clientInvoice.invoice.meta?.billTo;
+            initialValues = {
+                id: clientInvoice.invoice.id || '',
+                invoice_number: clientInvoice.invoice.invoice_number.toString(),
+                date: new Date(clientInvoice.invoice.date).toISOString().replace(/T.*/, ''),
+                dueDate: new Date(clientInvoice.invoice.dueDate).toISOString().replace(/T.*/, ''),
+                value: clientInvoice.invoice.value.toString(),
+                client_id: clientInvoice.invoice.client_id,
+                projectCode: clientInvoice.invoice.projectCode || '',
+                name: b?.name || c?.name,
+                address: b?.address || c?.address,
+                vatNumber: b?.vatNumber || c?.vatNumber,
+                regNumber: b?.regNumber || c?.regNumber,
+            };
+        }
+
+        return {
+            elements,
+            disabled,
+            disabledFields,
+            initialValues
+        }
+    }, [disabled, disabledFields, clientInvoice]);
+    const form = useForm(formProps);
     const [items, setItems] = useState<InvoiceDetail[]>([])
     const { state, reset, setState } = form;
     const total = items.reduce((carry, item) => carry + item.quantity * item.rate, 0);
@@ -136,30 +164,6 @@ function InvoiceForm({
         });
     }, [clientList, form, invoiceFormApi, items, onSave, paymentTypes, state.values.payment, total]);
 
-    useEffect(() => {
-        if (clientInvoice) {
-            const c = clientInvoice.client.companyDetails;
-            const b = clientInvoice.invoice.meta?.billTo;
-            reset();
-            setState(prev => ({
-                ...prev,
-                values: {
-                    id: clientInvoice.invoice.id || '',
-                    invoice_number: clientInvoice.invoice.invoice_number.toString(),
-                    date: new Date(clientInvoice.invoice.date).toISOString().replace(/T.*/, ''),
-                    dueDate: new Date(clientInvoice.invoice.dueDate).toISOString().replace(/T.*/, ''),
-                    value: clientInvoice.invoice.value.toString(),
-                    client_id: clientInvoice.invoice.client_id,
-                    projectCode: clientInvoice.invoice.projectCode || '',
-                    name: b?.name || c?.name,
-                    address: b?.address || c?.address,
-                    vatNumber: b?.vatNumber || c?.vatNumber,
-                    regNumber: b?.regNumber || c?.regNumber,
-                }
-            }));
-        }
-    }, [setState, reset, clientInvoice]);
-
     // Initialize payment type
     useEffect(() => {
 
@@ -178,8 +182,8 @@ function InvoiceForm({
                 draft.values.prev_client_id = client_id;
                 if (!client) return;
 
-                const fields = ['name','address','vatNumber','regNumber'];
-                
+                const fields = ['name', 'address', 'vatNumber', 'regNumber'];
+
                 // If billto is not empty or with previous clients value.
                 if (!fields.every(k => !state.values[k])) {
                     const v = state.values;
@@ -189,12 +193,12 @@ function InvoiceForm({
                     if (!company) return;
 
                     // Something was changed since last selected client/company
-                    if (v.name !== company.name 
-                        || v.address !== company.address 
+                    if (v.name !== company.name
+                        || v.address !== company.address
                         || v.regNumber !== company.regNumber
                         || v.vatNumber !== company.vatNumber) {
-                            return;
-                        }
+                        return;
+                    }
                 }
 
                 draft.values.name = client.companyDetails?.name;
@@ -257,7 +261,9 @@ function InvoiceForm({
                     {...form.resolveProps('vatNumber')} />
             </FieldsetRow>
 
-            <InvoiceItems name="items" showErrors={state.showErrors} onChange={handleItemsChange} onValid={handleItemsValid} />
+            <InvoiceItems name="items" showErrors={state.showErrors}
+                details={clientInvoice?.invoice.meta?.details}
+                onChange={handleItemsChange} onValid={handleItemsValid} />
 
             <FieldsetRow alignRight={true}>
                 Total: {total.toFixed(2)}

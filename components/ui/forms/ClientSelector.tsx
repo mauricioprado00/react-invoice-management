@@ -244,7 +244,14 @@ function ClientSelector({
   reset, onValid, onChange, showErrors, disabled,
   ...selectPops
 }: ClientSelectorProps) {
-  let [valid, setValid] = useState(false);
+  let [valid, setValid] = useState(() => {
+    const valid = !required || Boolean(value);
+    if (onValid) {
+      onValid(name, valid);
+    }
+
+    return valid;
+  });
   const labelClasses = [classes.label.default];
   const inputClasses = [classes.input.default];
   const [touch, setTouch] = useState(-1);
@@ -263,13 +270,6 @@ function ClientSelector({
       }
     }
   }, [onChange, name, onValid, required, reset]);
-
-  useEffect(() => {
-    if (onValid) {
-      onValid(name, required ? false : true);
-    }
-    setValid(required ? false : true);
-  }, [onValid, name, required])
 
   const errorMessages = [] as string[];
   let expressErrors = true;

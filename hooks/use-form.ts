@@ -34,10 +34,10 @@ type FormState = {
   showErrors: boolean;
 };
 
-const createInitialFormState = (elements: string[], disabledFields: string[]): FormState => {
+const createInitialFormState = (elements: string[], disabledFields: string[], values:MapType<string>|undefined): FormState => {
   const state = {
     valid: MapTypeFill(elements, false),
-    values: MapTypeFill(elements, ""),
+    values: values || MapTypeFill(elements, ""),
     disabled: MapTypeFill(disabledFields, true),
     reset: 0,
     showErrors: false,
@@ -52,11 +52,12 @@ type useFormProps = {
   elements: string[];
   disabled: boolean;
   disabledFields?: string[];
+  initialValues?: MapType<string>
 };
 
-const useForm = ({ elements, disabled, disabledFields }: useFormProps) => {
+const useForm = ({ elements, disabled, disabledFields, initialValues }: useFormProps) => {
   const disFields = useMemo(() => disabledFields || [], [disabledFields]);
-  const [state, setState] = useState(createInitialFormState(elements, disFields));
+  const [state, setState] = useState(createInitialFormState(elements, disFields, initialValues));
   const validHandler = useCallback((name: string, valid: boolean) => {
     setState(prev =>
       produce(prev, draft => {
@@ -97,10 +98,10 @@ const useForm = ({ elements, disabled, disabledFields }: useFormProps) => {
     allValid: (): boolean => !MapTypeSome(state.valid, value => value !== true),
     reset: useCallback(() => {
       setState(prev => ({
-        ...createInitialFormState(elements, disFields),
+        ...createInitialFormState(elements, disFields, initialValues),
         reset: prev.reset + 1,
       }));
-    }, [elements, disFields]),
+    }, [elements, disFields, initialValues]),
     setState,
   };
 };

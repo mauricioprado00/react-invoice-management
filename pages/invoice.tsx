@@ -11,7 +11,7 @@ const Invoice: NextPage = () => {
     const goDashboard = useGoDashboard();
     const goBack = useCallback((clientInvoice:Partial<ClientInvoice>|null) => {
         if (clientInvoice?.invoice?.id) {
-            goInvoiceDashboard(clientInvoice.invoice.id);
+            goDashboard(); //goInvoiceDashboard(clientInvoice.invoice.id);
         } else {
             goDashboard();
         }

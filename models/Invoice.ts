@@ -72,3 +72,9 @@ export const PaymentTypePropTypes = {
   accountNumber: PropTypes.string.isRequired,
   accountType: PropTypes.oneOf(["iban", "swift"])
 }
+
+export const InvoiceDetailPropTypes = {
+  detail: PropTypes.string.isRequired,
+  quantity: PropTypes.number.isRequired,
+  rate: PropTypes.number.isRequired,
+}
