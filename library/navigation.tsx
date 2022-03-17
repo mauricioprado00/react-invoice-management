@@ -64,17 +64,17 @@ export const useGoClientDashboard = () => {
 export const useGoInvoiceEdit = () => useGoEdit('/invoice');
 export const useGoInvoiceIdEdit = (id: string | null = null) => useGoEditId('/invoice')(id)
 
-export const useGoInvoiceIdDashboard = (id: string | null) => {
+export const useGoInvoiceIdView = (id: string | null) => {
     const router = useRouter();
     return useCallback(() => {
-        if (id) router.push('/invoice-dashboard?' + new URLSearchParams({ id }));
+        if (id) router.push('/view-invoice?' + new URLSearchParams({ id }));
     }, [router, id]);
 }
 
-export const useGoInvoiceDashboard = () => {
+export const useGoInvoiceView = () => {
     const router = useRouter();
     return useCallback((id: string) => {
-        router.push('/invoice-dashboard?' + new URLSearchParams({ id }));
+        router.push('/view-invoice?' + new URLSearchParams({ id }));
     }, [router]);
 }
 

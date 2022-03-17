@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { ClientInvoice, InvoicePropTypes } from 'models/Invoice'
 import { ClientPropTypes } from 'models/Client'
-import { useGoInvoiceIdEdit } from 'library/navigation'
+import { useGoInvoiceIdEdit, useGoInvoiceIdView } from 'library/navigation'
 
 export type InvoiceTableRowItemProps = ClientInvoice
 
@@ -16,7 +16,7 @@ const InvoiceTableRowItem = ({
     invoice: { id, invoice_number, value, dueDate, meta },
     client: { companyDetails: { name: company } }
 }: InvoiceTableRowItemProps) => {
-    const goEdit = useGoInvoiceIdEdit(id);
+    const goView = useGoInvoiceIdView(id);
     const isOverLimit = value >= 5000;
     const valueBilledClassnames = classNames(
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
@@ -25,7 +25,7 @@ const InvoiceTableRowItem = ({
         company = meta.billTo.name;
     }
     return (
-        <tr key="nothing" tabIndex={0} onClick={goEdit}>
+        <tr key="nothing" tabIndex={0} onClick={goView}>
             <td className="px-2 py-4 whitespace-nowrap">
                 <div className="text-left">{invoice_number}</div>
             </td>

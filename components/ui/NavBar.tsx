@@ -66,7 +66,7 @@ function NavBar() {
   const myLinks = isVisitor ? visitorLinks : links;
 
   return (
-    <div className="bg-white shadow fixed top-0 left-0 right-0 z-10">
+    <div className="bg-white shadow fixed top-0 left-0 right-0 z-10 print:hidden">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           <div className="cursor-pointer">

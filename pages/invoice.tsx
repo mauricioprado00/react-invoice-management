@@ -1,23 +1,26 @@
 import type { NextPage } from 'next'
 import InvoiceEdition from 'components/views/invoice/InvoiceEdition';
-import { useGoInvoiceDashboard, useGoDashboard, useParamInvoiceId } from 'library/navigation';
+import { useGoDashboard, useGoInvoiceView, useParamInvoiceId } from 'library/navigation';
 import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 import { useCallback } from 'react';
 import { ClientInvoice, Invoice } from 'models/Invoice';
 
 const Invoice: NextPage = () => {
     const invoiceId = useParamInvoiceId();
-    const goInvoiceDashboard = useGoInvoiceDashboard();
     const goDashboard = useGoDashboard();
+    const goView = useGoInvoiceView();
     const goBack = useCallback((clientInvoice:Partial<ClientInvoice>|null) => {
         if (clientInvoice?.invoice?.id) {
-            goDashboard(); //goInvoiceDashboard(clientInvoice.invoice.id);
+            goView(clientInvoice?.invoice?.id); //goInvoiceDashboard(clientInvoice.invoice.id);
         } else {
             goDashboard();
         }
-    }, [goInvoiceDashboard, goDashboard]);
+    }, [goDashboard, goView]);
+    const goViewSaved = useCallback((clientInvoice:ClientInvoice) => {
+        goView(clientInvoice.invoice.id)
+    }, [goView])
 
-    return <InvoiceEdition onCancel={goBack} onSave={goBack} invoiceId={invoiceId} />
+    return <InvoiceEdition onCancel={goBack} onSave={goViewSaved} invoiceId={invoiceId} />
 }
 
 export default AuthPageWithStore(Invoice)
