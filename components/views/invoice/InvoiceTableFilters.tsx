@@ -39,6 +39,11 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
     useEffect(() => {
         setState(prev => ({ ...prev, status: 'display' }))
     }, [client, dateFrom, dateTo, dueDateFrom, dueDateTo]);
+    const clearAll = useCallback(() => {
+        const query = Object.assign({}, router.query);
+        ['client', 'dateFrom', 'dateTo', 'dueDateFrom', 'dueDateTo'].map(f => delete query[f]);
+        router.replace({ query });
+    }, [router]);
     return (
         <span className="relative mx-5 ">
             <span className={(state.status === "display" ? '' : 'invisible') + " mr-2"}>
@@ -53,7 +58,7 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
                             Add filter
                             <span className="float-right">
                                 <span className='mr-2'>
-                                <Fab size="small" color="secondary" aria-label="cancel add filter" onClick={resetState}>
+                                <Fab size="small" color="secondary" aria-label="cancel add filter" onClick={clearAll}>
                                     <ClearAllIcon />
                                 </Fab>
                                 </span>
