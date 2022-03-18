@@ -5,10 +5,10 @@ import InvoiceTable from './invoice/InvoiceTable'
 
 function Dashboard() {
     return (
-        <Card fullscreen={false} background="none">
-            <ClientTable limit={5} pageable={false} sortable={false} />
+        <Card fullscreen={false} background="">
+            <ClientTable controls={false} title="Latest Clients" />
             <div className="pt-5"></div>
-            <InvoiceTable limit={5} pageable={false} sortable={false} />
+            <InvoiceTable controls={false} title="Latest Invoices" />
         </Card>
     )
 }

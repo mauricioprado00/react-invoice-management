@@ -11,6 +11,7 @@ import { useGoInvoices, useGoNewInvoice } from 'library/navigation'
 export type InvoiceTableProps = {
     title?: string,
     limit?: number;
+    controls?: boolean;
     pageable?: boolean;
     sortable?: boolean;
 }
@@ -18,16 +19,18 @@ export type InvoiceTableProps = {
 const InvoiceTablePropTypes = {
     title: PropTypes.string,
     limit: PropTypes.number,
+    controls: PropTypes.bool,
     pageable: PropTypes.bool,
     sortable: PropTypes.bool,
 }
 
 const InvoiceTable = ({
-    title = "Latest Invoices",
+    title = "Invoices",
     limit = 5,
     pageable = true,
     sortable = true,
-  }: InvoiceTableProps) => {
+    controls = true,
+}: InvoiceTableProps) => {
     const invoices = useInvoiceList()
     const loadError = useLoadInvoiceError()
     const loading = useInvoiceLoading();
@@ -38,8 +41,10 @@ const InvoiceTable = ({
     return (
         <Table title={title || "Latest Invoices"} loading={loading} error={loadError}>
             {loaded && <HeaderContent>
-                <Button styled={ButtonStyle.FlatPrimary} onClick={goNewInvoice}>New Invoice</Button>
-                {!pageable && <Button styled={ButtonStyle.FlatPrimary} onClick={goInvoices}>All Invoices</Button>}
+                {controls && <>
+                    <Button styled={ButtonStyle.FlatPrimary} onClick={goNewInvoice}>New Invoice</Button>
+                    {!pageable && <Button styled={ButtonStyle.FlatPrimary} onClick={goInvoices}>All Invoices</Button>}
+                </>}
             </HeaderContent>}
             <Column>Invoice Number</Column>
             <Column>Company Name</Column>
