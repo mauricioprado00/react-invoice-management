@@ -2,7 +2,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { ClientInvoice, InvoicePropTypes } from 'models/Invoice'
 import { ClientPropTypes } from 'models/Client'
-import { useGoInvoiceIdEdit, useGoInvoiceIdView } from 'library/navigation'
+import { useGoInvoiceIdView } from 'library/navigation'
+import moment from 'moment'
 
 export type InvoiceTableRowItemProps = ClientInvoice
 
@@ -13,7 +14,7 @@ export const InvoiceTableRowItemPropTypes = {
 }
 
 const InvoiceTableRowItem = ({
-    invoice: { id, invoice_number, value, dueDate, meta },
+    invoice: { id, invoice_number, value, dueDate, meta, date },
     client: { companyDetails: { name: company } }
 }: InvoiceTableRowItemProps) => {
     const goView = useGoInvoiceIdView(id);
@@ -26,6 +27,9 @@ const InvoiceTableRowItem = ({
     }
     return (
         <tr key="nothing" tabIndex={0} onClick={goView}>
+            <td className="p-2 whitespace-nowrap">
+                <div className="text-left">{moment(date).format('YYYY-MM-DD')}</div>
+            </td>
             <td className="px-2 py-4 whitespace-nowrap">
                 <div className="text-left">{invoice_number}</div>
             </td>
@@ -33,10 +37,10 @@ const InvoiceTableRowItem = ({
                 <div className="text-left">{company}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
-                <div className={valueBilledClassnames}>${value}</div>
+                <div className="text-left">{moment(dueDate).format('YYYY-MM-DD')}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
-                <div className="text-left">{dueDate}</div>
+                <div className={valueBilledClassnames}>${value.toFixed(2)}</div>
             </td>
         </tr>
     );

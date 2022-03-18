@@ -15,10 +15,12 @@ export type Client = {
 
 export interface ClientWithTotals extends Client {
   totalBilled: number;
+  invoicesCount: number;
 }
 
 export type AnyClient = Client & {
   totalBilled?: number;
+  invoicesCount?: number;
 };
 
 export type ClientN = null | Client;
@@ -36,12 +38,15 @@ export const ClientPropTypes = {
   avatar: PropTypes.string,
   companyDetails: PropTypes.exact(CompanyDetailsPropType).isRequired,
   totalBilled: PropTypes.number,
+  invoicesCount: PropTypes.number,
 }
 
 export const ClientWithTotalsPropTypes = Object.assign({...ClientPropTypes} , {
   totalBilled: PropTypes.number.isRequired,
+  invoicesCount: PropTypes.number.isRequired,
 })
 
 export const AnyClientPropTypes = Object.assign({...ClientPropTypes} , {
   totalBilled: PropTypes.number,
+  invoicesCount: PropTypes.number,
 })

@@ -4,7 +4,7 @@ import ClientTable from './ClientTable'
 
 function Clients() {
     return (
-        <Card>
+        <Card size='big'>
             <ClientTable />
         </Card>
     )

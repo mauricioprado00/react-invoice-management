@@ -12,7 +12,7 @@ export type ClientTableRowItemProps = ClientWithTotals
 export const ClientTableRowItemPropTypes = ClientWithTotalsPropTypes
 
 const ClientTableRowItem = (client: ClientTableRowItemProps) => {
-    const { name, email, totalBilled, companyDetails } = client
+    const { name, email, totalBilled, invoicesCount, companyDetails } = client
     const goEdit = useGoClientEdit();
     const goDashboard = useGoClientIdDashboard(client.id);
     const isMostValuable = isMostValuableClient(client);
@@ -48,6 +48,9 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
             </td>
             <td className="p-2 whitespace-nowrap">
                 <div className="text-left">{companyDetails.name}</div>
+            </td>
+            <td className="p-2 whitespace-nowrap">
+                <div className="text-center">{invoicesCount}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
                 <div className={totalBilledClassnames}>${totalBilled}</div>

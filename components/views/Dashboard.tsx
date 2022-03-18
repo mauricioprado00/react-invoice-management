@@ -5,7 +5,7 @@ import InvoiceTable from './invoice/InvoiceTable'
 
 function Dashboard() {
     return (
-        <Card fullscreen={false} background="">
+        <Card size='big' fullscreen={false} background="">
             <ClientTable controls={false} title="Latest Clients" />
             <div className="pt-5"></div>
             <InvoiceTable controls={false} title="Latest Invoices" />

@@ -4,29 +4,97 @@ import HeaderContent from './HeaderContent'
 import LoadingMask from '../LoadingMask'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 import ErrorBanner from '../../utility/ErrorBanner'
-
+import { Pagination } from '@mui/material'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+import { useCallback } from 'react'
+import { useUrlParam } from 'library/navigation'
 /**
  * table styles from https://tailwindcomponents.com/component/customers-table
  * author: @cruip
  * cruip.com
  */
 
+export type SortDirection = "asc" | "desc" | undefined;
+
 type tableHeaderColumnProps = {
-    children: any
+    onSort?: (direction:SortDirection) => void;
+    direction?: SortDirection;
+    children: any;
 }
 const TableHeaderColumnPropTypes = {
-    children: PropTypes.node
+    onSort: PropTypes.func,
+    children: PropTypes.node,
+    direction: PropTypes.oneOf(['asc', 'desc', undefined]),
 }
 
-const TableHeaderColumn = ({ children }: tableHeaderColumnProps) => {
+const sortDirectionTransition = {
+    undefined: 'asc' as SortDirection,
+    asc: 'desc' as SortDirection,
+    desc: undefined as SortDirection,
+}
+
+export const useSortDirection = (name:string) => {
+    const [direction, setDirection] = useUrlParam<SortDirection>(name);
+    return {
+        onSort: setDirection,
+        direction,
+    }
+}
+
+const TableHeaderColumn = ({ children, onSort, direction }: tableHeaderColumnProps) => {
+    const sortable = onSort !== undefined;
+    const className = "group font-semibold text-left " + (sortable ? 'cursor-pointer' : '');
+    const handleClick = useCallback(() => {
+        if (sortable) {
+            onSort(sortDirectionTransition[direction || 'undefined']);
+        }
+    }, [direction, onSort, sortable]);
     return (
-        <th className="p-2 whitespace-nowrap">
-            <div className="font-semibold text-left">{children}</div>
+        <th className="p-2 whitespace-nowrap select-none">
+            <div className={className} onClick={handleClick}>
+                <span className="align-middle">{children}</span>
+                {sortable &&
+                    <span className={direction === undefined ? 'pl-2 invisible group-hover:visible' : ''}>
+                        {direction === 'desc' && <ArrowUpwardIcon />}
+                        {direction === 'asc' && <ArrowDownwardIcon />}
+                        {direction === undefined && <SortByAlphaIcon />}
+                    </span>}
+            </div>
         </th>
     )
 }
 
 TableHeaderColumn.propTypes = TableHeaderColumnPropTypes;
+
+type TablePaginationProps = {
+    limit: number;
+    offset: number;
+    total: number;
+    onPageChange: (event: React.ChangeEvent<unknown>, page: number) => void;
+}
+
+const TablePaginationPropTypes = {
+    limit: PropTypes.number,
+    offset: PropTypes.number,
+    total: PropTypes.number,
+    onPageChange: PropTypes.func,
+}
+
+const TablePagination = ({ limit, offset, total, onPageChange }: TablePaginationProps) => {
+    const props = {
+        count: Math.ceil(total / limit),
+        page: Math.floor(offset / limit) + 1,
+        onChange: onPageChange,
+    };
+
+    return (
+        <Pagination {...props} color="primary" siblingCount={2} />
+    )
+}
+
+TablePagination.propTypes = TablePaginationPropTypes;
 
 type EmptyProps = {
     children: any
@@ -45,17 +113,19 @@ type TableProps = {
     title?: string,
     loading: boolean,
     children: any,
-    error?: SerializedError | null
+    error?: SerializedError | null,
+    pagination?: TablePaginationProps
 }
 
 const TablePropTypes = {
     title: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    error: PropTypes.exact(SerializedErrorPropTypes)
+    error: PropTypes.exact(SerializedErrorPropTypes),
+    pagination: PropTypes.exact(TablePaginationPropTypes)
 }
 
-const Table = ({ title, loading, children, error }: TableProps) => {
+const Table = ({ title, loading, children, error, pagination }: TableProps) => {
     const [columns, headerContent, empty, [rows]] = segregate(children, [
         TableHeaderColumn,
         HeaderContent,
@@ -71,7 +141,7 @@ const Table = ({ title, loading, children, error }: TableProps) => {
                         {headerContent}
                     </div>
                 </header>
-                {error ? <ErrorBanner error={error}>There are connectivity problems, we could not load the client list</ErrorBanner> : (
+                {error ? <ErrorBanner error={error}>There are connectivity problems, we could not load the data</ErrorBanner> : (
                     loading ?
                         <LoadingMask /> :
                         (rows.length ?
@@ -96,6 +166,8 @@ const Table = ({ title, loading, children, error }: TableProps) => {
                         )
                 )}
             </div>
+
+            {pagination && <div className="mt-4 place-self-center"><TablePagination {...pagination} /></div>}
         </div>
     )
 }
