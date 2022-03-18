@@ -39,7 +39,7 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     }, [onCancel, client]);
 
     return (
-        <Card title={title} fullscreen={true} background={true}>
+        <Card title={title} fullscreen={true} background={false}>
             {!showForm && loading && "loading data"}
             {!showForm && !loading && !client && "sorry we could not find the client"}
             {showForm && <ProfileForm onSave={saveHandler}

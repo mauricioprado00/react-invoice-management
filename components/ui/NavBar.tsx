@@ -61,7 +61,7 @@ const isCurrent = (current: string, link: Link) => {
 };
 
 const styles = {
-  container: "bg-white shadow top-0 left-0 right-0 z-10 print:hidden sticky top-0"
+  container: "bg-white shadow top-0 left-0 right-0 z-10 print:hidden fixed top-0"
 }
 function NavBar() {
   const logout = useLogout();
@@ -78,7 +78,7 @@ function NavBar() {
 
   return (
     <div className={classNames(...className)}>
-      <div className="container mx-auto px-4 mb-5">
+      <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           <div className="cursor-pointer">
             <Link passHref={true} href="/">

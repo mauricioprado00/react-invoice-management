@@ -58,7 +58,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
     }
 
     return (
-        <Card size="big" title={title} fullscreen={true} background={true}>
+        <Card size="big" title={title} fullscreen={true} background={false}>
             {content}
             {upsertError && <ErrorBanner error={upsertError}>Could not save the invoice.</ErrorBanner>}
         </Card>

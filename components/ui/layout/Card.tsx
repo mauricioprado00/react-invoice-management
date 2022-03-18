@@ -64,6 +64,10 @@ function Card({ children, title, fullscreen=false, center=true, background=false
         mainClassnames.push('items-center justify-center')
     }
 
+    if (!title) {
+        secClasses.push('pt-4');
+    }
+
     secClasses.push(sizeClasses[size]);
 
     if (background) {
