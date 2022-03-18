@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types'
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useIsLoggedIn } from "store/UserSlice";
 import { useLogout } from "library/navigation";
+import classNames from 'classnames';
 
 /**
  * Designs from 
@@ -15,11 +17,13 @@ const classnames = {
   current: " text-purple-600 ",
   other: " hover:text-blue-600 ",
 };
+
 const mobileClassnames = {
   all: " text-gray-800 text-sm font-semibold mb-1",
   current: " text-purple-600 ",
   other: " hover:text-blue-600 ",
 };
+
 const links = [
   {
     label: "Dashboard",
@@ -55,6 +59,10 @@ const isCurrent = (current: string, link: Link) => {
   const also = link.also || [];
   return current === link.url || also.indexOf(current) !== -1;
 };
+
+const styles = {
+  container: "bg-white shadow top-0 left-0 right-0 z-10 print:hidden sticky top-0"
+}
 function NavBar() {
   const logout = useLogout();
   const isLoggedIn = useIsLoggedIn();
@@ -64,10 +72,13 @@ function NavBar() {
   const current = router.pathname;
   const isVisitor = isLoggedIn !== true;
   const myLinks = isVisitor ? visitorLinks : links;
+  const className = [
+    styles.container,
+  ];
 
   return (
-    <div className="bg-white shadow fixed top-0 left-0 right-0 z-10 print:hidden">
-      <div className="container mx-auto px-4">
+    <div className={classNames(...className)}>
+      <div className="container mx-auto px-4 mb-5">
         <div className="flex items-center justify-between py-4">
           <div className="cursor-pointer">
             <Link passHref={true} href="/">
