@@ -13,7 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userLoggedIn, userLoggedOut } from "./UserSlice";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
-import {added as invoiceAdded, updated as invoiceUpdated, beforeUpdate as beforeUpdateInvoice } from "./InvoiceSlice"
+import {
+  added as invoiceAdded,
+  updated as invoiceUpdated,
+  beforeUpdate as beforeUpdateInvoice,
+} from "./InvoiceSlice";
 import { ClientInvoice } from "models/Invoice";
 
 type ClientStatus = "initial" | "began_fetching" | "loaded";
@@ -91,12 +95,17 @@ const slice = createSlice({
     },
     updated: (state, action: PayloadAction<Client>) => {
       state.list[action.payload.id] = {
+        invoicesCount: state.list[action.payload.id].invoicesCount,
         totalBilled: state.list[action.payload.id].totalBilled,
         ...action.payload,
       };
     },
     added: (state, action: PayloadAction<Client>) => {
-      state.list[action.payload.id] = { totalBilled: 0, ...action.payload };
+      state.list[action.payload.id] = {
+        totalBilled: 0,
+        invoicesCount: 0,
+        ...action.payload,
+      };
     },
     removed: (state, action: PayloadAction<ClientWithTotals>) => {
       const { id } = action.payload;
@@ -106,19 +115,34 @@ const slice = createSlice({
   extraReducers: builder => {
     builder.addCase(userLoggedIn, () => {
       loadClientBegan = false;
-    })
+    });
     builder.addCase(userLoggedOut, state => {
       return { ...initialState };
     });
-    builder.addCase(invoiceAdded, (state, action: PayloadAction<ClientInvoice>) => {
-      state.list[action.payload.client.id].totalBilled += action.payload.invoice.value;
-    })
-    builder.addCase(invoiceUpdated, (state, action: PayloadAction<ClientInvoice>) => {
-      state.list[action.payload.client.id].totalBilled += action.payload.invoice.value;
-    })
-    builder.addCase(beforeUpdateInvoice, (state, action: PayloadAction<ClientInvoice>) => {
-      state.list[action.payload.client.id].totalBilled -= action.payload.invoice.value;
-    })
+    builder.addCase(
+      invoiceAdded,
+      (state, action: PayloadAction<ClientInvoice>) => {
+        state.list[action.payload.client.id].totalBilled +=
+          action.payload.invoice.value;
+        state.list[action.payload.client.id].invoicesCount += 1;
+      }
+    );
+    builder.addCase(
+      invoiceUpdated,
+      (state, action: PayloadAction<ClientInvoice>) => {
+        state.list[action.payload.client.id].totalBilled +=
+          action.payload.invoice.value;
+        state.list[action.payload.client.id].invoicesCount += 1;
+      }
+    );
+    builder.addCase(
+      beforeUpdateInvoice,
+      (state, action: PayloadAction<ClientInvoice>) => {
+        state.list[action.payload.client.id].totalBilled -=
+          action.payload.invoice.value;
+        state.list[action.payload.client.id].invoicesCount -= 1;
+      }
+    );
     {
       const { pending, fulfilled, rejected } = requestReducers(
         "loadClients",
@@ -140,13 +164,7 @@ const slice = createSlice({
   },
 });
 
-export const {
-  added,
-  updated,
-  removed,
-  received,
-  requested,
-} = slice.actions;
+export const { added, updated, removed, received, requested } = slice.actions;
 
 export default slice.reducer;
 
