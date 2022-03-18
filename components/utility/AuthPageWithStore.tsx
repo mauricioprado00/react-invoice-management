@@ -20,9 +20,9 @@ function CheckAuthorizedUsers(props: CheckProps) {
 
     return (<>
         {loading && 'loading'}
-        {!loading && loggedIn && <Page>
+        {!loading && loggedIn && <>
             {props.children}
-        </Page>}
+        </>}
     </>);
 }
 
@@ -40,9 +40,9 @@ function CheckProfileIsFilled(props:CheckProps) {
 
     return (<>
         {loading && 'loading'}
-        {!loading && !mustEditFirst && <Page>
+        {!loading && !mustEditFirst && <>
             {props.children}
-        </Page>}
+        </>}
     </>)
 }
 
@@ -52,7 +52,9 @@ function AuthPageWithStore(ChildComponent: FunctionComponent<{}>) {
             <Provider store={store}>
                 <CheckAuthorizedUsers>
                     <CheckProfileIsFilled>
-                        <ChildComponent />
+                        <Page>
+                            <ChildComponent />
+                        </Page>
                     </CheckProfileIsFilled>
                 </CheckAuthorizedUsers>
             </Provider>
