@@ -30,7 +30,7 @@ function Signup({ onRegisteredAndLoggedIn }: SignupProps) {
     const loading = state === "loading";
 
     return (
-        <Card title="Sign Up" fullscreen={true} background={true}>
+        <Card title="Sign Up" transparent={false} background={true}>
             <SignupForm onSave={saveHandler} disabled={loading} />
             {error && <ErrorBanner error={error}>Could not sign up.</ErrorBanner>}
         </Card>

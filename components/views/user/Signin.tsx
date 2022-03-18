@@ -27,7 +27,7 @@ function Signin({ onLogin }: SigninProps) {
     const loading = state === "loading";
 
     return (
-        <Card title="Sign In" fullscreen={true} background={true}>
+        <Card title="Sign In" transparent={false} background={true}>
             <SigninForm onLogin={loginHandler} disabled={loading} />
             {error && <ErrorBanner error={error}>Could not sign in.</ErrorBanner>}
         </Card>

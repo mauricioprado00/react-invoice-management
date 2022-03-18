@@ -36,7 +36,7 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
     }, [onCancel]);
 
     return (
-        <Card title={title} fullscreen={true} background={true}>
+        <Card title={title} transparent={false} background={true}>
             <ProfileForm onSave={saveHandler}
                 onCancel={cancelHandler} profile={me} disabled={loading}
                 disabledFields={['avatar', 'email', 'name']} withBank={true} 

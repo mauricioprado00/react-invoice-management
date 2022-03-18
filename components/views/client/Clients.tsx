@@ -4,7 +4,7 @@ import ClientTable from './ClientTable'
 
 function Clients() {
     return (
-        <Card fullscreen={true} background={false}>
+        <Card>
             <ClientTable />
         </Card>
     )

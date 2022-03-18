@@ -27,9 +27,9 @@ function InvoiceView({ invoiceId }: InvoiceViewProps) {
     }
 
     return (
-        <>
+        <div className="pt-20 print:pt-0 bg-gray-100">
             {content}
-        </>
+        </div>
     )
 }
 

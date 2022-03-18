@@ -4,7 +4,7 @@ import InvoiceTable from './InvoiceTable'
 
 function Invoices() {
     return (
-        <Card fullscreen={true} background={false}>
+        <Card>
             <InvoiceTable />
         </Card>
     )

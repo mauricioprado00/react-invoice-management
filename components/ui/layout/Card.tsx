@@ -13,6 +13,7 @@ export type CardProps = {
     title?: string,
     fullscreen?: boolean,
     center?: boolean,
+    transparent?: boolean,
     background?: string | boolean | number,
     bgopacity?: boolean,
     size?: "small" | "medium" | "big" | 'full'
@@ -23,14 +24,15 @@ export const CardPropTypes = {
     title: PropTypes.string,
     fullscreen: PropTypes.bool,
     center: PropTypes.bool,
-    background: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    transparent: PropTypes.bool,
+    background: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]),
     bgopacity: PropTypes.bool,
     size: PropTypes.oneOf(["small", "medium", "big"])
 }
 
 const styles = {
-    base: 'flex bg-center bg-gray-50 pt-20 pb-4 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover',
-    containerBase: 'w-full space-y-8 p-10 bg-white rounded-xl shadow-lg z-0',
+    base: 'flex bg-center pt-20 pb-4 px-4 sm:px-6 lg:px-8 bg-gray-100 bg-no-repeat bg-cover',
+    containerBase: 'w-full space-y-8 p-10 z-0',
 }
 
 const sizeClasses = {
@@ -51,10 +53,14 @@ const backgrounds = {
     [CardBackground.OceanWater as number]: 'https://images.unsplash.com/photo-1532423622396-10a3f979251a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80'
 }
 
-function Card({ children, title, fullscreen=false, center=true, background=false, bgopacity=false, size = defaultSize}: CardProps) {
+function Card({ children, title, fullscreen=true, center=true, transparent=true, background=false, bgopacity=false, size = defaultSize}: CardProps) {
     const mainClassnames = [styles.base];
     const secClasses = [styles.containerBase];
     const style:CardStyle = {}
+
+    if (!transparent) {
+        secClasses.push('bg-white rounded-xl shadow-lg');
+    }
 
     if (fullscreen) {
         mainClassnames.push('min-h-screen');
