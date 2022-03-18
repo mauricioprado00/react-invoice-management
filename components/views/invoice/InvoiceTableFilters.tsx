@@ -58,7 +58,7 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
                             Add filter
                             <span className="float-right">
                                 <span className='mr-2'>
-                                <Fab size="small" color="secondary" aria-label="cancel add filter" onClick={clearAll}>
+                                <Fab size="small" color="secondary" aria-label="clear all filters" onClick={clearAll}>
                                     <ClearAllIcon />
                                 </Fab>
                                 </span>
