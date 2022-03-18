@@ -14,7 +14,8 @@ import classNames from 'classnames';
 
 
 export type ClientSelectorProps = {
-  label: string,
+  label?: string,
+  emptyOptionLabel?: string,
   required?: boolean,
   name: string,
   clientList: Client[],
@@ -24,7 +25,8 @@ export const ClientSelectorPropTypes = Object.assign(
   {},
   FormElementPropTypes,
   {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    emptyOptionLabel: PropTypes.string,
     required: PropTypes.bool,
     name: PropTypes.string.isRequired,
     clientList: PropTypes.arrayOf(PropTypes.shape(ClientPropTypes))
@@ -240,7 +242,7 @@ const classes = {
 }
 
 function ClientSelector({
-  value, name, label, required, clientList,
+  value, name, label, required, clientList, emptyOptionLabel,
   reset, onValid, onChange, showErrors, disabled,
   ...selectPops
 }: ClientSelectorProps) {
@@ -301,11 +303,12 @@ function ClientSelector({
 
   return (
     <div className="mb-3 space-y-2 w-full text-xs">
-      <label className={classNames(...labelClasses)}>
+      {label && <label className={classNames(...labelClasses)}>
         {label + " "}
         {required && <abbr title="required">*</abbr>}
-      </label>
+      </label>}
       <CustomSelect value={value} hasError={expressErrors && !valid} {...selectPops} onChange={changeHandler}>
+        {emptyOptionLabel && <StyledOption value="">{emptyOptionLabel}</StyledOption>}
         {value === "" && <OptionUnstyled value="">Select a Client</OptionUnstyled>}
         {clientList.map(client =>
           <StyledOption key={client.id} value={client.id}>

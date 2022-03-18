@@ -5,6 +5,9 @@ import HeaderContent from 'components/ui/layout/HeaderContent'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { useInvoiceList, useInvoiceLoading, useLoadInvoiceError } from 'store/InvoiceSlice'
 import { useGoInvoices, useGoNewInvoice, usePagination } from 'library/navigation'
+import UrlInputFilter from 'components/ui/forms/UrlInputFilter'
+import ClientSelector from '../../ui/forms/ClientSelector'
+import InvoiceTableFilters from './InvoiceTableFilters'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -49,6 +52,7 @@ const InvoiceTable = ({
         <Table title={title} loading={loading} error={loadError} pagination={pagination}>
             {loaded && <HeaderContent>
                 {controls && <>
+                    <InvoiceTableFilters />
                     <Button styled={ButtonStyle.FlatPrimary} onClick={goNewInvoice}>New Invoice</Button>
                     {!pageable && <Button styled={ButtonStyle.FlatPrimary} onClick={goInvoices}>All Invoices</Button>}
                 </>}
