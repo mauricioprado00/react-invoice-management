@@ -5,6 +5,12 @@ import LoadingMask from '../LoadingMask'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 import ErrorBanner from '../../utility/ErrorBanner'
 
+/**
+ * table styles from https://tailwindcomponents.com/component/customers-table
+ * author: @cruip
+ * cruip.com
+ */
+
 type tableHeaderColumnProps = {
     children: any
 }
@@ -12,7 +18,7 @@ const TableHeaderColumnPropTypes = {
     children: PropTypes.node
 }
 
-const TableHeaderColumn = ({children}: tableHeaderColumnProps) => {
+const TableHeaderColumn = ({ children }: tableHeaderColumnProps) => {
     return (
         <th className="p-2 whitespace-nowrap">
             <div className="font-semibold text-left">{children}</div>
@@ -29,7 +35,7 @@ const EmptyPropTypes = {
     children: PropTypes.node
 }
 
-const Empty = ({children}: EmptyProps) => {
+const Empty = ({ children }: EmptyProps) => {
     return (<>{children}</>)
 }
 
@@ -57,17 +63,16 @@ const Table = ({ title, loading, children, error }: TableProps) => {
     ])
 
     return (
-        <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4">
-            <div className="flex flex-col justify-center h-full">
-                <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-                    <header className="px-5 py-4 border-b border-gray-100 flex">
-                        <h2 className="font-semibold text-gray-800 display-inline-block flex-1">{title}</h2>
-                        <div>
-                            {headerContent}
-                        </div>
-                    </header>
-                    {error ? <ErrorBanner error={error}>There are connectivity problems, we could not load the client list</ErrorBanner> : (
-                        loading ?
+        <div className="flex flex-col justify-center h-full">
+            <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+                <header className="px-5 py-4 border-b border-gray-100 flex">
+                    <h2 className="font-semibold text-gray-800 display-inline-block flex-1">{title}</h2>
+                    <div>
+                        {headerContent}
+                    </div>
+                </header>
+                {error ? <ErrorBanner error={error}>There are connectivity problems, we could not load the client list</ErrorBanner> : (
+                    loading ?
                         <LoadingMask /> :
                         (rows.length ?
                             <div className="p-3">
@@ -89,10 +94,9 @@ const Table = ({ title, loading, children, error }: TableProps) => {
                                 {empty}
                             </div>
                         )
-                    )}
-                </div>
+                )}
             </div>
-        </section>
+        </div>
     )
 }
 Table.propTypes = TablePropTypes;
