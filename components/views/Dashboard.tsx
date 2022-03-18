@@ -5,8 +5,8 @@ import InvoiceTable from './invoice/InvoiceTable'
 function Dashboard() {
     return (
         <>
-            <ClientTable />
-            <InvoiceTable />
+            <ClientTable limit={5} pageable={false} sortable={false} />
+            <InvoiceTable limit={5} pageable={false} sortable={false} />
         </>
     )
 }
