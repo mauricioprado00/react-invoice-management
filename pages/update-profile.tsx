@@ -3,9 +3,9 @@ import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 import UserEdition from 'components/views/user/UserEdition';
 import { useGoMe } from 'library/navigation';
 
-const UpdateProfile: NextPage = () => {
+const UpdateProfilePage: NextPage = () => {
     const goMe = useGoMe();
     return <UserEdition onCancel={goMe} onSave={goMe} />
 }
 
-export default AuthPageWithStore(UpdateProfile)
+export default AuthPageWithStore(UpdateProfilePage)

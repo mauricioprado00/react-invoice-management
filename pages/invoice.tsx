@@ -5,7 +5,7 @@ import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 import { useCallback } from 'react';
 import { ClientInvoice, Invoice } from 'models/Invoice';
 
-const Invoice: NextPage = () => {
+const InvoicePage: NextPage = () => {
     const invoiceId = useParamInvoiceId();
     const goDashboard = useGoDashboard();
     const goView = useGoInvoiceView();
@@ -23,4 +23,4 @@ const Invoice: NextPage = () => {
     return <InvoiceEdition onCancel={goBack} onSave={goViewSaved} invoiceId={invoiceId} />
 }
 
-export default AuthPageWithStore(Invoice)
+export default AuthPageWithStore(InvoicePage)

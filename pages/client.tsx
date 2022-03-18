@@ -5,7 +5,7 @@ import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 import { useCallback } from 'react';
 import { Client } from 'models/Client';
 
-const Client: NextPage = () => {
+const ClientPage: NextPage = () => {
     const clientId = useParamClientId();
     const goClientDashboard = useGoClientDashboard();
     const goDashboard = useGoDashboard();
@@ -20,4 +20,4 @@ const Client: NextPage = () => {
     return <ClientEdition onCancel={goBack} onSave={goBack} clientId={clientId} />
 }
 
-export default AuthPageWithStore(Client)
+export default AuthPageWithStore(ClientPage)
