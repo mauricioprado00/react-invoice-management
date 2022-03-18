@@ -333,6 +333,7 @@ export const isProfileFilledSelector = createSelector(meSelector, me =>
     me?.companyDetails?.name,
     me?.companyDetails?.regNumber,
     me?.companyDetails?.vatNumber,
+    me?.companyDetails?.swift || me.companyDetails?.iban,
   ].reduce((filled, value) => filled && value !== undefined, true)
 );
 
