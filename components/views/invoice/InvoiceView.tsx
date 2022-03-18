@@ -20,7 +20,7 @@ function InvoiceView({ invoiceId }: InvoiceViewProps) {
 
     if (loading) {
         content = "loading data";
-    } else if (invoice !== null) {
+    } else if (invoice !== null && me !== null) {
         content = <InvoicePrint clientInvoice={invoice} me={me} />;
     } else {
         content = "sorry we could not find the invoice";

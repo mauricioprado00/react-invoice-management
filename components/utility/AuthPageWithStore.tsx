@@ -31,7 +31,9 @@ function CheckProfileIsFilled(props:CheckProps) {
     const goEditMe = useGoEditMe();
     const isEditMe = useIsEditMe();
     const loading = useMeLoading();
-    const mustEditFirst = !loading && !isProfileFilled && !isEditMe;
+    // it can be not loading, because useEffect didn't yet run
+    // so isProfileFilled will be null when me is not loaded
+    const mustEditFirst = !loading && isProfileFilled!== null && !isProfileFilled && !isEditMe;
     if (mustEditFirst) {
         goEditMe();
     }

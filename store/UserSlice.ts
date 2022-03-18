@@ -327,6 +327,7 @@ export const {
 // business logic
 
 export const isProfileFilledSelector = createSelector(meSelector, me =>
+  !me ? null :
   [
     me?.companyDetails?.address,
     me?.companyDetails?.name,
