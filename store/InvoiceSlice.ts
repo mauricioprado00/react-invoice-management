@@ -173,9 +173,22 @@ const slice = createSlice({
       // Dummy action to allow other slices listen to this event.
     },
     updated: (state, action: PayloadAction<ClientInvoice>) => {
+      const id = action.payload.invoice.id;
+      console.log({updating: action});
       state.list[action.payload.invoice.id] = {
         ...action.payload,
       };
+
+      console.log(Object.keys(state.filtered))
+      Object.keys(state.filtered).forEach(key => {
+        state.filtered[key].list.forEach((invoice, idx) => {
+          if (invoice.invoice.id === id) {
+            state.filtered[key].list[idx] = {
+              ...action.payload,
+            }
+          }
+        })
+      })
     },
     added: (state, action: PayloadAction<ClientInvoice>) => {
       state.list[action.payload.invoice.id] = { ...action.payload };

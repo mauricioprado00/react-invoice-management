@@ -1,12 +1,14 @@
 # next tasks
+- double check :when updating invoice details, the corresponging filtered pages should also be updated. 
 - cold loading client page, e.g. http://localhost:3000/client-dashboard?id=18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae
 - clients should be also sortable and paginable
 - cancel buttons should go back to previous page, possibly some save buttons too
 - add context menu to invoice table
 - all clients should be loaded, otherwise client selection list all options.
-- when updating invoice details, the corresponging filtered pages should also be updated. 
+
 - Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
 - Reemplazar hamburget con speed dial https://mui.com/components/speed-dial/
+- throwing exception here: invoiceslice: thunkAPI.dispatch(beforeUpdate(prevInvoice)); (missing client)
 
 # extra:
 - add email, phone
@@ -21,6 +23,7 @@
 - Fix total invoices for logged user
 - Cold loading invoice view page
 - Avoid client data from breaking table layout. 
+- when updating invoice details, the corresponging filtered pages should also be updated. 
 # 2022 03 18
 - created ui for filtering and sorting invoices
 
