@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import { Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
 import HeaderContent from 'components/ui/layout/HeaderContent'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { useFilteredInvoices, useInvoiceFiltered, useInvoiceList, useInvoiceListTotal, useInvoiceLoading, useLoadInvoiceError } from 'store/InvoiceSlice'
+import { useFilteredInvoices, useLoadInvoiceError } from 'store/InvoiceSlice'
 import { useGoInvoices, useGoNewInvoice, usePagination } from 'library/navigation'
-import UrlInputFilter from 'components/ui/forms/UrlInputFilter'
-import ClientSelector from '../../ui/forms/ClientSelector'
 import InvoiceTableFilters from './InvoiceTableFilters'
 import { useRouter } from 'next/router'
 import { InvoiceListingArgs } from 'api/apiclient'
 import moment from 'moment'
+import { useEffect } from 'react'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -28,7 +27,7 @@ const InvoiceTablePropTypes = {
     sortable: PropTypes.bool,
 }
 
-export const GetInvoiceListingArgs = (limit: number): InvoiceListingArgs => {
+export const GetInvoiceListingArgs = (limit: number): Required<InvoiceListingArgs> => {
     const router = useRouter();
     const {
         client,
@@ -89,6 +88,9 @@ const InvoiceTable = ({
 }: InvoiceTableProps) => {
     const args = GetInvoiceListingArgs(limit);
     const filtered = useFilteredInvoices(args);
+    // pre-fetch next 2 pages
+    useFilteredInvoices({...args, offset: args.offset + limit});
+    useFilteredInvoices({...args, offset: args.offset + limit * 2});
     const invoices = filtered?.list;
     const total = filtered?.total || 0;
     const loadError = useLoadInvoiceError()

@@ -180,15 +180,16 @@ export type InvoiceListingArgs = {
   sort?: InvoiceListingSortingByArgs,
   offset?: number,
   limit?: number,
-} | undefined
+}
 
+export type InvoiceListingArgsU = InvoiceListingArgs | undefined
 
 export type ClientInvoiceListResponse = {
   invoices: ClientInvoiceList,
   total: number,
 }
 
-const getInvoices = (url: string) => (args:InvoiceListingArgs) => async (init: ApiInitParams) => {
+const getInvoices = (url: string) => (args:InvoiceListingArgsU) => async (init: ApiInitParams) => {
   const params = new URLSearchParams();
   if (args) {
     params.set('params',JSON.stringify(args));
@@ -254,7 +255,7 @@ const createClient = (url:string, bearerToken:string) => ({
   newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
   getClients: (then:Then<ClientWithTotalsList>): AbortableEndpointResult<ClientWithTotalsList> =>
     endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then, {}),
-  getInvoices: (params:InvoiceListingArgs, then:Then<ClientInvoiceListResponse>): AbortableEndpointResult<ClientInvoiceListResponse> =>
+  getInvoices: (params:InvoiceListingArgsU, then:Then<ClientInvoiceListResponse>): AbortableEndpointResult<ClientInvoiceListResponse> =>
     endpoint<ClientInvoiceListResponse>(getInvoices(url + '/invoices'), bearerToken, then, params || {}),
   upsertClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
     endpoint<Client>(upsertClient(url + '/clients'), bearerToken, then, client),
