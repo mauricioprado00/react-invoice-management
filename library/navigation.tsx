@@ -140,11 +140,11 @@ export const useUrlParam = <T extends UrlParam,>(name: string, def?: T): [T, (va
     const param = router.query[name] || def;
     const setParam = useCallback((newValue: T) => {
         const query = Object.assign({}, router.query, { [name]: newValue });
-        if (newValue === undefined) {
+        if (newValue === def) {
             delete query[name];
         }
         router.replace({ query });
-    }, [name, router]);
+    }, [def, name, router]);
     return [
         param as T,
         setParam,

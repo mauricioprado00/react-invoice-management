@@ -309,7 +309,7 @@ function ClientSelector({
       </label>}
       <CustomSelect value={value} hasError={expressErrors && !valid} {...selectPops} onChange={changeHandler}>
         {emptyOptionLabel && <StyledOption value="">{emptyOptionLabel}</StyledOption>}
-        {value === "" && <OptionUnstyled value="">Select a Client</OptionUnstyled>}
+        {!emptyOptionLabel && value === "" && <OptionUnstyled value="">Select a Client</OptionUnstyled>}
         {clientList.map(client =>
           <StyledOption key={client.id} value={client.id}>
             <img

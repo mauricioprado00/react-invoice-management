@@ -15,19 +15,19 @@ type ChangeEvent = {
     }
 }
 export const useUrlInputFilter = <T extends string | undefined,>(name: string, def?: T) => {
-    const [value, setValue] = useUrlParam<string | undefined>(name);
+    const [value, setValue] = useUrlParam<string | undefined>(name, def);
     const onChange = useCallback((e: ChangeEvent) => {
         setValue(e.target.value ? e.target.value : def);
     }, [setValue, def])
 
     return {
         name,
-        value,
+        value: value || def,
         onChange,
     }
 }
 function UrlInputFilter({ name, ...inputProps }: UrlInputFilterProps) {
-    return <input {...inputProps} {...useUrlInputFilter(name)} />
+    return <input {...inputProps} {...useUrlInputFilter(name, '')} />
 }
 
 UrlInputFilter.propTypes = UrlInputFilterPropTypes

@@ -29,7 +29,7 @@ const filterList = ['client', 'dateFrom', 'dateTo', 'dueDateFrom', 'dueDateTo'];
 function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
     const [state, setState] = useState(initialState);
     const clientList = useClientList();
-    const clientProps = useUrlInputFilter<string>('client', undefined);
+    const clientProps = useUrlInputFilter<string>('client', '');
     const beginSelect = useCallback(() => {
         setState(prev => ({ ...prev, status: 'selecting' }))
     }, []);
