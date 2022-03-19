@@ -3,6 +3,8 @@ import React from 'react'
 import { useInvoiceById, useInvoiceLoading } from 'store/InvoiceSlice'
 import InvoicePrint from './InvoicePrint'
 import { useMe, useMeLoading } from 'store/UserSlice'
+import ErrorBanner from 'components/utility/ErrorBanner'
+import Card from 'components/ui/layout/Card'
 
 type InvoiceViewProps = {
     invoiceId: string,
@@ -16,12 +18,12 @@ function InvoiceView({ invoiceId }: InvoiceViewProps) {
     const loading = [useInvoiceLoading(), useMeLoading()].some(Boolean);
     let content;
 
-    if (loading) {
+    if (!invoice && loading) {
         content = "loading data";
     } else if (invoice !== null && me !== null) {
         content = <InvoicePrint clientInvoice={invoice} me={me} />;
     } else {
-        content = "sorry we could not find the invoice";
+        content = <Card fullscreen={false}><ErrorBanner>sorry we could not find the invoice</ErrorBanner></Card>;
     }
 
     return (

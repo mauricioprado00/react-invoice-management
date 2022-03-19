@@ -4,7 +4,7 @@ import styles from '../../styles/MaterialIcons.module.css'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 
 export type ErrorBannerProps = {
-    error: SerializedError
+    error?: SerializedError
     children: any
 }
 export const ErrorBannerPropTypes = {
@@ -22,7 +22,7 @@ function ErrorBanner({error, children}: ErrorBannerProps) {
             <div className="space-y-1 text-sm">
                 <h6 className="font-medium text-white font-bold">Fatal error</h6>
                 <p className="text-red-100 leading-tight">{children}</p>
-                {error.message && <p className="text-red-100 italic py-1">
+                {error?.message && <p className="text-red-100 italic py-1">
                     <span className="font-bold">Details</span>: <span className="font-serif">{error.message}</span>
                 </p>}
             </div>
