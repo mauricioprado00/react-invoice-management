@@ -239,7 +239,7 @@ export const clientInvoiceSumSelector = createSelector(
 export const clientInvoiceFilteredBySelectorCreator = 
 (args:InvoiceListingArgsU) => createSelector(
   clientInvoiceFilteredSelector,
-  filtered => filtered[getFilterId(args)]
+  filtered => filtered[getFilterId(args)] || undefined
 )
 
 
@@ -345,7 +345,10 @@ export const useInvoiceById = (id: string | null) =>
   useInvoiceSelector(invoiceByIdSelector(id));
 
 export const useInvoiceCount = () =>
-  useInvoiceSelector(clientInvoiceCountSelector);
+  {
+    const unfiltered = useFilteredInvoices();
+    return unfiltered?.total
+  };
 export const useInvoiceSum = () => useInvoiceSelector(clientInvoiceSumSelector);
 export const useUpsertInvoice = () => {
   const dispatch = useThunkDispatch();
