@@ -46,10 +46,21 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
         filterList.map(f => delete query[f]);
         router.replace({ query });
     }, [router]);
+
+    // isFilterd = any truthy value in router.query
+    const isFiltered = filterList.reduce((carry, filter) => carry || Boolean(router.query[filter]), false);
+    const clearFilters = isFiltered &&
+        <span className='mr-2'>
+            <Fab title='Clear all filters' size="small" color="secondary" aria-label="clear all filters" onClick={clearAll}>
+                <ClearAllIcon />
+            </Fab>
+        </span>
+    
     return (
         <span className="relative mx-5 ">
             <span className={(state.status === "display" ? '' : 'invisible') + " mr-2"}>
-                <Fab size="small" color="secondary" aria-label="filter by" onClick={beginSelect}>
+                {clearFilters}
+                <Fab title='filter by' size="small" color={isFiltered ? "primary" : "secondary"} aria-label="filter by" onClick={beginSelect}>
                     <FilterIcon />
                 </Fab>
             </span>
@@ -59,14 +70,8 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
                         <ListSubheader component="div" id="filter-by">
                             Add filter
                             <span className="float-right">
-                                {filterList.reduce((carry, filter) => carry || Boolean(router.query[filter]), false) &&
-                                    <span className='mr-2'>
-                                        <Fab size="small" color="secondary" aria-label="clear all filters" onClick={clearAll}>
-                                            <ClearAllIcon />
-                                        </Fab>
-                                    </span>
-                                }
-                                <Fab size="small" color="secondary" aria-label="cancel add filter" onClick={resetState}>
+                                {clearFilters}
+                                <Fab title='cancel add filter' size="small" color="secondary" aria-label="cancel add filter" onClick={resetState}>
                                     <CancelIcon />
                                 </Fab>
                             </span>
