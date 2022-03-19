@@ -1,6 +1,6 @@
 import InvoiceTableRowItem from './InvoiceTableRowItem'
 import PropTypes from 'prop-types'
-import { Table, Column, Empty, useSortDirection } from 'components/ui/layout/Table'
+import { Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
 import HeaderContent from 'components/ui/layout/HeaderContent'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { useInvoiceList, useInvoiceLoading, useLoadInvoiceError } from 'store/InvoiceSlice'
@@ -8,6 +8,9 @@ import { useGoInvoices, useGoNewInvoice, usePagination } from 'library/navigatio
 import UrlInputFilter from 'components/ui/forms/UrlInputFilter'
 import ClientSelector from '../../ui/forms/ClientSelector'
 import InvoiceTableFilters from './InvoiceTableFilters'
+import { useRouter } from 'next/router'
+import { InvoiceListingArgs } from 'api/apiclient'
+import moment from 'moment'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -25,6 +28,58 @@ const InvoiceTablePropTypes = {
     sortable: PropTypes.bool,
 }
 
+export const GetInvoiceListingArgs = (limit: number): InvoiceListingArgs => {
+    const router = useRouter();
+    const {
+        client,
+        dateFrom,
+        dateTo,
+        dueDateFrom,
+        dueDateTo,
+        sort_date,
+        sort_price,
+        sort_companyName,
+        sort_dueDate,
+        page
+    }: {
+        client?: string,
+        dateFrom?: string,
+        dateTo?: string,
+        dueDateFrom?: string,
+        dueDateTo?: string,
+        sort_date?: SortDirection,
+        sort_price?: SortDirection,
+        sort_companyName?: SortDirection,
+        sort_dueDate?: SortDirection,
+        page?: number,
+    } = router.query;
+
+    return {
+        filter: {
+            clientId: client,
+            date: {
+                start: dateFrom ? moment(dateFrom).valueOf() : undefined,
+                end: dateTo ? moment(dateTo).valueOf() : undefined,
+            },
+            dueDate: {
+                start: dueDateFrom ? moment(dueDateFrom).valueOf() : undefined,
+                end: dueDateTo ? moment(dueDateTo).valueOf() : undefined,
+            },
+        },
+
+        // TODO send keys sorted in the way router.query provides them
+        // TODO Also requires changes on the API
+        sort: {
+            date: sort_date,
+            dueDate: sort_dueDate,
+            companyName: sort_companyName,
+            price: sort_price,
+        },
+        limit,
+        offset: page ? (page - 1) * limit : 0,
+    }
+}
+
 const InvoiceTable = ({
     title = "Invoices",
     limit = 5,
@@ -32,7 +87,7 @@ const InvoiceTable = ({
     sortable = true,
     controls = true,
 }: InvoiceTableProps) => {
-    const invoices = useInvoiceList()
+    const invoices = useInvoiceList(GetInvoiceListingArgs(limit))
     const loadError = useLoadInvoiceError()
     const loading = useInvoiceLoading();
     const goNewInvoice = useGoNewInvoice();

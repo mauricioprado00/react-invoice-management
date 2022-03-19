@@ -155,8 +155,40 @@ const getClients = (url: string) => (arg:void) => async (init: ApiInitParams) =>
   return jsonResponse.clients
 }
 
-const getInvoices = (url: string) => (arg:void) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url, init)
+export type InvoiceListingSortingByArgs = {
+  date?: "asc" | "desc"
+  price?: "asc" | "desc"
+  companyName?: "asc" | "desc"
+  dueDate?: "asc" | "desc"
+}
+
+export type InvoiceListingFilterByArgs = {
+  clientId?: string
+  date?: {
+      start?: number
+      end?: number
+  }
+
+  dueDate?: {
+      start?: number
+      end?: number
+  }
+}
+
+export type InvoiceListingArgs = {
+  filter?: InvoiceListingFilterByArgs,
+  sort?: InvoiceListingSortingByArgs,
+  offset?: number,
+  limit?: number,
+} | undefined
+
+
+const getInvoices = (url: string) => (args:InvoiceListingArgs) => async (init: ApiInitParams) => {
+  const params = new URLSearchParams();
+  if (args) {
+    params.set('params',JSON.stringify(args));
+  }
+  const fetchPromise = fetch(url + '?' + params, init);
   const httpResponse = await fetchPromise
   if (httpResponse.ok !== true) {
     throw await httpResponse.text();
@@ -217,8 +249,8 @@ const createClient = (url:string, bearerToken:string) => ({
   newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
   getClients: (then:Then<ClientWithTotalsList>): AbortableEndpointResult<ClientWithTotalsList> =>
     endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then, {}),
-  getInvoices: (then:Then<ClientInvoiceList>): AbortableEndpointResult<ClientInvoiceList> =>
-    endpoint<ClientInvoiceList>(getInvoices(url + '/invoices'), bearerToken, then, {}),
+  getInvoices: (params:InvoiceListingArgs, then:Then<ClientInvoiceList>): AbortableEndpointResult<ClientInvoiceList> =>
+    endpoint<ClientInvoiceList>(getInvoices(url + '/invoices'), bearerToken, then, params),
   upsertClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
     endpoint<Client>(upsertClient(url + '/clients'), bearerToken, then, client),
   registerUser: (user:UserWithPassword, then:Then<RegisterData>): AbortableEndpointResult<RegisterData> =>

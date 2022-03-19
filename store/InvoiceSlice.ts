@@ -13,18 +13,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userLoggedIn, userLoggedOut } from "./UserSlice";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
+import { InvoiceListingArgs } from "api/apiclient";
+import {Md5} from 'md5-typescript'
 
 type InvoiceStatus = "initial" | "began_fetching" | "loaded";
 let loadInvoiceBegan = false;
 
+export type FilteredInvoicesList = {
+  args: InvoiceListingArgs,
+  list: MapType<ClientInvoice>,
+  loaded: boolean,
+}
 export type ClientInvoicesState = {
   list: MapType<ClientInvoice>;
+  filtered: MapType<FilteredInvoicesList>;
   requests: MapType<MapType<RequestInformation>>;
   status: InvoiceStatus;
 };
 
 const initialState: ClientInvoicesState = {
   list: {},
+  filtered: {},
   // group all of these into a new attribute
   requests: {},
   status: "initial",
@@ -84,29 +93,44 @@ export const loadClientInvoices = createAsyncThunk<
   // Return type of the payload creator
   ClientInvoiceList,
   // First argument to the payload creator
-  void,
+  InvoiceListingArgs,
   AppThunkAPI
->("invoice/load", async (arg, thunkAPI): Promise<ClientInvoiceList> => {
-  thunkAPI.dispatch(requested());
-  const result = thunkAPI.extra.serviceApi.getInvoices(clientInvoices =>
-    thunkAPI.dispatch(received(clientInvoices))
+>("invoice/load", async (args, thunkAPI): Promise<ClientInvoiceList> => {
+  thunkAPI.dispatch(requested(args));
+  const result = thunkAPI.extra.serviceApi.getInvoices(args, clientInvoices =>
+    thunkAPI.dispatch(received({clientInvoices, args}))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   const clientInvoices = await result.promise;
   return clientInvoices;
 });
 
+const getFilterId = (args:InvoiceListingArgs): string => {
+  return Md5.init(JSON.stringify(args));
+}
+
 const slice = createSlice({
   name: "invoice",
   initialState,
   reducers: {
-    requested: state => {
+    requested: (state, action:PayloadAction<InvoiceListingArgs>) => {
+      const id = getFilterId(action.payload);
+      state.filtered[id] = {
+        args: action.payload,
+        list: {},
+        loaded: false,
+      };
       state.status = "began_fetching";
     },
-    received: (state, action: PayloadAction<ClientInvoice[]>) => {
-      action.payload.forEach(
-        clientInvoice => (state.list[clientInvoice.invoice.id] = clientInvoice)
+    received: (state, action: PayloadAction<{clientInvoices: ClientInvoice[], args:InvoiceListingArgs}>) => {
+      const id = getFilterId(action.payload.args);
+      action.payload.clientInvoices.forEach(
+        clientInvoice => {
+          state.list[clientInvoice.invoice.id] = clientInvoice;
+          state.filtered[id].list[clientInvoice.invoice.id] = clientInvoice;
+        }
       );
+      state.filtered[id].loaded = true;
       state.status = "loaded";
     },
     beforeUpdate: (state, action: PayloadAction<ClientInvoice>) => {
@@ -193,6 +217,11 @@ export const clientInvoiceListSelector = createSelector(
   clientInvoiceSlice => Object.values(clientInvoiceSlice.list)
 );
 
+export const clientInvoiceFilteredSelector = createSelector(
+  clientInvoiceSliceSelector,
+  cleintInvoiceSlice => cleintInvoiceSlice.filtered
+)
+
 export const clientInvoiceCountSelector = createSelector(
   clientInvoiceListSelector,
   invoiceList => invoiceList.length
@@ -203,6 +232,12 @@ export const clientInvoiceSumSelector = createSelector(
   invoiceList =>
     invoiceList.reduce((prev, invoice) => prev + invoice.invoice.value, 0)
 );
+
+export const filteredListBeganSelector = 
+(args:InvoiceListingArgs) => createSelector(
+  clientInvoiceFilteredSelector,
+  filtered => filtered[getFilterId(args)] !== undefined
+)
 
 export const getMostValuableClientInvoicesSelector = createSelector(
   clientInvoiceListSelector,
@@ -234,23 +269,24 @@ export const clientInvoiceStatusSelector = createSelector(
 
 // hooks
 const useInvoiceSelector = <TState, TSelected>(
-  selector: (state: TState) => TSelected
+  selector: (state: TState) => TSelected,
+  args?:InvoiceListingArgs
 ) => {
+  const began = useSelector(filteredListBeganSelector(args));
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!loadInvoiceBegan) {
-      loadInvoiceBegan = true;
-      dispatch(loadClientInvoices());
+    if (!began) {
+      dispatch(loadClientInvoices(args));
     }
-  }, [dispatch]);
+  }, [dispatch, args, began]);
   return useSelector<TState, TSelected>(selector);
 };
 
 export const useClientInvoiceOptions = () =>
   useSelector(getClientInvoiceOptionsSelector);
 export const useInvoiceSlice = () => useSelector(clientInvoiceSliceSelector);
-export const useInvoiceList = () =>
-  useInvoiceSelector(clientInvoiceListSelector);
+export const useInvoiceList = (args?:InvoiceListingArgs) =>
+  useInvoiceSelector(clientInvoiceListSelector, args);
 export const useLoadInvoiceError = () =>
   useSelector(loadClientInvoiceErrorSelector);
 const useLoadInvoiceState = () => useSelector(loadClientInvoiceStateSelector);
