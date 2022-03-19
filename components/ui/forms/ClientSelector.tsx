@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Client, ClientPropTypes } from 'models/Client'
 import SelectUnstyled, {
@@ -213,7 +213,7 @@ type CustomSelectProps = SelectUnstyledProps<string> & {
   hasError?: boolean,
 }
 const CustomSelect = React.forwardRef(function CustomSelect(
-  {hasError, ...props}: CustomSelectProps,
+  { hasError, ...props }: CustomSelectProps,
   ref: React.ForwardedRef<any>,
 ) {
   const components: SelectUnstyledProps<string>['components'] = {
@@ -228,16 +228,16 @@ const CustomSelect = React.forwardRef(function CustomSelect(
 
 const classes = {
   label: {
-      invalid: 'text-red-700 dark:text-red-500',
-      valid: 'text-green-700 dark:text-green-500',
-      default: 'font-semibold py-2',
-      noerror: 'text-gray-600',
+    invalid: 'text-red-700 dark:text-red-500',
+    valid: 'text-green-700 dark:text-green-500',
+    default: 'font-semibold py-2',
+    noerror: 'text-gray-600',
   },
   input: {
-      invalid: 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:bg-red-100 dark:border-red-400',
-      valid: 'bg-green-50 border border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500 dark:bg-green-100 dark:border-green-400',
-      default: 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4',
-      noerror: '',
+    invalid: 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:bg-red-100 dark:border-red-400',
+    valid: 'bg-green-50 border border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500 dark:bg-green-100 dark:border-green-400',
+    default: 'appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4',
+    noerror: '',
   }
 }
 
@@ -272,6 +272,8 @@ function ClientSelector({
       }
     }
   }, [onChange, name, onValid, required, reset]);
+  const sortedClients = useMemo(() =>
+    clientList.sort((a, b) => a.name > b.name ? 1 : -1), [clientList])
 
   const errorMessages = [] as string[];
   let expressErrors = true;
@@ -310,7 +312,7 @@ function ClientSelector({
       <CustomSelect value={value} hasError={expressErrors && !valid} {...selectPops} onChange={changeHandler}>
         {emptyOptionLabel && <StyledOption value="">{emptyOptionLabel}</StyledOption>}
         {!emptyOptionLabel && value === "" && <OptionUnstyled value="">Select a Client</OptionUnstyled>}
-        {clientList.map(client =>
+        {sortedClients.map(client =>
           <StyledOption key={client.id} value={client.id}>
             <img
               loading="lazy"
