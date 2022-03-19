@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ClientInvoice, ClientInvoiceList } from "models/Invoice";
+import { ClientInvoice, ClientInvoiceList, Invoice } from "models/Invoice";
 import { MapType } from "models/UtilityModels";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
@@ -68,7 +68,7 @@ export const upsertInvoice = createAsyncThunk<
       clientInvoice,
       clientInvoice => {
         if (clientInvoice.invoice.id) {
-          const prevInvoice = invoiceByIdSelector(clientInvoice.invoice.id)(
+          const prevInvoice = invoiceByIdSelectorCreator(clientInvoice.invoice.id)(
             thunkAPI.getState()
           );
           // thunkAPI.dispatch(removed())
@@ -99,7 +99,7 @@ export const loadClientInvoices = createAsyncThunk<
   InvoiceListingArgsU,
   AppThunkAPI
 >(
-  "invoice/load",
+  "invoice/load_many",
   async (args, thunkAPI): Promise<ClientInvoiceListResponse> => {
     thunkAPI.dispatch(requested(args));
     const result = thunkAPI.extra.serviceApi.getInvoices(
@@ -110,6 +110,23 @@ export const loadClientInvoices = createAsyncThunk<
     thunkAPI.signal.addEventListener("abort", result.abort);
     const clientInvoices = await result.promise;
     return clientInvoices;
+  }
+);
+
+export const loadClientInvoice = createAsyncThunk<
+  // Return type of the payload creator
+  ClientInvoice,
+  // First argument to the payload creator
+  string,
+  AppThunkAPI
+>(
+  "invoice/load_one",
+  async (args, thunkAPI): Promise<ClientInvoice> => {
+    const invoice = await thunkAPI.extra.serviceApi.getInvoice(args).promise;
+    const client = await thunkAPI.extra.serviceApi.getClient(invoice.client_id).promise;
+    const clientInvoice = {invoice, client};
+    thunkAPI.dispatch(receivedOne(clientInvoice))
+    return clientInvoice;
   }
 );
 
@@ -148,6 +165,9 @@ const slice = createSlice({
       state.filtered[id].loaded = true;
       state.filtered[id].total = payload.clientInvoiceListResponse.total;
       state.status = "loaded";
+    },
+    receivedOne: (state, {payload:clientInvoice}:PayloadAction<ClientInvoice>) => {
+      state.list[clientInvoice.invoice.id] = clientInvoice;
     },
     beforeUpdate: (state, action: PayloadAction<ClientInvoice>) => {
       // Dummy action to allow other slices listen to this event.
@@ -191,10 +211,19 @@ const slice = createSlice({
       builder.addCase(upsertInvoice.fulfilled, fulfilled);
       builder.addCase(upsertInvoice.rejected, rejected);
     }
+    {
+      const { pending, fulfilled, rejected } = requestReducers(
+        "loadOne",
+        5
+      );
+      builder.addCase(loadClientInvoice.pending, pending);
+      builder.addCase(loadClientInvoice.fulfilled, fulfilled);
+      builder.addCase(loadClientInvoice.rejected, rejected);
+    }
   },
 });
 
-export const { added, beforeUpdate, updated, removed, received, requested } =
+export const { added, beforeUpdate, updated, removed, received, receivedOne, requested } =
   slice.actions;
 
 export default slice.reducer;
@@ -228,6 +257,12 @@ export const {
   errorSelector: upsertInvoiceErrorSelector,
   stateSelector: upsertInvoiceStateSelector,
 } = createRequestSelectors("upsertInvoice", clientInvoiceSliceSelector);
+
+export const {
+  lastSelector: loadOneLastRequestSelector,
+  errorSelector: loadOneErrorSelector,
+  stateSelector: loadOneStateSelector,
+} = createRequestSelectors("loadOne", clientInvoiceSliceSelector);
 
 const clientInvoiceListSelector = createSelector(
   clientInvoiceSliceSelector,
@@ -292,7 +327,7 @@ export const getClientInvoicesByCompanyNameSelector = (companyName: string) =>
     )
   );
 
-export const invoiceByIdSelector = (id: string | null) =>
+export const invoiceByIdSelectorCreator = (id: string | null) =>
   createSelector(
     clientInvoiceListSelector,
     clientInvoiceList =>
@@ -359,14 +394,28 @@ export const useFilteredInvoices = (args?: InvoiceListingArgsU) =>
   useInvoiceSelectorCreator(clientInvoiceFilteredBySelectorCreator, args);
 export const useLoadInvoiceError = () =>
   useSelector(loadClientInvoiceErrorSelector);
-const useLoadInvoiceState = () => useSelector(loadClientInvoiceStateSelector);
+const useLoadInvoicesState = () => useSelector(loadClientInvoiceStateSelector);
+export const useInvoicesLoading = () => {
+  const state = useLoadInvoicesState();
+  return state === "none" || state === "loading";
+};
+const useLoadInvoiceState = () => useSelector(loadOneStateSelector);
 export const useInvoiceLoading = () => {
   const state = useLoadInvoiceState();
   return state === "none" || state === "loading";
 };
 export const useInvoiceStatus = () => useSelector(clientInvoiceStatusSelector);
-export const useInvoiceById = (id: string | null) =>
-  useInvoiceSelector(invoiceByIdSelector(id));
+export const useInvoiceById = (id: string) => {
+  const selector = useMemo(() => invoiceByIdSelectorCreator(id), [id]);
+  const invoice = useSelector(selector);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!invoice) {
+      dispatch(loadClientInvoice(id))
+    }
+  }, [dispatch, id, invoice]);
+  return invoice;
+};
 
 export const useInvoiceCount = () => {
   const unfiltered = useFilteredInvoices();
@@ -384,3 +433,10 @@ export const useUpsertInvoiceError = () =>
   useInvoiceSelector(upsertInvoiceErrorSelector);
 export const useUpsertInvoiceState = () =>
   useInvoiceSelector(upsertInvoiceStateSelector);
+
+export const useLoadOneLastRequest = () =>
+  useSelector(loadOneLastRequestSelector);
+export const useLoadOneError = () =>
+  useSelector(loadOneErrorSelector);
+export const useLoadOneState = () =>
+  useSelector(loadOneStateSelector);

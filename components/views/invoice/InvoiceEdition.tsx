@@ -5,7 +5,7 @@ import ErrorBanner from 'components/utility/ErrorBanner'
 import { ClientInvoice, Invoice } from 'models/Invoice'
 import InvoiceForm, { SaveInvoiceEvent } from './InvoiceForm'
 import { useClientList, useClientLoading } from 'store/ClientSlice'
-import { useInvoiceById, useInvoiceLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'
+import { useInvoiceById, useInvoicesLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 import { usePaymentSelector } from 'store/UserSlice'
 
@@ -27,7 +27,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
     const upsertInvoice = useUpsertInvoice();
     const upsertError = useUpsertInvoiceError();
     const upsertState = useUpsertInvoiceState();
-    const loading = [useClientLoading(), useInvoiceLoading()].every(Boolean);
+    const loading = [useClientLoading(), useInvoicesLoading()].every(Boolean);
     const saveHandler = async ({ clientInvoice }: SaveInvoiceEvent) => {
         let result = await upsertInvoice(clientInvoice)
         if (isFullfilledThunk(result)) {

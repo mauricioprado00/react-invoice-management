@@ -18,6 +18,7 @@
 - Add support in invoice store slice to filter and sort invoices.
 - Show more columns in the invoices pages
 - Fix total invoices for logged user
+- Cold loading invoice view page
 # 2022 03 18
 - created ui for filtering and sorting invoices
 

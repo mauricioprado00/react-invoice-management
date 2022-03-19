@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import Card from 'components/ui/layout/Card'
 import { useInvoiceById, useInvoiceLoading } from 'store/InvoiceSlice'
 import InvoicePrint from './InvoicePrint'
 import { useMe, useMeLoading } from 'store/UserSlice'
 
 type InvoiceViewProps = {
-    invoiceId: string | null,
+    invoiceId: string,
 }
 const InvoicePropTypes = {
     invoiceId: PropTypes.string,
@@ -15,7 +14,6 @@ function InvoiceView({ invoiceId }: InvoiceViewProps) {
     const invoice = useInvoiceById(invoiceId);
     const me = useMe();
     const loading = [useInvoiceLoading(), useMeLoading()].some(Boolean);
-    const title = 'View Invoice';
     let content;
 
     if (loading) {

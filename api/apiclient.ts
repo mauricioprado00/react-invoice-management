@@ -1,4 +1,4 @@
-import { Client, ClientWithTotalsList } from 'models/Client'
+import { Client, ClientWithTotals, ClientWithTotalsList } from 'models/Client'
 import { ClientInvoice, ClientInvoiceList, Invoice } from 'models/Invoice'
 import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me } from 'models/User'
 import { MapType } from 'models/UtilityModels'
@@ -155,6 +155,39 @@ const getClients = (url: string) => (arg:void) => async (init: ApiInitParams) =>
   return jsonResponse.clients
 }
 
+const getClient = (url: string) => ({clientId}:{clientId:string}) => async (init: ApiInitParams) => {
+  const fetchPromise = fetch(url + '/' + clientId, init);
+  const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
+  if(!jsonResponse.success) {
+    throw new Error("Client data retrieval failed");
+  }
+  return jsonResponse.client
+}
+
+const getClientWithTotals = (url: string) => ({clientId}:{clientId:string}) => async (init: ApiInitParams) => {
+  const params = new URLSearchParams({filter: JSON.stringify({clientId})});
+  const fetchPromise = fetch(url + '?' + params, init);
+  const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
+  if(jsonResponse.total !== 1) {
+    throw new Error("Client data retrieval failed");
+  }
+  return jsonResponse.clients[0]
+}
+
 export type InvoiceListingSortingByArgs = {
   date?: "asc" | "desc"
   price?: "asc" | "desc"
@@ -206,6 +239,22 @@ const getInvoices = (url: string) => (args:InvoiceListingArgsU) => async (init: 
   return jsonResponse
 }
 
+const getInvoice = (url: string) => ({id}:{id:string}) => async (init: ApiInitParams) => {
+  const fetchPromise = fetch(url + '/' + id, init);
+  const httpResponse = await fetchPromise
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json()
+  if(init.signal.aborted) {
+    throw new Error("Aborted operation")
+  }
+  if(!jsonResponse.success) {
+    throw new Error("Invoice data retrieval failed");
+  }
+  return jsonResponse.invoice
+}
+
 const abortable = (endpointClient: any): AbortableEndpointResult<any> => {
   const controller = new AbortController()
   const promise = endpointClient({ signal: controller.signal })
@@ -250,13 +299,20 @@ const abortAll = (...results:AbortableObject[]):Cb => () => {
   results.forEach(result => result.abort());
 }
 
+const thenNo = () => {};
 const createClient = (url:string, bearerToken:string) => ({
   abortAll,
   newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
   getClients: (then:Then<ClientWithTotalsList>): AbortableEndpointResult<ClientWithTotalsList> =>
     endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then, {}),
+  getClientWithTotals: (clientId:string, then:Then<ClientWithTotals>=thenNo): AbortableEndpointResult<ClientWithTotals> =>
+    endpoint<ClientWithTotals>(getClientWithTotals(url + '/clients'), bearerToken, then, {clientId}),
+  getClient: (clientId:string, then:Then<Client>=thenNo): AbortableEndpointResult<Client> =>
+    endpoint<Client>(getClient(url + '/clients'), bearerToken, then, {clientId}),
   getInvoices: (params:InvoiceListingArgsU, then:Then<ClientInvoiceListResponse>): AbortableEndpointResult<ClientInvoiceListResponse> =>
     endpoint<ClientInvoiceListResponse>(getInvoices(url + '/invoices'), bearerToken, then, params || {}),
+  getInvoice: (id:string, then:Then<Invoice>=thenNo): AbortableEndpointResult<Invoice> =>
+    endpoint<Invoice>(getInvoice(url + '/invoices'), bearerToken, then, {id}),
   upsertClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
     endpoint<Client>(upsertClient(url + '/clients'), bearerToken, then, client),
   registerUser: (user:UserWithPassword, then:Then<RegisterData>): AbortableEndpointResult<RegisterData> =>
