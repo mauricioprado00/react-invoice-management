@@ -36,11 +36,11 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
                     <div className="flex-shrink-0 h-10 w-10">
                         <Image className="h-10 w-10 rounded-full" src={getAvatarImageUrl(client.avatar)} alt="" width={32} height={32} />
                     </div>
-                    <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
+                    <div className="ml-4 max-w-[10rem]">
+                        <div className="text-sm font-medium text-gray-900" title={name}>
                             {name}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-500 overflow-hidden text-ellipsis" title={email}>
                             {email}
                         </div>
                     </div>

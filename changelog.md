@@ -20,6 +20,7 @@
 - Show more columns in the invoices pages
 - Fix total invoices for logged user
 - Cold loading invoice view page
+- Avoid client data from breaking table layout. 
 # 2022 03 18
 - created ui for filtering and sorting invoices
 
