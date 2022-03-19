@@ -24,6 +24,8 @@ type FilterState = {
 const initialState: FilterState = {
     status: "display",
 };
+
+const filterList = ['client', 'dateFrom', 'dateTo', 'dueDateFrom', 'dueDateTo'];
 function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
     const [state, setState] = useState(initialState);
     const clientList = useClientList();
@@ -41,7 +43,7 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
     }, [client, dateFrom, dateTo, dueDateFrom, dueDateTo]);
     const clearAll = useCallback(() => {
         const query = Object.assign({}, router.query);
-        ['client', 'dateFrom', 'dateTo', 'dueDateFrom', 'dueDateTo'].map(f => delete query[f]);
+        filterList.map(f => delete query[f]);
         router.replace({ query });
     }, [router]);
     return (
@@ -52,16 +54,18 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
                 </Fab>
             </span>
             {state.status === "selecting" &&
-                <div className='absolute bg-white -right-2  -top-2 z-10 drop-shadow-lg'>
+                <div className='absolute bg-white -right-2  -top-3 z-10 drop-shadow-lg'>
                     <List subheader={
                         <ListSubheader component="div" id="filter-by">
                             Add filter
                             <span className="float-right">
-                                <span className='mr-2'>
-                                <Fab size="small" color="secondary" aria-label="clear all filters" onClick={clearAll}>
-                                    <ClearAllIcon />
-                                </Fab>
-                                </span>
+                                {filterList.reduce((carry, filter) => carry || Boolean(router.query[filter]), false) &&
+                                    <span className='mr-2'>
+                                        <Fab size="small" color="secondary" aria-label="clear all filters" onClick={clearAll}>
+                                            <ClearAllIcon />
+                                        </Fab>
+                                    </span>
+                                }
                                 <Fab size="small" color="secondary" aria-label="cancel add filter" onClick={resetState}>
                                     <CancelIcon />
                                 </Fab>
@@ -83,7 +87,7 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <div className='align-middle whitespace-nowrap mr-2 w-full font-bold'>Date To</div>
-                                <div className='w-full'><UrlInputFilter name="dateFrom" type="date" /></div>
+                                <div className='w-full'><UrlInputFilter name="dateTo" type="date" /></div>
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
