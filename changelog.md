@@ -15,6 +15,7 @@
   comes first.
 # 2022 03 19
 - Add support in invoice store slice to filter and sort invoices.
+- Show more columns in the invoices pages
 # 2022 03 18
 - created ui for filtering and sorting invoices
 

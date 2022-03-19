@@ -126,7 +126,7 @@ const TablePropTypes = {
 }
 
 const Table = ({ title, loading, children, error, pagination }: TableProps) => {
-    const [columns, headerContent, empty, [rows]] = segregate(children, [
+    const [columns, headerContent, empty, remaining] = segregate(children, [
         TableHeaderColumn,
         HeaderContent,
         Empty
@@ -144,7 +144,7 @@ const Table = ({ title, loading, children, error, pagination }: TableProps) => {
                 {error ? <ErrorBanner error={error}>There are connectivity problems, we could not load the data</ErrorBanner> : (
                     loading ?
                         <LoadingMask /> :
-                        (rows.length ?
+                        (remaining.length ?
                             <div className="p-3">
                                 <div>
                                     <table className="table-auto w-full">
@@ -154,7 +154,7 @@ const Table = ({ title, loading, children, error, pagination }: TableProps) => {
                                             </tr>
                                         </thead>
                                         <tbody className="text-sm divide-y divide-gray-100">
-                                            {rows}
+                                            {remaining}
                                         </tbody>
                                     </table>
                                 </div>

@@ -17,6 +17,7 @@ export type InvoiceTableProps = {
     controls?: boolean;
     pageable?: boolean;
     sortable?: boolean;
+    extraColumns?: boolean;
 }
 
 const InvoiceTablePropTypes = {
@@ -25,6 +26,7 @@ const InvoiceTablePropTypes = {
     controls: PropTypes.bool,
     pageable: PropTypes.bool,
     sortable: PropTypes.bool,
+    extraColumns: PropTypes.bool,
 }
 
 export const GetInvoiceListingArgs = (limit: number): Required<InvoiceListingArgs> => {
@@ -85,6 +87,7 @@ const InvoiceTable = ({
     pageable = true,
     sortable = true,
     controls = true,
+    extraColumns = false,
 }: InvoiceTableProps) => {
     const args = GetInvoiceListingArgs(limit);
     const filtered = useFilteredInvoices(args);
@@ -118,14 +121,15 @@ const InvoiceTable = ({
                 </>}
             </HeaderContent>}
             <Column {...(sortable ? dateSort : {})}>Date</Column>
-            <Column >Invoice Number</Column>
-            <Column {...(sortable ? companyNameSort : {})}>Company Name</Column>
-            <Column {...(sortable ? dueDateSort : {})}>Due Date</Column>
+            <Column >Number</Column>
+            <Column {...(sortable ? companyNameSort : {})}>Company</Column>
+            {extraColumns && <Column>Billed To</Column>}
+            <Column {...(sortable ? dueDateSort : {})}>Due</Column>
             <Column {...(sortable ? priceSort : {})}>Value</Column>
             <Empty>No invoices found</Empty>
             {
                 (invoices || []).map(invoice =>
-                    <InvoiceTableRowItem key={invoice.invoice.id} {...invoice} />)
+                    <InvoiceTableRowItem key={invoice.invoice.id} {...invoice} extraColumns={extraColumns}/>)
             }
         </Table>
     )

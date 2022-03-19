@@ -4,8 +4,8 @@ import InvoiceTable from './InvoiceTable'
 
 function Invoices() {
     return (
-        <Card>
-            <InvoiceTable />
+        <Card size='big'>
+            <InvoiceTable extraColumns={true} />
         </Card>
     )
 }

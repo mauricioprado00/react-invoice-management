@@ -18,7 +18,8 @@ export const segregate = (children:any[], rules:any[]):any[] => {
         if (!added) remaining.push(child)
     });
 
-    result.push(remaining)
+    // filter out the falsy values
+    result.push(remaining.filter(e => e))
 
     return result
 }
