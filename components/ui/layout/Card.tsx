@@ -16,7 +16,7 @@ export type CardProps = {
     transparent?: boolean,
     background?: string | boolean | number,
     bgopacity?: boolean,
-    size?: "small" | "medium" | "big" | 'full'
+    size?: "small" | "medium" | "big" | "giant" | 'full'
 };
 
 export const CardPropTypes = {
@@ -27,7 +27,7 @@ export const CardPropTypes = {
     transparent: PropTypes.bool,
     background: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]),
     bgopacity: PropTypes.bool,
-    size: PropTypes.oneOf(["small", "medium", "big"])
+    size: PropTypes.oneOf(["small", "medium", "big", "giant", "full"])
 }
 
 const styles = {
@@ -39,7 +39,8 @@ const sizeClasses = {
     small: "max-w-xl",
     medium: "max-w-2xl",
     big: "max-w-4xl",
-    full: '',
+    giant: "max-w-6xl",
+    full: 'max-w-full',
 }
 
 const defaultSize = "medium"
