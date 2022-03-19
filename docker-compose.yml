@@ -23,6 +23,7 @@ services:
       context: ./docker/npm/
     volumes:
       - ../invoice-rest-api:/app/
+      - ./sample-api-data/:/app/fake-database
     ports:
       - 3139:3139
     command: "sh -c 'npm run build && npm run start'"
