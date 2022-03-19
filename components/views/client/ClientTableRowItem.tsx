@@ -53,7 +53,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
                 <div className="text-center">{invoicesCount}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
-                <div className={totalBilledClassnames}>${totalBilled}</div>
+                <div className={totalBilledClassnames}>${totalBilled.toFixed(2)}</div>
             </td>
             <td className="p-2 whitespace-nowrap" onClick={stopPropagation} onKeyUp={stopPropagation}>
                 <HamburgerDropdown items={actions} />
