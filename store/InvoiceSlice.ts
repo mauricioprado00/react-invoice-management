@@ -14,7 +14,7 @@ import { useEffect, useMemo } from "react";
 import { userLoggedIn, userLoggedOut } from "./UserSlice";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
 import { ClientInvoiceListResponse, InvoiceListingArgsU } from "api/apiclient";
-import {Md5} from 'md5-typescript'
+import { Md5 } from "md5-typescript";
 
 type InvoiceStatus = "initial" | "began_fetching" | "loaded";
 let loadInvoiceBegan = false;
@@ -24,7 +24,7 @@ export type FilteredInvoicesList = {
   list: ClientInvoiceList;
   loaded: boolean;
   total: number;
-}
+};
 export type ClientInvoicesState = {
   list: MapType<ClientInvoice>;
   filtered: MapType<FilteredInvoicesList>;
@@ -68,14 +68,16 @@ export const upsertInvoice = createAsyncThunk<
       clientInvoice,
       clientInvoice => {
         if (clientInvoice.invoice.id) {
-          const prevInvoice = invoiceByIdSelector(clientInvoice.invoice.id)(thunkAPI.getState());
+          const prevInvoice = invoiceByIdSelector(clientInvoice.invoice.id)(
+            thunkAPI.getState()
+          );
           // thunkAPI.dispatch(removed())
-          if (prevInvoice) {  
-            thunkAPI.dispatch(beforeUpdate(prevInvoice))
+          if (prevInvoice) {
+            thunkAPI.dispatch(beforeUpdate(prevInvoice));
           }
-          thunkAPI.dispatch(updated(clientInvoice))
+          thunkAPI.dispatch(updated(clientInvoice));
         } else {
-          thunkAPI.dispatch(added(clientInvoice))
+          thunkAPI.dispatch(added(clientInvoice));
         }
       }
     );
@@ -96,25 +98,30 @@ export const loadClientInvoices = createAsyncThunk<
   // First argument to the payload creator
   InvoiceListingArgsU,
   AppThunkAPI
->("invoice/load", async (args, thunkAPI): Promise<ClientInvoiceListResponse> => {
-  thunkAPI.dispatch(requested(args));
-  const result = thunkAPI.extra.serviceApi.getInvoices(args, clientInvoiceListResponse =>
-    thunkAPI.dispatch(received({clientInvoiceListResponse, args}))
-  );
-  thunkAPI.signal.addEventListener("abort", result.abort);
-  const clientInvoices = await result.promise;
-  return clientInvoices;
-});
+>(
+  "invoice/load",
+  async (args, thunkAPI): Promise<ClientInvoiceListResponse> => {
+    thunkAPI.dispatch(requested(args));
+    const result = thunkAPI.extra.serviceApi.getInvoices(
+      args,
+      clientInvoiceListResponse =>
+        thunkAPI.dispatch(received({ clientInvoiceListResponse, args }))
+    );
+    thunkAPI.signal.addEventListener("abort", result.abort);
+    const clientInvoices = await result.promise;
+    return clientInvoices;
+  }
+);
 
-const getFilterId = (args:InvoiceListingArgsU): string => {
-  return Md5.init(JSON.stringify(args) || '');
-}
+const getFilterId = (args: InvoiceListingArgsU): string => {
+  return Md5.init(JSON.stringify(args) || "");
+};
 
 const slice = createSlice({
   name: "invoice",
   initialState,
   reducers: {
-    requested: (state, action:PayloadAction<InvoiceListingArgsU>) => {
+    requested: (state, action: PayloadAction<InvoiceListingArgsU>) => {
       const id = getFilterId(action.payload);
       state.filtered[id] = {
         args: action.payload,
@@ -124,13 +131,19 @@ const slice = createSlice({
       };
       state.status = "began_fetching";
     },
-    received: (state, {payload}: PayloadAction<{clientInvoiceListResponse: ClientInvoiceListResponse, args:InvoiceListingArgsU}>) => {
+    received: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        clientInvoiceListResponse: ClientInvoiceListResponse;
+        args: InvoiceListingArgsU;
+      }>
+    ) => {
       const id = getFilterId(payload.args);
-      payload.clientInvoiceListResponse.invoices.forEach(
-        clientInvoice => {
-          state.list[clientInvoice.invoice.id] = clientInvoice;
-        }
-      );
+      payload.clientInvoiceListResponse.invoices.forEach(clientInvoice => {
+        state.list[clientInvoice.invoice.id] = clientInvoice;
+      });
       state.filtered[id].list = payload.clientInvoiceListResponse.invoices;
       state.filtered[id].loaded = true;
       state.filtered[id].total = payload.clientInvoiceListResponse.total;
@@ -181,7 +194,8 @@ const slice = createSlice({
   },
 });
 
-export const { added, beforeUpdate, updated, removed, received, requested } = slice.actions;
+export const { added, beforeUpdate, updated, removed, received, requested } =
+  slice.actions;
 
 export default slice.reducer;
 
@@ -223,7 +237,7 @@ const clientInvoiceListSelector = createSelector(
 export const clientInvoiceFilteredSelector = createSelector(
   clientInvoiceSliceSelector,
   cleintInvoiceSlice => cleintInvoiceSlice.filtered
-)
+);
 
 export const clientInvoiceCountSelector = createSelector(
   clientInvoiceListSelector,
@@ -236,30 +250,35 @@ export const clientInvoiceSumSelector = createSelector(
     invoiceList.reduce((prev, invoice) => prev + invoice.invoice.value, 0)
 );
 
-export const clientInvoiceFilteredBySelectorCreator = 
-(args:InvoiceListingArgsU) => createSelector(
-  clientInvoiceFilteredSelector,
-  filtered => filtered[getFilterId(args)] || undefined
-)
+export const clientInvoiceFilteredBySelectorCreator = (
+  args: InvoiceListingArgsU
+) =>
+  createSelector(
+    clientInvoiceFilteredSelector,
+    filtered => filtered[getFilterId(args)] || undefined
+  );
 
+export const filteredListBeganSelectorCreator = (args: InvoiceListingArgsU) =>
+  createSelector(
+    clientInvoiceFilteredBySelectorCreator(args),
+    filtered => filtered !== undefined
+  );
 
-export const filteredListBeganSelectorCreator = 
-(args:InvoiceListingArgsU) => createSelector(
-  clientInvoiceFilteredBySelectorCreator(args),
-  filtered => filtered !== undefined
-)
+export const clientInvoiceFilteredTotalSelectorCreator = (
+  args: InvoiceListingArgsU
+) =>
+  createSelector(
+    clientInvoiceFilteredBySelectorCreator(args),
+    filtered => filtered?.total
+  );
 
-export const clientInvoiceFilteredTotalSelectorCreator = 
-(args:InvoiceListingArgsU) => createSelector(
-  clientInvoiceFilteredBySelectorCreator(args),
-  filtered => filtered?.total
-)
-
-export const clientInvoiceFilteredListSelectorCreator = 
-(args:InvoiceListingArgsU) => createSelector(
-  clientInvoiceFilteredBySelectorCreator(args),
-  filtered => filtered?.list
-)
+export const clientInvoiceFilteredListSelectorCreator = (
+  args: InvoiceListingArgsU
+) =>
+  createSelector(
+    clientInvoiceFilteredBySelectorCreator(args),
+    filtered => filtered?.list
+  );
 
 export const getMostValuableClientInvoicesSelector = createSelector(
   clientInvoiceListSelector,
@@ -276,7 +295,10 @@ export const getClientInvoicesByCompanyNameSelector = (companyName: string) =>
 export const invoiceByIdSelector = (id: string | null) =>
   createSelector(
     clientInvoiceListSelector,
-    clientInvoiceList => clientInvoiceList.filter(clientInvoice => clientInvoice.invoice.id === id).pop() || null
+    clientInvoiceList =>
+      clientInvoiceList
+        .filter(clientInvoice => clientInvoice.invoice.id === id)
+        .pop() || null
   );
 
 export const getClientInvoiceOptionsSelector = createSelector(
@@ -292,7 +314,7 @@ export const clientInvoiceStatusSelector = createSelector(
 // hooks
 const useInvoiceSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected,
-  args?:InvoiceListingArgsU
+  args?: InvoiceListingArgsU
 ) => {
   const began = useSelector(filteredListBeganSelectorCreator(args));
   const dispatch = useDispatch();
@@ -305,8 +327,8 @@ const useInvoiceSelector = <TState, TSelected>(
 };
 
 const useInvoiceSelectorCreator = <TState, TSelected>(
-  selectorCreator: (args?:InvoiceListingArgsU) => (state: TState) => TSelected,
-  args?:InvoiceListingArgsU
+  selectorCreator: (args?: InvoiceListingArgsU) => (state: TState) => TSelected,
+  args?: InvoiceListingArgsU
 ) => {
   const began = useSelector(filteredListBeganSelectorCreator(args));
   const dispatch = useDispatch();
@@ -315,23 +337,25 @@ const useInvoiceSelectorCreator = <TState, TSelected>(
       dispatch(loadClientInvoices(args));
     }
   }, [dispatch, args, began]);
-  
+
   // prevent the selector from being created each time
   // otherwise it wont memoize his results
-  const selector = useMemo(() => selectorCreator(args), [args, selectorCreator]);
+  const selector = useMemo(
+    () => selectorCreator(args),
+    [args, selectorCreator]
+  );
   const result = useSelector<TState, TSelected>(selector);
   return began ? result : null;
 };
 
-
 export const useClientInvoiceOptions = () =>
   useSelector(getClientInvoiceOptionsSelector);
 export const useInvoiceSlice = () => useSelector(clientInvoiceSliceSelector);
-export const useInvoiceList = (args?:InvoiceListingArgsU) =>
+export const useInvoiceList = (args?: InvoiceListingArgsU) =>
   useInvoiceSelectorCreator(clientInvoiceFilteredBySelectorCreator, args);
-export const useInvoiceListTotal = (args?:InvoiceListingArgsU) =>
+export const useInvoiceListTotal = (args?: InvoiceListingArgsU) =>
   useInvoiceSelectorCreator(clientInvoiceFilteredTotalSelectorCreator, args);
-export const useFilteredInvoices = (args?:InvoiceListingArgsU) =>
+export const useFilteredInvoices = (args?: InvoiceListingArgsU) =>
   useInvoiceSelectorCreator(clientInvoiceFilteredBySelectorCreator, args);
 export const useLoadInvoiceError = () =>
   useSelector(loadClientInvoiceErrorSelector);
@@ -344,11 +368,10 @@ export const useInvoiceStatus = () => useSelector(clientInvoiceStatusSelector);
 export const useInvoiceById = (id: string | null) =>
   useInvoiceSelector(invoiceByIdSelector(id));
 
-export const useInvoiceCount = () =>
-  {
-    const unfiltered = useFilteredInvoices();
-    return unfiltered?.total
-  };
+export const useInvoiceCount = () => {
+  const unfiltered = useFilteredInvoices();
+  return unfiltered?.total;
+};
 export const useInvoiceSum = () => useInvoiceSelector(clientInvoiceSumSelector);
 export const useUpsertInvoice = () => {
   const dispatch = useThunkDispatch();

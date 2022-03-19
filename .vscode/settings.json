@@ -8,6 +8,6 @@
         "**/Thumbs.db": true,
         "**/node_modules": true
     },
-    "editor.rulers": [80, 120],
-    "prettier.printWidth": 80,
+    "editor.rulers": [90, 120],
+    "prettier.printWidth": 90,
 }
