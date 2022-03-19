@@ -107,7 +107,7 @@ export const loadClientInvoices = createAsyncThunk<
 });
 
 const getFilterId = (args:InvoiceListingArgsU): string => {
-  return Md5.init(JSON.stringify(args));
+  return Md5.init(JSON.stringify(args) || '');
 }
 
 const slice = createSlice({
