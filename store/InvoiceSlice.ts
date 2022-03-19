@@ -13,16 +13,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userLoggedIn, userLoggedOut } from "./UserSlice";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
-import { InvoiceListingArgs } from "api/apiclient";
+import { ClientInvoiceListResponse, InvoiceListingArgs } from "api/apiclient";
 import {Md5} from 'md5-typescript'
 
 type InvoiceStatus = "initial" | "began_fetching" | "loaded";
 let loadInvoiceBegan = false;
 
 export type FilteredInvoicesList = {
-  args: InvoiceListingArgs,
-  list: MapType<ClientInvoice>,
-  loaded: boolean,
+  args: InvoiceListingArgs;
+  list: ClientInvoiceList;
+  loaded: boolean;
+  total: number;
 }
 export type ClientInvoicesState = {
   list: MapType<ClientInvoice>;
@@ -91,14 +92,14 @@ export const upsertInvoice = createAsyncThunk<
 
 export const loadClientInvoices = createAsyncThunk<
   // Return type of the payload creator
-  ClientInvoiceList,
+  ClientInvoiceListResponse,
   // First argument to the payload creator
   InvoiceListingArgs,
   AppThunkAPI
->("invoice/load", async (args, thunkAPI): Promise<ClientInvoiceList> => {
+>("invoice/load", async (args, thunkAPI): Promise<ClientInvoiceListResponse> => {
   thunkAPI.dispatch(requested(args));
-  const result = thunkAPI.extra.serviceApi.getInvoices(args, clientInvoices =>
-    thunkAPI.dispatch(received({clientInvoices, args}))
+  const result = thunkAPI.extra.serviceApi.getInvoices(args, clientInvoiceListResponse =>
+    thunkAPI.dispatch(received({clientInvoiceListResponse, args}))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   const clientInvoices = await result.promise;
@@ -117,20 +118,22 @@ const slice = createSlice({
       const id = getFilterId(action.payload);
       state.filtered[id] = {
         args: action.payload,
-        list: {},
+        list: [],
         loaded: false,
+        total: -1,
       };
       state.status = "began_fetching";
     },
-    received: (state, action: PayloadAction<{clientInvoices: ClientInvoice[], args:InvoiceListingArgs}>) => {
-      const id = getFilterId(action.payload.args);
-      action.payload.clientInvoices.forEach(
+    received: (state, {payload}: PayloadAction<{clientInvoiceListResponse: ClientInvoiceListResponse, args:InvoiceListingArgs}>) => {
+      const id = getFilterId(payload.args);
+      payload.clientInvoiceListResponse.invoices.forEach(
         clientInvoice => {
           state.list[clientInvoice.invoice.id] = clientInvoice;
-          state.filtered[id].list[clientInvoice.invoice.id] = clientInvoice;
         }
       );
+      state.filtered[id].list = payload.clientInvoiceListResponse.invoices;
       state.filtered[id].loaded = true;
+      state.filtered[id].total = payload.clientInvoiceListResponse.total;
       state.status = "loaded";
     },
     beforeUpdate: (state, action: PayloadAction<ClientInvoice>) => {
@@ -212,7 +215,7 @@ export const {
   stateSelector: upsertInvoiceStateSelector,
 } = createRequestSelectors("upsertInvoice", clientInvoiceSliceSelector);
 
-export const clientInvoiceListSelector = createSelector(
+const clientInvoiceListSelector = createSelector(
   clientInvoiceSliceSelector,
   clientInvoiceSlice => Object.values(clientInvoiceSlice.list)
 );
@@ -233,10 +236,29 @@ export const clientInvoiceSumSelector = createSelector(
     invoiceList.reduce((prev, invoice) => prev + invoice.invoice.value, 0)
 );
 
-export const filteredListBeganSelector = 
+export const clientInvoiceFilteredBySelectorCreator = 
 (args:InvoiceListingArgs) => createSelector(
   clientInvoiceFilteredSelector,
-  filtered => filtered[getFilterId(args)] !== undefined
+  filtered => filtered[getFilterId(args)]
+)
+
+
+export const filteredListBeganSelectorCreator = 
+(args:InvoiceListingArgs) => createSelector(
+  clientInvoiceFilteredBySelectorCreator(args),
+  filtered => filtered !== undefined
+)
+
+export const clientInvoiceFilteredTotalSelectorCreator = 
+(args:InvoiceListingArgs) => createSelector(
+  clientInvoiceFilteredBySelectorCreator(args),
+  filtered => filtered?.total
+)
+
+export const clientInvoiceFilteredListSelectorCreator = 
+(args:InvoiceListingArgs) => createSelector(
+  clientInvoiceFilteredBySelectorCreator(args),
+  filtered => filtered?.list
 )
 
 export const getMostValuableClientInvoicesSelector = createSelector(
@@ -272,7 +294,7 @@ const useInvoiceSelector = <TState, TSelected>(
   selector: (state: TState) => TSelected,
   args?:InvoiceListingArgs
 ) => {
-  const began = useSelector(filteredListBeganSelector(args));
+  const began = useSelector(filteredListBeganSelectorCreator(args));
   const dispatch = useDispatch();
   useEffect(() => {
     if (!began) {
@@ -282,11 +304,31 @@ const useInvoiceSelector = <TState, TSelected>(
   return useSelector<TState, TSelected>(selector);
 };
 
+const useInvoiceSelectorCreator = <TState, TSelected>(
+  selectorCreator: (args?:InvoiceListingArgs) => (state: TState) => TSelected,
+  args?:InvoiceListingArgs
+) => {
+  const began = useSelector(filteredListBeganSelectorCreator(args));
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!began) {
+      dispatch(loadClientInvoices(args));
+    }
+  }, [dispatch, args, began]);
+  const result = useSelector<TState, TSelected>(selectorCreator(args));
+  return began ? result : null;
+};
+
+
 export const useClientInvoiceOptions = () =>
   useSelector(getClientInvoiceOptionsSelector);
 export const useInvoiceSlice = () => useSelector(clientInvoiceSliceSelector);
 export const useInvoiceList = (args?:InvoiceListingArgs) =>
-  useInvoiceSelector(clientInvoiceListSelector, args);
+  useInvoiceSelectorCreator(clientInvoiceFilteredBySelectorCreator, args);
+export const useInvoiceListTotal = (args?:InvoiceListingArgs) =>
+  useInvoiceSelectorCreator(clientInvoiceFilteredTotalSelectorCreator, args);
+export const useFilteredInvoices = (args?:InvoiceListingArgs) =>
+  useInvoiceSelectorCreator(clientInvoiceFilteredBySelectorCreator, args);
 export const useLoadInvoiceError = () =>
   useSelector(loadClientInvoiceErrorSelector);
 const useLoadInvoiceState = () => useSelector(loadClientInvoiceStateSelector);

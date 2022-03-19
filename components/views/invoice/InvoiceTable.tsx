@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
 import HeaderContent from 'components/ui/layout/HeaderContent'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { useInvoiceList, useInvoiceLoading, useLoadInvoiceError } from 'store/InvoiceSlice'
+import { useFilteredInvoices, useInvoiceFiltered, useInvoiceList, useInvoiceListTotal, useInvoiceLoading, useLoadInvoiceError } from 'store/InvoiceSlice'
 import { useGoInvoices, useGoNewInvoice, usePagination } from 'library/navigation'
 import UrlInputFilter from 'components/ui/forms/UrlInputFilter'
 import ClientSelector from '../../ui/forms/ClientSelector'
@@ -87,9 +87,12 @@ const InvoiceTable = ({
     sortable = true,
     controls = true,
 }: InvoiceTableProps) => {
-    const invoices = useInvoiceList(GetInvoiceListingArgs(limit))
+    const args = GetInvoiceListingArgs(limit);
+    const filtered = useFilteredInvoices(args);
+    const invoices = filtered?.list;
+    const total = filtered?.total || 0;
     const loadError = useLoadInvoiceError()
-    const loading = useInvoiceLoading();
+    const loading = !filtered;
     const goNewInvoice = useGoNewInvoice();
     const loaded = !loading;
     const goInvoices = useGoInvoices();
@@ -97,7 +100,7 @@ const InvoiceTable = ({
     const offset = (page - 1) * limit;
     pageable = controls && pageable;
     sortable = controls && sortable;
-    const pagination = !pageable ? undefined : { limit, total: 100, offset, onPageChange }
+    const pagination = !pageable ? undefined : { limit, total, offset, onPageChange }
     const dateSort = useSortDirection('sort_date');
     const priceSort = useSortDirection('sort_price');
     const companyNameSort = useSortDirection('sort_companyName');

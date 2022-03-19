@@ -183,6 +183,11 @@ export type InvoiceListingArgs = {
 } | undefined
 
 
+export type ClientInvoiceListResponse = {
+  invoices: ClientInvoiceList,
+  total: number,
+}
+
 const getInvoices = (url: string) => (args:InvoiceListingArgs) => async (init: ApiInitParams) => {
   const params = new URLSearchParams();
   if (args) {
@@ -197,7 +202,7 @@ const getInvoices = (url: string) => (args:InvoiceListingArgs) => async (init: A
   if(init.signal.aborted) {
     throw new Error("Aborted operation")
   }
-  return jsonResponse.invoices
+  return jsonResponse
 }
 
 const abortable = (endpointClient: any): AbortableEndpointResult<any> => {
@@ -249,8 +254,8 @@ const createClient = (url:string, bearerToken:string) => ({
   newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
   getClients: (then:Then<ClientWithTotalsList>): AbortableEndpointResult<ClientWithTotalsList> =>
     endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then, {}),
-  getInvoices: (params:InvoiceListingArgs, then:Then<ClientInvoiceList>): AbortableEndpointResult<ClientInvoiceList> =>
-    endpoint<ClientInvoiceList>(getInvoices(url + '/invoices'), bearerToken, then, params),
+  getInvoices: (params:InvoiceListingArgs, then:Then<ClientInvoiceListResponse>): AbortableEndpointResult<ClientInvoiceListResponse> =>
+    endpoint<ClientInvoiceListResponse>(getInvoices(url + '/invoices'), bearerToken, then, params || {}),
   upsertClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
     endpoint<Client>(upsertClient(url + '/clients'), bearerToken, then, client),
   registerUser: (user:UserWithPassword, then:Then<RegisterData>): AbortableEndpointResult<RegisterData> =>
