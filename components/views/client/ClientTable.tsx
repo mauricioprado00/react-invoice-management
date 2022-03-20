@@ -5,7 +5,6 @@ import { useClientList, useClientLoading, useLoadClientError } from 'store/Clien
 import HeaderContent from '../../ui/layout/HeaderContent'
 import Button, { ButtonStyle } from '../../ui/forms/Button'
 import { useGoClients, useGoNewClient, usePagination, useUrlParam } from 'library/navigation'
-import { useCallback } from 'react'
 
 export type ClientTableProps = {
   title?: string;

@@ -2,6 +2,13 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useLogoutUser } from "store/UserSlice";
 
+export const useGoBack = () => {
+    const router = useRouter();
+    return useCallback(() => {
+        router.back();
+    }, [router]);
+}
+
 export const useGoRoute = (url: string) => {
     const router = useRouter();
     return useCallback(() => {

@@ -40,6 +40,7 @@ const HamburgerDropdown = ({ items = [] }: HamburgerDropdownProps) => {
     const [display, setDisplay]: DisplayState = useState('none');
     const handleAction = useCallback((e: HamburgerActionMouseEvent) => {
         const action = e.target.dataset.action;
+        e.preventDefault();
         items.forEach(item => {
             if (item.type === action && item.handler) {
                 item.handler();
