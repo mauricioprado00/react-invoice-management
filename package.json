@@ -20,6 +20,7 @@
     "contexts": "file:contexts",
     "hooks": "file:hooks",
     "library": "file:library",
+    "material-ui-popup-state": "^2.0.0",
     "md5-typescript": "^1.0.5",
     "models": "file:models",
     "moment": "^2.29.1",
