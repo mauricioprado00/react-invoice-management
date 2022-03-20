@@ -4,8 +4,9 @@ import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
 import HamburgerDropdown from '../../ui/elements/HamburgerDropdown'
 import { isMostValuableClient } from 'store/ClientSlice'
 import { getAvatarImageUrl } from '../../ui/forms/AvatarSelector'
-import { useGoClientDashboard, useGoClientEdit, useGoClientIdDashboard } from 'library/navigation'
+import { useGoClientEdit, useGoClientIdDashboard } from 'library/navigation'
 import { useCallback, useState } from 'react'
+import ClientTableRowActions, { ClientTableRowAction } from './ClientTableRowActions'
 
 export type ClientTableRowItemProps = ClientWithTotals
 
@@ -19,6 +20,18 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
     const totalBilledClassnames = classNames(
         "text-left font-medium", isMostValuable ? "text-red-500" : "text-green-500"
     );
+    const handleAction = (action:ClientTableRowAction) => {
+        if (action === 'edit') {
+            goEdit(client.id);
+        }
+        else if (action === 'invoices') {
+        }
+        else if (action === 'profile') {
+            goDashboard();
+        }
+        else if (action === 'remove') {
+        }
+    }
     const [actions] = useState(() => [
         { label: 'Edit', type: 'edit', handler: () => goEdit(client.id) },
         { label: 'Profile', type: 'profile', handler: goDashboard },
@@ -56,7 +69,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
                 <div className={totalBilledClassnames}>${totalBilled.toFixed(2)}</div>
             </td>
             <td className="p-2 whitespace-nowrap" onClick={stopPropagation} onKeyUp={stopPropagation}>
-                <HamburgerDropdown items={actions} />
+                <ClientTableRowActions onAction={handleAction} />
             </td>
         </tr>
     );
