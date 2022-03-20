@@ -1,12 +1,12 @@
 # next tasks
-- double check :when updating invoice details, the corresponging filtered pages should also be updated. 
-- cold loading client page, e.g. http://localhost:3000/client-dashboard?id=18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae
-- clients should be also sortable and paginable
-- all clients should be loaded, otherwise client selection list all options.
-- Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
-- throwing exception here: invoiceslice: thunkAPI.dispatch(beforeUpdate(prevInvoice)); (missing client)
-- latest client invoices in profile (link menu item from client table)
-- if you are in page 10, and filter by client, filters are applied but page is still 10 (unexistant)
+1. NOT WORKIGN.... double check :when updating invoice details, the corresponging filtered pages should also be updated. 
+1. clients should be also sortable and paginable
+1. Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
+1. `CLI-ALL` all clients should be loaded, otherwise client selection list all options.
+1. throwing exception here: invoiceslice: thunkAPI.dispatch(beforeUpdate(prevInvoice)); (missing client, same as `CLI-ALL`)
+1. cold loading client page, e.g. http://localhost:3000/client-dashboard?id=18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae (solvable with `CLI-ALL`)
+1. latest client invoices in profile (link menu item from client table)
+1. if you are in page 10, and filter by client, filters are applied but page is still 10 (unexistant)
 
 # extra:
 - add email, phone
