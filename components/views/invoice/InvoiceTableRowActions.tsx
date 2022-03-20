@@ -4,33 +4,28 @@ import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Hamburger from 'components/ui/elements/Hamburger';
 import EditIcon from '@mui/icons-material/Edit';
-import ProfileIcon from '@mui/icons-material/AccountBox';
-import InvoicesIcon from '@mui/icons-material/Description';
+import PrintIcon from '@mui/icons-material/Print';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ListItemIcon } from '@mui/material';
 
-export type ClientTableRowAction = 'edit' | 'profile' | 'invoices' | 'remove';
+export type InvoiceTableRowAction = 'edit' | 'print' | 'remove';
 
-export type ClientTableRowActionsProps = {
-    onEdit?: () => void;
-    onProfile?: () => void;
-    onInvoices?: () => void;
+export type InvoiceTableRowActionsProps = {
+    onEdit: () => void;
+    onPrint: () => void;
 }
 
-export default function ClientTableRowActions({ onEdit, onProfile, onInvoices }: ClientTableRowActionsProps) {
+export default function InvoiceTableRowActions({ onEdit, onPrint }: InvoiceTableRowActionsProps) {
     return (
         <PopupState variant="popover">
             {(popupState) => {
-                const handleClick = (a: ClientTableRowAction) => () => {
+                const handleClick = (a: InvoiceTableRowAction) => () => {
                     switch (a) {
                         case 'edit':
                             if (onEdit) onEdit();
                             break;
-                        case 'profile':
-                            if (onProfile) onProfile();
-                            break;
-                        case 'invoices':
-                            if (onInvoices) onInvoices();
+                        case 'print':
+                            if (onPrint) onPrint();
                             break;
                     }
                     popupState.close();
@@ -43,13 +38,9 @@ export default function ClientTableRowActions({ onEdit, onProfile, onInvoices }:
                                 <ListItemIcon><EditIcon /></ListItemIcon>
                                 Edit
                             </MenuItem>
-                            <MenuItem onClick={handleClick('profile')}>
-                                <ListItemIcon><ProfileIcon /></ListItemIcon>
-                                Profile
-                            </MenuItem>
-                            <MenuItem onClick={handleClick('invoices')}>
-                                <ListItemIcon><InvoicesIcon /></ListItemIcon>
-                                Invoices
+                            <MenuItem onClick={handleClick('print')}>
+                                <ListItemIcon><PrintIcon /></ListItemIcon>
+                                Print
                             </MenuItem>
                             <MenuItem onClick={handleClick('remove')}>
                                 <ListItemIcon><DeleteIcon /></ListItemIcon>

@@ -2,13 +2,13 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { ClientInvoice, InvoicePropTypes } from 'models/Invoice'
 import { ClientPropTypes } from 'models/Client'
-import { useGoInvoiceIdView } from 'library/navigation'
+import { useGoInvoiceIdEdit, useGoInvoiceIdView } from 'library/navigation'
 import moment from 'moment'
+import InvoiceTableRowActions from './InvoiceTableRowActions'
 
 export type InvoiceTableRowItemProps = ClientInvoice & {
     extraColumns: boolean;
 }
-
 
 export const InvoiceTableRowItemPropTypes = {
     invoice: PropTypes.exact(InvoicePropTypes).isRequired,
@@ -16,12 +16,15 @@ export const InvoiceTableRowItemPropTypes = {
     extraColumns: PropTypes.bool,
 }
 
+const stopPropagation = (e:{stopPropagation: () => void}) => e.stopPropagation();
+
 const InvoiceTableRowItem = ({
     invoice: { id, invoice_number, value, dueDate, meta, date },
     client: { companyDetails: { name: company } },
     extraColumns = false
 }: InvoiceTableRowItemProps) => {
     const goView = useGoInvoiceIdView(id);
+    const goEdit = useGoInvoiceIdEdit(id);
     const isOverLimit = value >= 5000;
     const valueBilledClassnames = classNames(
         "text-left font-medium", isOverLimit ? "text-red-500" : "text-green-500"
@@ -47,6 +50,10 @@ const InvoiceTableRowItem = ({
             <td className="p-2 whitespace-nowrap">
                 <div className={valueBilledClassnames}>${value.toFixed(2)}</div>
             </td>
+            <td className="p-2 whitespace-nowrap" onClick={stopPropagation} onKeyUp={stopPropagation}>
+                <InvoiceTableRowActions onEdit={goEdit} onPrint={goView} />
+            </td>
+
         </tr>
     );
 }
