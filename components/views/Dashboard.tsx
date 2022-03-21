@@ -8,7 +8,7 @@ function Dashboard() {
         <Card size='big' fullscreen={false} background="">
             <ClientTable controls={false} title="Latest Clients" />
             <div className="pt-5"></div>
-            <InvoiceTable controls={false} title="Latest Invoices" />
+            <InvoiceTable controls={false} title="Latest Invoices" latest={true} />
         </Card>
     )
 }

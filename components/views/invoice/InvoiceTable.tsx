@@ -18,6 +18,7 @@ export type InvoiceTableProps = {
     pageable?: boolean;
     sortable?: boolean;
     extraColumns?: boolean;
+    latest?: boolean;
 }
 
 const InvoiceTablePropTypes = {
@@ -27,9 +28,10 @@ const InvoiceTablePropTypes = {
     pageable: PropTypes.bool,
     sortable: PropTypes.bool,
     extraColumns: PropTypes.bool,
+    latest: PropTypes.bool,
 }
 
-export const GetInvoiceListingArgs = (limit: number): Required<InvoiceListingArgs> => {
+export const GetInvoiceListingArgs = (limit: number, latest: boolean): Required<InvoiceListingArgs> => {
     const router = useRouter();
     const {
         client,
@@ -75,6 +77,7 @@ export const GetInvoiceListingArgs = (limit: number): Required<InvoiceListingArg
             dueDate: sort_dueDate,
             companyName: sort_companyName,
             price: sort_price,
+            creation: latest ? "desc" : "asc",
         },
         limit,
         offset: page ? (page - 1) * limit : 0,
@@ -88,8 +91,9 @@ const InvoiceTable = ({
     sortable = true,
     controls = true,
     extraColumns = false,
+    latest = false,
 }: InvoiceTableProps) => {
-    const args = GetInvoiceListingArgs(limit);
+    const args = GetInvoiceListingArgs(limit, latest);
     const filtered = useFilteredInvoices(args);
     // pre-fetch next 2 pages
     useFilteredInvoices({...args, offset: args.offset + limit});
