@@ -142,17 +142,47 @@ const updateMe = (url: string) => (me:Me) => async (init: ApiInitParams) => {
   return jsonResponse.user as Me
 }
 
-const getClients = (url: string) => (arg:void) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url, init)
+export type ClientListingSortingByArgs = {
+  clientName?: "asc" | "desc"
+  companyName?: "asc" | "desc"
+  totalBilled?: "asc" | "desc"
+  invoicesCount?: "asc" | "desc"
+  creation?: "asc" | "desc"
+}
+
+export type ClientListingFilterByArgs = {
+  clientId?: string
+}
+
+export type ClientListingArgs = {
+  filter?: ClientListingFilterByArgs,
+  sort?: ClientListingSortingByArgs,
+  offset?: number,
+  limit?: number,
+}
+
+export type ClientListingArgsU = ClientListingArgs | undefined
+
+export type ClientListingResponse = {
+  clients: ClientWithTotalsList,
+  total: number,
+}
+
+const getClients = (url: string) => (args:ClientListingArgsU) => async (init: ApiInitParams) => {
+  const params = new URLSearchParams();
+  if (args) {
+    params.set('params',JSON.stringify(args));
+  }
+  const fetchPromise = fetch(url + '?' + params, init);
   const httpResponse = await fetchPromise
   if (httpResponse.ok !== true) {
     throw await httpResponse.text();
   }
-  const jsonResponse = await httpResponse.json()
+  const jsonResponse = await httpResponse.json() as ClientListingResponse
   if(init.signal.aborted) {
     throw new Error("Aborted operation")
   }
-  return jsonResponse.clients
+  return jsonResponse
 }
 
 const getClient = (url: string) => ({clientId}:{clientId:string}) => async (init: ApiInitParams) => {
@@ -193,6 +223,7 @@ export type InvoiceListingSortingByArgs = {
   price?: "asc" | "desc"
   companyName?: "asc" | "desc"
   dueDate?: "asc" | "desc"
+  creation?: "asc" | "desc"
 }
 
 export type InvoiceListingFilterByArgs = {
@@ -303,8 +334,8 @@ const thenNo = () => {};
 const createClient = (url:string, bearerToken:string) => ({
   abortAll,
   newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
-  getClients: (then:Then<ClientWithTotalsList>): AbortableEndpointResult<ClientWithTotalsList> =>
-    endpoint<ClientWithTotalsList>(getClients(url + '/clients'), bearerToken, then, {}),
+  getClients: (params:ClientListingArgsU, then:Then<ClientListingResponse>): AbortableEndpointResult<ClientListingResponse> =>
+    endpoint<ClientListingResponse>(getClients(url + '/clients'), bearerToken, then, params || {}),
   getClientWithTotals: (clientId:string, then:Then<ClientWithTotals>=thenNo): AbortableEndpointResult<ClientWithTotals> =>
     endpoint<ClientWithTotals>(getClientWithTotals(url + '/clients'), bearerToken, then, {clientId}),
   getClient: (clientId:string, then:Then<Client>=thenNo): AbortableEndpointResult<Client> =>

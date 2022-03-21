@@ -73,13 +73,15 @@ export const loadClients = createAsyncThunk<
   AppThunkAPI
 >("client/load", async (arg, thunkAPI): Promise<ClientWithTotalsList> => {
   thunkAPI.dispatch(requested());
-  const result = thunkAPI.extra.serviceApi.getClients(clients =>
-    thunkAPI.dispatch(received(clients))
+  // we need all clients to be there
+  // order creation need to have them in the selection list
+  const result = thunkAPI.extra.serviceApi.getClients({limit: 9999999},response =>
+    thunkAPI.dispatch(received(response.clients))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
   const clients = await result.promise;
-  return clients;
+  return clients.clients;
 });
 
 const slice = createSlice({
