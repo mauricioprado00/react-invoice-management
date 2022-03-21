@@ -68,9 +68,9 @@ export const upsertInvoice = createAsyncThunk<
       clientInvoice,
       clientInvoice => {
         if (clientInvoice.invoice.id) {
-          const prevInvoice = invoiceByIdSelectorCreator(clientInvoice.invoice.id)(
-            thunkAPI.getState()
-          );
+          const prevInvoice = invoiceByIdSelectorCreator(
+            clientInvoice.invoice.id
+          )(thunkAPI.getState());
           // thunkAPI.dispatch(removed())
           if (prevInvoice) {
             thunkAPI.dispatch(beforeUpdate(prevInvoice));
@@ -119,16 +119,14 @@ export const loadClientInvoice = createAsyncThunk<
   // First argument to the payload creator
   string,
   AppThunkAPI
->(
-  "invoice/load_one",
-  async (args, thunkAPI): Promise<ClientInvoice> => {
-    const invoice = await thunkAPI.extra.serviceApi.getInvoice(args).promise;
-    const client = await thunkAPI.extra.serviceApi.getClient(invoice.client_id).promise;
-    const clientInvoice = {invoice, client};
-    thunkAPI.dispatch(receivedOne(clientInvoice))
-    return clientInvoice;
-  }
-);
+>("invoice/load_one", async (args, thunkAPI): Promise<ClientInvoice> => {
+  const invoice = await thunkAPI.extra.serviceApi.getInvoice(args).promise;
+  const client = await thunkAPI.extra.serviceApi.getClient(invoice.client_id)
+    .promise;
+  const clientInvoice = { invoice, client };
+  thunkAPI.dispatch(receivedOne(clientInvoice));
+  return clientInvoice;
+});
 
 const getFilterId = (args: InvoiceListingArgsU): string => {
   return Md5.init(JSON.stringify(args) || "");
@@ -166,7 +164,10 @@ const slice = createSlice({
       state.filtered[id].total = payload.clientInvoiceListResponse.total;
       state.status = "loaded";
     },
-    receivedOne: (state, {payload:clientInvoice}:PayloadAction<ClientInvoice>) => {
+    receivedOne: (
+      state,
+      { payload: clientInvoice }: PayloadAction<ClientInvoice>
+    ) => {
       state.list[clientInvoice.invoice.id] = clientInvoice;
     },
     beforeUpdate: (state, action: PayloadAction<ClientInvoice>) => {
@@ -174,21 +175,20 @@ const slice = createSlice({
     },
     updated: (state, action: PayloadAction<ClientInvoice>) => {
       const id = action.payload.invoice.id;
-      console.log({updating: action});
+      console.log({ updating: action });
       state.list[action.payload.invoice.id] = {
         ...action.payload,
       };
 
-      console.log(Object.keys(state.filtered))
       Object.keys(state.filtered).forEach(key => {
         state.filtered[key].list.forEach((invoice, idx) => {
           if (invoice.invoice.id === id) {
             state.filtered[key].list[idx] = {
               ...action.payload,
-            }
+            };
           }
-        })
-      })
+        });
+      });
     },
     added: (state, action: PayloadAction<ClientInvoice>) => {
       state.list[action.payload.invoice.id] = { ...action.payload };
@@ -225,10 +225,7 @@ const slice = createSlice({
       builder.addCase(upsertInvoice.rejected, rejected);
     }
     {
-      const { pending, fulfilled, rejected } = requestReducers(
-        "loadOne",
-        5
-      );
+      const { pending, fulfilled, rejected } = requestReducers("loadOne", 5);
       builder.addCase(loadClientInvoice.pending, pending);
       builder.addCase(loadClientInvoice.fulfilled, fulfilled);
       builder.addCase(loadClientInvoice.rejected, rejected);
@@ -236,8 +233,15 @@ const slice = createSlice({
   },
 });
 
-export const { added, beforeUpdate, updated, removed, received, receivedOne, requested } =
-  slice.actions;
+export const {
+  added,
+  beforeUpdate,
+  updated,
+  removed,
+  received,
+  receivedOne,
+  requested,
+} = slice.actions;
 
 export default slice.reducer;
 
@@ -424,7 +428,7 @@ export const useInvoiceById = (id: string) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (!invoice) {
-      dispatch(loadClientInvoice(id))
+      dispatch(loadClientInvoice(id));
     }
   }, [dispatch, id, invoice]);
   return invoice;
@@ -449,7 +453,5 @@ export const useUpsertInvoiceState = () =>
 
 export const useLoadOneLastRequest = () =>
   useSelector(loadOneLastRequestSelector);
-export const useLoadOneError = () =>
-  useSelector(loadOneErrorSelector);
-export const useLoadOneState = () =>
-  useSelector(loadOneStateSelector);
+export const useLoadOneError = () => useSelector(loadOneErrorSelector);
+export const useLoadOneState = () => useSelector(loadOneStateSelector);
