@@ -129,8 +129,8 @@ function InvoicePrint({
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {details.map(detail => <>
-                                <tr>
+                            {details.map((detail, idx) =>
+                                <tr key={idx}>
                                     <td className="px-9 py-5 whitespace-nowrap space-x-1 flex items-center">
                                         <div>
                                             <p>{detail.detail}</p>
@@ -141,7 +141,7 @@ function InvoicePrint({
                                     <td className="whitespace-nowrap text-gray-600 truncate"> ${detail.rate.toFixed(2)} </td>
                                     <td className="whitespace-nowrap text-gray-600 truncate"> ${(detail.rate * detail.quantity).toFixed(2)} </td>
                                 </tr>
-                            </>)}
+                            )}
 
                         </tbody>
                     </table>
