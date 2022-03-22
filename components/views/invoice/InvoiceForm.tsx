@@ -11,6 +11,8 @@ import InvoiceItems, { InvoiceItemsChangeEvent } from '../../ui/forms/InvoiceIte
 import produce from 'immer';
 import { numberValidator } from 'library/validation';
 import PaymentSelector from '../../ui/forms/PaymentSelector';
+import moment from 'moment';
+import { MapType, MapTypeFill } from 'models/UtilityModels';
 
 type InvoiceFormApi = {
     reset: () => void
@@ -67,7 +69,7 @@ function InvoiceForm({
     paymentTypes
 }: InvoiceFormProps) {
     const formProps = useMemo(() => {
-        let initialValues = undefined;
+        let initialValues:MapType<string>|undefined = undefined;
 
         if (clientInvoice) {
             const c = clientInvoice.client.companyDetails;
@@ -85,7 +87,16 @@ function InvoiceForm({
                 vatNumber: b?.vatNumber || c?.vatNumber,
                 regNumber: b?.regNumber || c?.regNumber,
             };
+        } else {
+            initialValues = MapTypeFill(elements, "");
+            initialValues = Object.assign(initialValues ,{
+                date: moment().format('YYYY-MM-DD'),
+                // TODO load an automatic amount of due dates from profile configuration
+                dueDate: moment().add(15, 'days').format('YYYY-MM-DD'),
+            });
         }
+
+        
 
         return {
             elements,

@@ -9,7 +9,6 @@ import InvoiceTableFilters from './InvoiceTableFilters'
 import { useRouter } from 'next/router'
 import { InvoiceListingArgs } from 'api/apiclient'
 import moment from 'moment'
-import { useEffect } from 'react'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -95,9 +94,6 @@ const InvoiceTable = ({
 }: InvoiceTableProps) => {
     const args = GetInvoiceListingArgs(limit, latest);
     const filtered = useFilteredInvoices(args);
-    // pre-fetch next 2 pages
-    useFilteredInvoices({...args, offset: args.offset + limit});
-    useFilteredInvoices({...args, offset: args.offset + limit * 2});
     const invoices = filtered?.list;
     const total = filtered?.total || 0;
     const loadError = useLoadInvoiceError()

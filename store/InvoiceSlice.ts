@@ -64,10 +64,11 @@ export const upsertInvoice = createAsyncThunk<
 >(
   "invoice/add",
   async (clientInvoice, thunkAPI): Promise<UpsertInvoiceResult> => {
+    const update = Boolean(clientInvoice.invoice.id);
     const result = thunkAPI.extra.serviceApi.upsertInvoice(
       clientInvoice,
       clientInvoice => {
-        if (clientInvoice.invoice.id) {
+        if (update) {
           const prevInvoice = invoiceByIdSelectorCreator(
             clientInvoice.invoice.id
           )(thunkAPI.getState());
@@ -92,6 +93,7 @@ export const upsertInvoice = createAsyncThunk<
   }
 );
 
+const defaultLimit = 20;
 export const loadClientInvoices = createAsyncThunk<
   // Return type of the payload creator
   ClientInvoiceListResponse,
@@ -103,7 +105,7 @@ export const loadClientInvoices = createAsyncThunk<
   async (args, thunkAPI): Promise<ClientInvoiceListResponse> => {
     thunkAPI.dispatch(requested(args));
     const result = thunkAPI.extra.serviceApi.getInvoices(
-      args,
+      { ...args, limit: args?.limit || defaultLimit },
       clientInvoiceListResponse =>
         thunkAPI.dispatch(received({ clientInvoiceListResponse, args }))
     );
@@ -175,11 +177,11 @@ const slice = createSlice({
     },
     updated: (state, action: PayloadAction<ClientInvoice>) => {
       const id = action.payload.invoice.id;
-      console.log({ updating: action });
       state.list[action.payload.invoice.id] = {
         ...action.payload,
       };
 
+      // Update the invoice in any contained cached page
       Object.keys(state.filtered).forEach(key => {
         state.filtered[key].list.forEach((invoice, idx) => {
           if (invoice.invoice.id === id) {
@@ -191,7 +193,87 @@ const slice = createSlice({
       });
     },
     added: (state, action: PayloadAction<ClientInvoice>) => {
-      state.list[action.payload.invoice.id] = { ...action.payload };
+      const invoice = action.payload;
+      state.list[action.payload.invoice.id] = { ...invoice };
+      // invalidate and update pages
+      Object.keys(state.filtered).forEach(key => {
+        const page = state.filtered[key];
+        const args = page.args || {};
+        const sortBy = [
+          args.sort?.companyName,
+          args.sort?.date,
+          args.sort?.dueDate,
+          args.sort?.price,
+        ];
+        const hasOtherSorting = !sortBy.every(sort => sort === undefined);
+        const filter = args.filter;
+        let passesFilters = true;
+        if (
+          filter?.clientId !== undefined &&
+          filter.clientId !== invoice.client.id
+        ) {
+          passesFilters = false;
+        } else if (
+          filter?.date?.end !== undefined &&
+          filter.date.end < invoice.invoice.date
+        ) {
+          passesFilters = false;
+        } else if (
+          filter?.date?.start !== undefined &&
+          filter.date.start > invoice.invoice.date
+        ) {
+          passesFilters = false;
+        } else if (
+          filter?.dueDate?.end !== undefined &&
+          filter.dueDate.end < invoice.invoice.dueDate
+        ) {
+          passesFilters = false;
+        } else if (
+          filter?.dueDate?.start !== undefined &&
+          filter.dueDate.start > invoice.invoice.dueDate
+        ) {
+          passesFilters = false;
+        }
+        const isSinglePage =
+          args.offset === undefined && page.total === page.list.length;
+        const isLastPage =
+          isSinglePage ||
+          (args.offset !== undefined &&
+            args.offset === page.total - page.list.length);
+        const limit = args.limit || defaultLimit;
+        const isPageFull =
+          isLastPage && page.list.length + limit === page.total;
+
+        let shouldInvalidate;
+
+        if (!passesFilters) {
+          // It is not included in any page range with those filters.
+          shouldInvalidate = false;
+        } else if (!hasOtherSorting) {
+          // First page of "latest invoices", must preppend new invoice
+          if (args.sort?.creation === "desc") {
+            if (args.offset === 0) {
+              const [first, ...rest] = state.filtered[key].list;
+              state.filtered[key].list = [invoice, ...rest];
+              page.total += 1;
+            } else {
+              // every other page will have their elements shifted by one
+              shouldInvalidate = true;
+            }
+          } else if (isLastPage && !isPageFull) {
+            // non-full last-page in ascending creation order
+            state.filtered[key].list.push(invoice);
+            page.total += 1;
+          }
+        } else {
+          // Passes filters, but has other sort criteria. harder to determin.
+          shouldInvalidate = true;
+        }
+
+        if (shouldInvalidate) {
+          delete state.filtered[key];
+        }
+      });
     },
     removed: (state, action: PayloadAction<ClientInvoice>) => {
       const { id } = action.payload.invoice;
@@ -386,6 +468,7 @@ const useInvoiceSelectorCreator = <TState, TSelected>(
   const dispatch = useDispatch();
   useEffect(() => {
     if (!began) {
+      console.log({requesPage: ((args?.offset||0) / (args?.limit||defaultLimit)) + 1 })
       dispatch(loadClientInvoices(args));
     }
   }, [dispatch, args, began]);

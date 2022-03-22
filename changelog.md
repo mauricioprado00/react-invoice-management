@@ -1,18 +1,26 @@
-# next tasks
+# pending features
 1. latest clients in dashboard
-2. invalidate/modify pages when invoice is created.
 3. clients should be also sortable and paginable
 4. Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
 5. latest client invoices in profile (link menu item from client table)
-6. if you are in page 10, and filter by client, filters are applied but page is still 10 (unexistant)
 
-# extra:
+# unknown bugs: 
+- sometimes clients are not being loaded
+# known bugs:
+- if you are in page 10, and filter by client, filters are applied but page is still 10 (unexistant)
+
+# extra features:
+- automatic configurable due-date amount of days
 - add email, phone
 - taxes to invoices?
 - soft deletion?
 - sorted filters? currently api will sort always in the same order. 
   it would be nice to give the user the control of choosing which sorting
   comes first.
+
+# 2022 03 22
+- invalidate/modify pages when invoice is created.
+- check that page invalidation on add works on all cases.
 # 2022 03 21
 - all clients should be loaded, otherwise client selection list all options. Fixed:
   - throwing exception here: invoiceslice: thunkAPI.dispatch(beforeUpdate(prevInvoice));
