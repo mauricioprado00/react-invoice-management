@@ -1,13 +1,13 @@
 # pending features
-1. latest clients in dashboard
-3. clients should be also sortable and paginable
+1. implement fetching single client (useClientById, same way as useInvoiceById)
 4. Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
 5. latest client invoices in profile (link menu item from client table)
 
 # unknown bugs: 
 - sometimes clients are not being loaded
 # known bugs:
-- if you are in page 10, and filter by client, filters are applied but page is still 10 (unexistant)
+- if you are in page 10, and filter by client, filters are applied but page is still 10 (unexistant).
+- adding a clients will not keep the client selector sorted.
 
 # extra features:
 - automatic configurable due-date amount of days
@@ -17,6 +17,10 @@
 - sorted filters? currently api will sort always in the same order. 
   it would be nice to give the user the control of choosing which sorting
   comes first.
+
+# 2022 03 23
+1. add latest clients in dashboard
+2. implement sorting and pagination of clients
 
 # 2022 03 22
 - invalidate/modify pages when invoice is created.

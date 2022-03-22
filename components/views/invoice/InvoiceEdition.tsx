@@ -2,12 +2,12 @@ import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
-import { ClientInvoice, Invoice } from 'models/Invoice'
+import { ClientInvoice } from 'models/Invoice'
 import InvoiceForm, { SaveInvoiceEvent } from './InvoiceForm'
-import { useClientList, useClientLoading } from 'store/ClientSlice'
 import { useInvoiceById, useInvoicesLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 import { usePaymentSelector } from 'store/UserSlice'
+import { useAllClients } from 'store/ClientSlice'
 
 type InvoiceProps = {
     onCancel?: (clientInvoice:Partial<ClientInvoice>|null) => void,
@@ -21,13 +21,14 @@ const InvoicePropTypes = {
 }
 function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
     const invoice = useInvoiceById(invoiceId);
-    const clientList = useClientList();
+    const clientList = useAllClients();
+    const clientLoaded = clientList?.loaded === true;
     const paymentTypes = usePaymentSelector();
     // const invoice = useInvoiceById(invoiceId);
     const upsertInvoice = useUpsertInvoice();
     const upsertError = useUpsertInvoiceError();
     const upsertState = useUpsertInvoiceState();
-    const loading = [useClientLoading(), useInvoicesLoading()].every(Boolean);
+    const loading = [!clientLoaded, useInvoicesLoading()].some(Boolean);
     const saveHandler = async ({ clientInvoice }: SaveInvoiceEvent) => {
         let result = await upsertInvoice(clientInvoice)
         if (isFullfilledThunk(result)) {
@@ -47,7 +48,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
     if (loading) {
         content = "loading data";
     } else if (adding || invoice !== null) {
-        content = <InvoiceForm onSave={saveHandler} clientList={clientList} paymentTypes={paymentTypes}
+        content = <InvoiceForm onSave={saveHandler} clientList={clientList?.list || []} paymentTypes={paymentTypes}
         onCancel={cancelHandler} clientInvoice={invoice} disabled={saving} />;
     } else {
         if (adding && !invoice) {

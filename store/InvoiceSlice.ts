@@ -72,7 +72,7 @@ export const upsertInvoice = createAsyncThunk<
           const prevInvoice = invoiceByIdSelectorCreator(
             clientInvoice.invoice.id
           )(thunkAPI.getState());
-          // thunkAPI.dispatch(removed())
+          
           if (prevInvoice) {
             thunkAPI.dispatch(beforeUpdate(prevInvoice));
           }
@@ -110,6 +110,7 @@ export const loadClientInvoices = createAsyncThunk<
         thunkAPI.dispatch(received({ clientInvoiceListResponse, args }))
     );
     thunkAPI.signal.addEventListener("abort", result.abort);
+    result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
     const clientInvoices = await result.promise;
     return clientInvoices;
   }
@@ -370,7 +371,7 @@ const clientInvoiceListSelector = createSelector(
 
 export const clientInvoiceFilteredSelector = createSelector(
   clientInvoiceSliceSelector,
-  cleintInvoiceSlice => cleintInvoiceSlice.filtered
+  clientInvoiceSlice => clientInvoiceSlice.filtered
 );
 
 export const clientInvoiceCountSelector = createSelector(

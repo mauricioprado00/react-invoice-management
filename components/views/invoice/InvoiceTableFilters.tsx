@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import UrlInputFilter, { useUrlInputFilter } from '../../ui/forms/UrlInputFilter'
-import { useClientList } from 'store/ClientSlice'
+import { useAllClients } from 'store/ClientSlice'
 import ClientSelector from '../../ui/forms/ClientSelector'
 import { Fab, List, ListItem, ListItemButton, ListItemText, ListSubheader } from '@mui/material'
 import FilterIcon from '@mui/icons-material/FilterList';
@@ -28,7 +28,7 @@ const initialState: FilterState = {
 const filterList = ['client', 'dateFrom', 'dateTo', 'dueDateFrom', 'dueDateTo'];
 function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
     const [state, setState] = useState(initialState);
-    const clientList = useClientList();
+    const clientList = useAllClients();
     const clientProps = useUrlInputFilter<string>('client', '');
     const beginSelect = useCallback(() => {
         setState(prev => ({ ...prev, status: 'selecting' }))
@@ -80,7 +80,7 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <div className='align-middle whitespace-nowrap mr-2 font-bold'>Client</div>
-                                <div><ClientSelector clientList={clientList} emptyOptionLabel="Any Client" {...clientProps} /></div>
+                                <div><ClientSelector clientList={clientList?.list || []} emptyOptionLabel="Any Client" {...clientProps} /></div>
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>

@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
-import { Table, Column, Empty, useSortDirection } from 'components/ui/layout/Table'
+import { Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
 import { useClientList, useClientLoading, useLoadClientError } from 'store/ClientSlice'
-import HeaderContent from '../../ui/layout/HeaderContent'
-import Button, { ButtonStyle } from '../../ui/forms/Button'
+import HeaderContent from 'components/ui/layout/HeaderContent'
+import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { useGoClients, useGoNewClient, usePagination, useUrlParam } from 'library/navigation'
+import { useRouter } from 'next/router'
+import { ClientListingArgs } from 'api/apiclient'
 
 export type ClientTableProps = {
   title?: string;
@@ -12,6 +14,7 @@ export type ClientTableProps = {
   controls?: boolean;
   pageable?: boolean;
   sortable?: boolean;
+  latest?: boolean;
 }
 
 const ClientTablePropTypes = {
@@ -20,6 +23,40 @@ const ClientTablePropTypes = {
   controls: PropTypes.bool,
   pageable: PropTypes.bool,
   sortable: PropTypes.bool,
+  latest: PropTypes.bool,
+}
+
+export const GetClientListingArgs = (limit: number, latest: boolean): Required<ClientListingArgs> => {
+  const router = useRouter();
+  const {
+      sort_name,
+      sort_company,
+      sort_total,
+      sort_count,
+      page
+  }: {
+      sort_name?: SortDirection,
+      sort_company?: SortDirection,
+      sort_total?: SortDirection,
+      sort_count?: SortDirection,
+      page?: number,
+  } = router.query;
+
+  return {
+      filter: {},
+
+      // TODO send keys sorted in the way router.query provides them
+      // TODO Also requires changes on the API
+      sort: {
+          clientName: sort_name,
+          companyName: sort_company,
+          totalBilled: sort_total,
+          invoicesCount: sort_count,
+          creation: latest ? "desc" : "asc",
+      },
+      limit,
+      offset: page ? (page - 1) * limit : 0,
+  }
 }
 
 const ClientTable = ({
@@ -28,18 +65,21 @@ const ClientTable = ({
   pageable = true,
   sortable = true,
   controls = true,
+  latest = false,
 }: ClientTableProps) => {
-
-  const clients = useClientList()
+  const args = GetClientListingArgs(limit, latest);
+  const filtered = useClientList(args)
+  const clients = filtered?.list;
+  const total = filtered?.total || 0;
   const loadError = useLoadClientError()
-  const loading = useClientLoading()
+  const loading = !filtered?.loaded;
   const goNewClient = useGoNewClient();
   const goClients = useGoClients();
   const [page, , onPageChange] = usePagination();
   const offset = (page - 1) * limit;
   pageable = controls && pageable;
   sortable = controls && sortable;
-  const pagination = !pageable ? undefined : { limit, total: 100, offset, onPageChange }
+  const pagination = !pageable ? undefined : { limit, total, offset, onPageChange }
   const nameSort = useSortDirection('sort_name');
   const companySort = useSortDirection('sort_company');
   const countSort = useSortDirection('sort_count');
@@ -59,7 +99,7 @@ const ClientTable = ({
       <Column {...(sortable ? totalSort : {})}>Total Billed</Column>
       <Empty>No clients found</Empty>
       {
-        (clients).map(client =>
+        (clients || []).map(client =>
           <ClientTableRowItem key={client.id} {...client} />)
       }
     </Table>

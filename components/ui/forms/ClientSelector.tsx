@@ -272,8 +272,9 @@ function ClientSelector({
       }
     }
   }, [onChange, name, onValid, required, reset]);
+
   const sortedClients = useMemo(() =>
-    clientList.sort((a, b) => a.name > b.name ? 1 : -1), [clientList])
+    [...clientList].sort((a, b) => a.name > b.name ? 1 : -1), [clientList])
 
   const errorMessages = [] as string[];
   let expressErrors = true;
