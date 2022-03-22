@@ -18,6 +18,7 @@ export type InvoiceTableProps = {
     sortable?: boolean;
     extraColumns?: boolean;
     latest?: boolean;
+    clientId?: string;
 }
 
 const InvoiceTablePropTypes = {
@@ -28,9 +29,10 @@ const InvoiceTablePropTypes = {
     sortable: PropTypes.bool,
     extraColumns: PropTypes.bool,
     latest: PropTypes.bool,
+    clientId: PropTypes.string,
 }
 
-export const GetInvoiceListingArgs = (limit: number, latest: boolean): Required<InvoiceListingArgs> => {
+export const GetInvoiceListingArgs = (clientId:string|undefined, limit: number, latest: boolean): Required<InvoiceListingArgs> => {
     const router = useRouter();
     const {
         client,
@@ -58,7 +60,7 @@ export const GetInvoiceListingArgs = (limit: number, latest: boolean): Required<
 
     return {
         filter: {
-            clientId: client,
+            clientId: clientId || client,
             date: {
                 start: dateFrom ? moment(dateFrom).valueOf() : undefined,
                 end: dateTo ? moment(dateTo).valueOf() : undefined,
@@ -91,8 +93,9 @@ const InvoiceTable = ({
     controls = true,
     extraColumns = false,
     latest = false,
+    clientId
 }: InvoiceTableProps) => {
-    const args = GetInvoiceListingArgs(limit, latest);
+    const args = GetInvoiceListingArgs(clientId, limit, latest);
     const filtered = useFilteredInvoices(args);
     const invoices = filtered?.list;
     const total = filtered?.total || 0;

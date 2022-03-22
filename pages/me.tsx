@@ -1,9 +1,12 @@
 import type { NextPage } from 'next'
 import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 import UserShow from 'components/views/user/UserShow';
+import Card from 'components/ui/layout/Card';
 
 const ClientDashboardPage: NextPage = () => {
-    return <UserShow />
+    return <Card size='big' fullscreen={false} background="">
+        <UserShow />
+    </Card>
 }
 
 export default AuthPageWithStore(ClientDashboardPage)

@@ -24,7 +24,7 @@ function ProfileCard({ children, profile, onEdit }: ProfileCardProps) {
     const imageUrl = getAvatarImageUrl(profile.avatar);
     const { name, email, companyDetails } = profile;
     return (
-        <div className="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
+        <div className="container lg:w-3/6 xl:w-3/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
             <div className=" h-32 overflow-hidden">
                 <img className="w-full" src="https://images.unsplash.com/photo-1578836537282-3171d77f8632?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt="background image" />
             </div>

@@ -20,7 +20,7 @@ function UserCard({ me, onEdit }: UserCardProps) {
     return (
         <ProfileCard profile={me} onEdit={onEdit}>
             <div className="text-center w-1/2 p-4 hover:bg-gray-100">
-                <p><span className="font-semibold">${invoiceSum}</span> Total Invoiced</p>
+                <p><span className="font-semibold">${invoiceSum.toFixed(2)}</span> Total Invoiced</p>
             </div>
             <div className="border" />
             <div className="text-center w-1/2 p-4 hover:bg-gray-100">

@@ -12,7 +12,7 @@ function UserShow({ }: UserShowProps) {
     const goEditMe = useGoEditMe();
 
     return (
-        <div className="h-screen bg-gray-200  dark:bg-gray-800   flex flex-wrap items-center  justify-center">
+        <div className="flex flex-wrap items-center  justify-center">
             {loading && "loading data"}
             {!loading && !me && "sorry we could not find your profile data"}
             {me && <UserCard me={me} onEdit={goEditMe} />}

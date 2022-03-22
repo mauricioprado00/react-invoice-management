@@ -167,7 +167,7 @@ const Table = ({ title, loading, children, error, pagination }: TableProps) => {
                 )}
             </div>
 
-            {pagination && <div className="mt-4 place-self-center"><TablePagination {...pagination} /></div>}
+            {pagination && pagination.total > pagination.limit && <div className="mt-4 place-self-center"><TablePagination {...pagination} /></div>}
         </div>
     )
 }
