@@ -4,7 +4,7 @@ import produce from "immer";
 import { MapType, MapTypeFill, MapTypeSome } from "models/UtilityModels";
 import { useCallback, useMemo, useState } from "react";
 
-type FormElementChangeEvent = {
+export type FormElementChangeEvent = {
   target: {
     value: string,
   }
