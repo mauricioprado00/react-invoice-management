@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 export type HambugerProps = {
     'aria-controls'?: string | undefined;
     'aria-describedby'?: string | undefined;
-    'aria-haspopup': true | undefined;
-    tabIndex: number,
+    'aria-haspopup'?: true | undefined;
+    tabIndex?: number,
     onClick: { (...args: any): void }
 }
 
