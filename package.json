@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "jest": "jest --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
