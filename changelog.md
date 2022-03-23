@@ -24,6 +24,7 @@
 2. implement sorting and pagination of clients
 3. pre-fill client selector when creating an invoice from client profile
 4. add print icon to invoice table options
+5. scroll down to invoices when clicking in client table option "invoices"
 
 # 2022 03 22
 - invalidate/modify pages when invoice is created.

@@ -17,6 +17,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
     const { name, email, totalBilled, invoicesCount, companyDetails } = client
     const goEdit = useGoClientIdEdit(client.id);
     const goDashboard = useGoClientIdDashboard(client.id);
+    const goInvoices = useGoClientIdDashboard(client.id, true);
     const isMostValuable = isMostValuableClient(client);
     const totalBilledClassnames = classNames(
         "text-left font-medium", isMostValuable ? "text-red-500" : "text-green-500"
@@ -51,7 +52,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
                 <div className={totalBilledClassnames}>${totalBilled.toFixed(2)}</div>
             </td>
             <td className="p-2 whitespace-nowrap" onClick={stopPropagation} onKeyUp={stopPropagation}>
-                <ClientTableRowActions onEdit={goEdit} onProfile={goDashboard} onInvoices={goDashboard}/>
+                <ClientTableRowActions onEdit={goEdit} onProfile={goDashboard} onInvoices={goInvoices}/>
             </td>
         </tr>
     );

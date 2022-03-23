@@ -6,7 +6,6 @@ import Hamburger from 'components/ui/elements/Hamburger';
 import EditIcon from '@mui/icons-material/Edit';
 import ProfileIcon from '@mui/icons-material/AccountBox';
 import InvoicesIcon from '@mui/icons-material/Description';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { ListItemIcon } from '@mui/material';
 
 export type ClientTableRowAction = 'edit' | 'profile' | 'invoices' | 'remove';
@@ -50,10 +49,6 @@ export default function ClientTableRowActions({ onEdit, onProfile, onInvoices }:
                             <MenuItem onClick={handleClick('invoices')}>
                                 <ListItemIcon><InvoicesIcon /></ListItemIcon>
                                 Invoices
-                            </MenuItem>
-                            <MenuItem onClick={handleClick('remove')}>
-                                <ListItemIcon><DeleteIcon /></ListItemIcon>
-                                Remove
                             </MenuItem>
                         </Menu>
                     </React.Fragment>

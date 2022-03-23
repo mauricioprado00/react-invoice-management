@@ -55,11 +55,12 @@ export const useGoClients = () => useGoRoute('/clients');
 export const useGoClientEdit = () => useGoEdit('/client');
 export const useGoClientIdEdit = (id: string | null = null) => useGoEditId('/client')(id)
 
-export const useGoClientIdDashboard = (id: string | null) => {
+export const useGoClientIdDashboard = (id: string | null, invoices?: boolean) => {
     const router = useRouter();
     return useCallback(() => {
-        if (id) router.push('/client-dashboard?' + new URLSearchParams({ id }));
-    }, [router, id]);
+        const hash = invoices ? '#invoices' : '';
+        if (id) router.push('/client-dashboard?' + new URLSearchParams({ id }) + hash);
+    }, [router, id, invoices]);
 }
 
 export const useGoClientDashboard = () => {
@@ -77,7 +78,7 @@ export const useGoInvoices = () => useGoRoute('/invoices');
 export const useGoInvoiceEdit = (params?:GoInvoiceEditParams) => useGoEdit('/invoice', params);
 export const useGoInvoiceIdEdit = (id: string | null = null) => useGoEditId('/invoice')(id)
 
-export const useGoInvoiceIdView = (id: string | null, print?: true | null) => {
+export const useGoInvoiceIdView = (id: string | null, print?: boolean) => {
     const router = useRouter();
     return useCallback(() => {
         const params:Record<string, string> = {};
