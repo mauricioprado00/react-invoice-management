@@ -5,6 +5,7 @@ import InvoicePrint from './InvoicePrint'
 import { useMe, useMeLoading } from 'store/UserSlice'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import Card from 'components/ui/layout/Card'
+import LoadingMask from "components/ui/LoadingMask"
 
 type InvoiceViewProps = {
     invoiceId: string,
@@ -19,7 +20,7 @@ function InvoiceView({ invoiceId }: InvoiceViewProps) {
     let content;
 
     if (!invoice && loading) {
-        content = "loading data";
+        content = <LoadingMask />;
     } else if (invoice !== null && me !== null) {
         content = <InvoicePrint clientInvoice={invoice} me={me} />;
     } else {

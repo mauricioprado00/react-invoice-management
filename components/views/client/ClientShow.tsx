@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useClientById, useClientLoading } from 'store/ClientSlice'
 import ClientCard from './ClientCard'
+import LoadingMask from "components/ui/LoadingMask"
+import ErrorBanner from 'components/utility/ErrorBanner'
 
 type ClientProps = {
     clientId: string | null,
@@ -17,9 +19,10 @@ function ClientShow({ clientId }: ClientProps) {
 
     return (
         <div className="flex flex-wrap items-center  justify-center">
-            {loading && "loading data"}
-            {!loading && !client && "sorry we could not find the client"}
-            {client && <ClientCard client={client} onEdit={goEditClient} />}
+            {client ? <ClientCard client={client} onEdit={goEditClient} /> : (
+             loading ? <LoadingMask /> : 
+                <ErrorBanner>sorry we could not find the client</ErrorBanner>
+            )}
         </div>
     )
 }

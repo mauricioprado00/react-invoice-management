@@ -2,6 +2,8 @@ import { useGoEditMe } from 'library/navigation'
 import React from 'react'
 import { useMe, useMeLoading } from 'store/UserSlice'
 import UserCard from './UserCard'
+import LoadingMask from "components/ui/LoadingMask"
+import ErrorBanner from 'components/utility/ErrorBanner'
 
 type UserShowProps = {}
 const ClientShowPropTypes = {}
@@ -13,9 +15,10 @@ function UserShow({ }: UserShowProps) {
 
     return (
         <div className="flex flex-wrap items-center  justify-center">
-            {loading && "loading data"}
-            {!loading && !me && "sorry we could not find your profile data"}
-            {me && <UserCard me={me} onEdit={goEditMe} />}
+            {me ? <UserCard me={me} onEdit={goEditMe} /> : (
+             loading ? <LoadingMask /> : 
+             <ErrorBanner>sorry we could not find your profile data</ErrorBanner>
+         )}
         </div>
     )
 }

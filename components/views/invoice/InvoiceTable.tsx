@@ -100,7 +100,7 @@ const InvoiceTable = ({
     const invoices = filtered?.list;
     const total = filtered?.total || 0;
     const loadError = useLoadInvoiceError()
-    const loading = !filtered;
+    const loading = !filtered?.loaded;
     const goNewInvoice = useGoNewInvoice();
     const loaded = !loading;
     const goInvoices = useGoInvoices();
@@ -113,6 +113,7 @@ const InvoiceTable = ({
     const priceSort = useSortDirection('sort_price');
     const companyNameSort = useSortDirection('sort_companyName');
     const dueDateSort = useSortDirection('sort_dueDate');
+    
 
     return (
         <Table title={title} loading={loading} error={loadError} pagination={pagination}>

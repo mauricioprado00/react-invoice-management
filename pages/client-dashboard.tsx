@@ -11,7 +11,7 @@ const ClientDashboardPage: NextPage = () => {
     return <Card size='big' fullscreen={false} background="">
         <ClientShow clientId={clientId} />
         <div className="pt-5"></div>
-        <InvoiceTable title="Latest Invoices" latest={true} clientId={clientId || undefined} />
+        {clientId && <InvoiceTable title="Latest Invoices" latest={true} clientId={clientId} />}
     </Card>
 }
 

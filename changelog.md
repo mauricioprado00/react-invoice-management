@@ -2,6 +2,7 @@
 1. implement fetching single client (useClientById, same way as useInvoiceById)
 4. Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
 5. latest client invoices in profile (link menu item from client table)
+6. deprecate the use of anything with useClientSelector( and useInvoiceSelector(
 
 # unknown bugs: 
 - sometimes clients are not being loaded
