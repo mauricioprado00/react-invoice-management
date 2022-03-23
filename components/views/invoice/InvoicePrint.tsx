@@ -1,4 +1,4 @@
-import React, { } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from "prop-types";
 import moment from "moment";
 import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail } from 'models/Invoice'
@@ -7,6 +7,7 @@ import { Fab } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PrintIcon from '@mui/icons-material/Print';
 import { useGoInvoiceIdEdit } from 'library/navigation';
+import { useRouter } from 'next/router';
 
 /**
  * invoice layout taken from https://tailwindcomponents.com/component/simple-invoice-with-external-links
@@ -66,6 +67,13 @@ function InvoicePrint({
 
     const printHandler = () => window.print();
     const goEdit = useGoInvoiceIdEdit(clientInvoice.invoice.id);
+    const router = useRouter();
+    const print = router.query.print;
+    useEffect(() => {
+        if (print === 'yes') {
+            printHandler();
+        }
+    }, [print])
 
     return (
         <div className="max-w-2xl mx-auto py-0 md:py-16">

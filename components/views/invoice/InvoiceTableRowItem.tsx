@@ -24,6 +24,7 @@ const InvoiceTableRowItem = ({
     extraColumns = false
 }: InvoiceTableRowItemProps) => {
     const goView = useGoInvoiceIdView(id);
+    const goPrint = useGoInvoiceIdView(id, true);
     const goEdit = useGoInvoiceIdEdit(id);
     const isOverLimit = value >= 5000;
     const valueBilledClassnames = classNames(
@@ -51,7 +52,7 @@ const InvoiceTableRowItem = ({
                 <div className={valueBilledClassnames}>${value.toFixed(2)}</div>
             </td>
             <td className="p-2 whitespace-nowrap" onClick={stopPropagation} onKeyUp={stopPropagation}>
-                <InvoiceTableRowActions onEdit={goEdit} onPrint={goView} />
+                <InvoiceTableRowActions onEdit={goEdit} onPrint={goPrint} onView={goView} />
             </td>
 
         </tr>

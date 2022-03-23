@@ -5,17 +5,18 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Hamburger from 'components/ui/elements/Hamburger';
 import EditIcon from '@mui/icons-material/Edit';
 import PrintIcon from '@mui/icons-material/Print';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ViewIcon from '@mui/icons-material/Description';
 import { ListItemIcon } from '@mui/material';
 
-export type InvoiceTableRowAction = 'edit' | 'print' | 'remove';
+export type InvoiceTableRowAction = 'edit' | 'print' | 'view';
 
 export type InvoiceTableRowActionsProps = {
     onEdit: () => void;
     onPrint: () => void;
+    onView: () => void;
 }
 
-export default function InvoiceTableRowActions({ onEdit, onPrint }: InvoiceTableRowActionsProps) {
+export default function InvoiceTableRowActions({ onEdit, onPrint, onView }: InvoiceTableRowActionsProps) {
     return (
         <PopupState variant="popover">
             {(popupState) => {
@@ -26,6 +27,9 @@ export default function InvoiceTableRowActions({ onEdit, onPrint }: InvoiceTable
                             break;
                         case 'print':
                             if (onPrint) onPrint();
+                            break;
+                        case 'view':
+                            if (onView) onView();
                             break;
                     }
                     popupState.close();
@@ -42,9 +46,9 @@ export default function InvoiceTableRowActions({ onEdit, onPrint }: InvoiceTable
                                 <ListItemIcon><PrintIcon /></ListItemIcon>
                                 Print
                             </MenuItem>
-                            <MenuItem onClick={handleClick('remove')}>
-                                <ListItemIcon><DeleteIcon /></ListItemIcon>
-                                Remove
+                            <MenuItem onClick={handleClick('view')}>
+                                <ListItemIcon><ViewIcon /></ListItemIcon>
+                                View
                             </MenuItem>
                         </Menu>
                     </React.Fragment>

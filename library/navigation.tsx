@@ -77,11 +77,15 @@ export const useGoInvoices = () => useGoRoute('/invoices');
 export const useGoInvoiceEdit = (params?:GoInvoiceEditParams) => useGoEdit('/invoice', params);
 export const useGoInvoiceIdEdit = (id: string | null = null) => useGoEditId('/invoice')(id)
 
-export const useGoInvoiceIdView = (id: string | null) => {
+export const useGoInvoiceIdView = (id: string | null, print?: true | null) => {
     const router = useRouter();
     return useCallback(() => {
-        if (id) router.push('/view-invoice?' + new URLSearchParams({ id }));
-    }, [router, id]);
+        const params:Record<string, string> = {};
+        if (print === true) {
+            params.print = "yes";
+        }
+        if (id) router.push('/view-invoice?' + new URLSearchParams({ id, ...params }));
+    }, [router, id, print]);
 }
 
 export const useGoInvoiceView = () => {
