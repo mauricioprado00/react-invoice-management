@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
-import { useGoInvoices, useParamInvoiceId } from 'library/navigation';
+import { useGoInvoices, useParamId } from 'library/navigation';
 import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 import InvoiceView from 'components/views/invoice/InvoiceView';
 
 const ViewInvoicePage: NextPage = () => {
-    const invoiceId = useParamInvoiceId();
+    const invoiceId = useParamId();
     const goInvoices = useGoInvoices();
     if (!invoiceId) {
         goInvoices();

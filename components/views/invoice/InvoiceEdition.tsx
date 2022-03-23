@@ -13,14 +13,16 @@ type InvoiceProps = {
     onCancel?: (clientInvoice:Partial<ClientInvoice>|null) => void,
     onSave?: (clientInvoice:ClientInvoice) => void,
     invoiceId: string | null,
+    clientId: string | null,
 }
 const InvoicePropTypes = {
     onCancel: PropTypes.func,
     onSave: PropTypes.func,
     invoiceId: PropTypes.string,
+    clientId: PropTypes.string,
 }
-function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
-    const invoice = useInvoiceById(invoiceId);
+function InvoiceEdition({ onCancel, onSave, invoiceId, clientId }: InvoiceProps) {
+    const invoice = useInvoiceById(invoiceId || '');
     const clientList = useAllClients();
     const clientLoaded = clientList?.loaded === true;
     const paymentTypes = usePaymentSelector();
@@ -49,7 +51,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId }: InvoiceProps) {
         content = "loading data";
     } else if (adding || invoice !== null) {
         content = <InvoiceForm onSave={saveHandler} clientList={clientList?.list || []} paymentTypes={paymentTypes}
-        onCancel={cancelHandler} clientInvoice={invoice} disabled={saving} />;
+        onCancel={cancelHandler} clientInvoice={invoice} disabled={saving} clientId={clientId} />;
     } else {
         if (adding && !invoice) {
             content = "sorry we could not find the invoice";

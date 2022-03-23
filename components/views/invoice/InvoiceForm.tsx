@@ -31,6 +31,7 @@ type InvoiceFormProps = {
     message?: string | null,
     clientList: ClientSelectorProps['clientList'],
     paymentTypes: PaymentType[],
+    clientId: string | null,
 }
 
 const InvoiceFormPropTypes = {
@@ -42,6 +43,7 @@ const InvoiceFormPropTypes = {
     message: PropTypes.string,
     clientList: ClientSelectorPropTypes.clientList,
     paymentTypes: PropTypes.arrayOf(PropTypes.exact(PaymentTypePropTypes)),
+    clientId: PropTypes.string,
 }
 
 const elements = [
@@ -66,7 +68,8 @@ function InvoiceForm({
     disabledFields,
     message,
     clientList,
-    paymentTypes
+    paymentTypes,
+    clientId
 }: InvoiceFormProps) {
     const formProps = useMemo(() => {
         let initialValues:MapType<string>|undefined = undefined;
@@ -90,6 +93,7 @@ function InvoiceForm({
         } else {
             initialValues = MapTypeFill(elements, "");
             initialValues = Object.assign(initialValues ,{
+                client_id: clientId || '',
                 date: moment().format('YYYY-MM-DD'),
                 // TODO load an automatic amount of due dates from profile configuration
                 dueDate: moment().add(15, 'days').format('YYYY-MM-DD'),

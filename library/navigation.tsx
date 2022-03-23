@@ -25,15 +25,15 @@ export const useGoDashboard = () => {
     return useGoRoute('/');
 }
 
-const useGoEdit = (url: string) => {
+const useGoEdit = (url: string, params?:Record<string, string>) => {
     const router = useRouter();
     const cb = useCallback((id: string | null = null) => {
         if (id) {
-            router.push(url + '?' + new URLSearchParams({ id }));
+            router.push(url + '?' + new URLSearchParams(Object.assign({ id }, params)));
         } else {
-            router.push(url);
+            router.push(url+ (params ? '?' + new URLSearchParams(params) : ''));
         }
-    }, [router, url]);
+    }, [router, url, params]);
 
     return cb;
 }
@@ -69,8 +69,12 @@ export const useGoClientDashboard = () => {
     }, [router]);
 }
 
+type GoInvoiceEditParams = {
+    clientId?: string;
+}
+
 export const useGoInvoices = () => useGoRoute('/invoices');
-export const useGoInvoiceEdit = () => useGoEdit('/invoice');
+export const useGoInvoiceEdit = (params?:GoInvoiceEditParams) => useGoEdit('/invoice', params);
 export const useGoInvoiceIdEdit = (id: string | null = null) => useGoEditId('/invoice')(id)
 
 export const useGoInvoiceIdView = (id: string | null) => {
@@ -93,8 +97,8 @@ export const useGoNewClient = () => {
     return useCallback(() => { goClient() }, [goClient])
 }
 
-export const useGoNewInvoice = () => {
-    const goInvoice = useGoInvoiceEdit();
+export const useGoNewInvoice = (params?:GoInvoiceEditParams) => {
+    const goInvoice = useGoInvoiceEdit(params);
     return useCallback(() => { goInvoice() }, [goInvoice])
 }
 
@@ -106,7 +110,7 @@ export const useGoLogin = () => {
     return useGoRoute('/login');
 }
 
-const useParamId = (): string | null => {
+export const useParamId = (): string | null => {
     const router = useRouter();
     if (router.query.id) {
         return router.query.id.toString();
@@ -114,9 +118,18 @@ const useParamId = (): string | null => {
     return null;
 }
 
-export const useParamClientId = useParamId;
+export const useParamClientId = (): string | null => {
+    const router = useRouter();
+    if (router.query.clientId) {
+        return router.query.clientId.toString();
+    }
+    return null;
+}
 
-export const useParamInvoiceId = useParamId;
+export const useRouterParams = () => {
+    const router = useRouter();
+    return router.query;
+}
 
 export const useLogout = () => {
     const router = useRouter();

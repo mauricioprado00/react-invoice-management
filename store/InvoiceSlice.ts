@@ -511,7 +511,7 @@ export const useInvoiceById = (id: string) => {
   const invoice = useSelector(selector);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!invoice) {
+    if (!invoice && id) {
       dispatch(loadClientInvoice(id));
     }
   }, [dispatch, id, invoice]);

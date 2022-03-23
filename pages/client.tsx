@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
 import ClientEdition from 'components/views/client/ClientEdition';
-import { useGoBack, useGoClientDashboard, useParamClientId } from 'library/navigation';
+import { useGoBack, useGoClientDashboard, useParamId } from 'library/navigation';
 import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 import { useCallback } from 'react';
 import { Client } from 'models/Client';
 
 const ClientPage: NextPage = () => {
-    const clientId = useParamClientId();
+    const clientId = useParamId();
     const goClientDashboard = useGoClientDashboard();
     const goBack = useGoBack();
     const goViewSaved = useCallback((client:Client) => {
