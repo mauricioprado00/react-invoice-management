@@ -108,7 +108,7 @@ function InvoiceForm({
             disabledFields,
             initialValues
         }
-    }, [disabled, disabledFields, clientInvoice]);
+    }, [clientInvoice, disabled, disabledFields, clientId]);
     const form = useForm(formProps);
     const [items, setItems] = useState<InvoiceDetail[]>([])
     const { state, reset, setState } = form;

@@ -4,7 +4,6 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { defaultAvatar } from "components/ui/forms/AvatarSelector";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
 import { PaymentType } from "models/Invoice";
 import {
