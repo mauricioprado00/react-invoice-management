@@ -2,9 +2,10 @@ import PropTypes from 'prop-types'
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useIsLoggedIn } from "store/UserSlice";
+import { useIsLoggedIn, useUserAvatar } from "store/UserSlice";
 import { useLogout } from "library/navigation";
 import classNames from 'classnames';
+import Image from 'next/image';
 
 /**
  * Designs from 
@@ -64,6 +65,7 @@ const styles = {
   container: "bg-white shadow top-0 left-0 right-0 z-10 print:hidden fixed top-0"
 }
 function NavBar() {
+  const avatar = useUserAvatar();
   const logout = useLogout();
   const isLoggedIn = useIsLoggedIn();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -103,7 +105,7 @@ function NavBar() {
               </Link>
             ))}
           </div>
-          <div className="hidden sm:flex sm:items-center">
+          <div className="group hidden sm:flex sm:items-center">
             {isVisitor ? [
               <Link key="login" href="/login">
                 <a href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
@@ -116,11 +118,12 @@ function NavBar() {
                 </a>
               </Link>
             ] : [
-              <a key="logout" onClick={logout} href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
+              <a key="logout" onClick={logout} href="#" className="opacity-0 group-hover:opacity-100 transition ease-in-out delay-150  text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">
                 Logout
               </a>,
               <Link key="me" href="/me">
                 <a href="#" className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-purple-600 hover:border-purple-600">
+                 {avatar && <Image src={`/avatar/${avatar}`} alt="avatar" width={40} height={40} />}
                   My Profile
                 </a>
               </Link>

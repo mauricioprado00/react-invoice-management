@@ -4,6 +4,7 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
+import { defaultAvatar } from "components/ui/forms/AvatarSelector";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
 import { PaymentType } from "models/Invoice";
 import {
@@ -300,6 +301,11 @@ export const paymentSelector = createSelector(
   }
 )
 
+export const avatarSelector = createSelector(
+  meSelector,
+  me => me?.avatar
+)
+
 export const {
   lastSelector: registerUserRequestSelector,
   errorSelector: registerUserErrorSelector,
@@ -417,3 +423,4 @@ export const useUpdateMeError = () => useSelector(updateMeErrorSelector);
 export const useUpdateMeState = () => useSelector(updateMeStateSelector);
 
 export const usePaymentSelector = () => useMeSelector(paymentSelector);
+export const useUserAvatar = () => useSelector(avatarSelector);
