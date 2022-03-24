@@ -8,6 +8,7 @@ export const segregate = (children:any[], rules:any[]):any[] => {
     const result:any[][] = (new Array(rules.length)).fill(1).map(x => [])
     const remaining:any[] = []
     children.forEach(child => {
+        if (!child || Array.isArray(child) && child.length === 0) return;
         let added = rules.some((types: {name: string}[]|{name: string}, idx: number) => {
             if (isType(child, Array.isArray(types) ? types : [types])) {
                 result[idx].push(child)

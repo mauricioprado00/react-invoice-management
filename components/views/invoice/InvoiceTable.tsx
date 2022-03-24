@@ -114,7 +114,6 @@ const InvoiceTable = ({
     const companyNameSort = useSortDirection('sort_companyName');
     const dueDateSort = useSortDirection('sort_dueDate');
     
-
     return (
         <Table title={title} loading={loading} error={loadError} pagination={pagination}>
             {loaded && <HeaderContent>
