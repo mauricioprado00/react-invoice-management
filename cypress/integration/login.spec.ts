@@ -20,6 +20,23 @@ describe("User login", () => {
     cy.url().should("equal", "http://localhost:3000/update-profile");
     cy.get("h2").contains("Profile Edition");
   });
+
+  it("should give a warning when email is wrong", () => {
+    cy.visit("http://localhost:3000/login");
+
+    cy.get('input[name="email"]').click().type("mywrongemail");
+    cy.get('input[name="password"]').click().type("123456");
+    cy.get('button').contains('Sign In').click();
+    cy.get('p.text-red').contains('wrong email');
+  })
+
+  it("should give a warning when password is not given", () => {
+    cy.visit("http://localhost:3000/login");
+
+    cy.get('input[name="email"]').click().type("mywrongemail");
+    cy.get('button').contains('Sign In').click();
+    cy.get('p.text-red').contains('Please fill out this field');
+  })
 });
 
 export {}
