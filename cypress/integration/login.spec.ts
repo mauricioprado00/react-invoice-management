@@ -1,6 +1,6 @@
-import { isInDashboardPage } from "./dashboard-helpers";
-import { doLogin, loginWithFullUser, visitLoginPage } from "./login-helpers";
-import { isInProfileEditionPage } from "./user-helpers";
+import { isInDashboardPage } from "../steps/dashboard-helpers";
+import { doLogin, loginWithFullUser, visitLoginPage } from "../steps/login-helpers";
+import { isInProfileEditionPage } from "../steps/user-helpers";
 
 describe("User login", () => {
   it("should navigate to the dashboard when profile is completed", () => {

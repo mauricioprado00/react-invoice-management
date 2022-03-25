@@ -1,7 +1,7 @@
-import { clickLastClientPage, clickNewClientButton, clickSaveClientButton, clientIsInCurrentTablePage, doFillClientProfile, getValidClientProfile, isInClientAddPage, isInClientsPage } from "./client-helpers";
-import { isInDashboardPage } from "./dashboard-helpers";
-import { givenUserIsLoggedIn } from "./login-helpers";
-import { clickClientsMenu, clickDashboardMenu } from "./menu-helpers";
+import { clickLastClientPage, clickNewClientButton, clickSaveClientButton, clientIsInCurrentTablePage, doFillClientProfile, getValidClientProfile, isInClientAddPage, isInClientsPage } from "../steps/client-helpers";
+import { isInDashboardPage } from "../steps/dashboard-helpers";
+import { givenUserIsLoggedIn } from "../steps/login-helpers";
+import { clickClientsMenu, clickDashboardMenu } from "../steps/menu-helpers";
 
 describe("Client Creation", () => {
   it("will show created client in the client list", () => {

@@ -1,16 +1,15 @@
-import { isInClientsPage } from "./client-helpers";
-import { isInDashboardPage } from "./dashboard-helpers";
-import { isInInvoicesPage } from "./invoice-helpers";
-import { isInLoginPage } from "./login-helpers";
-import { doLogin } from "./login.spec";
+import { isInClientsPage } from "../steps/client-helpers";
+import { isInDashboardPage } from "../steps/dashboard-helpers";
+import { isInInvoicesPage } from "../steps/invoice-helpers";
+import { doLogin, isInLoginPage } from "../steps/login-helpers";
 import {
   clickDashboardMenu,
   clickInvoicesMenu,
   clickClientsMenu,
   clickLogoutMenu,
-} from "./menu-helpers";
-import { doValidRegistration, invalidPasswordTests, strongPass, visitSignupPage } from "./signup-helpers";
-import { fillUserProfile, isInProfileEditionPage } from "./user-helpers";
+} from "../steps/menu-helpers";
+import { doValidRegistration, invalidPasswordTests, strongPass, visitSignupPage } from "../steps/signup-helpers";
+import { fillUserProfile, isInProfileEditionPage } from "../steps/user-helpers";
 
 
 describe("User Signup", () => {
