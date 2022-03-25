@@ -32,12 +32,12 @@ export const doFillClientProfile = ({
   regNumber,
   vatNumber,
 }: Partial<Profile>) => {
-  name && cy.get('input[name="name"]').click().type(name);
-  email && cy.get('input[name="email"]').click().type(email);
-  companyName && cy.get('input[name="companyName"]').click().type(companyName);
-  address && cy.get('input[name="address"]').click().type(address);
-  regNumber && cy.get('input[name="regNumber"]').click().type(regNumber);
-  vatNumber && cy.get('input[name="vatNumber"]').click().type(vatNumber);
+  name && cy.get('input[name="name"]').click().type('{selectall}').type(name);
+  email && cy.get('input[name="email"]').click().type('{selectall}').type(email);
+  companyName && cy.get('input[name="companyName"]').click().type('{selectall}').type(companyName);
+  address && cy.get('input[name="address"]').click().type('{selectall}').type(address);
+  regNumber && cy.get('input[name="regNumber"]').click().type('{selectall}').type(regNumber);
+  vatNumber && cy.get('input[name="vatNumber"]').click().type('{selectall}').type(vatNumber);
 };
 
 export const getValidClientProfile = () => ({
