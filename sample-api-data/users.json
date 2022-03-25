@@ -1,58 +1,93 @@
 [
-  {
-    "id": "111",
-    "name": "John Doe 1",
-    "email": "fake_user1@officehourtesting.com",
-    "password": "123456",
-    "companyDetails": {
-      "name": "Skynet 01",
-      "address": "1st Bulevard Street",
-      "vatNumber": "1234",
-      "regNumber": "9876",
-      "iban": "DE89370400440532013000",
-      "swift": "CTCBIDJASBY"
+    {
+        "id": "111",
+        "name": "John Doe 1",
+        "email": "fake_user1@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 01",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876",
+            "iban": "DE89370400440532013000",
+            "swift": "CTCBIDJASBY"
+        }
+    },
+    {
+        "id": "222",
+        "name": "John Doe 2",
+        "email": "fake_user2@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 02",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "333",
+        "name": "John Doe 3",
+        "email": "fake_user3@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 03",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "444",
+        "name": "John Doe 4",
+        "email": "fake_user4@officehourtesting.com",
+        "password": "123456",
+        "companyDetails": {
+            "name": "Skynet 04",
+            "address": "1st Bulevard Street",
+            "vatNumber": "1234",
+            "regNumber": "9876"
+        }
+    },
+    {
+        "id": "555",
+        "name": "John Doe 5",
+        "email": "user-without-completed-profile@officehourtesting.com",
+        "password": "123456"
+    },
+    {
+        "name": "testing user",
+        "email": "1648200790604@officehourtesting.com",
+        "password": "!Abcdef123@",
+        "id": "21780706-301c-4f14-902c-ee54de240793",
+        "companyDetails": null
+    },
+    {
+        "name": "testing user",
+        "email": "1648200794806@officehourtesting.com",
+        "password": "!Abcdef123@",
+        "id": "6d90cffd-f89d-457a-8bb5-9cd6bdde0e39",
+        "companyDetails": null
+    },
+    {
+        "name": "testing user",
+        "email": "1648200799616@officehourtesting.com",
+        "password": "!Abcdef123@",
+        "id": "485794c2-7433-45a7-b35a-a2ba752151a2",
+        "companyDetails": null
+    },
+    {
+        "name": "testing user",
+        "email": "1648200810177@officehourtesting.com",
+        "password": "!Abcdef123@",
+        "id": "ed753847-1b78-4f0f-8c96-b7b53a77bf88",
+        "companyDetails": {
+            "name": "ABC GmbH",
+            "address": "Street 123",
+            "vatNumber": "1648200810180",
+            "regNumber": "1648200810179",
+            "iban": "DE89370400440532013000",
+            "swift": "CTCBIDJASBY"
+        }
     }
-  },
-  {
-    "id": "222",
-    "name": "John Doe 2",
-    "email": "fake_user2@officehourtesting.com",
-    "password": "123456",
-    "companyDetails": {
-      "name": "Skynet 02",
-      "address": "1st Bulevard Street",
-      "vatNumber": "1234",
-      "regNumber": "9876"
-    }
-  },
-  {
-    "id": "333",
-    "name": "John Doe 3",
-    "email": "fake_user3@officehourtesting.com",
-    "password": "123456",
-    "companyDetails": {
-      "name": "Skynet 03",
-      "address": "1st Bulevard Street",
-      "vatNumber": "1234",
-      "regNumber": "9876"
-    }
-  },
-  {
-    "id": "444",
-    "name": "John Doe 4",
-    "email": "fake_user4@officehourtesting.com",
-    "password": "123456",
-    "companyDetails": {
-      "name": "Skynet 04",
-      "address": "1st Bulevard Street",
-      "vatNumber": "1234",
-      "regNumber": "9876"
-    }
-  },
-  {
-    "id": "555",
-    "name": "John Doe 5",
-    "email": "user-without-completed-profile@officehourtesting.com",
-    "password": "123456"
-  }
 ]
