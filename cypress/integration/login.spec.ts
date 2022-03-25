@@ -27,6 +27,17 @@ describe("User login", () => {
     doLogin("mywrongemail");
     cy.get("p.text-red").contains("Please fill out this field");
   });
+
+  it("should show the error message given by the login API", () => {
+    const message = "Invalid Credentials";
+    cy.intercept('POST', '**/login', {
+      statusCode: 400,
+      body: message
+    })
+    visitLoginPage();
+    loginWithFullUser();
+    cy.contains(message)
+  })
 });
 
 export {};
