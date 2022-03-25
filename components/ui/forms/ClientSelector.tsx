@@ -305,7 +305,7 @@ function ClientSelector({
   }
 
   return (
-    <div className="mb-3 space-y-2 w-full text-xs">
+    <div className="mb-3 space-y-2 w-full text-xs" data-name={name}>
       {label && <label className={classNames(...labelClasses)}>
         {label + " "}
         {required && <abbr title="required">*</abbr>}
