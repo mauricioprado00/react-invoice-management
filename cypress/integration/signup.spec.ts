@@ -71,7 +71,7 @@ describe("User Signup", () => {
     isInProfileEditionPage();
   });
 
-  it("shouldnt allow to continue to other pages when profile is filled", () => {
+  it("should allow to continue to other pages after profile is filled", () => {
     const email = doValidRegistration();
 
     isInProfileEditionPage();

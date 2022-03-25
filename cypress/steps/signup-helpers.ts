@@ -49,7 +49,7 @@ export const inputValidRegistration = () => {
 }
 
 export const doValidRegistration = () => {
-  const email = inputValidRegistration;
+  const email = inputValidRegistration();
   isInProfileEditionPage();
 
   return email;
