@@ -8,7 +8,7 @@ import {
   clickClientsMenu,
   clickLogoutMenu,
 } from "../steps/menu-helpers";
-import { doValidRegistration, invalidPasswordTests, strongPass, visitSignupPage } from "../steps/signup-helpers";
+import { doValidRegistration, inputValidRegistration, invalidPasswordTests, strongPass, visitSignupPage } from "../steps/signup-helpers";
 import { fillUserProfile, isInProfileEditionPage } from "../steps/user-helpers";
 
 
@@ -27,6 +27,16 @@ describe("User Signup", () => {
       cy.get("button").contains("Register").click();
       cy.get("p.text-red").contains(message);
     });
+  });
+
+  it("will display warning when user already exists", () => {
+    const message = "Email already used by another account";
+    cy.intercept('POST', '**/register', {
+      statusCode: 400,
+      body: message
+    })
+    inputValidRegistration();
+    cy.contains(message)
   });
 
   it("should navigate to profile edition after registration", () => {

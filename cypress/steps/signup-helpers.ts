@@ -35,7 +35,7 @@ export const invalidPasswordTests = [
   ],
 ];
 
-export const doValidRegistration = () => {
+export const inputValidRegistration = () => {
   const email = new Date().getTime() + "@officehourtesting.com";
   cy.visit("http://localhost:3000/get-started");
 
@@ -45,6 +45,11 @@ export const doValidRegistration = () => {
   cy.get('input[name="confirmPassword"]').click().type(strongPass);
 
   cy.get("button").contains("Register").click();
+  return email;
+}
+
+export const doValidRegistration = () => {
+  const email = inputValidRegistration;
   isInProfileEditionPage();
 
   return email;
