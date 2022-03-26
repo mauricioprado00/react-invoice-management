@@ -1,6 +1,6 @@
-import { isInDashboardPage } from "../steps/dashboard-steps";
-import { doLogin, loginWithFullUser, visitLoginPage } from "../steps/login-steps";
-import { isInProfileEditionPage } from "../steps/user-steps";
+import { isInDashboardPage } from "cy-steps/dashboard-steps";
+import { doLogin, loginWithFullUser, visitLoginPage } from "cy-steps/login-steps";
+import { isInProfileEditionPage } from "cy-steps/user-steps";
 
 describe("User login", () => {
   it("should navigate to the dashboard when profile is completed", () => {

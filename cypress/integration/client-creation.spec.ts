@@ -1,7 +1,7 @@
-import { clickLastClientPage, clickNewClientButton, clickSaveClientButton, clientIsInCurrentTablePage, doFillClientProfile, getValidClientProfile, isInClientAddPage, isInClientsPage } from "../steps/client-steps";
-import { isInDashboardPage } from "../steps/dashboard-steps";
-import { givenUserIsLoggedIn } from "../steps/login-steps";
-import { clickClientsMenu, clickDashboardMenu } from "../steps/menu-steps";
+import { clickLastClientPage, clickNewClientButton, clickSaveClientButton, clientIsInCurrentTablePage, doFillClientProfile, getValidClientProfile, isInClientAddPage, isInClientsPage } from "cy-steps/client-steps";
+import { isInDashboardPage } from "cy-steps/dashboard-steps";
+import { givenUserIsLoggedIn } from "cy-steps/login-steps";
+import { clickClientsMenu, clickDashboardMenu } from "cy-steps/menu-steps";
 
 const profile = getValidClientProfile();
 

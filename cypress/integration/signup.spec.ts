@@ -1,15 +1,15 @@
-import { isInClientsPage } from "../steps/client-steps";
-import { isInDashboardPage } from "../steps/dashboard-steps";
-import { isInInvoicesPage } from "../steps/invoice-steps";
-import { doLogin, isInLoginPage } from "../steps/login-steps";
+import { isInClientsPage } from "cy-steps/client-steps";
+import { isInDashboardPage } from "cy-steps/dashboard-steps";
+import { isInInvoicesPage } from "cy-steps/invoice-steps";
+import { doLogin, isInLoginPage } from "cy-steps/login-steps";
 import {
   clickDashboardMenu,
   clickInvoicesMenu,
   clickClientsMenu,
   clickLogoutMenu,
-} from "../steps/menu-steps";
-import { doValidRegistration, inputValidRegistration, invalidPasswordTests, strongPass, visitSignupPage } from "../steps/signup-steps";
-import { fillUserProfile, isInProfileEditionPage } from "../steps/user-steps";
+} from "cy-steps/menu-steps";
+import { doValidRegistration, inputValidRegistration, invalidPasswordTests, strongPass, visitSignupPage } from "cy-steps/signup-steps";
+import { fillUserProfile, isInProfileEditionPage } from "cy-steps/user-steps";
 
 
 describe("User Signup", () => {
