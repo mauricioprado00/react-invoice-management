@@ -178,15 +178,20 @@ const slice = createSlice({
 
         let shouldInvalidate;
 
+        page.total += 1;
+
         if (!hasOtherSorting) {
-          const clientWithTotals = {...client, totalBilled: 0, invoicesCount: 0};
+          const clientWithTotals = {
+            ...client,
+            totalBilled: 0,
+            invoicesCount: 0,
+          };
 
           // First page of "latest client", must preppend new client
           if (args.sort?.creation === "desc") {
             if (args.offset === 0) {
               const [first, ...rest] = state.filtered[key].list;
               state.filtered[key].list = [clientWithTotals, ...rest];
-              page.total += 1;
             } else {
               // every other page will have their elements shifted by one
               shouldInvalidate = true;
@@ -194,7 +199,6 @@ const slice = createSlice({
           } else if (isLastPage && !isPageFull) {
             // non-full last-page in ascending creation order
             state.filtered[key].list.push(clientWithTotals);
-            page.total += 1;
           }
         } else {
           // Has other sort criteria. harder to determin.

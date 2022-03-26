@@ -247,6 +247,10 @@ const slice = createSlice({
 
         let shouldInvalidate;
 
+        if (passesFilters) {
+          page.total += 1;
+        }
+
         if (!passesFilters) {
           // It is not included in any page range with those filters.
           shouldInvalidate = false;
@@ -256,7 +260,6 @@ const slice = createSlice({
             if (args.offset === 0) {
               const [first, ...rest] = state.filtered[key].list;
               state.filtered[key].list = [invoice, ...rest];
-              page.total += 1;
             } else {
               // every other page will have their elements shifted by one
               shouldInvalidate = true;
@@ -264,7 +267,6 @@ const slice = createSlice({
           } else if (isLastPage && !isPageFull) {
             // non-full last-page in ascending creation order
             state.filtered[key].list.push(invoice);
-            page.total += 1;
           }
         } else {
           // Passes filters, but has other sort criteria. harder to determin.

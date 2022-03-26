@@ -19,6 +19,8 @@
   it would be nice to give the user the control of choosing which sorting
   comes first.
 
+# 2022 03 26 
+- Fix bug when adding client/invoice and total of records not updated in all cached pages
 # 2022 03 23
 1. add latest clients in dashboard
 2. implement sorting and pagination of clients

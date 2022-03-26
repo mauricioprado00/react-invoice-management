@@ -43,6 +43,7 @@ describe("Invoice Creation", () => {
     isInInvoiceAddPage();
 
     const clientsResponse = await responseClientAll();
+    console.log({ clientsResponse });
     const client = clientsResponse.clients.slice().pop();
 
     const filledInvoiceData = await doFillInvoiceData({
