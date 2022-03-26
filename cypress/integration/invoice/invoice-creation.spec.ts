@@ -107,13 +107,11 @@ describe("Invoice form validation", () => {
 
 describe("Api error handling", () => {
   const invoiceData = getValidInvoiceData({ amountDetails: 1 });
-  beforeEach(() => {
+
+  it("will not proceed when invoice creation returns an error", () => {
     fixtureUserMe();
     fixtureClientAll();
     fixtureInvoicesPage(1);
-  });
-
-  it("will not proceed when invoice creation returns an error", () => {
     const message = "Failed to create invoice";
     cy.intercept("POST", "**/invoices", {
       statusCode: 400,
@@ -126,6 +124,22 @@ describe("Api error handling", () => {
     isInInvoiceAddPage();
     cy.contains("Could not save the invoice.");
     cy.contains(message);
+  });
+
+  it("Will show loading mask when clients are not loaded", () => {
+    fixtureUserMe();
+    fixtureClientAll(5000);
+
+    visitInvoiceAddPage();
+    cy.get('[data-testid="loading-mask"]');
+  });
+
+  it("Will now show page until user validation is done", () => {
+    fixtureUserMe(5000);
+    fixtureClientAll();
+
+    visitInvoiceAddPage();
+    cy.contains("loading");
   });
 });
 

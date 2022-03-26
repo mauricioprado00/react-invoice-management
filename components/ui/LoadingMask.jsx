@@ -3,6 +3,7 @@ import React from 'react'
 const LoadingMask = () => {
   return (
     <div
+      data-testid="loading-mask"
       style={{ height: 400 }}
       className="flex flex-col items-center justify-center"
     >
@@ -27,7 +28,7 @@ const LoadingMask = () => {
         ></path>
       </svg>
     </div>
-  )
+  );
 }
 
 export default LoadingMask

@@ -471,7 +471,9 @@ const useInvoiceSelectorCreator = <TState, TSelected>(
   const dispatch = useDispatch();
   useEffect(() => {
     if (!began) {
-      console.log({requesPage: ((args?.offset||0) / (args?.limit||defaultLimit)) + 1 })
+      console.log({
+        requesPage: (args?.offset || 0) / (args?.limit || defaultLimit) + 1,
+      });
       dispatch(loadClientInvoices(args));
     }
   }, [dispatch, args, began]);
@@ -505,7 +507,7 @@ export const useInvoicesLoading = () => {
 const useLoadInvoiceState = () => useSelector(loadOneStateSelector);
 export const useInvoiceLoading = () => {
   const state = useLoadInvoiceState();
-  return state === "none" || state === "loading";
+  return state === "none" ? null : state === "loading";
 };
 export const useInvoiceStatus = () => useSelector(clientInvoiceStatusSelector);
 export const useInvoiceById = (id: string) => {
@@ -531,11 +533,11 @@ export const useUpsertInvoice = () => {
     dispatch(upsertInvoice(clientInvoice));
 };
 export const useUpsertInvoiceLastRequest = () =>
-  useInvoiceSelector(upsertInvoiceLastRequestSelector);
+  useSelector(upsertInvoiceLastRequestSelector);
 export const useUpsertInvoiceError = () =>
-  useInvoiceSelector(upsertInvoiceErrorSelector);
+  useSelector(upsertInvoiceErrorSelector);
 export const useUpsertInvoiceState = () =>
-  useInvoiceSelector(upsertInvoiceStateSelector);
+  useSelector(upsertInvoiceStateSelector);
 
 export const useLoadOneLastRequest = () =>
   useSelector(loadOneLastRequestSelector);

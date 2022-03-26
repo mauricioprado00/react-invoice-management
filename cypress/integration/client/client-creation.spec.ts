@@ -98,12 +98,9 @@ describe("Field Validations", () => {
 });
 
 describe("Api error handling", () => {
-  beforeEach(() => {
+  it("will not proceed when client creation returns an error", () => {
     fixtureUserMe();
     fixtureClientAll();
-  });
-
-  it("will not proceed when client creation returns an error", () => {
     const message = "Failed to create client";
     cy.intercept("POST", "**/clients", {
       statusCode: 400,
@@ -117,6 +114,15 @@ describe("Api error handling", () => {
     cy.contains("Could not save the client.");
     cy.contains(message);
   });
+
+  it("Will now show page until user validation is done", () => {
+    fixtureUserMe(5000);
+    fixtureClientAll();
+
+    visitClientAddPage();
+    cy.contains("loading");
+  });
+
 });
 
 export {};

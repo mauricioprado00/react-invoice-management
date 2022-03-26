@@ -4,10 +4,11 @@ import Card from 'components/ui/layout/Card'
 import ErrorBanner from 'components/utility/ErrorBanner'
 import { ClientInvoice } from 'models/Invoice'
 import InvoiceForm, { SaveInvoiceEvent } from './InvoiceForm'
-import { useInvoiceById, useInvoicesLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'
+import { useInvoiceById, useInvoiceLoading, useInvoicesLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 import { usePaymentSelector } from 'store/UserSlice'
 import { useAllClients } from 'store/ClientSlice'
+import LoadingMask from '../../ui/LoadingMask'
 
 type InvoiceProps = {
     onCancel?: (clientInvoice:Partial<ClientInvoice>|null) => void,
@@ -30,7 +31,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId, clientId }: InvoiceProps)
     const upsertInvoice = useUpsertInvoice();
     const upsertError = useUpsertInvoiceError();
     const upsertState = useUpsertInvoiceState();
-    const loading = [!clientLoaded, useInvoicesLoading()].some(Boolean);
+    const loading = [!clientLoaded, useInvoiceLoading()].some(Boolean);
     const saveHandler = async ({ clientInvoice }: SaveInvoiceEvent) => {
         let result = await upsertInvoice(clientInvoice)
         if (isFullfilledThunk(result)) {
@@ -48,7 +49,7 @@ function InvoiceEdition({ onCancel, onSave, invoiceId, clientId }: InvoiceProps)
     let content;
 
     if (loading) {
-        content = "loading data";
+        content = <LoadingMask />;
     } else if (adding || invoice !== null) {
         content = <InvoiceForm onSave={saveHandler} clientList={clientList?.list || []} paymentTypes={paymentTypes}
         onCancel={cancelHandler} clientInvoice={invoice} disabled={saving} clientId={clientId} />;
