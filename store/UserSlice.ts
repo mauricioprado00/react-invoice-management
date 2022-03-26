@@ -144,14 +144,13 @@ export const loadMe = createAsyncThunk<
   void,
   AppThunkAPI
 >("me/load", async (arg, thunkAPI): Promise<Me> => {
-  const result = thunkAPI.extra.serviceApi.getMe(me =>
-    thunkAPI.dispatch(meLoaded(me))
-  );
+  const result = thunkAPI.extra.serviceApi.getMe(() => null);
   thunkAPI.signal.addEventListener("abort", result.abort);
   result.promise.catch(errorMessage => {
     thunkAPI.rejectWithValue(errorMessage);
   });
   const me = await result.promise;
+  thunkAPI.dispatch(meLoaded(me));
   return me;
 });
 
