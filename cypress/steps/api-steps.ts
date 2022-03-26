@@ -36,7 +36,10 @@ export const getFixtureClientAll = () =>
 
 export const interceptClientAll = () =>
   cy
-    .intercept("GET", "**/clients?" + getParams({ limit: 9999999 }))
+    .intercept({
+      method: "GET",
+      pathname: "/clients",
+    })
     .as("ClientAll");
 
 export const responseClientAll = () =>

@@ -6,285 +6,322 @@ interface ApiInitParams extends RequestInit {
   signal: AbortSignal,
 }
 
-const upsertClient = (url: string) => (client:Client) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url, {
-    ...init,
-    method: client.id ? 'PUT' : 'POST',
-    headers: {
-      ...init.headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(client)
-  })
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  return jsonResponse.client
-}
+let cacheBustCounter = 1;
+const cacheBustId = () => new Date().getTime() + "/" + cacheBustCounter++;
 
-const upsertInvoice = (url: string) => (clientInvoice:ClientInvoice) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url, {
-    ...init,
-    method: clientInvoice.invoice.id ? 'PUT' : 'POST',
-    headers: {
-      ...init.headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(clientInvoice.invoice)
-  })
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  return {...clientInvoice, invoice: jsonResponse.invoice}
-}
+const upsertClient =
+  (url: string) => (client: Client) => async (init: ApiInitParams) => {
+    const fetchPromise = fetch(url, {
+      ...init,
+      method: client.id ? "PUT" : "POST",
+      headers: {
+        ...init.headers,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(client),
+    });
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = await httpResponse.json();
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    return jsonResponse.client;
+  };
 
-const registerUser = (url: string) => (user:UserWithPassword) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url, {
-    ...init,
-    method: 'POST',
-    headers: {
-      ...init.headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(user)
-  })
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  return jsonResponse
-}
+const upsertInvoice =
+  (url: string) =>
+  (clientInvoice: ClientInvoice) =>
+  async (init: ApiInitParams) => {
+    const fetchPromise = fetch(url, {
+      ...init,
+      method: clientInvoice.invoice.id ? "PUT" : "POST",
+      headers: {
+        ...init.headers,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(clientInvoice.invoice),
+    });
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = await httpResponse.json();
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    return { ...clientInvoice, invoice: jsonResponse.invoice };
+  };
 
-const loginUser = (url: string) => (loginCredentials:LoginCredentials) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url, {
-    ...init,
-    method: 'POST',
-    headers: {
-      ...init.headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(loginCredentials)
-  })
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  return jsonResponse as LoginResponse
-}
+const registerUser =
+  (url: string) => (user: UserWithPassword) => async (init: ApiInitParams) => {
+    const fetchPromise = fetch(url, {
+      ...init,
+      method: "POST",
+      headers: {
+        ...init.headers,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = await httpResponse.json();
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    return jsonResponse;
+  };
 
-const getMe = (url: string) => (arg:void) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url, {
-    ...init,
-    method: 'GET',
-    headers: {
-      ...init.headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-  })
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  return jsonResponse as Me
-}
+const loginUser =
+  (url: string) =>
+  (loginCredentials: LoginCredentials) =>
+  async (init: ApiInitParams) => {
+    const fetchPromise = fetch(url, {
+      ...init,
+      method: "POST",
+      headers: {
+        ...init.headers,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginCredentials),
+    });
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = await httpResponse.json();
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    return jsonResponse as LoginResponse;
+  };
 
-const updateMe = (url: string) => (me:Me) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url, {
+const getMe = (url: string) => (arg: void) => async (init: ApiInitParams) => {
+  const params = new URLSearchParams();
+  params.set("_", cacheBustId());
+  const fetchPromise = fetch(url + "?" + params, {
     ...init,
-    method: 'PUT',
+    method: "GET",
     headers: {
       ...init.headers,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(me.companyDetails)
-  })
-  const httpResponse = await fetchPromise
+  });
+  const httpResponse = await fetchPromise;
   if (httpResponse.ok !== true) {
     throw await httpResponse.text();
   }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
+  const jsonResponse = await httpResponse.json();
+  if (init.signal.aborted) {
+    throw new Error("Aborted operation");
+  }
+  return jsonResponse as Me;
+};
+
+const updateMe = (url: string) => (me: Me) => async (init: ApiInitParams) => {
+  const fetchPromise = fetch(url, {
+    ...init,
+    method: "PUT",
+    headers: {
+      ...init.headers,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(me.companyDetails),
+  });
+  const httpResponse = await fetchPromise;
+  if (httpResponse.ok !== true) {
+    throw await httpResponse.text();
+  }
+  const jsonResponse = await httpResponse.json();
+  if (init.signal.aborted) {
+    throw new Error("Aborted operation");
   }
 
   // only this EP has success property
   if (jsonResponse.success !== true) {
-    throw new Error("Operation error")
+    throw new Error("Operation error");
   }
-  return jsonResponse.user as Me
-}
+  return jsonResponse.user as Me;
+};
 
 export type ClientListingSortingByArgs = {
-  clientName?: "asc" | "desc"
-  companyName?: "asc" | "desc"
-  totalBilled?: "asc" | "desc"
-  invoicesCount?: "asc" | "desc"
-  creation?: "asc" | "desc"
-}
+  clientName?: "asc" | "desc";
+  companyName?: "asc" | "desc";
+  totalBilled?: "asc" | "desc";
+  invoicesCount?: "asc" | "desc";
+  creation?: "asc" | "desc";
+};
 
 export type ClientListingFilterByArgs = {
-  clientId?: string
-}
+  clientId?: string;
+};
 
 export type ClientListingArgs = {
-  filter?: ClientListingFilterByArgs,
-  sort?: ClientListingSortingByArgs,
-  offset?: number,
-  limit?: number,
-}
+  filter?: ClientListingFilterByArgs;
+  sort?: ClientListingSortingByArgs;
+  offset?: number;
+  limit?: number;
+};
 
-export type ClientListingArgsU = ClientListingArgs | undefined
+export type ClientListingArgsU = ClientListingArgs | undefined;
 
 export type ClientListingResponse = {
-  clients: ClientWithTotalsList,
-  total: number,
-}
+  clients: ClientWithTotalsList;
+  total: number;
+};
 
-const getClients = (url: string) => (args:ClientListingArgsU) => async (init: ApiInitParams) => {
-  const params = new URLSearchParams();
-  if (args) {
-    params.set('params',JSON.stringify(args));
-  }
-  const fetchPromise = fetch(url + '?' + params, init);
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json() as ClientListingResponse
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  return jsonResponse
-}
+const getClients =
+  (url: string) =>
+  (args: ClientListingArgsU) =>
+  async (init: ApiInitParams) => {
+    const params = new URLSearchParams();
+    if (args) {
+      params.set("params", JSON.stringify(args));
+    }
+    params.set("_", cacheBustId());
+    const fetchPromise = fetch(url + "?" + params, init);
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = (await httpResponse.json()) as ClientListingResponse;
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    return jsonResponse;
+  };
 
-const getClient = (url: string) => ({clientId}:{clientId:string}) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url + '/' + clientId, init);
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  if(!jsonResponse.success) {
-    throw new Error("Client data retrieval failed");
-  }
-  return jsonResponse.client
-}
+const getClient =
+  (url: string) =>
+  ({ clientId }: { clientId: string }) =>
+  async (init: ApiInitParams) => {
+    const params = new URLSearchParams();
+    params.set("_", cacheBustId());
+    const fetchPromise = fetch(url + "/" + clientId + "?" + params, init);
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = await httpResponse.json();
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    if (!jsonResponse.success) {
+      throw new Error("Client data retrieval failed");
+    }
+    return jsonResponse.client;
+  };
 
-const getClientWithTotals = (url: string) => ({clientId}:{clientId:string}) => async (init: ApiInitParams) => {
-  const params = new URLSearchParams({filter: JSON.stringify({clientId})});
-  const fetchPromise = fetch(url + '?' + params, init);
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  if(jsonResponse.total !== 1) {
-    throw new Error("Client data retrieval failed");
-  }
-  return jsonResponse.clients[0]
-}
+const getClientWithTotals =
+  (url: string) =>
+  ({ clientId }: { clientId: string }) =>
+  async (init: ApiInitParams) => {
+    const params = new URLSearchParams({
+      filter: JSON.stringify({ clientId }),
+    });
+    params.set("_", cacheBustId());
+    const fetchPromise = fetch(url + "?" + params, init);
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = await httpResponse.json();
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    if (jsonResponse.total !== 1) {
+      throw new Error("Client data retrieval failed");
+    }
+    return jsonResponse.clients[0];
+  };
 
 export type InvoiceListingSortingByArgs = {
-  date?: "asc" | "desc"
-  price?: "asc" | "desc"
-  companyName?: "asc" | "desc"
-  dueDate?: "asc" | "desc"
-  creation?: "asc" | "desc"
-}
+  date?: "asc" | "desc";
+  price?: "asc" | "desc";
+  companyName?: "asc" | "desc";
+  dueDate?: "asc" | "desc";
+  creation?: "asc" | "desc";
+};
 
 export type InvoiceListingFilterByArgs = {
-  clientId?: string
+  clientId?: string;
   date?: {
-      start?: number
-      end?: number
-  }
+    start?: number;
+    end?: number;
+  };
 
   dueDate?: {
-      start?: number
-      end?: number
-  }
-}
+    start?: number;
+    end?: number;
+  };
+};
 
 export type InvoiceListingArgs = {
-  filter?: InvoiceListingFilterByArgs,
-  sort?: InvoiceListingSortingByArgs,
-  offset?: number,
-  limit?: number,
-}
+  filter?: InvoiceListingFilterByArgs;
+  sort?: InvoiceListingSortingByArgs;
+  offset?: number;
+  limit?: number;
+};
 
-export type InvoiceListingArgsU = InvoiceListingArgs | undefined
+export type InvoiceListingArgsU = InvoiceListingArgs | undefined;
 
 export type ClientInvoiceListResponse = {
-  invoices: ClientInvoiceList,
-  total: number,
-}
+  invoices: ClientInvoiceList;
+  total: number;
+};
 
-const getInvoices = (url: string) => (args:InvoiceListingArgsU) => async (init: ApiInitParams) => {
-  const params = new URLSearchParams();
-  if (args) {
-    params.set('params',JSON.stringify(args));
-  }
-  const fetchPromise = fetch(url + '?' + params, init);
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  return jsonResponse
-}
+const getInvoices =
+  (url: string) =>
+  (args: InvoiceListingArgsU) =>
+  async (init: ApiInitParams) => {
+    const params = new URLSearchParams();
+    if (args) {
+      params.set("params", JSON.stringify(args));
+    }
+    params.set("_", cacheBustId());
+    const fetchPromise = fetch(url + "?" + params, init);
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = await httpResponse.json();
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    return jsonResponse;
+  };
 
-const getInvoice = (url: string) => ({id}:{id:string}) => async (init: ApiInitParams) => {
-  const fetchPromise = fetch(url + '/' + id, init);
-  const httpResponse = await fetchPromise
-  if (httpResponse.ok !== true) {
-    throw await httpResponse.text();
-  }
-  const jsonResponse = await httpResponse.json()
-  if(init.signal.aborted) {
-    throw new Error("Aborted operation")
-  }
-  if(!jsonResponse.success) {
-    throw new Error("Invoice data retrieval failed");
-  }
-  return jsonResponse.invoice
-}
+const getInvoice =
+  (url: string) =>
+  ({ id }: { id: string }) =>
+  async (init: ApiInitParams) => {
+    const params = new URLSearchParams();
+    params.set("_", cacheBustId());
+    const fetchPromise = fetch(url + "/" + id + "?" + params, init);
+    const httpResponse = await fetchPromise;
+    if (httpResponse.ok !== true) {
+      throw await httpResponse.text();
+    }
+    const jsonResponse = await httpResponse.json();
+    if (init.signal.aborted) {
+      throw new Error("Aborted operation");
+    }
+    if (!jsonResponse.success) {
+      throw new Error("Invoice data retrieval failed");
+    }
+    return jsonResponse.invoice;
+  };
 
 const abortable = (endpointClient: any): AbortableEndpointResult<any> => {
   const controller = new AbortController()

@@ -21,6 +21,7 @@
 
 # 2022 03 26 
 - Fix bug when adding client/invoice and total of records not updated in all cached pages
+- Fix cached requests in browser. Add cache busting to GET requests. 
 # 2022 03 23
 1. add latest clients in dashboard
 2. implement sorting and pagination of clients
