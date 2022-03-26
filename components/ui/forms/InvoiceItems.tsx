@@ -136,6 +136,7 @@ function InvoiceItem({ id, item, onChange, showErrors }: InvoiceItemProps) {
             <SecCell align="right">
                 <InputText name="quantity" type="number" step="1" min="1" required={true}
                     value={state.values.quantity}
+                    validators={[gtValidator(0, "cannot be zero")]}
                     {...common}
                     {...form.resolveProps('quantity')} />
 
