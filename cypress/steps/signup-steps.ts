@@ -1,3 +1,4 @@
+import { fieldType } from "./form-steps";
 import { isInProfileEditionPage } from "./user-steps";
 
 export const strongPass = "!Abcdef123@";
@@ -39,10 +40,10 @@ export const inputValidRegistration = () => {
   const email = new Date().getTime() + "@officehourtesting.com";
   cy.visit("http://localhost:3000/get-started");
 
-  cy.get('input[name="name"]').click().type("testing user");
-  cy.get('input[name="email"]').click().type(email);
-  cy.get('input[name="password"]').click().type(strongPass);
-  cy.get('input[name="confirmPassword"]').click().type(strongPass);
+  fieldType({ value: 'testing user', name: "name" });
+  fieldType({ value: email, name: "email" });
+  fieldType({ value: strongPass, name: "password" });
+  fieldType({ value: strongPass, name: "confirmPassword" });
 
   cy.get("button").contains("Register").click();
   return email;

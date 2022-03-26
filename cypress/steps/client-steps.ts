@@ -1,4 +1,5 @@
-import { getValidRegNumber, getValidVatNumber } from "./profile-steps";
+import { fieldType } from "./form-steps";
+import { getValidAddress, getValidCompany, getValidEmail, getValidProfileEmail, getValidProfileName, getValidRegNumber, getValidVatNumber } from "./profile-steps";
 
 export const isInClientsPage = () => {
   cy.url().should("equal", "http://localhost:3000/clients");
@@ -32,19 +33,19 @@ export const doFillClientProfile = ({
   regNumber,
   vatNumber,
 }: Partial<Profile>) => {
-  name && cy.get('input[name="name"]').click().type('{selectall}').type(name);
-  email && cy.get('input[name="email"]').click().type('{selectall}').type(email);
-  companyName && cy.get('input[name="companyName"]').click().type('{selectall}').type(companyName);
-  address && cy.get('input[name="address"]').click().type('{selectall}').type(address);
-  regNumber && cy.get('input[name="regNumber"]').click().type('{selectall}').type(regNumber);
-  vatNumber && cy.get('input[name="vatNumber"]').click().type('{selectall}').type(vatNumber);
+  fieldType({ value: name, name: "name" });
+  fieldType({ value: email, name: "email" });
+  fieldType({ value: companyName, name: "companyName" });
+  fieldType({ value: address, name: "address" });
+  fieldType({ value: regNumber, name: "regNumber" });
+  fieldType({ value: vatNumber, name: "vatNumber" });
 };
 
 export const getValidClientProfile = () => ({
-  name: "John Doe",
-  email: new Date().getTime() + "@gmail.com",
-  companyName: "ABC GmbH",
-  address: "Street 123",
+  name: getValidProfileName(),
+  email: getValidEmail(),
+  companyName: getValidCompany(),
+  address: getValidAddress(),
   regNumber: getValidVatNumber(),
   vatNumber: getValidRegNumber(),
 });

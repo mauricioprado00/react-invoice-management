@@ -19,14 +19,14 @@ describe("Invoice Creation", () => {
     givenUserIsLoggedIn();
   });
 
-  it("will show created invoice in the invoice list", () => {
+  it("will show created invoice in the invoice list", async () => {
     clickInvoicesMenu();
     isInInvoicesPage();
 
     clickNewInvoiceButton();
     isInInvoiceAddPage();
 
-    const filledInvoiceData = doFillInvoiceData(invoiceData);
+    const filledInvoiceData = await doFillInvoiceData(invoiceData);
     clickSaveInvoiceButton();
 
     // invoice is visibile in last page of invoices listing page

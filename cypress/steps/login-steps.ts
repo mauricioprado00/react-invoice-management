@@ -1,3 +1,5 @@
+import { fieldType } from "./form-steps";
+
 export const visitLoginPage = () => {
   cy.visit("http://localhost:3000/login");
 };
@@ -7,8 +9,8 @@ export const isInLoginPage = () => {
 };
 
 export const doLogin = (email?: string, password?: string): void => {
-  email && cy.get('input[name="email"]').click().type(email);
-  password && cy.get('input[name="password"]').click().type(password);
+  fieldType({ value: email, name: "email" });
+  fieldType({ value: password, name: "password" });
   cy.get("button").contains("Sign In").click();
 };
 
