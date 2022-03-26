@@ -1,5 +1,11 @@
+import { Client } from "models/Client";
 import moment from "moment";
-import { fieldDateValue, fieldType, fieldValue } from "./form-steps";
+import {
+  fieldDateValue,
+  fieldTextContent,
+  fieldType,
+  fieldValue,
+} from "./form-steps";
 import {
   getValidAddress,
   getValidProfileName,
@@ -88,6 +94,7 @@ type InvoiceData = {
   dueDate: number;
   details: InvoiceDetail[];
   total: number;
+  clientId: string;
 };
 
 type InvoiceDetail = {
@@ -105,6 +112,7 @@ export const doFillInvoiceData = async (
     projectCode,
     name,
     anyClient,
+    clientId,
     date,
     dueDate,
     address,
@@ -116,10 +124,14 @@ export const doFillInvoiceData = async (
   fieldType({ value: projectCode, name: "projectCode" });
   fieldType({ value: date, name: "date", isDate: true });
   fieldType({ value: dueDate, name: "dueDate", isDate: true });
-  if (anyClient) {
+  if (anyClient || clientId) {
     cy.get('[data-name="client_id"]').within(() => {
       cy.get("button").click();
-      cy.get("ul li:last").click();
+      if (clientId) {
+        cy.get(`[data-clientid="${clientId}"]`).click();
+      } else if (anyClient) {
+        cy.get("ul li:last").click();
+      }
     });
   }
   fieldType({ value: name, name: "name" });
@@ -145,6 +157,9 @@ export const doFillInvoiceData = async (
   filled.vatNumber = await fieldValue("vatNumber");
   filled.date = await fieldDateValue("date");
   filled.dueDate = await fieldDateValue("dueDate");
+  filled.clientId = await fieldTextContent(
+    '[data-testid="client-selector"] button'
+  );
 
   return filled;
 };
@@ -159,6 +174,7 @@ export const getValidInvoiceData = (options?: InvoiceDataGenerationOptions) => {
     projectCode: getValidInvoiceProjectCode(),
     name: getValidProfileName(),
     anyClient: true,
+    clientId: "",
     address: getValidAddress(),
     regNumber: getValidRegNumber(),
     vatNumber: getValidVatNumber(),
@@ -177,6 +193,7 @@ export const clickLastInvoicePage = () =>
 
 type InvoiceInTableOptions = {
   extraColumns?: boolean;
+  client?: Client;
 };
 export const invoiceIsInCurrentTablePage = (
   invoiceData: InvoiceData,
@@ -190,6 +207,9 @@ export const invoiceIsInCurrentTablePage = (
       }
       cy.contains(moment(invoiceData.dueDate).format("YYYY-MM-DD"));
       cy.contains(moment(invoiceData.date).format("YYYY-MM-DD"));
+      if (options?.client) {
+        cy.contains(options.client.companyDetails.name);
+      }
     });
 };
 
@@ -212,5 +232,5 @@ export const invoiceIsInPrintPage = (invoiceData: InvoiceData) => {
         cy.contains(detail.subtotal);
       });
   });
-  cy.get(".amount-due").contains(invoiceData.total);
+  cy.get(".amount-due").contains(invoiceData.total.toFixed(2));
 };

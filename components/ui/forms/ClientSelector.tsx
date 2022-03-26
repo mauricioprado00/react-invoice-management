@@ -305,7 +305,7 @@ function ClientSelector({
   }
 
   return (
-    <div className="mb-3 space-y-2 w-full text-xs" data-name={name}>
+    <div data-testid="client-selector" data-value={value} className="mb-3 space-y-2 w-full text-xs" data-name={name}>
       {label && <label className={classNames(...labelClasses)}>
         {label + " "}
         {required && <abbr title="required">*</abbr>}
@@ -322,7 +322,7 @@ function ClientSelector({
               srcSet={getAvatarImageUrl(client.avatar)}
               alt={`Client ${client.name}`}
             />
-            {client.name}
+            <span data-clientid={client.id}>{client.name}</span>
           </StyledOption>
         )}
       </CustomSelect>

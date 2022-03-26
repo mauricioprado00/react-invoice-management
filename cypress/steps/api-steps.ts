@@ -1,3 +1,5 @@
+import { ClientList } from "models/Client";
+
 const getParams = (params: Record<string, any>) => {
   return new URLSearchParams({ params: JSON.stringify(params) }).toString();
 };
@@ -23,3 +25,27 @@ export const fixtureInvoicesPage = (p: number) => {
     fixture: `invoice/invoice-p${p}.json`,
   }).as(`InvoicePage${p}`);
 };
+
+export type FixtureClients = {
+  clients: ClientList;
+  total: number;
+};
+
+export const getFixtureClientAll = () =>
+  cy.fixture<FixtureClients>("client/all-clients.json");
+
+export const interceptClientAll = () =>
+  cy
+    .intercept("GET", "**/clients?" + getParams({ limit: 9999999 }))
+    .as("ClientAll");
+
+export const responseClientAll = () =>
+  new Promise<FixtureClients>((resolve, reject) => {
+    cy.wait("@ClientAll").then(interception => {
+      if (interception.response) {
+        resolve(interception.response.body);
+      } else {
+        reject();
+      }
+    });
+  });

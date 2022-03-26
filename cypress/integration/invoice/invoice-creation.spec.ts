@@ -1,7 +1,10 @@
 import {
   fixtureClientAll,
+  FixtureClients,
   fixtureInvoicesPage,
   fixtureUserMe,
+  interceptClientAll,
+  responseClientAll,
 } from "cy-steps/api-steps";
 import { isInDashboardPage } from "cy-steps/dashboard-steps";
 import {
@@ -28,14 +31,24 @@ describe("Invoice Creation", () => {
     givenUserIsLoggedIn();
   });
 
-  it("will show created invoice in the invoice list", async () => {
+  beforeEach(() => {
+    interceptClientAll();
+  });
+
+  it.only("will show created invoice in the invoice list", async () => {
     clickInvoicesMenu();
     isInInvoicesPage();
 
     clickNewInvoiceButton();
     isInInvoiceAddPage();
 
-    const filledInvoiceData = await doFillInvoiceData(invoiceData);
+    const clientsResponse = await responseClientAll();
+    const client = clientsResponse.clients.slice().pop();
+
+    const filledInvoiceData = await doFillInvoiceData({
+      ...invoiceData,
+      ...{ clientId: client?.id },
+    });
     clickSaveInvoiceButton();
 
     const savedInvoice = { ...invoiceData, ...filledInvoiceData };
@@ -45,12 +58,12 @@ describe("Invoice Creation", () => {
     isInInvoicesPage();
 
     clickLastInvoicePage();
-    invoiceIsInCurrentTablePage(savedInvoice, { extraColumns: true });
+    invoiceIsInCurrentTablePage(savedInvoice, { extraColumns: true, client });
 
     // invoice is visibile in dashboard "latest invoices" table
     clickDashboardMenu();
     isInDashboardPage();
-    invoiceIsInCurrentTablePage(savedInvoice);
+    invoiceIsInCurrentTablePage(savedInvoice, { client });
 
     // clicking in the table will lead to print view
     clickInvoiceInCurrentTablePage(savedInvoice);

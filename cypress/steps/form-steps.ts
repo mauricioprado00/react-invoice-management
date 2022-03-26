@@ -56,3 +56,12 @@ export const fieldDateValue = (name: string) => {
       });
   });
 };
+
+
+export const fieldTextContent = (selector: string) => {
+  return new Promise<string | undefined>((resolve, reject) => {
+    cy.get(selector)
+      .invoke("text")
+      .then(value => (value ? resolve(value.toString()) : resolve(undefined)));
+  });
+};
