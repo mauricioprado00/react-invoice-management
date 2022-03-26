@@ -1,0 +1,14 @@
+{
+  "id": "XXXXTEST",
+  "name": "John Doe CyTest",
+  "email": "john.doe.cytest@officehourtesting.com",
+  "password": "123456",
+  "companyDetails": {
+    "name": "Skynet 01",
+    "address": "1st Bulevard Street",
+    "vatNumber": "1234",
+    "regNumber": "9876",
+    "iban": "DE89370400440532013000",
+    "swift": "CTCBIDJASBY"
+  }
+}

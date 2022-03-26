@@ -14,8 +14,16 @@ export const isInInvoicesPage = () => {
 export const clickNewInvoiceButton = () =>
   cy.get("button").contains("New Invoice").click();
 
+export const visitInvoiceAddPage = () => {
+  cy.visit("invoice");
+};
+
 export const isInInvoiceAddPage = () => {
   cy.url().should("match", /\/invoice$/);
+};
+
+export const visitInvoiceEditionPage = (id: string) => {
+  cy.visit(`view-invoice/invoice/${id}`);
 };
 
 export const isInInvoiceEditionPage = () => {

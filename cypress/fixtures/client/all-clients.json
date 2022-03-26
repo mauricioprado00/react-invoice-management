@@ -1,0 +1,44 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Mildred Bright",
+      "email": "mildredbright@cy-zillidium.com",
+      "avatar": "13.png",
+      "companyDetails": {
+        "name": "Prosely",
+        "address": "917 Barwell Terrace, Harviell, South Carolina, 7611",
+        "vatNumber": "653662926525",
+        "regNumber": "129401277311"
+      },
+      "id": "CYTEST-bbca4d93-0511-4af3-afaf-e173a490c0e8"
+    },
+    {
+      "user_id": "111",
+      "name": "Lucinda Woodward",
+      "email": "lucindawoodward@cy-prosely.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Arctiq",
+        "address": "678 Lawn Court, Malo, Connecticut, 2257",
+        "vatNumber": "869072209352",
+        "regNumber": "827857984143"
+      },
+      "id": "CYTEST-9e8fa834-a005-402a-ab5f-98daf638511c"
+    },
+    {
+      "user_id": "111",
+      "name": "Vilma Pacheco",
+      "email": "vilmapacheco@cy-arctiq.com",
+      "avatar": "3.png",
+      "companyDetails": {
+        "name": "Illumity",
+        "address": "293 Victor Road, Bradenville, Ohio, 2439",
+        "vatNumber": "770360219883",
+        "regNumber": "738935735010"
+      },
+      "id": "CYTEST-d9e384ce-ed69-4660-9404-11d3bb1f931d"
+    }
+  ],
+  "total": 3
+}

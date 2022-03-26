@@ -1,3 +1,8 @@
+import {
+  fixtureClientAll,
+  fixtureInvoicesPage,
+  fixtureUserMe,
+} from "cy-steps/api-steps";
 import { isInDashboardPage } from "cy-steps/dashboard-steps";
 import {
   clickInvoiceInCurrentTablePage,
@@ -11,6 +16,7 @@ import {
   isInInvoiceAddPage,
   isInInvoiceEditionPage,
   isInInvoicesPage,
+  visitInvoiceAddPage,
 } from "cy-steps/invoice-steps";
 import { givenUserIsLoggedIn } from "cy-steps/login-steps";
 import { clickDashboardMenu, clickInvoicesMenu } from "cy-steps/menu-steps";
@@ -52,6 +58,18 @@ describe("Invoice Creation", () => {
 
     // invoice is displayed in the print view
     invoiceIsInPrintPage(savedInvoice);
+  });
+});
+
+describe("Invoice form validation", () => {
+  beforeEach(() => {
+    fixtureUserMe();
+    fixtureClientAll();
+    fixtureInvoicesPage(1);
+  });
+
+  it.only("test", () => {
+    visitInvoiceAddPage();
   });
 });
 
