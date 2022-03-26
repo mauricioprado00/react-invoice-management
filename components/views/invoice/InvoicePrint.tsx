@@ -169,7 +169,7 @@ function InvoicePrint({
                                 <div>
                                     <p className="font-bold text-black text-lg"> Amount Due </p>
                                 </div>
-                                <p className="font-bold text-black text-lg"> ${total.toFixed(2)} </p>
+                                <p className="amount-due font-bold text-black text-lg"> ${total.toFixed(2)} </p>
                             </div>
                         </div>
                     </div>

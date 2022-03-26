@@ -1,7 +1,12 @@
 import moment, { isMoment } from "moment";
 import invoice from "../../pages/invoice";
 import { fieldDateValue, fieldType, fieldValue } from "./form-steps";
-import { getValidAddress, getValidProfileName, getValidRegNumber, getValidVatNumber } from "./profile-steps";
+import {
+  getValidAddress,
+  getValidProfileName,
+  getValidRegNumber,
+  getValidVatNumber,
+} from "./profile-steps";
 
 export const isInInvoicesPage = () => {
   cy.url().should("equal", "http://localhost:3000/invoices");
@@ -32,7 +37,37 @@ export const getValidInvoiceDueDate = () =>
     .valueOf();
 export const getValidInvoiceNumber = () =>
   "ABC" + new Date().getTime() + "-" + (Math.random() * 100000).toFixed(0);
-export const getValidInvoiceProjectCode = () => "TST" + (Math.random() * 100).toFixed(0);
+export const getValidInvoiceProjectCode = () =>
+  "TST" + (Math.random() * 100).toFixed(0);
+
+export const getValidInvoiceDetailDetail = () =>
+  "testing detail uuid" +
+  new Date().getTime() +
+  "-" +
+  (Math.random() * 1000).toFixed(0);
+export const getValidInvoiceDetailQuantity = () =>
+  parseInt((Math.random() * 8).toString()) + 1;
+export const getValidInvoiceDetailRate = () =>
+  parseFloat((Math.random() * 1000).toFixed(2));
+
+export const getValidInvoiceDetail = (): InvoiceDetail => {
+  const detail: InvoiceDetail = {
+    detail: getValidInvoiceDetailDetail(),
+    quantity: getValidInvoiceDetailQuantity(),
+    rate: getValidInvoiceDetailRate(),
+    subtotal: 0,
+  };
+
+  detail.subtotal = parseFloat((detail.quantity * detail.rate).toFixed(2));
+
+  return detail;
+};
+
+export const getValidInvoiceDetails = (amount?: number) => {
+  amount = amount || Math.random() * 4 + 1;
+  const amountNumber = parseInt(amount.toString()) + 1;
+  return new Array(amountNumber).fill(null).map(getValidInvoiceDetail);
+};
 
 type InvoiceData = {
   invoice_number: string;
@@ -44,6 +79,15 @@ type InvoiceData = {
   vatNumber: string;
   date: number;
   dueDate: number;
+  details: InvoiceDetail[];
+  total: number;
+};
+
+type InvoiceDetail = {
+  detail: string;
+  quantity: number;
+  rate: number;
+  subtotal: number;
 };
 
 export const doFillInvoiceData = async (
@@ -76,9 +120,17 @@ export const doFillInvoiceData = async (
   fieldType({ value: vatNumber, name: "vatNumber" });
   fieldType({ value: regNumber, name: "regNumber" });
 
-  fieldType({ value: "testing", name: "detail" });
-  fieldType({ value: "3", name: "quantity" });
-  fieldType({ value: "50", name: "rate" });
+  filled.details?.forEach(detail => {
+    cy.get('tr:has(input[name="detail"])')
+      .parent()
+      .within(() => {
+        cy.get("tr:last").within(() => {
+          fieldType({ value: detail.detail, name: "detail" });
+          fieldType({ value: detail.quantity, name: "quantity" });
+          fieldType({ value: detail.rate, name: "rate" });
+        });
+      });
+  });
 
   filled.name = await fieldValue("name");
   filled.address = await fieldValue("address");
@@ -90,17 +142,24 @@ export const doFillInvoiceData = async (
   return filled;
 };
 
-export const getValidInvoiceData = () => ({
-  invoice_number: getValidInvoiceNumber(),
-  projectCode: getValidInvoiceProjectCode(),
-  name: getValidProfileName(),
-  anyClient: true,
-  address: getValidAddress(),
-  regNumber: getValidRegNumber(),
-  vatNumber: getValidVatNumber(),
-  dueDate: getValidInvoiceDate(),
-  date: getValidInvoiceDueDate(),
-});
+export const getValidInvoiceData = () => {
+  const invoice = {
+    invoice_number: getValidInvoiceNumber(),
+    projectCode: getValidInvoiceProjectCode(),
+    name: getValidProfileName(),
+    anyClient: true,
+    address: getValidAddress(),
+    regNumber: getValidRegNumber(),
+    vatNumber: getValidVatNumber(),
+    dueDate: getValidInvoiceDate(),
+    date: getValidInvoiceDueDate(),
+    details: getValidInvoiceDetails(),
+    total: 0,
+  };
+
+  invoice.details.forEach(detail => invoice.total += detail.subtotal);
+  return invoice;
+};
 
 export const clickLastInvoicePage = () =>
   cy.get('button[aria-label*="Go to page"]:last').click();
@@ -112,7 +171,6 @@ export const invoiceIsInCurrentTablePage = (
   invoiceData: InvoiceData,
   options?: InvoiceInTableOptions
 ) => {
-  console.log({ checkContainsInvoice: invoiceData });
   cy.contains("td", invoiceData.invoice_number)
     .parent()
     .within($tr => {
@@ -122,4 +180,26 @@ export const invoiceIsInCurrentTablePage = (
       cy.contains(moment(invoiceData.dueDate).format("YYYY-MM-DD"));
       cy.contains(moment(invoiceData.date).format("YYYY-MM-DD"));
     });
+};
+
+export const clickInvoiceInCurrentTablePage = (invoiceData: InvoiceData) => {
+  cy.contains("td", invoiceData.invoice_number).click();
+};
+
+export const invoiceIsInPrintPage = (invoiceData: InvoiceData) => {
+  cy.contains(invoiceData.name);
+  cy.contains(invoiceData.address);
+  cy.contains(invoiceData.regNumber);
+  cy.contains(invoiceData.vatNumber);
+  invoiceData.details.forEach(detail => {
+    cy.contains("td", detail.detail)
+      .parent()
+      .within(() => {
+        cy.contains(detail.quantity);
+        cy.contains(detail.rate);
+        // item subtotal is there
+        cy.contains(detail.subtotal);
+      });
+  });
+  cy.get('.amount-due').contains(invoiceData.total);
 };

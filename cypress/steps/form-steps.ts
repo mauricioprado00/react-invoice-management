@@ -7,7 +7,7 @@ type FieldTypeOptions = (
     }
   | {
       isDate?: false;
-      value?: string | undefined | null;
+      value?: string | number | undefined | null;
     }
 ) & {
   name: string;
@@ -26,7 +26,7 @@ export const fieldType = (options: FieldTypeOptions) => {
       cy.get('input[name="' + options.name + '"]')
         .click()
         .type("{selectall}")
-        .type(options.value);
+        .type(options.value.toString());
     }
   }
 };

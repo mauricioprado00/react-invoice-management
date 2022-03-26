@@ -1,12 +1,15 @@
 import { isInDashboardPage } from "../steps/dashboard-steps";
 import {
+  clickInvoiceInCurrentTablePage,
   clickLastInvoicePage,
   clickNewInvoiceButton,
   clickSaveInvoiceButton,
   doFillInvoiceData,
   getValidInvoiceData,
   invoiceIsInCurrentTablePage,
+  invoiceIsInPrintPage,
   isInInvoiceAddPage,
+  isInInvoiceEditionPage,
   isInInvoicesPage,
 } from "../steps/invoice-steps";
 import { givenUserIsLoggedIn } from "../steps/login-steps";
@@ -29,20 +32,26 @@ describe("Invoice Creation", () => {
     const filledInvoiceData = await doFillInvoiceData(invoiceData);
     clickSaveInvoiceButton();
 
+    const savedInvoice = { ...invoiceData, ...filledInvoiceData };
+
     // invoice is visibile in last page of invoices listing page
     clickInvoicesMenu();
     isInInvoicesPage();
 
     clickLastInvoicePage();
-    invoiceIsInCurrentTablePage(
-      { ...invoiceData, ...filledInvoiceData },
-      { extraColumns: true }
-    );
+    invoiceIsInCurrentTablePage(savedInvoice, { extraColumns: true });
 
     // invoice is visibile in dashboard "latest invoices" table
     clickDashboardMenu();
     isInDashboardPage();
-    invoiceIsInCurrentTablePage({ ...invoiceData, ...filledInvoiceData });
+    invoiceIsInCurrentTablePage(savedInvoice);
+
+    // clicking in the table will lead to print view
+    clickInvoiceInCurrentTablePage(savedInvoice);
+    isInInvoiceEditionPage();
+
+    // invoice is displayed in the print view
+    invoiceIsInPrintPage(savedInvoice);
   });
 });
 
