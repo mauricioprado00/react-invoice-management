@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Parks Nieves",
+      "email": "parksnieves@menbrain.com",
+      "avatar": "15.png",
+      "companyDetails": {
+        "name": "Accupharm",
+        "address": "698 Stuart Street, Elliston, Texas, 5497",
+        "vatNumber": "134293609872",
+        "regNumber": "448436011851"
+      },
+      "id": "47cc6a30-cbca-4287-85e4-ee1a76177b61",
+      "totalBilled": 26571.2,
+      "invoicesCount": 3
+    },
+    {
+      "user_id": "111",
+      "name": "Michele Cooley",
+      "email": "michelecooley@norsul.com",
+      "avatar": "6.png",
+      "companyDetails": {
+        "name": "Aclima",
+        "address": "744 Evergreen Avenue, Omar, Wisconsin, 699",
+        "vatNumber": "373669504134",
+        "regNumber": "53759519212"
+      },
+      "id": "8d2eec40-2a18-4ee6-832c-32363cb47795",
+      "totalBilled": 16501,
+      "invoicesCount": 2
+    },
+    {
+      "user_id": "111",
+      "name": "Gladys White",
+      "email": "gladyswhite@digitalus.com",
+      "avatar": "9.png",
+      "companyDetails": {
+        "name": "Balooba",
+        "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+        "vatNumber": "139938440008",
+        "regNumber": "720891275673"
+      },
+      "id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+      "totalBilled": 26024.300000000003,
+      "invoicesCount": 5
+    },
+    {
+      "user_id": "111",
+      "name": "Wells Cantu",
+      "email": "wellscantu@aclima.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Bristo",
+        "address": "884 Minna Street, Diaperville, Indiana, 1957",
+        "vatNumber": "902660090489",
+        "regNumber": "561549781326"
+      },
+      "id": "444a1a06-17e3-4f66-ad49-e4078a4fba7c",
+      "totalBilled": 24547.199999999997,
+      "invoicesCount": 3
+    },
+    {
+      "user_id": "111",
+      "name": "Herrera Gates",
+      "email": "herreragates@cytrek.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Comtest",
+        "address": "377 Boardwalk , Chalfant, Vermont, 9130",
+        "vatNumber": "916142371922",
+        "regNumber": "487602062357"
+      },
+      "id": "19f8e2cd-9cc0-46b0-9d53-a8026d0c0122",
+      "totalBilled": 39955.399999999994,
+      "invoicesCount": 6
+    }
+  ],
+  "total": 49
+}

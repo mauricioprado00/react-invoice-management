@@ -52,7 +52,7 @@ const TableHeaderColumn = ({ children, onSort, direction }: tableHeaderColumnPro
         }
     }, [direction, onSort, sortable]);
     return (
-        <th className="p-2 whitespace-nowrap select-none">
+        <th className="p-2 whitespace-nowrap select-none" data-testid="table-header-column">
             <div className={className} onClick={handleClick}>
                 <span className="align-middle">{children}</span>
                 {sortable &&

@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Lizzie Estrada",
+      "email": "lizzieestrada@ronelon.com",
+      "avatar": "6.png",
+      "companyDetails": {
+        "name": "Zytrex",
+        "address": "620 Downing Street, Westwood, Illinois, 4465",
+        "vatNumber": "557569834332",
+        "regNumber": "180163089672"
+      },
+      "id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b",
+      "totalBilled": 16931,
+      "invoicesCount": 2
+    },
+    {
+      "user_id": "111",
+      "name": "Drake David",
+      "email": "drakedavid@knowlysis.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Zyple",
+        "address": "791 Highlawn Avenue, Keller, West Virginia, 6372",
+        "vatNumber": "255717964242",
+        "regNumber": "764066982819"
+      },
+      "id": "1bf2ecf2-b78b-4c95-b1ae-bf02622b51e1",
+      "totalBilled": 14054.000000000002,
+      "invoicesCount": 1
+    },
+    {
+      "user_id": "111",
+      "name": "Leah Dudley",
+      "email": "leahdudley@maximind.com",
+      "avatar": "12.png",
+      "companyDetails": {
+        "name": "Zoarere",
+        "address": "106 Gaylord Drive, Broadlands, Nebraska, 7442",
+        "vatNumber": "383441157430",
+        "regNumber": "167236956568"
+      },
+      "id": "fed3476c-a701-495e-8d46-7e7bc91f876d",
+      "totalBilled": 36050.1,
+      "invoicesCount": 6
+    },
+    {
+      "user_id": "111",
+      "name": "Woods Hughes",
+      "email": "woodshughes@deminimum.com",
+      "avatar": "11.png",
+      "companyDetails": {
+        "name": "Zentury",
+        "address": "424 Murdock Court, Tampico, New Jersey, 9672",
+        "vatNumber": "643045188453",
+        "regNumber": "329388417177"
+      },
+      "id": "f5b50a1c-da19-4df7-ab78-fd4394b02ad2",
+      "totalBilled": 12087.8,
+      "invoicesCount": 1
+    },
+    {
+      "user_id": "111",
+      "name": "Talley Baldwin",
+      "email": "talleybaldwin@zyple.com",
+      "avatar": "6.png",
+      "companyDetails": {
+        "name": "Xleen",
+        "address": "897 Schaefer Street, Dante, Minnesota, 280",
+        "vatNumber": "310008609478",
+        "regNumber": "748865257662"
+      },
+      "id": "1339298c-f424-46e9-8de6-c8639a3e25aa",
+      "totalBilled": 44648,
+      "invoicesCount": 7
+    }
+  ],
+  "total": 49
+}

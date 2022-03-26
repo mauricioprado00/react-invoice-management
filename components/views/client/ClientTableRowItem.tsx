@@ -46,7 +46,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
                 <div className="text-left">{companyDetails.name}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
-                <div className="text-center">{invoicesCount}</div>
+                <div className="text-center" data-testid="invoice-count">{invoicesCount}</div>
             </td>
             <td className="p-2 whitespace-nowrap">
                 <div className={totalBilledClassnames}>${totalBilled.toFixed(2)}</div>

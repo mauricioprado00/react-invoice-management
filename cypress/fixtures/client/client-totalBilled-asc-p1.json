@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Murphy Suarez",
+      "email": "murphysuarez@geekus.com",
+      "avatar": "14.png",
+      "companyDetails": {
+        "name": "Lunchpad",
+        "address": "670 Middagh Street, Malott, Colorado, 9693",
+        "vatNumber": "205062398638",
+        "regNumber": "873307436162"
+      },
+      "id": "a292d413-0f39-438c-a136-0ab0fa59f227",
+      "totalBilled": 0,
+      "invoicesCount": 0
+    },
+    {
+      "user_id": "111",
+      "name": "Preston Ochoa",
+      "email": "prestonochoa@gorganic.com",
+      "avatar": "5.png",
+      "companyDetails": {
+        "name": "Handshake",
+        "address": "781 Lester Court, Kennedyville, Virgin Islands, 3518",
+        "vatNumber": "118836268891",
+        "regNumber": "837156998244"
+      },
+      "id": "66d9f9cf-f24d-4389-b13a-72899ce8232f",
+      "totalBilled": 1209.2,
+      "invoicesCount": 1
+    },
+    {
+      "user_id": "111",
+      "name": "Noreen Perry",
+      "email": "noreenperry@xleen.com",
+      "avatar": "1.png",
+      "companyDetails": {
+        "name": "Menbrain",
+        "address": "484 College Place, Salvo, Nevada, 2377",
+        "vatNumber": "510253299795",
+        "regNumber": "683778569208"
+      },
+      "id": "31049733-c6f9-48e5-8ae6-59cc2c35a99e",
+      "totalBilled": 2664.4,
+      "invoicesCount": 1
+    },
+    {
+      "user_id": "111",
+      "name": "Bishop Pope",
+      "email": "bishoppope@musanpoly.com",
+      "avatar": "10.png",
+      "companyDetails": {
+        "name": "Waterbaby",
+        "address": "298 Doone Court, Crenshaw, Tennessee, 7161",
+        "vatNumber": "782068719715",
+        "regNumber": "517831550978"
+      },
+      "id": "6d3699bf-31cd-4a7f-b3cb-1af62d727685",
+      "totalBilled": 6029,
+      "invoicesCount": 2
+    },
+    {
+      "user_id": "111",
+      "name": "Gwendolyn Guzman",
+      "email": "gwendolynguzman@zentury.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Magneato",
+        "address": "143 Remsen Avenue, Drummond, Utah, 9980",
+        "vatNumber": "774374618641",
+        "regNumber": "895354816239"
+      },
+      "id": "0079e792-4e92-4576-998d-1c7e9bff42d7",
+      "totalBilled": 10003.9,
+      "invoicesCount": 1
+    }
+  ],
+  "total": 49
+}

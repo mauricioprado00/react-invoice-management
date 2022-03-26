@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Garcia Ray",
+      "email": "garciaray@balooba.com",
+      "avatar": "10.png",
+      "companyDetails": {
+        "name": "Glukgluk",
+        "address": "438 Ridgecrest Terrace, Fairview, Northern Mariana Islands, 5261",
+        "vatNumber": "632020029821",
+        "regNumber": "497117107532"
+      },
+      "id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae",
+      "totalBilled": 57465.06,
+      "invoicesCount": 11
+    },
+    {
+      "user_id": "111",
+      "name": "Richmond Shannon",
+      "email": "richmondshannon@magneato.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Comvey",
+        "address": "306 Holmes Lane, Wollochet, Iowa, 4106",
+        "vatNumber": "207421539172",
+        "regNumber": "139612002335"
+      },
+      "id": "e87634d6-de65-4572-ac35-f0dcec76a50b",
+      "totalBilled": 46449.09999999999,
+      "invoicesCount": 9
+    },
+    {
+      "user_id": "111",
+      "name": "Norris Knapp",
+      "email": "norrisknapp@makingway.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Plasmosis",
+        "address": "815 Buffalo Avenue, Winston, Arizona, 1911",
+        "vatNumber": "221725902906",
+        "regNumber": "716977748601"
+      },
+      "id": "692fe1bb-5846-4b53-a0e4-25b13d8ce82c",
+      "totalBilled": 52427.700000000004,
+      "invoicesCount": 9
+    },
+    {
+      "user_id": "111",
+      "name": "Warner Bright",
+      "email": "warnerbright@quordate.com",
+      "avatar": "13.png",
+      "companyDetails": {
+        "name": "Egypto",
+        "address": "562 Knickerbocker Avenue, Thornport, Wyoming, 9680",
+        "vatNumber": "311668168051",
+        "regNumber": "279014096888"
+      },
+      "id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c",
+      "totalBilled": 74655.1,
+      "invoicesCount": 9
+    },
+    {
+      "user_id": "111",
+      "name": "Meghan Hubbard",
+      "email": "meghanhubbard@lunchpad.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Quordate",
+        "address": "644 Nelson Street, Waterview, Hawaii, 191",
+        "vatNumber": "274907135645",
+        "regNumber": "100405248751"
+      },
+      "id": "388c4ae3-889a-457a-974a-e1674eb1c874",
+      "totalBilled": 56811.899999999994,
+      "invoicesCount": 8
+    }
+  ],
+  "total": 49
+}
