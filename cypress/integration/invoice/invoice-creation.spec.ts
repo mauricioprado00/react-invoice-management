@@ -62,15 +62,37 @@ describe("Invoice Creation", () => {
 });
 
 describe("Invoice form validation", () => {
+  const invoiceData = getValidInvoiceData({ amountDetails: 1 });
   beforeEach(() => {
     fixtureUserMe();
     fixtureClientAll();
     fixtureInvoicesPage(1);
   });
 
-  it.only("test", () => {
-    visitInvoiceAddPage();
+  // check required fields
+  ["invoice_number", "projectCode", "details"].forEach(field => {
+    const invalidInvoiceData = { ...invoiceData };
+    (invalidInvoiceData as Record<string, any>)[field] = undefined;
+    it("field " + field + " is required to proceed", () => {
+      visitInvoiceAddPage();
+      doFillInvoiceData(invalidInvoiceData);
+      clickSaveInvoiceButton();
+      cy.contains("Your invoice has missing or incorrect data, please review");
+      isInInvoiceAddPage();
+    });
   });
+
+  it("field client is required to proceed", () => {
+    visitInvoiceAddPage();
+    doFillInvoiceData({ ...invoiceData, anyClient: false });
+    clickSaveInvoiceButton();
+    cy.contains("Your invoice has missing or incorrect data, please review");
+    isInInvoiceAddPage();
+  });
+});
+
+describe("x", () => {
+  it.only("", () => {});
 });
 
 export {};

@@ -72,7 +72,7 @@ export const getValidInvoiceDetail = (): InvoiceDetail => {
 
 export const getValidInvoiceDetails = (amount?: number) => {
   amount = amount || Math.random() * 4 + 1;
-  const amountNumber = parseInt(amount.toString()) + 1;
+  const amountNumber = parseInt(amount.toString());
   return new Array(amountNumber).fill(null).map(getValidInvoiceDetail);
 };
 
@@ -149,7 +149,11 @@ export const doFillInvoiceData = async (
   return filled;
 };
 
-export const getValidInvoiceData = () => {
+type InvoiceDataGenerationOptions = {
+  amountDetails?: number;
+};
+
+export const getValidInvoiceData = (options?: InvoiceDataGenerationOptions) => {
   const invoice = {
     invoice_number: getValidInvoiceNumber(),
     projectCode: getValidInvoiceProjectCode(),
@@ -160,7 +164,7 @@ export const getValidInvoiceData = () => {
     vatNumber: getValidVatNumber(),
     dueDate: getValidInvoiceDate(),
     date: getValidInvoiceDueDate(),
-    details: getValidInvoiceDetails(),
+    details: getValidInvoiceDetails(options?.amountDetails),
     total: 0,
   };
 
