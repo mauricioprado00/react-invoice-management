@@ -10,4 +10,5 @@
     },
     "editor.rulers": [90, 120],
     "prettier.printWidth": 90,
+    "editor.formatOnSave": true,
 }

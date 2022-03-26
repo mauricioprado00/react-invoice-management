@@ -8,9 +8,14 @@ import {
   clickClientsMenu,
   clickLogoutMenu,
 } from "cy-steps/menu-steps";
-import { doValidRegistration, inputValidRegistration, invalidPasswordTests, strongPass, visitSignupPage } from "cy-steps/signup-steps";
+import {
+  doValidRegistration,
+  inputValidRegistration,
+  invalidPasswordTests,
+  strongPass,
+  visitSignupPage,
+} from "cy-steps/signup-steps";
 import { fillUserProfile, isInProfileEditionPage } from "cy-steps/user-steps";
-
 
 describe("User Signup", () => {
   invalidPasswordTests.forEach(([name, password, message]) => {
@@ -31,12 +36,12 @@ describe("User Signup", () => {
 
   it("will display warning when user already exists", () => {
     const message = "Email already used by another account";
-    cy.intercept('POST', '**/register', {
+    cy.intercept("POST", "**/register", {
       statusCode: 400,
-      body: message
-    })
+      body: message,
+    });
     inputValidRegistration();
-    cy.contains(message)
+    cy.contains(message);
   });
 
   it("should navigate to profile edition after registration", () => {

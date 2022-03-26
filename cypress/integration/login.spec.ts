@@ -1,5 +1,9 @@
 import { isInDashboardPage } from "cy-steps/dashboard-steps";
-import { doLogin, loginWithFullUser, visitLoginPage } from "cy-steps/login-steps";
+import {
+  doLogin,
+  loginWithFullUser,
+  visitLoginPage,
+} from "cy-steps/login-steps";
 import { isInProfileEditionPage } from "cy-steps/user-steps";
 
 describe("User login", () => {
@@ -30,14 +34,14 @@ describe("User login", () => {
 
   it("should show the error message given by the login API", () => {
     const message = "Invalid Credentials";
-    cy.intercept('POST', '**/login', {
+    cy.intercept("POST", "**/login", {
       statusCode: 400,
-      body: message
-    })
+      body: message,
+    });
     visitLoginPage();
     loginWithFullUser();
-    cy.contains(message)
-  })
+    cy.contains(message);
+  });
 });
 
 export {};

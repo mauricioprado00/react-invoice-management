@@ -1,5 +1,12 @@
 import { fieldType } from "./form-steps";
-import { getValidAddress, getValidCompany, getValidEmail, getValidProfileName, getValidRegNumber, getValidVatNumber } from "./profile-steps";
+import {
+  getValidAddress,
+  getValidCompany,
+  getValidEmail,
+  getValidProfileName,
+  getValidRegNumber,
+  getValidVatNumber,
+} from "./profile-steps";
 
 export const isInClientsPage = () => {
   cy.url().should("match", /\/clients$/);
@@ -58,9 +65,9 @@ export const clickLastClientPage = () =>
 
 export const clientIsInCurrentTablePage = (profile: Profile) => {
   cy.contains("td", profile.email)
-    .parent() 
+    .parent()
     .within($tr => {
-        cy.contains(profile.name)
-        cy.contains(profile.companyName)
-    })
+      cy.contains(profile.name);
+      cy.contains(profile.companyName);
+    });
 };

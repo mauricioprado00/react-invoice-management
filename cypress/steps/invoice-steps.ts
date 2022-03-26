@@ -1,5 +1,4 @@
-import moment, { isMoment } from "moment";
-import invoice from "../../pages/invoice";
+import moment from "moment";
 import { fieldDateValue, fieldType, fieldValue } from "./form-steps";
 import {
   getValidAddress,
@@ -157,7 +156,7 @@ export const getValidInvoiceData = () => {
     total: 0,
   };
 
-  invoice.details.forEach(detail => invoice.total += detail.subtotal);
+  invoice.details.forEach(detail => (invoice.total += detail.subtotal));
   return invoice;
 };
 
@@ -201,5 +200,5 @@ export const invoiceIsInPrintPage = (invoiceData: InvoiceData) => {
         cy.contains(detail.subtotal);
       });
   });
-  cy.get('.amount-due').contains(invoiceData.total);
+  cy.get(".amount-due").contains(invoiceData.total);
 };
