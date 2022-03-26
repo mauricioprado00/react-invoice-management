@@ -1,4 +1,4 @@
-import { isInProfileEditionPage } from "./user-helpers";
+import { isInProfileEditionPage } from "./user-steps";
 
 export const strongPass = "!Abcdef123@";
 

@@ -1,4 +1,4 @@
-import { isInDashboardPage } from "../steps/dashboard-helpers";
+import { isInDashboardPage } from "../steps/dashboard-steps";
 import {
   clickLastInvoicePage,
   clickNewInvoiceButton,
@@ -8,9 +8,9 @@ import {
   invoiceIsInCurrentTablePage,
   isInInvoiceAddPage,
   isInInvoicesPage,
-} from "../steps/invoice-helpers";
-import { givenUserIsLoggedIn } from "../steps/login-helpers";
-import { clickDashboardMenu, clickInvoicesMenu } from "../steps/menu-helpers";
+} from "../steps/invoice-steps";
+import { givenUserIsLoggedIn } from "../steps/login-steps";
+import { clickDashboardMenu, clickInvoicesMenu } from "../steps/menu-steps";
 
 const invoiceData = getValidInvoiceData();
 

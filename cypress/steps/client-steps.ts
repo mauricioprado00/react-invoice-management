@@ -1,4 +1,4 @@
-import { getValidRegNumber, getValidVatNumber } from "./profile-helpers";
+import { getValidRegNumber, getValidVatNumber } from "./profile-steps";
 
 export const isInClientsPage = () => {
   cy.url().should("equal", "http://localhost:3000/clients");
