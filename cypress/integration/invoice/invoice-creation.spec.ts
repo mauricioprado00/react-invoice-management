@@ -91,8 +91,28 @@ describe("Invoice form validation", () => {
   });
 });
 
-describe("x", () => {
-  it.only("", () => {});
+describe("Api error handling", () => {
+  const invoiceData = getValidInvoiceData({ amountDetails: 1 });
+  beforeEach(() => {
+    fixtureUserMe();
+    fixtureClientAll();
+    fixtureInvoicesPage(1);
+  });
+
+  it("will not proceed when invoice creation returns an error", () => {
+    const message = "Failed to create invoice";
+    cy.intercept("POST", "**/invoices", {
+      statusCode: 400,
+      body: message,
+    });
+
+    visitInvoiceAddPage();
+    doFillInvoiceData(invoiceData);
+    clickSaveInvoiceButton();
+    isInInvoiceAddPage();
+    cy.contains("Could not save the invoice.");
+    cy.contains(message);
+  });
 });
 
 export {};
