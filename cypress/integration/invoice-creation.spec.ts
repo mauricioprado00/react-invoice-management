@@ -3,7 +3,7 @@ import {
   clickLastInvoicePage,
   clickNewInvoiceButton,
   clickSaveInvoiceButton,
-  doFillClientInvoiceData,
+  doFillInvoiceData,
   getValidInvoiceData,
   invoiceIsInCurrentTablePage,
   isInInvoiceAddPage,
@@ -14,29 +14,29 @@ import { clickDashboardMenu, clickInvoicesMenu } from "../steps/menu-steps";
 
 const invoiceData = getValidInvoiceData();
 
-describe("Client Creation", () => {
+describe("Invoice Creation", () => {
   before(() => {
     givenUserIsLoggedIn();
   });
 
-  it("will show created client in the client list", () => {
+  it("will show created invoice in the invoice list", () => {
     clickInvoicesMenu();
     isInInvoicesPage();
 
     clickNewInvoiceButton();
     isInInvoiceAddPage();
 
-    doFillClientInvoiceData(invoiceData);
+    doFillInvoiceData(invoiceData);
     clickSaveInvoiceButton();
 
-    // client is visibile in last page of clients listing page
+    // invoice is visibile in last page of invoices listing page
     clickInvoicesMenu();
     isInInvoicesPage();
 
     clickLastInvoicePage();
     invoiceIsInCurrentTablePage(invoiceData);
 
-    // client is visibile in dashboard "latest clients" table
+    // invoice is visibile in dashboard "latest invoices" table
     clickDashboardMenu();
     isInDashboardPage();
     invoiceIsInCurrentTablePage(invoiceData);

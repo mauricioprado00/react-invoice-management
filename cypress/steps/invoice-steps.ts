@@ -28,7 +28,7 @@ type InvoiceData = {
   vatNumber:string;
 };
 
-export const doFillClientInvoiceData = (
+export const doFillInvoiceData = (
   invoiceData: Partial<InvoiceData>
 ): Partial<InvoiceData> => {
   const { invoice_number, projectCode, name, anyClient } = invoiceData;
