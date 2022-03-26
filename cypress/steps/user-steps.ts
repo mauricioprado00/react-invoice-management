@@ -1,5 +1,12 @@
 import { fieldType } from "./form-steps";
-import { getValidIban, getValidRegNumber, getValidSwift, getValidVatNumber } from "./profile-steps";
+import {
+  getValidAddress,
+  getValidCompany,
+  getValidIban,
+  getValidRegNumber,
+  getValidSwift,
+  getValidVatNumber,
+} from "./profile-steps";
 
 export const isInProfileEditionPage = () => {
   cy.url().should("match", /\/update-profile$/);
@@ -10,8 +17,8 @@ export const isInProfilePage = () => {
 };
 
 export const fillUserProfile = () => {
-  fieldType({ value: "ABC GmbH", name: "companyName" });
-  fieldType({ value: "Street 123", name: "address" });
+  fieldType({ value: getValidCompany(), name: "companyName" });
+  fieldType({ value: getValidAddress(), name: "address" });
   fieldType({ value: getValidVatNumber(), name: "vatNumber" });
   fieldType({ value: getValidRegNumber(), name: "regNumber" });
   fieldType({ value: getValidIban(), name: "iban" });
