@@ -26,7 +26,7 @@ export const fixtureClientAll = () => {
 
 // pages without sorting nor filtering
 export const fixtureInvoicesPage = (p: number) => {
-  cy.intercept("GET", "**/invoices?" + getParams({ limit: 20 }), {
+  cy.intercept("GET", "**/invoices?" + getParams({ limit: 20 }) + "**", {
     statusCode: 200,
     fixture: `invoice/invoice-p${p}.json`,
   }).as(`InvoicePage${p}`);
