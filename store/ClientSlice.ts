@@ -428,8 +428,8 @@ export const useUpsertClient = () => {
   return (client: Client) => dispatch(upsertClient(client));
 };
 export const useUpsertClientLastRequest = () =>
-  useClientSelector(upsertClientLastRequestSelector);
+  useSelector(upsertClientLastRequestSelector);
 export const useUpsertClientError = () =>
-  useClientSelector(upsertClientErrorSelector);
+  useSelector(upsertClientErrorSelector);
 export const useUpsertClientState = () =>
-  useClientSelector(upsertClientStateSelector);
+  useSelector(upsertClientStateSelector);
