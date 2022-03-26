@@ -38,7 +38,7 @@ export const invalidPasswordTests = [
 
 export const inputValidRegistration = () => {
   const email = new Date().getTime() + "@officehourtesting.com";
-  cy.visit("http://localhost:3000/get-started");
+  cy.visit("get-started");
 
   fieldType({ value: 'testing user', name: "name" });
   fieldType({ value: email, name: "email" });
@@ -56,4 +56,4 @@ export const doValidRegistration = () => {
   return email;
 };
 
-export const visitSignupPage = () => cy.visit("http://localhost:3000/get-started");
+export const visitSignupPage = () => cy.visit("get-started");

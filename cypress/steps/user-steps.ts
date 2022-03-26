@@ -2,11 +2,11 @@ import { fieldType } from "./form-steps";
 import { getValidIban, getValidRegNumber, getValidSwift, getValidVatNumber } from "./profile-steps";
 
 export const isInProfileEditionPage = () => {
-  cy.url().should("equal", "http://localhost:3000/update-profile");
+  cy.url().should("match", /\/update-profile$/);
   cy.get("h2").contains("Profile Edition");
 };
 export const isInProfilePage = () => {
-  cy.url().should("equal", "http://localhost:3000/me");
+  cy.url().should("match", /\/me$/);
 };
 
 export const fillUserProfile = () => {

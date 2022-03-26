@@ -1,11 +1,11 @@
 import { fieldType } from "./form-steps";
 
 export const visitLoginPage = () => {
-  cy.visit("http://localhost:3000/login");
+  cy.visit("login");
 };
 
 export const isInLoginPage = () => {
-  cy.url().should("equal", "http://localhost:3000/login");
+  cy.url().should("match", /\/login$/);
 };
 
 export const doLogin = (email?: string, password?: string): void => {

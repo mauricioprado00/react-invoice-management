@@ -1,3 +1,3 @@
 export const isInDashboardPage = () => {
-  cy.url().should("equal", "http://localhost:3000/");
+  cy.url().should("equal", Cypress.config().baseUrl);
 };

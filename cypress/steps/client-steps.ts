@@ -1,19 +1,19 @@
 import { fieldType } from "./form-steps";
-import { getValidAddress, getValidCompany, getValidEmail, getValidProfileEmail, getValidProfileName, getValidRegNumber, getValidVatNumber } from "./profile-steps";
+import { getValidAddress, getValidCompany, getValidEmail, getValidProfileName, getValidRegNumber, getValidVatNumber } from "./profile-steps";
 
 export const isInClientsPage = () => {
-  cy.url().should("equal", "http://localhost:3000/clients");
+  cy.url().should("match", /\/clients$/);
 };
 
 export const clickNewClientButton = () =>
   cy.get("button").contains("New Client").click();
 
 export const isInClientAddPage = () => {
-  cy.url().should("equal", "http://localhost:3000/client");
+  cy.url().should("match", /\/client$/);
 };
 
 export const isInClientEditionPage = () => {
-  cy.url().should("contain", "http://localhost:3000/client/");
+  cy.url().should("match", /\/client\?id=[a-z0-9-]+/);
 };
 
 type Profile = {
