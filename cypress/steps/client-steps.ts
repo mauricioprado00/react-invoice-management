@@ -27,6 +27,10 @@ export const visitClientAddPage = () => {
   cy.visit("client");
 };
 
+export const visitClientsPage = () => {
+  cy.visit("clients");
+};
+
 type Profile = {
   name: string;
   email: string;

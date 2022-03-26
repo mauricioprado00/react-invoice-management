@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Adkins Sosa",
+      "email": "adkinssosa@parleynet.com",
+      "avatar": "6.png",
+      "companyDetails": {
+        "name": "Maximind",
+        "address": "138 Hendrickson Place, Richmond, Rhode Island, 1671",
+        "vatNumber": "18363797478",
+        "regNumber": "596707230989"
+      },
+      "id": "9d5e2b60-10b9-466d-9586-ef76de805caa",
+      "totalBilled": 21785.4,
+      "invoicesCount": 4
+    },
+    {
+      "user_id": "111",
+      "name": "Aguilar Vaughn",
+      "email": "aguilarvaughn@zytrex.com",
+      "avatar": "1.png",
+      "companyDetails": {
+        "name": "Kongene",
+        "address": "413 Corbin Place, Bellamy, Idaho, 3566",
+        "vatNumber": "262758586589",
+        "regNumber": "579934860762"
+      },
+      "id": "d35ef299-6f46-48a5-9e83-877e4b5816fc",
+      "totalBilled": 11278.5,
+      "invoicesCount": 2
+    },
+    {
+      "user_id": "111",
+      "name": "Alexander Chase",
+      "email": "alexanderchase@waterbaby.com",
+      "avatar": "11.png",
+      "companyDetails": {
+        "name": "Omatom",
+        "address": "573 Hinsdale Street, Leland, Louisiana, 6217",
+        "vatNumber": "357107114823",
+        "regNumber": "751451409584"
+      },
+      "id": "c91a8a4e-774d-49f0-ab8e-bba369fe68a7",
+      "totalBilled": 45274.5,
+      "invoicesCount": 5
+    },
+    {
+      "user_id": "111",
+      "name": "Becker Humphrey",
+      "email": "beckerhumphrey@kongene.com",
+      "avatar": "3.png",
+      "companyDetails": {
+        "name": "Kengen",
+        "address": "263 Wogan Terrace, Mahtowa, Georgia, 5580",
+        "vatNumber": "109493799969",
+        "regNumber": "59505071818"
+      },
+      "id": "cdd9f0e6-3083-47d7-9e9b-e87c3eeecdb7",
+      "totalBilled": 55975.299999999996,
+      "invoicesCount": 7
+    },
+    {
+      "user_id": "111",
+      "name": "Bishop Pope",
+      "email": "bishoppope@musanpoly.com",
+      "avatar": "10.png",
+      "companyDetails": {
+        "name": "Waterbaby",
+        "address": "298 Doone Court, Crenshaw, Tennessee, 7161",
+        "vatNumber": "782068719715",
+        "regNumber": "517831550978"
+      },
+      "id": "6d3699bf-31cd-4a7f-b3cb-1af62d727685",
+      "totalBilled": 6029,
+      "invoicesCount": 2
+    }
+  ],
+  "total": 49
+}

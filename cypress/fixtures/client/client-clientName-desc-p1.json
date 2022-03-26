@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Woods Hughes",
+      "email": "woodshughes@deminimum.com",
+      "avatar": "11.png",
+      "companyDetails": {
+        "name": "Zentury",
+        "address": "424 Murdock Court, Tampico, New Jersey, 9672",
+        "vatNumber": "643045188453",
+        "regNumber": "329388417177"
+      },
+      "id": "f5b50a1c-da19-4df7-ab78-fd4394b02ad2",
+      "totalBilled": 12087.8,
+      "invoicesCount": 1
+    },
+    {
+      "user_id": "111",
+      "name": "Wells Cantu",
+      "email": "wellscantu@aclima.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Bristo",
+        "address": "884 Minna Street, Diaperville, Indiana, 1957",
+        "vatNumber": "902660090489",
+        "regNumber": "561549781326"
+      },
+      "id": "444a1a06-17e3-4f66-ad49-e4078a4fba7c",
+      "totalBilled": 24547.199999999997,
+      "invoicesCount": 3
+    },
+    {
+      "user_id": "111",
+      "name": "Waters Mcneil",
+      "email": "watersmcneil@idealis.com",
+      "avatar": "9.png",
+      "companyDetails": {
+        "name": "Interfind",
+        "address": "401 Harwood Place, Florence, South Carolina, 3631",
+        "vatNumber": "35431679137",
+        "regNumber": "521621375834"
+      },
+      "id": "cb753afe-6d71-4075-9750-bcc64c3bdc1f",
+      "totalBilled": 44081.4,
+      "invoicesCount": 5
+    },
+    {
+      "user_id": "111",
+      "name": "Warner Bright",
+      "email": "warnerbright@quordate.com",
+      "avatar": "13.png",
+      "companyDetails": {
+        "name": "Egypto",
+        "address": "562 Knickerbocker Avenue, Thornport, Wyoming, 9680",
+        "vatNumber": "311668168051",
+        "regNumber": "279014096888"
+      },
+      "id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c",
+      "totalBilled": 74655.1,
+      "invoicesCount": 9
+    },
+    {
+      "user_id": "111",
+      "name": "Waller Preston",
+      "email": "wallerpreston@geeketron.com",
+      "avatar": "1.png",
+      "companyDetails": {
+        "name": "Gorganic",
+        "address": "954 Coles Street, Shawmut, Ohio, 2370",
+        "vatNumber": "425225397482",
+        "regNumber": "63565998360"
+      },
+      "id": "61018061-fdce-4b59-8771-6388f017def2",
+      "totalBilled": 31101.7,
+      "invoicesCount": 5
+    }
+  ],
+  "total": 49
+}

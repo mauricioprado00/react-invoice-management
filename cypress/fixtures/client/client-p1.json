@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Shaw Ferrell",
+      "email": "shawferrell@injoy.com",
+      "avatar": "10.png",
+      "companyDetails": {
+        "name": "Musanpoly",
+        "address": "333 Eagle Street, Riviera, New York, 5053",
+        "vatNumber": "113026483771",
+        "regNumber": "568307251000"
+      },
+      "id": "5d14a4d6-c892-420c-bfd1-41d26e23ce1b",
+      "totalBilled": 18260.6,
+      "invoicesCount": 3
+    },
+    {
+      "user_id": "111",
+      "name": "Bishop Pope",
+      "email": "bishoppope@musanpoly.com",
+      "avatar": "10.png",
+      "companyDetails": {
+        "name": "Waterbaby",
+        "address": "298 Doone Court, Crenshaw, Tennessee, 7161",
+        "vatNumber": "782068719715",
+        "regNumber": "517831550978"
+      },
+      "id": "6d3699bf-31cd-4a7f-b3cb-1af62d727685",
+      "totalBilled": 6029,
+      "invoicesCount": 2
+    },
+    {
+      "user_id": "111",
+      "name": "Alexander Chase",
+      "email": "alexanderchase@waterbaby.com",
+      "avatar": "11.png",
+      "companyDetails": {
+        "name": "Omatom",
+        "address": "573 Hinsdale Street, Leland, Louisiana, 6217",
+        "vatNumber": "357107114823",
+        "regNumber": "751451409584"
+      },
+      "id": "c91a8a4e-774d-49f0-ab8e-bba369fe68a7",
+      "totalBilled": 45274.5,
+      "invoicesCount": 5
+    },
+    {
+      "user_id": "111",
+      "name": "Kent Sloan",
+      "email": "kentsloan@omatom.com",
+      "avatar": "4.png",
+      "companyDetails": {
+        "name": "Makingway",
+        "address": "234 Lancaster Avenue, Springhill, Maryland, 6444",
+        "vatNumber": "482623359520",
+        "regNumber": "804447881507"
+      },
+      "id": "100c5729-c3fc-4f40-bbf3-27cb19d01aa1",
+      "totalBilled": 21551.899999999998,
+      "invoicesCount": 4
+    },
+    {
+      "user_id": "111",
+      "name": "Norris Knapp",
+      "email": "norrisknapp@makingway.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Plasmosis",
+        "address": "815 Buffalo Avenue, Winston, Arizona, 1911",
+        "vatNumber": "221725902906",
+        "regNumber": "716977748601"
+      },
+      "id": "692fe1bb-5846-4b53-a0e4-25b13d8ce82c",
+      "totalBilled": 52427.700000000004,
+      "invoicesCount": 9
+    }
+  ],
+  "total": 49
+}

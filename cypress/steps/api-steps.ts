@@ -35,6 +35,62 @@ export const fixtureInvoicesPage = (p: number, delay?: number) => {
   }).as(`InvoicePage${p}`);
 };
 
+type ListingParams = {
+  filter: Record<string, string>;
+  sort: Record<string, string>;
+  limit: number;
+  offset: number;
+};
+const sortModifier = (sort: Record<string, string>) =>
+  Object.entries(sort)
+    .filter(([filter]) => filter !== "creation")
+    .map(([filter, direction]) => filter + "-" + direction)
+    .join("-");
+
+// pages without sorting nor filtering
+type FixtureClientsPageParameters =
+  | {
+      p?: number;
+      delay?: number;
+      sort?: Record<string, string>;
+      fixture?: string;
+    }
+  | undefined;
+export const fixtureClientsPage = ({
+  p = 1,
+  delay,
+  sort,
+  fixture,
+}: FixtureClientsPageParameters = {}) => {
+  let sm = sortModifier(sort || {});
+  cy.intercept(
+    {
+      method: "GET",
+      pathname: "**/clients",
+    },
+    async req => {
+      let matches: boolean;
+      if (!req.query.params) return;
+      const params = JSON.parse(req.query.params as string) as ListingParams;
+
+      // check that is correct page
+      matches = params.offset == (p - 1) * 5;
+
+      // check that sorting is the same
+      const reqSm = sortModifier(params.sort);
+      matches = sm === reqSm;
+
+      if (matches) {
+        const modifier = sm ? "-" + sm : "";
+        req.reply({
+          fixture: fixture ? fixture : `client/client${modifier}-p${p}.json`,
+          delay,
+        });
+      }
+    }
+  ).as(`ClientPage${p}`);
+};
+
 export type FixtureClients = {
   clients: ClientList;
   total: number;
