@@ -26,7 +26,7 @@ describe("Invoice Creation", () => {
     clickNewInvoiceButton();
     isInInvoiceAddPage();
 
-    doFillInvoiceData(invoiceData);
+    const filledInvoiceData = doFillInvoiceData(invoiceData);
     clickSaveInvoiceButton();
 
     // invoice is visibile in last page of invoices listing page
@@ -34,12 +34,15 @@ describe("Invoice Creation", () => {
     isInInvoicesPage();
 
     clickLastInvoicePage();
-    invoiceIsInCurrentTablePage(invoiceData);
+    invoiceIsInCurrentTablePage(
+      { ...invoiceData, ...filledInvoiceData },
+      { extraColumns: true }
+    );
 
     // invoice is visibile in dashboard "latest invoices" table
     clickDashboardMenu();
     isInDashboardPage();
-    invoiceIsInCurrentTablePage(invoiceData);
+    invoiceIsInCurrentTablePage({ ...invoiceData, ...filledInvoiceData });
   });
 });
 
