@@ -9,7 +9,7 @@ export type ValidatorCreator = (message: string | null) => Validator;
 
 export const emailValidator: ValidatorCreator =
   (message: string | null) => (value: string) => {
-    return !/^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value)? message || Messages.Email : null;
+    return !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value)? message || Messages.Email : null;
   };
 
 export const regexpValidator =
