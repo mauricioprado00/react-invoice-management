@@ -23,6 +23,10 @@ export const isInClientEditionPage = () => {
   cy.url().should("match", /\/client\?id=[a-z0-9-]+/);
 };
 
+export const visitClientAddPage = () => {
+  cy.visit("client");
+};
+
 type Profile = {
   name: string;
   email: string;

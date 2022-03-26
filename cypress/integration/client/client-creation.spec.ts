@@ -1,3 +1,4 @@
+import { fixtureClientAll, fixtureUserMe } from "cy-steps/api-steps";
 import {
   clickLastClientPage,
   clickNewClientButton,
@@ -7,6 +8,7 @@ import {
   getValidClientProfile,
   isInClientAddPage,
   isInClientsPage,
+  visitClientAddPage,
 } from "cy-steps/client-steps";
 import { isInDashboardPage } from "cy-steps/dashboard-steps";
 import { givenUserIsLoggedIn } from "cy-steps/login-steps";
@@ -92,6 +94,28 @@ describe("Field Validations", () => {
     doFillClientProfile({ vatNumber: "ABC123" });
     cy.contains("The Vat Number is not valid.");
     clickSaveClientButton();
+  });
+});
+
+describe("Api error handling", () => {
+  beforeEach(() => {
+    fixtureUserMe();
+    fixtureClientAll();
+  });
+
+  it("will not proceed when client creation returns an error", () => {
+    const message = "Failed to create client";
+    cy.intercept("POST", "**/clients", {
+      statusCode: 400,
+      body: message,
+    });
+
+    visitClientAddPage();
+    doFillClientProfile(profile);
+    clickSaveClientButton();
+    isInClientAddPage();
+    cy.contains("Could not save the client.");
+    cy.contains(message);
   });
 });
 
