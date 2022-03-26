@@ -1,4 +1,13 @@
-import { clickLastClientPage, clickNewClientButton, clickSaveClientButton, clientIsInCurrentTablePage, doFillClientProfile, getValidClientProfile, isInClientAddPage, isInClientsPage } from "cy-steps/client-steps";
+import {
+  clickLastClientPage,
+  clickNewClientButton,
+  clickSaveClientButton,
+  clientIsInCurrentTablePage,
+  doFillClientProfile,
+  getValidClientProfile,
+  isInClientAddPage,
+  isInClientsPage,
+} from "cy-steps/client-steps";
 import { isInDashboardPage } from "cy-steps/dashboard-steps";
 import { givenUserIsLoggedIn } from "cy-steps/login-steps";
 import { clickClientsMenu, clickDashboardMenu } from "cy-steps/menu-steps";
@@ -6,23 +15,20 @@ import { clickClientsMenu, clickDashboardMenu } from "cy-steps/menu-steps";
 const profile = getValidClientProfile();
 
 describe("Client Creation", () => {
-  
-
   before(() => {
     givenUserIsLoggedIn();
-  })
+  });
 
   it("will show created client in the client list", () => {
-    
     clickClientsMenu();
     isInClientsPage();
-    
+
     clickNewClientButton();
     isInClientAddPage();
-    
-    doFillClientProfile(profile)
+
+    doFillClientProfile(profile);
     clickSaveClientButton();
-    
+
     // client is visibile in last page of clients listing page
     clickClientsMenu();
     isInClientsPage();
@@ -34,27 +40,25 @@ describe("Client Creation", () => {
     clickDashboardMenu();
     isInDashboardPage();
     clientIsInCurrentTablePage(profile);
-    
-  })
+  });
 
   // check that all fields are required and user cannot create a client without it
   Object.keys(profile).forEach(field => {
-    const invalidProfile = {...profile};
-    (invalidProfile as Record<string, string>)[field] = '';
+    const invalidProfile = { ...profile };
+    (invalidProfile as Record<string, string>)[field] = "";
     it("field " + field + " is required to proceed", () => {
-
       clickClientsMenu();
       isInClientsPage();
-      
+
       clickNewClientButton();
       isInClientAddPage();
-      
-      doFillClientProfile(invalidProfile)
+
+      doFillClientProfile(invalidProfile);
       clickSaveClientButton();
-      cy.contains('Please fill out this field.');
+      cy.contains("Please fill out this field.");
       isInClientAddPage();
-    })
-  })
+    });
+  });
 });
 
 describe("Field Validations", () => {
@@ -63,33 +67,32 @@ describe("Field Validations", () => {
 
     clickClientsMenu();
     isInClientsPage();
-    
+
     clickNewClientButton();
     isInClientAddPage();
-  })
+  });
 
   beforeEach(() => {
-    doFillClientProfile(profile)
-  })
+    doFillClientProfile(profile);
+  });
 
   it("wont allow an invalid email address", () => {
-    doFillClientProfile({email: 'incomplete@gmail'});
-    cy.contains('wrong email');
+    doFillClientProfile({ email: "incomplete@gmail" });
+    cy.contains("wrong email");
     clickSaveClientButton();
-  })
+  });
 
   it("wont allow an invalid reg number", () => {
-    doFillClientProfile({regNumber: "ABC123"});
-    cy.contains('Please provide a valid Reg Number.');
+    doFillClientProfile({ regNumber: "ABC123" });
+    cy.contains("Please provide a valid Reg Number.");
     clickSaveClientButton();
-  })
+  });
 
   it("wont allow an invalid vat number", () => {
-    doFillClientProfile({vatNumber: "ABC123"});
-    cy.contains('The Vat Number is not valid.');
+    doFillClientProfile({ vatNumber: "ABC123" });
+    cy.contains("The Vat Number is not valid.");
     clickSaveClientButton();
-  })
-
-})
+  });
+});
 
 export {};
