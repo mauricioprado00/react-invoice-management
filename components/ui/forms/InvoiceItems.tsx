@@ -6,7 +6,7 @@ import useForm, { FormElementProps, FormElementPropTypes } from 'hooks/use-form'
 import InputText from './InputText'
 import produce from 'immer'
 import { InvoiceDetail, InvoiceDetailPropTypes } from 'models/Invoice'
-import { gtValidator } from 'library/validation'
+import { gtValidator, numberValidator } from 'library/validation'
 
 export type InvoiceItemsChangeEvent = {
     items: InvoiceDetail[],
@@ -136,7 +136,7 @@ function InvoiceItem({ id, item, onChange, showErrors }: InvoiceItemProps) {
             <SecCell align="right">
                 <InputText name="quantity" type="number" step="1" min="1" required={true}
                     value={state.values.quantity}
-                    validators={[gtValidator(0, "cannot be zero")]}
+                    validators={[gtValidator(0, "cannot be zero"), numberValidator("must be an integer")]}
                     {...common}
                     {...form.resolveProps('quantity')} />
 
