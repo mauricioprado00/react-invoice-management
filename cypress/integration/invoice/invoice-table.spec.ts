@@ -137,6 +137,13 @@ describe("Invoice table pagination", () => {
     cy.contains("Alexandria Cain");
   });
 
+  it("will load page from url param", () => {
+    fixtureInvoicesPage({ p: 46 });
+    visitInvoicesPage({ page: "46" });
+
+    cy.contains("Alexandria Cain");
+  });
+
   it("will load sorted pages", () => {
     fixtureInvoicesPage({ p: 2 });
     fixtureInvoicesPage({ p: 2, sort: { companyName: "asc" } });

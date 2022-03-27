@@ -24,8 +24,13 @@ export const visitInvoiceAddPage = () => {
   cy.visit("invoice");
 };
 
-export const visitInvoicesPage = () => {
-  cy.visit("invoices");
+export const visitInvoicesPage = (params?: Record<string, string>) => {
+  if (params) {
+    const query = new URLSearchParams(params);
+    cy.visit(`invoices?${query.toString()}`);
+  } else {
+    cy.visit("invoices");
+  }
 };
 
 export const isInInvoiceAddPage = () => {

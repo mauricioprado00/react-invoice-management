@@ -27,8 +27,13 @@ export const visitClientAddPage = () => {
   cy.visit("client");
 };
 
-export const visitClientsPage = () => {
-  cy.visit("clients");
+export const visitClientsPage = (params?: Record<string, string>) => {
+  if (params) {
+    const query = new URLSearchParams(params);
+    cy.visit(`clients?${query.toString()}`);
+  } else {
+    cy.visit("clients");
+  }
 };
 
 type Profile = {
