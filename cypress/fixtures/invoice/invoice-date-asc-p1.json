@@ -1,0 +1,226 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "EVIDENDS-4309",
+        "client_id": "2b5113ab-ce9f-46a3-80ff-bfab63e44bf3",
+        "date": 1609464123483,
+        "dueDate": 1650641685737,
+        "projectCode": "DATAGEN",
+        "meta": {
+          "details": [
+            { "detail": "sint mollit excepteur", "quantity": 8, "rate": 235.3 },
+            {
+              "detail": "occaecat proident cupidatat",
+              "quantity": 7,
+              "rate": 242.6
+            },
+            { "detail": "laborum eu quis", "quantity": 8, "rate": 532.1 },
+            { "detail": "et et culpa", "quantity": 8, "rate": 552.4 }
+          ],
+          "billTo": {
+            "name": "Molly James",
+            "address": "430 Fanchon Place, Clayville, New Hampshire, 6379",
+            "vatNumber": "655810584965",
+            "regNumber": "384529907579"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 12256.6,
+        "id": "f661c3ee-9f9c-49cc-beb9-200db692e7b7"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lucille Casey",
+        "email": "lucillecasey@comvey.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Norsul",
+          "address": "894 Kay Court, Bloomington, American Samoa, 9486",
+          "vatNumber": "877106036602",
+          "regNumber": "306478756446"
+        },
+        "id": "2b5113ab-ce9f-46a3-80ff-bfab63e44bf3"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "EARBANG-1318",
+        "client_id": "d35ef299-6f46-48a5-9e83-877e4b5816fc",
+        "date": 1609688469909,
+        "dueDate": 1647214706236,
+        "projectCode": "ASIMILINE",
+        "meta": {
+          "details": [
+            {
+              "detail": "velit exercitation esse",
+              "quantity": 3,
+              "rate": 436.5
+            },
+            { "detail": "magna laborum culpa", "quantity": 2, "rate": 359.1 },
+            { "detail": "non veniam est", "quantity": 8, "rate": 680.9 },
+            {
+              "detail": "consectetur proident adipisicing",
+              "quantity": 1,
+              "rate": 612.3
+            }
+          ],
+          "billTo": {
+            "name": "Yolanda Griffin",
+            "address": "711 Poly Place, Hachita, Mississippi, 4298",
+            "vatNumber": "640258686546",
+            "regNumber": "200288785312"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 8087.2,
+        "id": "c669a46a-d0bb-42e8-8df1-7a74ef530cb7"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Aguilar Vaughn",
+        "email": "aguilarvaughn@zytrex.com",
+        "avatar": "1.png",
+        "companyDetails": {
+          "name": "Kongene",
+          "address": "413 Corbin Place, Bellamy, Idaho, 3566",
+          "vatNumber": "262758586589",
+          "regNumber": "579934860762"
+        },
+        "id": "d35ef299-6f46-48a5-9e83-877e4b5816fc"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "EXOTERIC-3010",
+        "client_id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae",
+        "date": 1609786302717,
+        "dueDate": 1646158749341,
+        "projectCode": "BOILICON",
+        "meta": {
+          "details": [
+            {
+              "detail": "excepteur laboris aliqua",
+              "quantity": 7,
+              "rate": 399.1
+            }
+          ],
+          "billTo": {
+            "name": "Alexandra Orr",
+            "address": "666 Howard Avenue, Draper, Palau, 2235",
+            "vatNumber": "93602488233",
+            "regNumber": "503524131115"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 2793.7000000000003,
+        "id": "69ed56ce-1f58-470a-9e97-bead87ede69c"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Garcia Ray",
+        "email": "garciaray@balooba.com",
+        "avatar": "10.png",
+        "companyDetails": {
+          "name": "Glukgluk",
+          "address": "438 Ridgecrest Terrace, Fairview, Northern Mariana Islands, 5261",
+          "vatNumber": "632020029821",
+          "regNumber": "497117107532"
+        },
+        "id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "GEEKNET-3415",
+        "client_id": "231b5d59-5ae9-498c-af4e-937d9c4fdc66",
+        "date": 1610051722932,
+        "dueDate": 1639463690280,
+        "projectCode": "MAGNEATO",
+        "meta": {
+          "details": [
+            {
+              "detail": "culpa incididunt eiusmod",
+              "quantity": 9,
+              "rate": 228.2
+            },
+            { "detail": "sint ex veniam", "quantity": 2, "rate": 394.7 },
+            { "detail": "cillum ad anim", "quantity": 6, "rate": 371.7 },
+            { "detail": "minim et excepteur", "quantity": 1, "rate": 374 }
+          ],
+          "billTo": {
+            "name": "Harrington Gentry",
+            "address": "739 Dinsmore Place, Wyoming, American Samoa, 2588",
+            "vatNumber": "369488825963",
+            "regNumber": "69541214388"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 5447.4,
+        "id": "feb67d12-d597-485e-aa42-6a76525df272"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Summer Fitzpatrick",
+        "email": "summerfitzpatrick@straloy.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Parleynet",
+          "address": "819 Willow Place, Jardine, Alaska, 6692",
+          "vatNumber": "554833342160",
+          "regNumber": "830126087940"
+        },
+        "id": "231b5d59-5ae9-498c-af4e-937d9c4fdc66"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "TECHMANIA-4217",
+        "client_id": "64e53061-507d-4886-a3db-46d81b49d65d",
+        "date": 1610110245570,
+        "dueDate": 1615330280217,
+        "projectCode": "EXTRAGEN",
+        "meta": {
+          "details": [
+            { "detail": "anim velit et", "quantity": 5, "rate": 449.8 },
+            {
+              "detail": "quis cupidatat occaecat",
+              "quantity": 7,
+              "rate": 405.8
+            },
+            { "detail": "enim adipisicing ut", "quantity": 2, "rate": 96.3 },
+            { "detail": "laboris aute veniam", "quantity": 3, "rate": 504.1 }
+          ],
+          "billTo": {
+            "name": "Jensen Larson",
+            "address": "563 Dumont Avenue, Bluetown, New Hampshire, 6898",
+            "vatNumber": "593277103655",
+            "regNumber": "756392634642"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6794.500000000001,
+        "id": "fe065587-8816-4846-a788-a8497c9a26e7"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Romero Payne",
+        "email": "romeropayne@interodeo.com",
+        "avatar": "12.png",
+        "companyDetails": {
+          "name": "Turnling",
+          "address": "681 Fulton Street, Como, Alabama, 3793",
+          "vatNumber": "688452257551",
+          "regNumber": "83789891399"
+        },
+        "id": "64e53061-507d-4886-a3db-46d81b49d65d"
+      }
+    }
+  ],
+  "total": 228
+}

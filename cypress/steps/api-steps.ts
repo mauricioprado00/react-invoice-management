@@ -1,9 +1,72 @@
-import { GenericStaticResponse } from "cypress/types/net-stubbing";
+import {
+  GenericStaticResponse,
+  RouteHandler,
+} from "cypress/types/net-stubbing";
 import { ClientList } from "models/Client";
+
+type FixturePaginationParameters =
+  | {
+      p?: number;
+      delay?: number;
+      sort?: Record<string, string>;
+      fixture?: string;
+      reply?: GenericStaticResponse<
+        string,
+        string | boolean | object | ArrayBuffer | null
+      >;
+    }
+  | undefined;
+
+type ListingParams = {
+  filter: Record<string, string>;
+  sort: Record<string, string>;
+  limit: number;
+  offset: number;
+};
+const sortModifier = (sort: Record<string, string>) =>
+  Object.entries(sort)
+    .filter(([filter]) => filter !== "creation")
+    .map(([filter, direction]) => filter + "-" + direction)
+    .join("-");
+
+export const paginationRouterHandler = (
+  fixtureBaseName: string,
+  { p = 1, delay, sort, fixture, reply }: FixturePaginationParameters = {}
+): RouteHandler => {
+  let sm = sortModifier(sort || {});
+  return async req => {
+    let matches: boolean;
+    if (!req.query.params) return;
+    const params = JSON.parse(req.query.params as string) as ListingParams;
+
+    // check that is correct page
+    matches = params.offset == (p - 1) * 5;
+
+    // check that sorting is the same
+    const reqSm = sortModifier(params.sort);
+    matches = matches && sm === reqSm;
+
+    if (matches) {
+      const modifier = sm ? "-" + sm : "";
+
+      req.reply(
+        reply
+          ? reply
+          : {
+              fixture: fixture
+                ? fixture
+                : `${fixtureBaseName}${modifier}-p${p}.json`,
+              delay,
+            }
+      );
+    }
+  };
+};
 
 const getParams = (params: Record<string, any>) => {
   return new URLSearchParams({ params: JSON.stringify(params) }).toString();
 };
+
 export const fixtureUserMe = (delay?: number) => {
   localStorage["userSlice.bearerToken"] = "testing";
   cy.intercept(
@@ -27,80 +90,29 @@ export const fixtureClientAll = (delay?: number) => {
   }).as("ClientAll");
 };
 
-// pages without sorting nor filtering
-export const fixtureInvoicesPage = (p: number, delay?: number) => {
-  cy.intercept("GET", "**/invoices?" + getParams({ limit: 20 }) + "**", {
-    statusCode: 200,
-    fixture: `invoice/invoice-p${p}.json`,
-    delay,
-  }).as(`InvoicePage${p}`);
+export const fixtureInvoicesPage = (
+  params: FixturePaginationParameters = {}
+) => {
+  const { p } = params;
+  cy.intercept(
+    {
+      method: "GET",
+      pathname: "**/invoices",
+    },
+    paginationRouterHandler("invoice/invoice", params)
+  ).as(`InvoicePage${p}`);
 };
 
-type ListingParams = {
-  filter: Record<string, string>;
-  sort: Record<string, string>;
-  limit: number;
-  offset: number;
-};
-const sortModifier = (sort: Record<string, string>) =>
-  Object.entries(sort)
-    .filter(([filter]) => filter !== "creation")
-    .map(([filter, direction]) => filter + "-" + direction)
-    .join("-");
-
-// pages without sorting nor filtering
-type FixtureClientsPageParameters =
-  | {
-      p?: number;
-      delay?: number;
-      sort?: Record<string, string>;
-      fixture?: string;
-      reply?: GenericStaticResponse<
-        string,
-        string | boolean | object | ArrayBuffer | null
-      >;
-    }
-  | undefined;
-export const fixtureClientsPage = ({
-  p = 1,
-  delay,
-  sort,
-  fixture,
-  reply,
-}: FixtureClientsPageParameters = {}) => {
-  let sm = sortModifier(sort || {});
+export const fixtureClientsPage = (
+  params: FixturePaginationParameters = {}
+) => {
+  const { p } = params;
   cy.intercept(
     {
       method: "GET",
       pathname: "**/clients",
     },
-    async req => {
-      let matches: boolean;
-      if (!req.query.params) return;
-      const params = JSON.parse(req.query.params as string) as ListingParams;
-
-      // check that is correct page
-      matches = params.offset == (p - 1) * 5;
-
-      // check that sorting is the same
-      const reqSm = sortModifier(params.sort);
-      matches = matches && sm === reqSm;
-
-      if (matches) {
-        const modifier = sm ? "-" + sm : "";
-
-        req.reply(
-          reply
-            ? reply
-            : {
-                fixture: fixture
-                  ? fixture
-                  : `client/client${modifier}-p${p}.json`,
-                delay,
-              }
-        );
-      }
-    }
+    paginationRouterHandler("client/client", params)
   ).as(`ClientPage${p}`);
 };
 

@@ -1,0 +1,199 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "XANIDE-2436",
+        "client_id": "53c69b32-3268-4611-873d-7beb36e10953",
+        "date": 1625096537226,
+        "dueDate": 1627344103089,
+        "projectCode": "ZILLAN",
+        "meta": {
+          "details": [
+            {
+              "detail": "dolor consequat consectetur",
+              "quantity": 1,
+              "rate": 596.7
+            }
+          ],
+          "billTo": {
+            "name": "Bertha Swanson",
+            "address": "899 Lawrence Avenue, Oneida, Virgin Islands, 7538",
+            "vatNumber": "894367460328",
+            "regNumber": "823567395037"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 596.7,
+        "id": "8867c79e-91c9-47b8-8eed-889a9ec5cbc2"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Nikki Key",
+        "email": "nikkikey@rodemco.com",
+        "avatar": "16.png",
+        "companyDetails": {
+          "name": "Cytrek",
+          "address": "235 Hyman Court, Dunnavant, North Carolina, 676",
+          "vatNumber": "145871166735",
+          "regNumber": "115016943967"
+        },
+        "id": "53c69b32-3268-4611-873d-7beb36e10953"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "XOGGLE-1725",
+        "client_id": "2b5113ab-ce9f-46a3-80ff-bfab63e44bf3",
+        "date": 1648261842256,
+        "dueDate": 1625989448761,
+        "projectCode": "DUFLEX",
+        "meta": {
+          "details": [
+            { "detail": "aute officia amet", "quantity": 2, "rate": 332.5 }
+          ],
+          "billTo": {
+            "name": "Janice Roman",
+            "address": "272 Bay Street, Avalon, Maine, 9483",
+            "vatNumber": "578833743593",
+            "regNumber": "170228723309"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 665,
+        "id": "ef9a80c9-98ca-491c-a3cd-52015f73f9c5"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lucille Casey",
+        "email": "lucillecasey@comvey.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Norsul",
+          "address": "894 Kay Court, Bloomington, American Samoa, 9486",
+          "vatNumber": "877106036602",
+          "regNumber": "306478756446"
+        },
+        "id": "2b5113ab-ce9f-46a3-80ff-bfab63e44bf3"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "CORMORAN-4028",
+        "client_id": "40dd936a-150f-4ae0-b9b9-b33cb44149fa",
+        "date": 1647499140546,
+        "dueDate": 1621776787234,
+        "projectCode": "MANGELICA",
+        "meta": {
+          "details": [
+            { "detail": "culpa anim non", "quantity": 7, "rate": 100 }
+          ],
+          "billTo": {
+            "name": "Thompson Fernandez",
+            "address": "791 Manhattan Court, Bentley, Illinois, 8853",
+            "vatNumber": "459866466076",
+            "regNumber": "311325456890"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 700,
+        "id": "4309e518-42c8-411f-8b10-bd542324482a"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Corrine Stone",
+        "email": "corrinestone@comtest.com",
+        "avatar": "11.png",
+        "companyDetails": {
+          "name": "Equitax",
+          "address": "745 Kingsland Avenue, Vernon, Federated States Of Micronesia, 802",
+          "vatNumber": "284521202014",
+          "regNumber": "480439275252"
+        },
+        "id": "40dd936a-150f-4ae0-b9b9-b33cb44149fa"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "KYAGURU-4869",
+        "client_id": "3df67eb6-f3f1-4a26-8bb5-40a3f6cd7ce7",
+        "date": 1612147867005,
+        "dueDate": 1615901241709,
+        "projectCode": "CONJURICA",
+        "meta": {
+          "details": [
+            { "detail": "nulla excepteur ut", "quantity": 4, "rate": 196.1 }
+          ],
+          "billTo": {
+            "name": "Rita Alvarez",
+            "address": "673 Aitken Place, Vowinckel, Utah, 3778",
+            "vatNumber": "429114673055",
+            "regNumber": "91782713319"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 784.4,
+        "id": "70c610c0-b111-4ddd-9fa1-855baabe3ef1"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Pauline Gallagher",
+        "email": "paulinegallagher@handshake.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Ultrimax",
+          "address": "479 Tilden Avenue, Wolcott, Montana, 1230",
+          "vatNumber": "820111411415",
+          "regNumber": "708795424061"
+        },
+        "id": "3df67eb6-f3f1-4a26-8bb5-40a3f6cd7ce7"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "COMVEY-2827",
+        "client_id": "100c5729-c3fc-4f40-bbf3-27cb19d01aa1",
+        "date": 1635849462320,
+        "dueDate": 1623059698438,
+        "projectCode": "FIREWAX",
+        "meta": {
+          "details": [
+            {
+              "detail": "adipisicing culpa deserunt",
+              "quantity": 1,
+              "rate": 253.8
+            },
+            { "detail": "duis dolore velit", "quantity": 1, "rate": 534.6 }
+          ],
+          "billTo": {
+            "name": "Rosalyn Thompson",
+            "address": "403 Meserole Avenue, Clinton, Louisiana, 6298",
+            "vatNumber": "381624896621",
+            "regNumber": "585444744878"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 788.4000000000001,
+        "id": "14ebd4b9-ef40-4f4c-9710-94ec5470d10c"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Kent Sloan",
+        "email": "kentsloan@omatom.com",
+        "avatar": "4.png",
+        "companyDetails": {
+          "name": "Makingway",
+          "address": "234 Lancaster Avenue, Springhill, Maryland, 6444",
+          "vatNumber": "482623359520",
+          "regNumber": "804447881507"
+        },
+        "id": "100c5729-c3fc-4f40-bbf3-27cb19d01aa1"
+      }
+    }
+  ],
+  "total": 228
+}

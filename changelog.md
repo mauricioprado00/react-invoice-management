@@ -1,8 +1,5 @@
 # pending features
 4. cypress missing
-   3. sorting of invoices
-   4. loading mask during invoice sorting
-   5. error during invoice sorting
    6. filtering of invoices
    7. loading mask during invoice filtering
    8. error during invoice filtering
@@ -42,6 +39,10 @@
    1. test loading mask during client sorting
    2. test error during client sorting
    3. test client pagination
+   3. test sorting of invoices
+   4. test loading mask during invoice sorting
+   5. test error during invoice sorting
+   6. test invoice pagination
 
 # 2022 03 26 
 - Fix bug when adding client/invoice and total of records not updated in all cached pages

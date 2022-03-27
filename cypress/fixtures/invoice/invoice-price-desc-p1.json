@@ -1,0 +1,228 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "PHOTOBIN-1384",
+        "client_id": "53c69b32-3268-4611-873d-7beb36e10953",
+        "date": 1648630250445,
+        "dueDate": 1619180063383,
+        "projectCode": "TALAE",
+        "meta": {
+          "details": [
+            { "detail": "in eu excepteur", "quantity": 10, "rate": 507 },
+            {
+              "detail": "occaecat laborum magna",
+              "quantity": 10,
+              "rate": 578.3
+            },
+            { "detail": "consequat sint cillum", "quantity": 7, "rate": 622.4 },
+            { "detail": "consectetur eu cillum", "quantity": 3, "rate": 191.1 },
+            { "detail": "consequat aute ipsum", "quantity": 6, "rate": 315.5 }
+          ],
+          "billTo": {
+            "name": "Saunders Peterson",
+            "address": "670 Dodworth Street, Vandiver, Oregon, 3175",
+            "vatNumber": "847971217891",
+            "regNumber": "692562877094"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 17676.1,
+        "id": "3d69b6ba-0b84-447d-8432-723cf2158e54"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Nikki Key",
+        "email": "nikkikey@rodemco.com",
+        "avatar": "16.png",
+        "companyDetails": {
+          "name": "Cytrek",
+          "address": "235 Hyman Court, Dunnavant, North Carolina, 676",
+          "vatNumber": "145871166735",
+          "regNumber": "115016943967"
+        },
+        "id": "53c69b32-3268-4611-873d-7beb36e10953"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "EARGO-1589",
+        "client_id": "06c327a3-6a85-4c5d-bab8-0b554e4092b4",
+        "date": 1643939033143,
+        "dueDate": 1645239593681,
+        "projectCode": "WATERBABY",
+        "meta": {
+          "details": [
+            { "detail": "qui aute officia", "quantity": 10, "rate": 668.8 },
+            { "detail": "non aliquip nulla", "quantity": 8, "rate": 693.2 },
+            { "detail": "nulla ut Lorem", "quantity": 5, "rate": 416.3 },
+            { "detail": "enim tempor irure", "quantity": 4, "rate": 695.4 }
+          ],
+          "billTo": {
+            "name": "Mollie Cooley",
+            "address": "519 Lois Avenue, Outlook, South Carolina, 9056",
+            "vatNumber": "515856315226",
+            "regNumber": "670057372041"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 17096.7,
+        "id": "a4537b7d-f5a0-4f7d-bc7a-902a69095c2d"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Petty Massey",
+        "email": "pettymassey@kengen.com",
+        "avatar": "15.png",
+        "companyDetails": {
+          "name": "Ersum",
+          "address": "253 Chapel Street, Belvoir, North Dakota, 9958",
+          "vatNumber": "445474156115",
+          "regNumber": "394715609411"
+        },
+        "id": "06c327a3-6a85-4c5d-bab8-0b554e4092b4"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "ROBOID-1592",
+        "client_id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c",
+        "date": 1624543435468,
+        "dueDate": 1609938911059,
+        "projectCode": "AVIT",
+        "meta": {
+          "details": [
+            { "detail": "eiusmod proident duis", "quantity": 4, "rate": 404.7 },
+            { "detail": "aute sunt sint", "quantity": 8, "rate": 277 },
+            {
+              "detail": "commodo incididunt officia",
+              "quantity": 9,
+              "rate": 636.2
+            },
+            { "detail": "proident ipsum dolore", "quantity": 8, "rate": 647.3 },
+            {
+              "detail": "voluptate sunt deserunt",
+              "quantity": 4,
+              "rate": 532.3
+            }
+          ],
+          "billTo": {
+            "name": "Etta Knox",
+            "address": "809 Homecrest Court, Dargan, Nevada, 1175",
+            "vatNumber": "763997942545",
+            "regNumber": "805165109003"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 16868.2,
+        "id": "e58be338-9ebe-4423-96b6-0a9b1bf4efd7"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Warner Bright",
+        "email": "warnerbright@quordate.com",
+        "avatar": "13.png",
+        "companyDetails": {
+          "name": "Egypto",
+          "address": "562 Knickerbocker Avenue, Thornport, Wyoming, 9680",
+          "vatNumber": "311668168051",
+          "regNumber": "279014096888"
+        },
+        "id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "MIRACLIS-4937",
+        "client_id": "2b5113ab-ce9f-46a3-80ff-bfab63e44bf3",
+        "date": 1629845645807,
+        "dueDate": 1616455142701,
+        "projectCode": "XURBAN",
+        "meta": {
+          "details": [
+            { "detail": "est minim laboris", "quantity": 9, "rate": 422.6 },
+            { "detail": "ipsum eiusmod esse", "quantity": 9, "rate": 223 },
+            { "detail": "cillum proident sit", "quantity": 3, "rate": 670.7 },
+            {
+              "detail": "officia non exercitation",
+              "quantity": 9,
+              "rate": 642.2
+            },
+            {
+              "detail": "nostrud dolor consectetur",
+              "quantity": 6,
+              "rate": 514.8
+            }
+          ],
+          "billTo": {
+            "name": "Macdonald Perkins",
+            "address": "930 Bradford Street, Clara, Federated States Of Micronesia, 9441",
+            "vatNumber": "587412021185",
+            "regNumber": "883680745924"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 16691.1,
+        "id": "a5ec6930-9a71-4002-926d-655b5e9f1709"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lucille Casey",
+        "email": "lucillecasey@comvey.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Norsul",
+          "address": "894 Kay Court, Bloomington, American Samoa, 9486",
+          "vatNumber": "877106036602",
+          "regNumber": "306478756446"
+        },
+        "id": "2b5113ab-ce9f-46a3-80ff-bfab63e44bf3"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "TERASCAPE-1600",
+        "client_id": "da48cc8d-4602-4117-b1c0-1e223d81350e",
+        "date": 1644885837325,
+        "dueDate": 1639804134504,
+        "projectCode": "EXOSPEED",
+        "meta": {
+          "details": [
+            { "detail": "in sit consectetur", "quantity": 9, "rate": 469.8 },
+            { "detail": "dolor et ex", "quantity": 7, "rate": 646.7 },
+            { "detail": "fugiat amet ipsum", "quantity": 8, "rate": 685.8 },
+            { "detail": "dolore aliquip laborum", "quantity": 4, "rate": 609.5 }
+          ],
+          "billTo": {
+            "name": "Dorsey Hunt",
+            "address": "566 Agate Court, Barclay, Vermont, 544",
+            "vatNumber": "276614447255",
+            "regNumber": "678362075828"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 16679.5,
+        "id": "552ba92e-4c1b-4f09-b16d-c9f29fb43eb6"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "English Graves",
+        "email": "englishgraves@zoarere.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Geeketron",
+          "address": "664 Monument Walk, Brecon, Virginia, 777",
+          "vatNumber": "9502297769",
+          "regNumber": "165570994122"
+        },
+        "id": "da48cc8d-4602-4117-b1c0-1e223d81350e"
+      }
+    }
+  ],
+  "total": 228
+}

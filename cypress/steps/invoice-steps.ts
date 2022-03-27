@@ -24,6 +24,10 @@ export const visitInvoiceAddPage = () => {
   cy.visit("invoice");
 };
 
+export const visitInvoicesPage = () => {
+  cy.visit("invoices");
+};
+
 export const isInInvoiceAddPage = () => {
   cy.url().should("match", /\/invoice$/);
 };

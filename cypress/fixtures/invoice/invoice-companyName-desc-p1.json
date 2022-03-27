@@ -1,0 +1,222 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "ISONUS-2710",
+        "client_id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b",
+        "date": 1643549100614,
+        "dueDate": 1646833907641,
+        "projectCode": "ENOMEN",
+        "meta": {
+          "details": [
+            { "detail": "minim cillum commodo", "quantity": 9, "rate": 397.3 },
+            { "detail": "elit aute laboris", "quantity": 3, "rate": 94.8 }
+          ],
+          "billTo": {
+            "name": "Pope Patrick",
+            "address": "161 Porter Avenue, Silkworth, Massachusetts, 2710",
+            "vatNumber": "449865205996",
+            "regNumber": "524938734419"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3860.1000000000004,
+        "id": "fe4a6af8-61fb-449d-a13a-19004a9ec262"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lizzie Estrada",
+        "email": "lizzieestrada@ronelon.com",
+        "avatar": "6.png",
+        "companyDetails": {
+          "name": "Zytrex",
+          "address": "620 Downing Street, Westwood, Illinois, 4465",
+          "vatNumber": "557569834332",
+          "regNumber": "180163089672"
+        },
+        "id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "LEXICONDO-3645",
+        "client_id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b",
+        "date": 1649385772171,
+        "dueDate": 1615468318917,
+        "projectCode": "SENMAO",
+        "meta": {
+          "details": [
+            { "detail": "id consequat fugiat", "quantity": 3, "rate": 204.2 },
+            {
+              "detail": "consequat magna fugiat",
+              "quantity": 8,
+              "rate": 526.2
+            },
+            {
+              "detail": "aliqua proident aliqua",
+              "quantity": 8,
+              "rate": 441.4
+            },
+            { "detail": "quis Lorem commodo", "quantity": 7, "rate": 640.4 },
+            { "detail": "id nostrud nulla", "quantity": 1, "rate": 234.7 }
+          ],
+          "billTo": {
+            "name": "Rae Reed",
+            "address": "157 Fiske Place, Topaz, Colorado, 6267",
+            "vatNumber": "382876490215",
+            "regNumber": "611305952356"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 13070.900000000001,
+        "id": "2c61ce76-1a15-4b7e-917c-1193058c1532"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lizzie Estrada",
+        "email": "lizzieestrada@ronelon.com",
+        "avatar": "6.png",
+        "companyDetails": {
+          "name": "Zytrex",
+          "address": "620 Downing Street, Westwood, Illinois, 4465",
+          "vatNumber": "557569834332",
+          "regNumber": "180163089672"
+        },
+        "id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "QUONATA-4941",
+        "client_id": "1bf2ecf2-b78b-4c95-b1ae-bf02622b51e1",
+        "date": 1650661248078,
+        "dueDate": 1622241892910,
+        "projectCode": "MUSAPHICS",
+        "meta": {
+          "details": [
+            { "detail": "incididunt qui ut", "quantity": 10, "rate": 663.7 },
+            { "detail": "enim ea occaecat", "quantity": 9, "rate": 276.9 },
+            {
+              "detail": "cillum consequat exercitation",
+              "quantity": 9,
+              "rate": 506.7
+            },
+            {
+              "detail": "ut exercitation consequat",
+              "quantity": 1,
+              "rate": 364.6
+            }
+          ],
+          "billTo": {
+            "name": "Lamb Morrow",
+            "address": "407 Alabama Avenue, Conway, Alabama, 1877",
+            "vatNumber": "840648889102",
+            "regNumber": "278749580721"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 14054.000000000002,
+        "id": "c4529d0b-e06d-48a8-b3b7-749f4cfe9e6e"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Drake David",
+        "email": "drakedavid@knowlysis.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Zyple",
+          "address": "791 Highlawn Avenue, Keller, West Virginia, 6372",
+          "vatNumber": "255717964242",
+          "regNumber": "764066982819"
+        },
+        "id": "1bf2ecf2-b78b-4c95-b1ae-bf02622b51e1"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "SCENTRIC-1706",
+        "client_id": "fed3476c-a701-495e-8d46-7e7bc91f876d",
+        "date": 1617098150264,
+        "dueDate": 1620781881273,
+        "projectCode": "BARKARAMA",
+        "meta": {
+          "details": [
+            { "detail": "duis mollit officia", "quantity": 5, "rate": 475.5 },
+            { "detail": "sunt incididunt irure", "quantity": 5, "rate": 384.6 },
+            { "detail": "pariatur qui sint", "quantity": 2, "rate": 305.3 },
+            { "detail": "eiusmod ut pariatur", "quantity": 2, "rate": 566.6 }
+          ],
+          "billTo": {
+            "name": "Castro Ortega",
+            "address": "122 Empire Boulevard, Frank, Marshall Islands, 4408",
+            "vatNumber": "830781723992",
+            "regNumber": "309206894531"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6044.3,
+        "id": "3c84acba-5261-487c-9817-3b5df30e9edf"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Leah Dudley",
+        "email": "leahdudley@maximind.com",
+        "avatar": "12.png",
+        "companyDetails": {
+          "name": "Zoarere",
+          "address": "106 Gaylord Drive, Broadlands, Nebraska, 7442",
+          "vatNumber": "383441157430",
+          "regNumber": "167236956568"
+        },
+        "id": "fed3476c-a701-495e-8d46-7e7bc91f876d"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "INTERFIND-1445",
+        "client_id": "fed3476c-a701-495e-8d46-7e7bc91f876d",
+        "date": 1635889270337,
+        "dueDate": 1633901594528,
+        "projectCode": "LIMOZEN",
+        "meta": {
+          "details": [
+            { "detail": "eiusmod irure ipsum", "quantity": 10, "rate": 623.3 },
+            {
+              "detail": "occaecat consectetur magna",
+              "quantity": 3,
+              "rate": 561.3
+            }
+          ],
+          "billTo": {
+            "name": "Goldie Holloway",
+            "address": "263 Beaumont Street, Lindcove, North Carolina, 945",
+            "vatNumber": "44533260545",
+            "regNumber": "382704777470"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 7916.9,
+        "id": "0420b4cf-92f1-4930-b8dd-f686c3f40a54"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Leah Dudley",
+        "email": "leahdudley@maximind.com",
+        "avatar": "12.png",
+        "companyDetails": {
+          "name": "Zoarere",
+          "address": "106 Gaylord Drive, Broadlands, Nebraska, 7442",
+          "vatNumber": "383441157430",
+          "regNumber": "167236956568"
+        },
+        "id": "fed3476c-a701-495e-8d46-7e7bc91f876d"
+      }
+    }
+  ],
+  "total": 228
+}

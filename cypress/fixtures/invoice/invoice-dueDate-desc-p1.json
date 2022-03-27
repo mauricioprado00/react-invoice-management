@@ -1,0 +1,213 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "AFFLUEX-2163",
+        "client_id": "35ac49cd-fdcb-48d6-8415-cb3a3c1454f6",
+        "date": 1626580327540,
+        "dueDate": 1651205407156,
+        "projectCode": "ZOID",
+        "meta": {
+          "details": [
+            { "detail": "pariatur in voluptate", "quantity": 8, "rate": 536.6 },
+            {
+              "detail": "commodo exercitation cupidatat",
+              "quantity": 1,
+              "rate": 647.1
+            },
+            { "detail": "laborum cillum aliqua", "quantity": 1, "rate": 513.4 }
+          ],
+          "billTo": {
+            "name": "Cantu Hamilton",
+            "address": "819 Dahlgreen Place, Rivers, Connecticut, 2029",
+            "vatNumber": "375139843961",
+            "regNumber": "158739447840"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 5453.3,
+        "id": "fc11d0b9-be0d-413a-b48c-bd6e7cb369d5"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Kristine Williams",
+        "email": "kristinewilliams@orbixtar.com",
+        "avatar": "13.png",
+        "companyDetails": {
+          "name": "Satiance",
+          "address": "836 Eastern Parkway, Columbus, Oklahoma, 2942",
+          "vatNumber": "481777130646",
+          "regNumber": "357462666963"
+        },
+        "id": "35ac49cd-fdcb-48d6-8415-cb3a3c1454f6"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "SUPREMIA-3783",
+        "client_id": "67c07033-a958-43c0-98dd-f73790618687",
+        "date": 1626137250405,
+        "dueDate": 1651111654256,
+        "projectCode": "NEBULEAN",
+        "meta": {
+          "details": [
+            {
+              "detail": "culpa veniam voluptate",
+              "quantity": 9,
+              "rate": 506.6
+            },
+            { "detail": "non aliquip do", "quantity": 2, "rate": 619.6 },
+            { "detail": "pariatur elit cillum", "quantity": 5, "rate": 364 }
+          ],
+          "billTo": {
+            "name": "May Merritt",
+            "address": "537 Pleasant Place, Bourg, Federated States Of Micronesia, 4060",
+            "vatNumber": "23475413750",
+            "regNumber": "885424544254"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 7618.6,
+        "id": "57c4d7c3-7bf6-4245-af64-7edb701ec3df"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gardner Shepard",
+        "email": "gardnershepard@bristo.com",
+        "avatar": "16.png",
+        "companyDetails": {
+          "name": "Straloy",
+          "address": "485 Canal Avenue, Clarktown, New Hampshire, 5057",
+          "vatNumber": "819395705742",
+          "regNumber": "92745101640"
+        },
+        "id": "67c07033-a958-43c0-98dd-f73790618687"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "EVIDENDS-4309",
+        "client_id": "2b5113ab-ce9f-46a3-80ff-bfab63e44bf3",
+        "date": 1609464123483,
+        "dueDate": 1650641685737,
+        "projectCode": "DATAGEN",
+        "meta": {
+          "details": [
+            { "detail": "sint mollit excepteur", "quantity": 8, "rate": 235.3 },
+            {
+              "detail": "occaecat proident cupidatat",
+              "quantity": 7,
+              "rate": 242.6
+            },
+            { "detail": "laborum eu quis", "quantity": 8, "rate": 532.1 },
+            { "detail": "et et culpa", "quantity": 8, "rate": 552.4 }
+          ],
+          "billTo": {
+            "name": "Molly James",
+            "address": "430 Fanchon Place, Clayville, New Hampshire, 6379",
+            "vatNumber": "655810584965",
+            "regNumber": "384529907579"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 12256.6,
+        "id": "f661c3ee-9f9c-49cc-beb9-200db692e7b7"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lucille Casey",
+        "email": "lucillecasey@comvey.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Norsul",
+          "address": "894 Kay Court, Bloomington, American Samoa, 9486",
+          "vatNumber": "877106036602",
+          "regNumber": "306478756446"
+        },
+        "id": "2b5113ab-ce9f-46a3-80ff-bfab63e44bf3"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "QUALITEX-4603",
+        "client_id": "231b5d59-5ae9-498c-af4e-937d9c4fdc66",
+        "date": 1641431049627,
+        "dueDate": 1650463729846,
+        "projectCode": "ONTAGENE",
+        "meta": {
+          "details": [
+            { "detail": "excepteur enim qui", "quantity": 3, "rate": 686.1 },
+            { "detail": "eiusmod fugiat Lorem", "quantity": 6, "rate": 590.8 }
+          ],
+          "billTo": {
+            "name": "Torres Horne",
+            "address": "175 India Street, Fairfield, Kansas, 5356",
+            "vatNumber": "422977602484",
+            "regNumber": "477340343749"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 5603.1,
+        "id": "7611b1db-e00b-4a8e-a0f6-576f8558d64f"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Summer Fitzpatrick",
+        "email": "summerfitzpatrick@straloy.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Parleynet",
+          "address": "819 Willow Place, Jardine, Alaska, 6692",
+          "vatNumber": "554833342160",
+          "regNumber": "830126087940"
+        },
+        "id": "231b5d59-5ae9-498c-af4e-937d9c4fdc66"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "CORIANDER-2542",
+        "client_id": "06c327a3-6a85-4c5d-bab8-0b554e4092b4",
+        "date": 1629058698289,
+        "dueDate": 1650187631459,
+        "projectCode": "SENTIA",
+        "meta": {
+          "details": [
+            { "detail": "consequat magna anim", "quantity": 2, "rate": 393.3 },
+            { "detail": "magna sit ex", "quantity": 8, "rate": 356.1 },
+            { "detail": "irure ex quis", "quantity": 9, "rate": 371.1 },
+            { "detail": "aute laboris tempor", "quantity": 10, "rate": 498.5 }
+          ],
+          "billTo": {
+            "name": "Luella Weber",
+            "address": "115 Tapscott Avenue, Norwood, Marshall Islands, 554",
+            "vatNumber": "635049497221",
+            "regNumber": "141267011976"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 11960.3,
+        "id": "81abbb2c-3166-4d0c-b2f2-1a0bf5ae996b"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Petty Massey",
+        "email": "pettymassey@kengen.com",
+        "avatar": "15.png",
+        "companyDetails": {
+          "name": "Ersum",
+          "address": "253 Chapel Street, Belvoir, North Dakota, 9958",
+          "vatNumber": "445474156115",
+          "regNumber": "394715609411"
+        },
+        "id": "06c327a3-6a85-4c5d-bab8-0b554e4092b4"
+      }
+    }
+  ],
+  "total": 228
+}

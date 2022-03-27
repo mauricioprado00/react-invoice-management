@@ -1,0 +1,123 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "ORBEAN-3954",
+        "client_id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae",
+        "date": 1617370801394,
+        "dueDate": 1622015919037,
+        "projectCode": "QUANTALIA",
+        "meta": {
+          "details": [
+            { "detail": "exercitation amet ea", "quantity": 9, "rate": 334.1 },
+            { "detail": "occaecat id enim", "quantity": 6, "rate": 568.1 },
+            {
+              "detail": "cillum duis reprehenderit",
+              "quantity": 7,
+              "rate": 671.9
+            },
+            { "detail": "cupidatat cupidatat sit", "quantity": 8, "rate": 528 }
+          ],
+          "billTo": {
+            "name": "Clay Matthews",
+            "address": "467 Tillary Street, Veguita, Florida, 9122",
+            "vatNumber": "737636827609",
+            "regNumber": "150459432107"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 15342.8,
+        "id": "fb3242f1-19b1-4875-96bf-84b29654024b"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Garcia Ray",
+        "email": "garciaray@balooba.com",
+        "avatar": "10.png",
+        "companyDetails": {
+          "name": "Glukgluk",
+          "address": "438 Ridgecrest Terrace, Fairview, Northern Mariana Islands, 5261",
+          "vatNumber": "632020029821",
+          "regNumber": "497117107532"
+        },
+        "id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "EZENT-1865",
+        "client_id": "692fe1bb-5846-4b53-a0e4-25b13d8ce82c",
+        "date": 1644065205051,
+        "dueDate": 1621355799456,
+        "projectCode": "CEDWARD",
+        "meta": {
+          "details": [
+            { "detail": "eu nostrud anim", "quantity": 8, "rate": 104.3 }
+          ],
+          "billTo": {
+            "name": "Wolfe Mann",
+            "address": "412 Jewel Street, Haring, Iowa, 4859",
+            "vatNumber": "785059311078",
+            "regNumber": "355170690106"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 834.4,
+        "id": "04e81c97-e18b-4982-b7b3-8536ec097be0"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Norris Knapp",
+        "email": "norrisknapp@makingway.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Plasmosis",
+          "address": "815 Buffalo Avenue, Winston, Arizona, 1911",
+          "vatNumber": "221725902906",
+          "regNumber": "716977748601"
+        },
+        "id": "692fe1bb-5846-4b53-a0e4-25b13d8ce82c"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "XYQAG-3136",
+        "client_id": "66d9f9cf-f24d-4389-b13a-72899ce8232f",
+        "date": 1626753554533,
+        "dueDate": 1624722038872,
+        "projectCode": "UNISURE",
+        "meta": {
+          "details": [
+            { "detail": "elit aliquip pariatur", "quantity": 2, "rate": 604.6 }
+          ],
+          "billTo": {
+            "name": "Alexandria Cain",
+            "address": "976 Kings Place, Cuylerville, Utah, 3142",
+            "vatNumber": "626326683600",
+            "regNumber": "364522821416"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 1209.2,
+        "id": "2b24aa29-b67d-4469-b12b-6d2d6def1f6f"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Preston Ochoa",
+        "email": "prestonochoa@gorganic.com",
+        "avatar": "5.png",
+        "companyDetails": {
+          "name": "Handshake",
+          "address": "781 Lester Court, Kennedyville, Virgin Islands, 3518",
+          "vatNumber": "118836268891",
+          "regNumber": "837156998244"
+        },
+        "id": "66d9f9cf-f24d-4389-b13a-72899ce8232f"
+      }
+    }
+  ],
+  "total": 228
+}

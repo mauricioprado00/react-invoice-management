@@ -1,0 +1,214 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "FLUMBO-2953",
+        "client_id": "1f3ed8e2-8893-4477-99aa-285a4c43bd44",
+        "date": 1651259758578,
+        "dueDate": 1614809376376,
+        "projectCode": "TELEQUIET",
+        "meta": {
+          "details": [
+            {
+              "detail": "velit cillum adipisicing",
+              "quantity": 2,
+              "rate": 688.2
+            },
+            { "detail": "labore veniam id", "quantity": 1, "rate": 631.7 },
+            {
+              "detail": "esse consequat eiusmod",
+              "quantity": 9,
+              "rate": 634.2
+            },
+            { "detail": "mollit enim ad", "quantity": 2, "rate": 692.2 }
+          ],
+          "billTo": {
+            "name": "Foreman Bryant",
+            "address": "207 Meserole Street, Sunnyside, Massachusetts, 9217",
+            "vatNumber": "830226122129",
+            "regNumber": "622474040889"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 9100.300000000001,
+        "id": "7150e90b-1753-43b4-9473-2f89e94d9da5"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Cross Malone",
+        "email": "crossmalone@gynk.com",
+        "avatar": "16.png",
+        "companyDetails": {
+          "name": "Digitalus",
+          "address": "375 Seabring Street, Glendale, Michigan, 5434",
+          "vatNumber": "312030888898",
+          "regNumber": "453903693257"
+        },
+        "id": "1f3ed8e2-8893-4477-99aa-285a4c43bd44"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "FUTURIS-1868",
+        "client_id": "47636ab9-5e0f-4cbf-8bae-48125dbc6627",
+        "date": 1651074680408,
+        "dueDate": 1640938465472,
+        "projectCode": "IDETICA",
+        "meta": {
+          "details": [
+            {
+              "detail": "laboris dolore commodo",
+              "quantity": 6,
+              "rate": 613.2
+            },
+            { "detail": "enim irure fugiat", "quantity": 10, "rate": 110.6 },
+            { "detail": "amet sit amet", "quantity": 8, "rate": 405.7 },
+            { "detail": "sint minim quis", "quantity": 2, "rate": 186.3 }
+          ],
+          "billTo": {
+            "name": "Cherry Banks",
+            "address": "288 Ellery Street, Cochranville, Texas, 5637",
+            "vatNumber": "464099579521",
+            "regNumber": "335797604740"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 8403.400000000001,
+        "id": "0add0bb4-65ed-4a22-99ee-3b656998997b"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lara Mendez",
+        "email": "laramendez@uncorp.com",
+        "avatar": "11.png",
+        "companyDetails": {
+          "name": "Ronelon",
+          "address": "541 Lawton Street, Aguila, Connecticut, 3138",
+          "vatNumber": "522706642301",
+          "regNumber": "155221883094"
+        },
+        "id": "47636ab9-5e0f-4cbf-8bae-48125dbc6627"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "NEPTIDE-2714",
+        "client_id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae",
+        "date": 1651026638949,
+        "dueDate": 1637182275005,
+        "projectCode": "ECSTASIA",
+        "meta": {
+          "details": [
+            { "detail": "aute duis quis", "quantity": 7, "rate": 645.7 },
+            { "detail": "incididunt et Lorem", "quantity": 9, "rate": 492.5 }
+          ],
+          "billTo": {
+            "name": "Lou Simpson",
+            "address": "511 Jodie Court, Smeltertown, Florida, 456",
+            "vatNumber": "465353140276",
+            "regNumber": "457965908189"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 8952.400000000001,
+        "id": "b0a1d80a-8cf9-4dc0-8d8d-77e177003bd0"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Garcia Ray",
+        "email": "garciaray@balooba.com",
+        "avatar": "10.png",
+        "companyDetails": {
+          "name": "Glukgluk",
+          "address": "438 Ridgecrest Terrace, Fairview, Northern Mariana Islands, 5261",
+          "vatNumber": "632020029821",
+          "regNumber": "497117107532"
+        },
+        "id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "MANTRO-4689",
+        "client_id": "02a5dbc3-eb8d-47d0-993f-da794cfe3f64",
+        "date": 1650942753303,
+        "dueDate": 1643240852258,
+        "projectCode": "UNEEQ",
+        "meta": {
+          "details": [
+            { "detail": "pariatur dolor nostrud", "quantity": 2, "rate": 431.4 }
+          ],
+          "billTo": {
+            "name": "Ladonna Stout",
+            "address": "714 Losee Terrace, Waiohinu, Minnesota, 5292",
+            "vatNumber": "80024482294",
+            "regNumber": "438593588913"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 862.8,
+        "id": "3d455259-b9b8-44b1-b54c-dcbb7ad482cf"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Patrica Mcpherson",
+        "email": "patricamcpherson@interfind.com",
+        "avatar": "10.png",
+        "companyDetails": {
+          "name": "Knowlysis",
+          "address": "686 Eldert Lane, Lydia, Guam, 5422",
+          "vatNumber": "668895686182",
+          "regNumber": "92546189149"
+        },
+        "id": "02a5dbc3-eb8d-47d0-993f-da794cfe3f64"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "TWIGGERY-1627",
+        "client_id": "47636ab9-5e0f-4cbf-8bae-48125dbc6627",
+        "date": 1650933636638,
+        "dueDate": 1629776991437,
+        "projectCode": "EXOPLODE",
+        "meta": {
+          "details": [
+            { "detail": "culpa commodo nostrud", "quantity": 6, "rate": 415.3 },
+            {
+              "detail": "est consequat consequat",
+              "quantity": 9,
+              "rate": 520.5
+            }
+          ],
+          "billTo": {
+            "name": "Roach Mccray",
+            "address": "141 Dennett Place, Rodanthe, Arizona, 4349",
+            "vatNumber": "704942879068",
+            "regNumber": "181230641606"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 7176.3,
+        "id": "2bb748ed-e97c-4379-b367-3f4f2b02a10d"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lara Mendez",
+        "email": "laramendez@uncorp.com",
+        "avatar": "11.png",
+        "companyDetails": {
+          "name": "Ronelon",
+          "address": "541 Lawton Street, Aguila, Connecticut, 3138",
+          "vatNumber": "522706642301",
+          "regNumber": "155221883094"
+        },
+        "id": "47636ab9-5e0f-4cbf-8bae-48125dbc6627"
+      }
+    }
+  ],
+  "total": 228
+}

@@ -1,0 +1,232 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "PROVIDCO-2510",
+        "client_id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+        "date": 1625742734302,
+        "dueDate": 1634223973062,
+        "projectCode": "MIXERS",
+        "meta": {
+          "details": [
+            { "detail": "quis amet pariatur", "quantity": 2, "rate": 352.7 },
+            {
+              "detail": "anim consectetur culpa",
+              "quantity": 2,
+              "rate": 225.5
+            },
+            { "detail": "ut officia culpa", "quantity": 8, "rate": 111.2 },
+            {
+              "detail": "minim veniam adipisicing",
+              "quantity": 2,
+              "rate": 509.7
+            },
+            { "detail": "fugiat ad mollit", "quantity": 8, "rate": 90.4 }
+          ],
+          "billTo": {
+            "name": "Hillary Hinton",
+            "address": "458 Cove Lane, Matthews, Wyoming, 8451",
+            "vatNumber": "11440627124",
+            "regNumber": "126666674716"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3788.6000000000004,
+        "id": "3a237fb9-3e9b-46fd-a171-fa07a57714b9"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gladys White",
+        "email": "gladyswhite@digitalus.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Balooba",
+          "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+          "vatNumber": "139938440008",
+          "regNumber": "720891275673"
+        },
+        "id": "315e337a-d9b1-4910-8fcc-b42464780e5b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "DANCITY-2051",
+        "client_id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+        "date": 1642080545663,
+        "dueDate": 1647144219851,
+        "projectCode": "OHMNET",
+        "meta": {
+          "details": [
+            { "detail": "duis est tempor", "quantity": 3, "rate": 313.9 },
+            {
+              "detail": "reprehenderit veniam velit",
+              "quantity": 3,
+              "rate": 99.9
+            },
+            { "detail": "non commodo mollit", "quantity": 5, "rate": 134.6 }
+          ],
+          "billTo": {
+            "name": "Norton Johnson",
+            "address": "343 Bowne Street, Urie, Massachusetts, 5829",
+            "vatNumber": "774339105808",
+            "regNumber": "499153040007"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 1914.4,
+        "id": "c24aabf2-1cca-4555-817f-3583e1465455"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gladys White",
+        "email": "gladyswhite@digitalus.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Balooba",
+          "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+          "vatNumber": "139938440008",
+          "regNumber": "720891275673"
+        },
+        "id": "315e337a-d9b1-4910-8fcc-b42464780e5b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "RETROTEX-1635",
+        "client_id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+        "date": 1611867835348,
+        "dueDate": 1632481853276,
+        "projectCode": "WARETEL",
+        "meta": {
+          "details": [
+            { "detail": "ut do eu", "quantity": 1, "rate": 274 },
+            {
+              "detail": "eiusmod minim adipisicing",
+              "quantity": 7,
+              "rate": 137
+            },
+            {
+              "detail": "ex commodo reprehenderit",
+              "quantity": 9,
+              "rate": 245.7
+            },
+            { "detail": "aliqua excepteur in", "quantity": 4, "rate": 519.1 }
+          ],
+          "billTo": {
+            "name": "Richard Allen",
+            "address": "391 Kent Street, Dennard, North Dakota, 2546",
+            "vatNumber": "568956540527",
+            "regNumber": "565652828307"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 5520.7,
+        "id": "6dac8e4c-22c9-450d-b967-a844889247ac"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gladys White",
+        "email": "gladyswhite@digitalus.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Balooba",
+          "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+          "vatNumber": "139938440008",
+          "regNumber": "720891275673"
+        },
+        "id": "315e337a-d9b1-4910-8fcc-b42464780e5b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "ADORNICA-4730",
+        "client_id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+        "date": 1647429279747,
+        "dueDate": 1624943080648,
+        "projectCode": "ZENOLUX",
+        "meta": {
+          "details": [
+            { "detail": "in proident ipsum", "quantity": 1, "rate": 660.6 },
+            { "detail": "magna cillum enim", "quantity": 1, "rate": 520.8 },
+            { "detail": "cupidatat fugiat ad", "quantity": 10, "rate": 688 },
+            {
+              "detail": "in reprehenderit excepteur",
+              "quantity": 2,
+              "rate": 382.2
+            },
+            { "detail": "ipsum sit Lorem", "quantity": 9, "rate": 320.7 }
+          ],
+          "billTo": {
+            "name": "Fitzpatrick Rich",
+            "address": "172 Poplar Street, Taft, Palau, 1573",
+            "vatNumber": "689092243621",
+            "regNumber": "578304642177"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 11712.099999999999,
+        "id": "be847a5c-b8d4-4c4f-8a67-57c6a5f47125"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gladys White",
+        "email": "gladyswhite@digitalus.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Balooba",
+          "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+          "vatNumber": "139938440008",
+          "regNumber": "720891275673"
+        },
+        "id": "315e337a-d9b1-4910-8fcc-b42464780e5b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "REMOLD-2716",
+        "client_id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+        "date": 1648902274746,
+        "dueDate": 1631521268542,
+        "projectCode": "ENDIPIN",
+        "meta": {
+          "details": [
+            { "detail": "nisi sint nostrud", "quantity": 10, "rate": 109 },
+            {
+              "detail": "labore consectetur eiusmod",
+              "quantity": 7,
+              "rate": 285.5
+            }
+          ],
+          "billTo": {
+            "name": "Vicki Alford",
+            "address": "971 Stockton Street, Greenbush, Maryland, 4461",
+            "vatNumber": "898963495267",
+            "regNumber": "699850335057"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3088.5,
+        "id": "71ee5929-0df4-4214-8a0d-4a7d5f075fed"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gladys White",
+        "email": "gladyswhite@digitalus.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Balooba",
+          "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+          "vatNumber": "139938440008",
+          "regNumber": "720891275673"
+        },
+        "id": "315e337a-d9b1-4910-8fcc-b42464780e5b"
+      }
+    }
+  ],
+  "total": 223
+}

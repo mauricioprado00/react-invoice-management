@@ -1,0 +1,213 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "EQUICOM-2270",
+        "client_id": "cb753afe-6d71-4075-9750-bcc64c3bdc1f",
+        "date": 1632528000000,
+        "dueDate": 1645488000000,
+        "projectCode": "BUZZOPIA",
+        "meta": {
+          "details": [
+            { "detail": "pariatur ut Lorem", "quantity": 2, "rate": 435.5 },
+            { "detail": "do exercitation duis", "quantity": 8, "rate": 177.3 },
+            { "detail": "consequat deserunt ad", "quantity": 4, "rate": 607.4 },
+            { "detail": "esse in reprehenderit", "quantity": 3, "rate": 483.6 },
+            { "detail": "est non reprehenderit", "quantity": 1, "rate": 176.5 }
+          ],
+          "billTo": {
+            "name": "Shanna Hull",
+            "address": "594 Stillwell Place, Westmoreland, Washington, 329",
+            "vatNumber": "689103305564",
+            "regNumber": "566611266188"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6346.3,
+        "id": "203efe25-d591-4c54-a202-7e7c0eb61461"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Waters Mcneil",
+        "email": "watersmcneil@idealis.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Interfind",
+          "address": "401 Harwood Place, Florence, South Carolina, 3631",
+          "vatNumber": "35431679137",
+          "regNumber": "521621375834"
+        },
+        "id": "cb753afe-6d71-4075-9750-bcc64c3bdc1f"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "REMOLD-2716",
+        "client_id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+        "date": 1648902274746,
+        "dueDate": 1631521268542,
+        "projectCode": "ENDIPIN",
+        "meta": {
+          "details": [
+            { "detail": "nisi sint nostrud", "quantity": 10, "rate": 109 },
+            {
+              "detail": "labore consectetur eiusmod",
+              "quantity": 7,
+              "rate": 285.5
+            }
+          ],
+          "billTo": {
+            "name": "Vicki Alford",
+            "address": "971 Stockton Street, Greenbush, Maryland, 4461",
+            "vatNumber": "898963495267",
+            "regNumber": "699850335057"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3088.5,
+        "id": "71ee5929-0df4-4214-8a0d-4a7d5f075fed"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gladys White",
+        "email": "gladyswhite@digitalus.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Balooba",
+          "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+          "vatNumber": "139938440008",
+          "regNumber": "720891275673"
+        },
+        "id": "315e337a-d9b1-4910-8fcc-b42464780e5b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "OVATION-2705",
+        "client_id": "da48cc8d-4602-4117-b1c0-1e223d81350e",
+        "date": 1629541946804,
+        "dueDate": 1613472801066,
+        "projectCode": "JIMBIES",
+        "meta": {
+          "details": [
+            { "detail": "sunt ipsum ex", "quantity": 5, "rate": 346.6 },
+            { "detail": "quis ea consequat", "quantity": 10, "rate": 499.4 }
+          ],
+          "billTo": {
+            "name": "Campbell Dawson",
+            "address": "908 Doone Court, Wintersburg, Arizona, 6079",
+            "vatNumber": "623066761273",
+            "regNumber": "567080382522"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6727,
+        "id": "c99ecd55-2537-482e-a919-c8bd89df055c"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "English Graves",
+        "email": "englishgraves@zoarere.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Geeketron",
+          "address": "664 Monument Walk, Brecon, Virginia, 777",
+          "vatNumber": "9502297769",
+          "regNumber": "165570994122"
+        },
+        "id": "da48cc8d-4602-4117-b1c0-1e223d81350e"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "HINWAY-2473",
+        "client_id": "40dd936a-150f-4ae0-b9b9-b33cb44149fa",
+        "date": 1625167666285,
+        "dueDate": 1617394169077,
+        "projectCode": "QUINTITY",
+        "meta": {
+          "details": [
+            {
+              "detail": "id exercitation tempor",
+              "quantity": 8,
+              "rate": 290.8
+            },
+            { "detail": "sint pariatur officia", "quantity": 8, "rate": 151.7 },
+            { "detail": "minim reprehenderit ex", "quantity": 7, "rate": 116 },
+            { "detail": "minim dolor elit", "quantity": 4, "rate": 222.6 },
+            {
+              "detail": "pariatur officia irure",
+              "quantity": 10,
+              "rate": 632.9
+            }
+          ],
+          "billTo": {
+            "name": "Little Roach",
+            "address": "924 Jay Street, Edenburg, Delaware, 8523",
+            "vatNumber": "837081847507",
+            "regNumber": "574050209028"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 11571.4,
+        "id": "a41a7e61-86d5-4a0d-b7e5-3dbe9f11ae7a"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Corrine Stone",
+        "email": "corrinestone@comtest.com",
+        "avatar": "11.png",
+        "companyDetails": {
+          "name": "Equitax",
+          "address": "745 Kingsland Avenue, Vernon, Federated States Of Micronesia, 802",
+          "vatNumber": "284521202014",
+          "regNumber": "480439275252"
+        },
+        "id": "40dd936a-150f-4ae0-b9b9-b33cb44149fa"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "NAVIR-2030",
+        "client_id": "e87634d6-de65-4572-ac35-f0dcec76a50b",
+        "date": 1618297446940,
+        "dueDate": 1614790719591,
+        "projectCode": "ACCRUEX",
+        "meta": {
+          "details": [
+            { "detail": "aliquip aliqua sunt", "quantity": 3, "rate": 460.9 },
+            { "detail": "occaecat mollit nisi", "quantity": 7, "rate": 669.5 }
+          ],
+          "billTo": {
+            "name": "Concepcion David",
+            "address": "383 Ashland Place, Suitland, Arkansas, 8753",
+            "vatNumber": "161874289731",
+            "regNumber": "157049426687"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6069.2,
+        "id": "49188933-847e-4d5f-963d-e988b5bebdd0"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Richmond Shannon",
+        "email": "richmondshannon@magneato.com",
+        "avatar": "16.png",
+        "companyDetails": {
+          "name": "Comvey",
+          "address": "306 Holmes Lane, Wollochet, Iowa, 4106",
+          "vatNumber": "207421539172",
+          "regNumber": "139612002335"
+        },
+        "id": "e87634d6-de65-4572-ac35-f0dcec76a50b"
+      }
+    }
+  ],
+  "total": 228
+}

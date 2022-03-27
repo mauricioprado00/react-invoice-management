@@ -1,0 +1,231 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "CABLAM-3921",
+        "client_id": "47cc6a30-cbca-4287-85e4-ee1a76177b61",
+        "date": 1646133225979,
+        "dueDate": 1626160637160,
+        "projectCode": "BRAINQUIL",
+        "meta": {
+          "details": [
+            {
+              "detail": "cillum consectetur occaecat",
+              "quantity": 10,
+              "rate": 373.8
+            },
+            { "detail": "nulla velit nisi", "quantity": 8, "rate": 226.7 },
+            {
+              "detail": "exercitation nostrud excepteur",
+              "quantity": 6,
+              "rate": 639.3
+            },
+            { "detail": "culpa tempor mollit", "quantity": 4, "rate": 606.4 }
+          ],
+          "billTo": {
+            "name": "Valerie Rodriguez",
+            "address": "583 Schaefer Street, Morgandale, Connecticut, 6422",
+            "vatNumber": "321825502419",
+            "regNumber": "693800716387"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 11813,
+        "id": "5eb7317d-b34d-4fcb-adde-59adba5b05ba"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Parks Nieves",
+        "email": "parksnieves@menbrain.com",
+        "avatar": "15.png",
+        "companyDetails": {
+          "name": "Accupharm",
+          "address": "698 Stuart Street, Elliston, Texas, 5497",
+          "vatNumber": "134293609872",
+          "regNumber": "448436011851"
+        },
+        "id": "47cc6a30-cbca-4287-85e4-ee1a76177b61"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "COMTREK-2839",
+        "client_id": "47cc6a30-cbca-4287-85e4-ee1a76177b61",
+        "date": 1646854293159,
+        "dueDate": 1634943320564,
+        "projectCode": "AQUAMATE",
+        "meta": {
+          "details": [
+            { "detail": "duis ullamco nostrud", "quantity": 7, "rate": 586.5 },
+            { "detail": "enim mollit sit", "quantity": 5, "rate": 116.3 },
+            { "detail": "occaecat quis irure", "quantity": 2, "rate": 364.7 },
+            { "detail": "aliqua Lorem commodo", "quantity": 8, "rate": 312.1 },
+            { "detail": "deserunt in ea", "quantity": 6, "rate": 219.8 }
+          ],
+          "billTo": {
+            "name": "Rebecca Beard",
+            "address": "818 Withers Street, Balm, South Dakota, 3402",
+            "vatNumber": "395516132718",
+            "regNumber": "547503444742"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 9232,
+        "id": "e0e8ed37-6901-4802-9df2-c109dcf16e17"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Parks Nieves",
+        "email": "parksnieves@menbrain.com",
+        "avatar": "15.png",
+        "companyDetails": {
+          "name": "Accupharm",
+          "address": "698 Stuart Street, Elliston, Texas, 5497",
+          "vatNumber": "134293609872",
+          "regNumber": "448436011851"
+        },
+        "id": "47cc6a30-cbca-4287-85e4-ee1a76177b61"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "ZANYMAX-3576",
+        "client_id": "47cc6a30-cbca-4287-85e4-ee1a76177b61",
+        "date": 1611087589353,
+        "dueDate": 1625579154539,
+        "projectCode": "VERTON",
+        "meta": {
+          "details": [
+            { "detail": "tempor ut voluptate", "quantity": 6, "rate": 257.3 },
+            {
+              "detail": "nulla reprehenderit velit",
+              "quantity": 7,
+              "rate": 389.6
+            },
+            { "detail": "mollit id do", "quantity": 6, "rate": 209.2 }
+          ],
+          "billTo": {
+            "name": "Rachael Hurst",
+            "address": "898 Caton Avenue, Monument, Pennsylvania, 9637",
+            "vatNumber": "291082248416",
+            "regNumber": "926812240078"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 5526.2,
+        "id": "bd5631fe-8255-4d7f-881e-a73280356372"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Parks Nieves",
+        "email": "parksnieves@menbrain.com",
+        "avatar": "15.png",
+        "companyDetails": {
+          "name": "Accupharm",
+          "address": "698 Stuart Street, Elliston, Texas, 5497",
+          "vatNumber": "134293609872",
+          "regNumber": "448436011851"
+        },
+        "id": "47cc6a30-cbca-4287-85e4-ee1a76177b61"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "INSURITY-4495",
+        "client_id": "8d2eec40-2a18-4ee6-832c-32363cb47795",
+        "date": 1631771452756,
+        "dueDate": 1642507745610,
+        "projectCode": "DAISU",
+        "meta": {
+          "details": [
+            { "detail": "cillum Lorem ipsum", "quantity": 6, "rate": 500.7 },
+            {
+              "detail": "adipisicing deserunt laborum",
+              "quantity": 10,
+              "rate": 630
+            },
+            {
+              "detail": "aliquip mollit reprehenderit",
+              "quantity": 2,
+              "rate": 387.2
+            },
+            {
+              "detail": "exercitation voluptate minim",
+              "quantity": 7,
+              "rate": 379.3
+            }
+          ],
+          "billTo": {
+            "name": "Pate Osborne",
+            "address": "561 Colin Place, Nile, Connecticut, 9378",
+            "vatNumber": "782340767392",
+            "regNumber": "414275552548"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 12733.7,
+        "id": "2d0413f4-c4bd-4fba-963e-adf87645ffd4"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Michele Cooley",
+        "email": "michelecooley@norsul.com",
+        "avatar": "6.png",
+        "companyDetails": {
+          "name": "Aclima",
+          "address": "744 Evergreen Avenue, Omar, Wisconsin, 699",
+          "vatNumber": "373669504134",
+          "regNumber": "53759519212"
+        },
+        "id": "8d2eec40-2a18-4ee6-832c-32363cb47795"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "QUILM-3568",
+        "client_id": "8d2eec40-2a18-4ee6-832c-32363cb47795",
+        "date": 1632223349067,
+        "dueDate": 1627957674228,
+        "projectCode": "MIRACULA",
+        "meta": {
+          "details": [
+            { "detail": "velit ut nisi", "quantity": 2, "rate": 597.1 },
+            {
+              "detail": "esse labore consectetur",
+              "quantity": 9,
+              "rate": 285.9
+            }
+          ],
+          "billTo": {
+            "name": "Larsen Maxwell",
+            "address": "187 Nova Court, Knowlton, Missouri, 6943",
+            "vatNumber": "208889623479",
+            "regNumber": "594212318974"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3767.3,
+        "id": "b0d762f4-8fa6-44d7-843d-f02f98cb6455"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Michele Cooley",
+        "email": "michelecooley@norsul.com",
+        "avatar": "6.png",
+        "companyDetails": {
+          "name": "Aclima",
+          "address": "744 Evergreen Avenue, Omar, Wisconsin, 699",
+          "vatNumber": "373669504134",
+          "regNumber": "53759519212"
+        },
+        "id": "8d2eec40-2a18-4ee6-832c-32363cb47795"
+      }
+    }
+  ],
+  "total": 228
+}

@@ -1,0 +1,226 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "DUOFLEX-3397",
+        "client_id": "ac8f4d5c-df4c-4806-a127-e20eff799691",
+        "date": 1634492972757,
+        "dueDate": 1609642801528,
+        "projectCode": "ZENSUS",
+        "meta": {
+          "details": [
+            { "detail": "ut veniam est", "quantity": 1, "rate": 135.9 },
+            {
+              "detail": "adipisicing veniam voluptate",
+              "quantity": 7,
+              "rate": 273.1
+            },
+            { "detail": "ea adipisicing magna", "quantity": 7, "rate": 396.6 },
+            { "detail": "et nulla proident", "quantity": 5, "rate": 246.9 }
+          ],
+          "billTo": {
+            "name": "Faulkner Hodges 20220327_123100",
+            "address": "797 Wakeman Place, Florence, Wisconsin, 4302",
+            "vatNumber": "846834535130",
+            "regNumber": "83920080342"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6058.300000000001,
+        "id": "396c6d78-c31e-4e34-8f39-ca5753617633"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Judy Hogan",
+        "email": "judyhogan@plasmosis.com",
+        "avatar": "3.png",
+        "companyDetails": {
+          "name": "Interodeo",
+          "address": "439 Granite Street, Bartley, Maine, 8292",
+          "vatNumber": "195986977886",
+          "regNumber": "570803379120"
+        },
+        "id": "ac8f4d5c-df4c-4806-a127-e20eff799691"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "RETRACK-4358",
+        "client_id": "cdd9f0e6-3083-47d7-9e9b-e87c3eeecdb7",
+        "date": 1614943676949,
+        "dueDate": 1609685911428,
+        "projectCode": "XINWARE",
+        "meta": {
+          "details": [
+            { "detail": "tempor in ea", "quantity": 4, "rate": 164 },
+            { "detail": "eu minim eu", "quantity": 5, "rate": 411.3 },
+            {
+              "detail": "dolore consequat ullamco",
+              "quantity": 10,
+              "rate": 439.9
+            },
+            { "detail": "eu incididunt dolore", "quantity": 9, "rate": 576.9 }
+          ],
+          "billTo": {
+            "name": "Dillard Knapp",
+            "address": "612 Village Road, Lynn, Arizona, 2996",
+            "vatNumber": "542445967295",
+            "regNumber": "694474750075"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 12303.599999999999,
+        "id": "a435146a-9483-49b7-b7ba-5b3951673eb1"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Becker Humphrey",
+        "email": "beckerhumphrey@kongene.com",
+        "avatar": "3.png",
+        "companyDetails": {
+          "name": "Kengen",
+          "address": "263 Wogan Terrace, Mahtowa, Georgia, 5580",
+          "vatNumber": "109493799969",
+          "regNumber": "59505071818"
+        },
+        "id": "cdd9f0e6-3083-47d7-9e9b-e87c3eeecdb7"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "MYOPIUM-4040",
+        "client_id": "64e53061-507d-4886-a3db-46d81b49d65d",
+        "date": 1648171523811,
+        "dueDate": 1609717992899,
+        "projectCode": "ORBAXTER",
+        "meta": {
+          "details": [
+            { "detail": "elit ut et", "quantity": 7, "rate": 486.2 },
+            { "detail": "elit et eiusmod", "quantity": 5, "rate": 144.1 },
+            { "detail": "eiusmod ut esse", "quantity": 10, "rate": 402.2 }
+          ],
+          "billTo": {
+            "name": "Conrad Avila",
+            "address": "640 Moffat Street, Greer, Arkansas, 4328",
+            "vatNumber": "264800928622",
+            "regNumber": "290160730675"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 8145.9,
+        "id": "4ed58b4a-5364-4b55-812b-906d8dc4855e"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Romero Payne",
+        "email": "romeropayne@interodeo.com",
+        "avatar": "12.png",
+        "companyDetails": {
+          "name": "Turnling",
+          "address": "681 Fulton Street, Como, Alabama, 3793",
+          "vatNumber": "688452257551",
+          "regNumber": "83789891399"
+        },
+        "id": "64e53061-507d-4886-a3db-46d81b49d65d"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "ROBOID-1592",
+        "client_id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c",
+        "date": 1624543435468,
+        "dueDate": 1609938911059,
+        "projectCode": "AVIT",
+        "meta": {
+          "details": [
+            { "detail": "eiusmod proident duis", "quantity": 4, "rate": 404.7 },
+            { "detail": "aute sunt sint", "quantity": 8, "rate": 277 },
+            {
+              "detail": "commodo incididunt officia",
+              "quantity": 9,
+              "rate": 636.2
+            },
+            { "detail": "proident ipsum dolore", "quantity": 8, "rate": 647.3 },
+            {
+              "detail": "voluptate sunt deserunt",
+              "quantity": 4,
+              "rate": 532.3
+            }
+          ],
+          "billTo": {
+            "name": "Etta Knox",
+            "address": "809 Homecrest Court, Dargan, Nevada, 1175",
+            "vatNumber": "763997942545",
+            "regNumber": "805165109003"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 16868.2,
+        "id": "e58be338-9ebe-4423-96b6-0a9b1bf4efd7"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Warner Bright",
+        "email": "warnerbright@quordate.com",
+        "avatar": "13.png",
+        "companyDetails": {
+          "name": "Egypto",
+          "address": "562 Knickerbocker Avenue, Thornport, Wyoming, 9680",
+          "vatNumber": "311668168051",
+          "regNumber": "279014096888"
+        },
+        "id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "TRANSLINK-3990",
+        "client_id": "39191961-b194-4bbf-8f4e-475c42b11445",
+        "date": 1631155781016,
+        "dueDate": 1610253676279,
+        "projectCode": "LOVEPAD",
+        "meta": {
+          "details": [
+            { "detail": "incididunt aute est", "quantity": 4, "rate": 96.6 },
+            { "detail": "proident aliqua est", "quantity": 6, "rate": 456.5 },
+            { "detail": "enim voluptate minim", "quantity": 1, "rate": 340.2 },
+            { "detail": "in deserunt excepteur", "quantity": 9, "rate": 284.4 },
+            {
+              "detail": "consectetur proident laborum",
+              "quantity": 2,
+              "rate": 96
+            }
+          ],
+          "billTo": {
+            "name": "Lakisha Rush",
+            "address": "520 Rose Street, Wright, Nebraska, 6775",
+            "vatNumber": "229887506342",
+            "regNumber": "316976248651"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6217.2,
+        "id": "65b8d851-2e45-4695-a703-1baa6be9daf4"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Corinne Bentley",
+        "email": "corinnebentley@egypto.com",
+        "avatar": "11.png",
+        "companyDetails": {
+          "name": "Idealis",
+          "address": "258 Plaza Street, Bison, Massachusetts, 6962",
+          "vatNumber": "349069295288",
+          "regNumber": "844005211378"
+        },
+        "id": "39191961-b194-4bbf-8f4e-475c42b11445"
+      }
+    }
+  ],
+  "total": 228
+}
