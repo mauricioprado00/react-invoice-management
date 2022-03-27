@@ -1,3 +1,4 @@
+import { GenericStaticResponse } from "cypress/types/net-stubbing";
 import { ClientList } from "models/Client";
 
 const getParams = (params: Record<string, any>) => {
@@ -54,6 +55,10 @@ type FixtureClientsPageParameters =
       delay?: number;
       sort?: Record<string, string>;
       fixture?: string;
+      reply?: GenericStaticResponse<
+        string,
+        string | boolean | object | ArrayBuffer | null
+      >;
     }
   | undefined;
 export const fixtureClientsPage = ({
@@ -61,6 +66,7 @@ export const fixtureClientsPage = ({
   delay,
   sort,
   fixture,
+  reply,
 }: FixtureClientsPageParameters = {}) => {
   let sm = sortModifier(sort || {});
   cy.intercept(
@@ -82,10 +88,17 @@ export const fixtureClientsPage = ({
 
       if (matches) {
         const modifier = sm ? "-" + sm : "";
-        req.reply({
-          fixture: fixture ? fixture : `client/client${modifier}-p${p}.json`,
-          delay,
-        });
+
+        req.reply(
+          reply
+            ? reply
+            : {
+                fixture: fixture
+                  ? fixture
+                  : `client/client${modifier}-p${p}.json`,
+                delay,
+              }
+        );
       }
     }
   ).as(`ClientPage${p}`);

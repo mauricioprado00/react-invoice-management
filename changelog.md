@@ -1,7 +1,5 @@
 # pending features
 4. cypress missing
-   1. loading mask during client sorting
-   2. error during client sorting
    3. sorting of invoices
    4. loading mask during invoice sorting
    5. error during invoice sorting
@@ -38,6 +36,11 @@
 - sorted filters? currently api will sort always in the same order. 
   it would be nice to give the user the control of choosing which sorting
   comes first.
+
+# 2022 03 27
+4. cypress missing
+   1. test loading mask during client sorting
+   2. test error during client sorting
 
 # 2022 03 26 
 - Fix bug when adding client/invoice and total of records not updated in all cached pages

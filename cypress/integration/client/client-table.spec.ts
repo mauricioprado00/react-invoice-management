@@ -60,7 +60,7 @@ describe("Sorting", () => {
     cy.get('[data-testid="invoice-count"]').contains("3");
   });
 
-  it.only("will multi-sort clients", () => {
+  it("will multi-sort clients", () => {
     fixtureClientsPage({ sort: { invoicesCount: "asc" } });
     fixtureClientsPage({ sort: { invoicesCount: "desc" } });
     fixtureClientsPage({ sort: { totalBilled: "asc", invoicesCount: "desc" } });
@@ -79,6 +79,29 @@ describe("Sorting", () => {
 
     cy.contains("Total Billed").click();
     cy.contains("Petty Massey");
+  });
+
+  it("will show the loading mask when click sort", () => {
+    fixtureClientsPage({ sort: { totalBilled: "asc" }, delay: 5000 });
+
+    visitClientsPage();
+
+    cy.contains("Total Billed").click();
+    cy.get('[data-testid="loading-mask"]');
+  });
+
+  it("will show error if sort fails", () => {
+    const body = "[testing] Some error happened while retrieving client page";
+    fixtureClientsPage({
+      sort: { totalBilled: "asc" },
+      reply: { statusCode: 400, body },
+    });
+
+    visitClientsPage();
+
+    cy.contains("Total Billed").click();
+    cy.contains("There are connectivity problems, we could not load the data");
+    cy.contains(body);
   });
 
   it("Will now show page until user validation is done", () => {});
