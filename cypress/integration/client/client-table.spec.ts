@@ -143,6 +143,14 @@ describe("Client table pagination", () => {
     cy.contains("Richmond Shannon");
   });
 
+  it("will load sorted pages from url parameters", () => {
+    fixtureClientsPage({ p: 2, sort: { companyName: "asc" } });
+
+    visitClientsPage({ page: "2", sort_company: "asc" });
+
+    cy.contains("Richmond Shannon");
+  });
+
   it("will show error if pagination fails", () => {
     const body = "[testing] Some error happened while retrieving client page";
     fixtureClientsPage({

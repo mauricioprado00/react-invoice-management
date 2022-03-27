@@ -44,6 +44,7 @@
    5. test error during invoice sorting
    6. test invoice pagination
    7. test loading client/invoice page from url parameter
+   8. test load sorted pages from url parameters
 
 # 2022 03 26 
 - Fix bug when adding client/invoice and total of records not updated in all cached pages

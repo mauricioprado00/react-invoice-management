@@ -156,6 +156,14 @@ describe("Invoice table pagination", () => {
     cy.contains("Balooba");
   });
 
+  it("will load sorted pages from url parameters", () => {
+    fixtureInvoicesPage({ p: 2, sort: { companyName: "asc" } });
+
+    visitInvoicesPage({ page: "2", sort_companyName: "asc" });
+
+    cy.contains("Balooba");
+  });
+
   it("will show error if pagination fails", () => {
     const body = "[testing] Some error happened while retrieving client page";
     fixtureInvoicesPage({
