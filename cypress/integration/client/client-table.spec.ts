@@ -150,6 +150,16 @@ describe("Client table pagination", () => {
 
     cy.contains("Richmond Shannon");
   });
+  
+  it.only("will show the loading mask when paginating", () => {
+    fixtureClientsPage({ p: 2, delay: 5000 });
+
+    visitClientsPage();
+
+    paginationClickPage(2);
+    cy.get('[data-testid="loading-mask"]');
+  });
+
 
   it("will show error if pagination fails", () => {
     const body = "[testing] Some error happened while retrieving client page";

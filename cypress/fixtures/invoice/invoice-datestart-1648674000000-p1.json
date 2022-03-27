@@ -1,0 +1,210 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "REMOLD-2716",
+        "client_id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+        "date": 1648902274746,
+        "dueDate": 1631521268542,
+        "projectCode": "ENDIPIN",
+        "meta": {
+          "details": [
+            { "detail": "nisi sint nostrud", "quantity": 10, "rate": 109 },
+            {
+              "detail": "labore consectetur eiusmod",
+              "quantity": 7,
+              "rate": 285.5
+            }
+          ],
+          "billTo": {
+            "name": "Vicki Alford",
+            "address": "971 Stockton Street, Greenbush, Maryland, 4461",
+            "vatNumber": "898963495267",
+            "regNumber": "699850335057"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3088.5,
+        "id": "71ee5929-0df4-4214-8a0d-4a7d5f075fed"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gladys White",
+        "email": "gladyswhite@digitalus.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Balooba",
+          "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+          "vatNumber": "139938440008",
+          "regNumber": "720891275673"
+        },
+        "id": "315e337a-d9b1-4910-8fcc-b42464780e5b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "NEWCUBE-1927",
+        "client_id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c",
+        "date": 1650801972964,
+        "dueDate": 1613350260666,
+        "projectCode": "ARCTIQ",
+        "meta": {
+          "details": [
+            { "detail": "non amet proident", "quantity": 4, "rate": 367.1 },
+            { "detail": "est voluptate ad", "quantity": 5, "rate": 543.5 },
+            { "detail": "culpa in voluptate", "quantity": 4, "rate": 131.3 },
+            { "detail": "culpa minim non", "quantity": 5, "rate": 160.3 }
+          ],
+          "billTo": {
+            "name": "Dean Parrish",
+            "address": "524 Prescott Place, Leeper, Nevada, 7363",
+            "vatNumber": "503494636746",
+            "regNumber": "505347731055"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 5512.599999999999,
+        "id": "3aeed775-0f4a-41b3-98dd-39f7275b9071"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Warner Bright",
+        "email": "warnerbright@quordate.com",
+        "avatar": "13.png",
+        "companyDetails": {
+          "name": "Egypto",
+          "address": "562 Knickerbocker Avenue, Thornport, Wyoming, 9680",
+          "vatNumber": "311668168051",
+          "regNumber": "279014096888"
+        },
+        "id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "NURALI-1630",
+        "client_id": "67c07033-a958-43c0-98dd-f73790618687",
+        "date": 1650493753501,
+        "dueDate": 1632233018037,
+        "projectCode": "KONGLE",
+        "meta": {
+          "details": [
+            { "detail": "do ea labore", "quantity": 4, "rate": 379.1 }
+          ],
+          "billTo": {
+            "name": "Edith Underwood",
+            "address": "343 Tompkins Avenue, Woodlake, Oklahoma, 4532",
+            "vatNumber": "912874175558",
+            "regNumber": "568577942753"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 1516.4,
+        "id": "d576afdd-01b1-4190-a151-9f9299d17c47"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gardner Shepard",
+        "email": "gardnershepard@bristo.com",
+        "avatar": "16.png",
+        "companyDetails": {
+          "name": "Straloy",
+          "address": "485 Canal Avenue, Clarktown, New Hampshire, 5057",
+          "vatNumber": "819395705742",
+          "regNumber": "92745101640"
+        },
+        "id": "67c07033-a958-43c0-98dd-f73790618687"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "AQUASSEUR-4513",
+        "client_id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae",
+        "date": 1650362576705,
+        "dueDate": 1639241012150,
+        "projectCode": "KOOGLE",
+        "meta": {
+          "details": [
+            { "detail": "nisi minim veniam", "quantity": 9, "rate": 151.7 }
+          ],
+          "billTo": {
+            "name": "Avila Young",
+            "address": "349 Georgia Avenue, Munjor, Wisconsin, 1256",
+            "vatNumber": "610934882722",
+            "regNumber": "554331228892"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 1365.3,
+        "id": "ea811637-1833-4346-b8e3-24b97a854745"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Garcia Ray",
+        "email": "garciaray@balooba.com",
+        "avatar": "10.png",
+        "companyDetails": {
+          "name": "Glukgluk",
+          "address": "438 Ridgecrest Terrace, Fairview, Northern Mariana Islands, 5261",
+          "vatNumber": "632020029821",
+          "regNumber": "497117107532"
+        },
+        "id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "LEXICONDO-3645",
+        "client_id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b",
+        "date": 1649385772171,
+        "dueDate": 1615468318917,
+        "projectCode": "SENMAO",
+        "meta": {
+          "details": [
+            { "detail": "id consequat fugiat", "quantity": 3, "rate": 204.2 },
+            {
+              "detail": "consequat magna fugiat",
+              "quantity": 8,
+              "rate": 526.2
+            },
+            {
+              "detail": "aliqua proident aliqua",
+              "quantity": 8,
+              "rate": 441.4
+            },
+            { "detail": "quis Lorem commodo", "quantity": 7, "rate": 640.4 },
+            { "detail": "id nostrud nulla", "quantity": 1, "rate": 234.7 }
+          ],
+          "billTo": {
+            "name": "Rae Reed",
+            "address": "157 Fiske Place, Topaz, Colorado, 6267",
+            "vatNumber": "382876490215",
+            "regNumber": "611305952356"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 13070.900000000001,
+        "id": "2c61ce76-1a15-4b7e-917c-1193058c1532"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lizzie Estrada",
+        "email": "lizzieestrada@ronelon.com",
+        "avatar": "6.png",
+        "companyDetails": {
+          "name": "Zytrex",
+          "address": "620 Downing Street, Westwood, Illinois, 4465",
+          "vatNumber": "557569834332",
+          "regNumber": "180163089672"
+        },
+        "id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b"
+      }
+    }
+  ],
+  "total": 18
+}

@@ -1,8 +1,4 @@
 # pending features
-4. cypress missing
-   6. filtering of invoices
-   7. loading mask during invoice filtering
-   8. error during invoice filtering
 5. some unit testing 
 6. make payment selecor an Element (no connection to models)
 7. refactor InvoiceForm
@@ -45,6 +41,10 @@
    6. test invoice pagination
    7. test loading client/invoice page from url parameter
    8. test load sorted pages from url parameters
+   9. test filtering of invoices
+   7. test loading mask during invoice filtering
+   8. test error during invoice filtering
+   9. test loading mask during client/invoice pagination
 
 # 2022 03 26 
 - Fix bug when adding client/invoice and total of records not updated in all cached pages

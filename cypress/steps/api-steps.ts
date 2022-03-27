@@ -4,13 +4,16 @@ import {
 } from "cypress/types/net-stubbing";
 import { ClientList } from "models/Client";
 
+interface FixturePaginationFilterParameter
+  extends Record<string, string | FixturePaginationFilterParameter> {}
+
 type FixturePaginationParameters =
   | {
       p?: number;
       delay?: number;
       sort?: Record<string, string>;
       fixture?: string;
-      filter?: Record<string, string>;
+      filter?: FixturePaginationFilterParameter;
       reply?: GenericStaticResponse<
         string,
         string | boolean | object | ArrayBuffer | null
@@ -78,6 +81,7 @@ export const paginationRouterHandler = (
       `p${params.offset / params.limit + 1}`,
     ]);
 
+    console.log({ requestedFixture, expectedFixture });
     if (requestedFixture === expectedFixture) {
       req.reply(
         reply

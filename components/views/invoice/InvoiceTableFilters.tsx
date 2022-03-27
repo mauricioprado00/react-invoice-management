@@ -80,7 +80,7 @@ function InvoiceTableFilters({ }: InvoiceTableFiltersProps) {
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <div className='align-middle whitespace-nowrap mr-2 font-bold'>Client</div>
-                                <div><ClientSelector clientList={clientList?.list || []} emptyOptionLabel="Any Client" {...clientProps} /></div>
+                                <div data-testid="filter-client-selector"><ClientSelector clientList={clientList?.list || []} emptyOptionLabel="Any Client" {...clientProps} /></div>
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>

@@ -2,42 +2,48 @@
   "clients": [
     {
       "user_id": "111",
-      "name": "Mildred Bright",
-      "email": "mildredbright@cy-zillidium.com",
-      "avatar": "13.png",
+      "name": "Shaw Ferrell",
+      "email": "shawferrell@injoy.com",
+      "avatar": "10.png",
       "companyDetails": {
-        "name": "Prosely",
-        "address": "917 Barwell Terrace, Harviell, South Carolina, 7611",
-        "vatNumber": "653662926525",
-        "regNumber": "129401277311"
+        "name": "Musanpoly",
+        "address": "333 Eagle Street, Riviera, New York, 5053",
+        "vatNumber": "113026483771",
+        "regNumber": "568307251000"
       },
-      "id": "CYTEST-bbca4d93-0511-4af3-afaf-e173a490c0e8"
+      "id": "5d14a4d6-c892-420c-bfd1-41d26e23ce1b",
+      "totalBilled": 18260.6,
+      "invoicesCount": 3
     },
     {
       "user_id": "111",
-      "name": "Lucinda Woodward",
-      "email": "lucindawoodward@cy-prosely.com",
-      "avatar": "2.png",
+      "name": "Bishop Pope",
+      "email": "bishoppope@musanpoly.com",
+      "avatar": "10.png",
       "companyDetails": {
-        "name": "Arctiq",
-        "address": "678 Lawn Court, Malo, Connecticut, 2257",
-        "vatNumber": "869072209352",
-        "regNumber": "827857984143"
+        "name": "Waterbaby",
+        "address": "298 Doone Court, Crenshaw, Tennessee, 7161",
+        "vatNumber": "782068719715",
+        "regNumber": "517831550978"
       },
-      "id": "CYTEST-9e8fa834-a005-402a-ab5f-98daf638511c"
+      "id": "6d3699bf-31cd-4a7f-b3cb-1af62d727685",
+      "totalBilled": 6029,
+      "invoicesCount": 2
     },
     {
       "user_id": "111",
-      "name": "Vilma Pacheco",
-      "email": "vilmapacheco@cy-arctiq.com",
-      "avatar": "3.png",
+      "name": "Alexander Chase",
+      "email": "alexanderchase@waterbaby.com",
+      "avatar": "11.png",
       "companyDetails": {
-        "name": "Illumity",
-        "address": "293 Victor Road, Bradenville, Ohio, 2439",
-        "vatNumber": "770360219883",
-        "regNumber": "738935735010"
+        "name": "Omatom",
+        "address": "573 Hinsdale Street, Leland, Louisiana, 6217",
+        "vatNumber": "357107114823",
+        "regNumber": "751451409584"
       },
-      "id": "CYTEST-d9e384ce-ed69-4660-9404-11d3bb1f931d"
+      "id": "c91a8a4e-774d-49f0-ab8e-bba369fe68a7",
+      "totalBilled": 45274.5,
+      "invoicesCount": 5
     }
   ],
   "total": 3

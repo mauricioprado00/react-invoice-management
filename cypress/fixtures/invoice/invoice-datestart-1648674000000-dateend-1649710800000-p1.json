@@ -1,0 +1,181 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "REMOLD-2716",
+        "client_id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+        "date": 1648902274746,
+        "dueDate": 1631521268542,
+        "projectCode": "ENDIPIN",
+        "meta": {
+          "details": [
+            { "detail": "nisi sint nostrud", "quantity": 10, "rate": 109 },
+            {
+              "detail": "labore consectetur eiusmod",
+              "quantity": 7,
+              "rate": 285.5
+            }
+          ],
+          "billTo": {
+            "name": "Vicki Alford",
+            "address": "971 Stockton Street, Greenbush, Maryland, 4461",
+            "vatNumber": "898963495267",
+            "regNumber": "699850335057"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3088.5,
+        "id": "71ee5929-0df4-4214-8a0d-4a7d5f075fed"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Gladys White",
+        "email": "gladyswhite@digitalus.com",
+        "avatar": "9.png",
+        "companyDetails": {
+          "name": "Balooba",
+          "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+          "vatNumber": "139938440008",
+          "regNumber": "720891275673"
+        },
+        "id": "315e337a-d9b1-4910-8fcc-b42464780e5b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "LEXICONDO-3645",
+        "client_id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b",
+        "date": 1649385772171,
+        "dueDate": 1615468318917,
+        "projectCode": "SENMAO",
+        "meta": {
+          "details": [
+            { "detail": "id consequat fugiat", "quantity": 3, "rate": 204.2 },
+            {
+              "detail": "consequat magna fugiat",
+              "quantity": 8,
+              "rate": 526.2
+            },
+            {
+              "detail": "aliqua proident aliqua",
+              "quantity": 8,
+              "rate": 441.4
+            },
+            { "detail": "quis Lorem commodo", "quantity": 7, "rate": 640.4 },
+            { "detail": "id nostrud nulla", "quantity": 1, "rate": 234.7 }
+          ],
+          "billTo": {
+            "name": "Rae Reed",
+            "address": "157 Fiske Place, Topaz, Colorado, 6267",
+            "vatNumber": "382876490215",
+            "regNumber": "611305952356"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 13070.900000000001,
+        "id": "2c61ce76-1a15-4b7e-917c-1193058c1532"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Lizzie Estrada",
+        "email": "lizzieestrada@ronelon.com",
+        "avatar": "6.png",
+        "companyDetails": {
+          "name": "Zytrex",
+          "address": "620 Downing Street, Westwood, Illinois, 4465",
+          "vatNumber": "557569834332",
+          "regNumber": "180163089672"
+        },
+        "id": "f5fab271-a2e4-49e6-81b5-cd97766cb23b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "GREEKER-2106",
+        "client_id": "35ac49cd-fdcb-48d6-8415-cb3a3c1454f6",
+        "date": 1649344152189,
+        "dueDate": 1619897776177,
+        "projectCode": "TEMORAK",
+        "meta": {
+          "details": [
+            { "detail": "elit pariatur magna", "quantity": 5, "rate": 404.2 },
+            { "detail": "esse Lorem occaecat", "quantity": 7, "rate": 354.6 },
+            {
+              "detail": "magna cupidatat pariatur",
+              "quantity": 7,
+              "rate": 295.6
+            }
+          ],
+          "billTo": {
+            "name": "Trisha Chaney",
+            "address": "718 Johnson Avenue, Remington, Tennessee, 3418",
+            "vatNumber": "450672139182",
+            "regNumber": "518600168470"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6572.4000000000015,
+        "id": "63406169-c9db-4f3f-ad87-6d57e58e9e5e"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Kristine Williams",
+        "email": "kristinewilliams@orbixtar.com",
+        "avatar": "13.png",
+        "companyDetails": {
+          "name": "Satiance",
+          "address": "836 Eastern Parkway, Columbus, Oklahoma, 2942",
+          "vatNumber": "481777130646",
+          "regNumber": "357462666963"
+        },
+        "id": "35ac49cd-fdcb-48d6-8415-cb3a3c1454f6"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "COWTOWN-4056",
+        "client_id": "692fe1bb-5846-4b53-a0e4-25b13d8ce82c",
+        "date": 1648723575365,
+        "dueDate": 1614636700875,
+        "projectCode": "TERRAGEN",
+        "meta": {
+          "details": [
+            {
+              "detail": "exercitation ea ullamco",
+              "quantity": 5,
+              "rate": 521.8
+            },
+            { "detail": "elit sint voluptate", "quantity": 8, "rate": 101.9 }
+          ],
+          "billTo": {
+            "name": "Geraldine Lowery",
+            "address": "750 Rutledge Street, Ronco, New Jersey, 5923",
+            "vatNumber": "674533512432",
+            "regNumber": "559773710062"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3424.2,
+        "id": "92e8c5d5-f8cb-419a-9ccd-b71ce23aa49c"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Norris Knapp",
+        "email": "norrisknapp@makingway.com",
+        "avatar": "2.png",
+        "companyDetails": {
+          "name": "Plasmosis",
+          "address": "815 Buffalo Avenue, Winston, Arizona, 1911",
+          "vatNumber": "221725902906",
+          "regNumber": "716977748601"
+        },
+        "id": "692fe1bb-5846-4b53-a0e4-25b13d8ce82c"
+      }
+    }
+  ],
+  "total": 4
+}

@@ -1,0 +1,130 @@
+{
+  "invoices": [
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "ZILCH-4950",
+        "client_id": "5d14a4d6-c892-420c-bfd1-41d26e23ce1b",
+        "date": 1644073012838,
+        "dueDate": 1622776505452,
+        "projectCode": "SLAX",
+        "meta": {
+          "details": [
+            {
+              "detail": "voluptate proident commodo",
+              "quantity": 4,
+              "rate": 481
+            },
+            { "detail": "eiusmod sint eu", "quantity": 5, "rate": 402.9 }
+          ],
+          "billTo": {
+            "name": "Betsy Kerr",
+            "address": "972 Colonial Court, Deseret, Rhode Island, 5891",
+            "vatNumber": "920602738576",
+            "regNumber": "126918712814"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 3938.5,
+        "id": "82118dfd-cb0f-4b8e-86d4-6593c8f16008"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Shaw Ferrell",
+        "email": "shawferrell@injoy.com",
+        "avatar": "10.png",
+        "companyDetails": {
+          "name": "Musanpoly",
+          "address": "333 Eagle Street, Riviera, New York, 5053",
+          "vatNumber": "113026483771",
+          "regNumber": "568307251000"
+        },
+        "id": "5d14a4d6-c892-420c-bfd1-41d26e23ce1b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "AUSTEX-1738",
+        "client_id": "5d14a4d6-c892-420c-bfd1-41d26e23ce1b",
+        "date": 1644420198350,
+        "dueDate": 1647303912820,
+        "projectCode": "TASMANIA",
+        "meta": {
+          "details": [
+            { "detail": "cupidatat mollit non", "quantity": 5, "rate": 142.7 },
+            { "detail": "laborum occaecat sit", "quantity": 10, "rate": 236.6 },
+            { "detail": "et reprehenderit sunt", "quantity": 4, "rate": 114.4 },
+            { "detail": "sunt eu anim", "quantity": 8, "rate": 248 },
+            { "detail": "amet consequat Lorem", "quantity": 3, "rate": 653.9 }
+          ],
+          "billTo": {
+            "name": "Mayo Rowe",
+            "address": "230 Woodhull Street, Skyland, New Mexico, 8044",
+            "vatNumber": "868084914608",
+            "regNumber": "763816707843"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 7482.8,
+        "id": "d995e8af-3741-4922-8db2-11e52deb79d8"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Shaw Ferrell",
+        "email": "shawferrell@injoy.com",
+        "avatar": "10.png",
+        "companyDetails": {
+          "name": "Musanpoly",
+          "address": "333 Eagle Street, Riviera, New York, 5053",
+          "vatNumber": "113026483771",
+          "regNumber": "568307251000"
+        },
+        "id": "5d14a4d6-c892-420c-bfd1-41d26e23ce1b"
+      }
+    },
+    {
+      "invoice": {
+        "user_id": "111",
+        "invoice_number": "ZAJ-4153",
+        "client_id": "5d14a4d6-c892-420c-bfd1-41d26e23ce1b",
+        "date": 1631864497362,
+        "dueDate": 1612088818192,
+        "projectCode": "FLEETMIX",
+        "meta": {
+          "details": [
+            {
+              "detail": "dolor officia consequat",
+              "quantity": 4,
+              "rate": 688.1
+            },
+            { "detail": "anim quis est", "quantity": 9, "rate": 454.1 }
+          ],
+          "billTo": {
+            "name": "Holland Vega",
+            "address": "876 Krier Place, Whitehaven, Northern Mariana Islands, 9854",
+            "vatNumber": "85626478874",
+            "regNumber": "192512267729"
+          },
+          "payTo": { "accountType": "swift", "accountNumber": "CTCBIDJASBY" }
+        },
+        "value": 6839.3,
+        "id": "6530fbb4-62fd-46a2-97cf-cacf99dba124"
+      },
+      "client": {
+        "user_id": "111",
+        "name": "Shaw Ferrell",
+        "email": "shawferrell@injoy.com",
+        "avatar": "10.png",
+        "companyDetails": {
+          "name": "Musanpoly",
+          "address": "333 Eagle Street, Riviera, New York, 5053",
+          "vatNumber": "113026483771",
+          "regNumber": "568307251000"
+        },
+        "id": "5d14a4d6-c892-420c-bfd1-41d26e23ce1b"
+      }
+    }
+  ],
+  "total": 3
+}

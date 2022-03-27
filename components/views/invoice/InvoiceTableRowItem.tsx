@@ -32,7 +32,7 @@ const InvoiceTableRowItem = ({
     )
     const billedTo = meta?.billTo?.name || company;
     return (
-        <tr key="nothing" tabIndex={0} onClick={goView}>
+        <tr data-testid="invoice-row" key="nothing" tabIndex={0} onClick={goView}>
             <td className="p-2 whitespace-nowrap">
                 <div className="text-left">{moment(date).format('YYYY-MM-DD')}</div>
             </td>

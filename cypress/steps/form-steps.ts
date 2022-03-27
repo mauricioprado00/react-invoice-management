@@ -1,6 +1,6 @@
 import moment, { isMoment } from "moment";
 
-type FieldTypeOptions = (
+export type FieldTypeOptions = (
   | {
       isDate: true;
       value?: number | undefined | null;
@@ -17,7 +17,11 @@ type FieldTypeOptions = (
  * conditionally type into a field if value is not null or undefined
  */
 export const fieldType = (options: FieldTypeOptions) => {
-  if (options.value !== undefined && options.value !== null && options.value !== '') {
+  if (
+    options.value !== undefined &&
+    options.value !== null &&
+    options.value !== ""
+  ) {
     if (options.isDate) {
       cy.get('input[name="' + options.name + '"]')
         .click()
@@ -57,11 +61,20 @@ export const fieldDateValue = (name: string) => {
   });
 };
 
-
 export const fieldTextContent = (selector: string) => {
   return new Promise<string | undefined>((resolve, reject) => {
     cy.get(selector)
       .invoke("text")
       .then(value => (value ? resolve(value.toString()) : resolve(undefined)));
+  });
+};
+
+export const elementTextContent = (
+  el: Cypress.Chainable<JQuery<HTMLElement>>
+) => {
+  return new Promise<string | undefined>((resolve, reject) => {
+    el.invoke("text").then(value =>
+      value ? resolve(value.toString()) : resolve(undefined)
+    );
   });
 };

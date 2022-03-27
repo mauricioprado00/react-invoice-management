@@ -4,6 +4,7 @@ import {
   fieldDateValue,
   fieldTextContent,
   fieldType,
+  FieldTypeOptions,
   fieldValue,
 } from "./form-steps";
 import {
@@ -243,3 +244,30 @@ export const invoiceIsInPrintPage = (invoiceData: InvoiceData) => {
   });
   cy.get(".amount-due").contains(invoiceData.total.toFixed(2));
 };
+
+export const doInvoiceFilterByClientId = (clientId: string) => {
+  cy.get('[data-testid="FilterListIcon"]').click();
+  cy.get('[data-testid="filter-client-selector"]').within(() => {
+    cy.get("button").click();
+    cy.get(`[data-clientid="${clientId}"]`).click();
+  });
+};
+
+export const doInvoiceFilterByField = (options: FieldTypeOptions) => {
+  cy.get('[data-testid="FilterListIcon"]').click();
+  fieldType(options);
+};
+
+export const doInvoiceFilterByDateFrom = (date: string) =>
+  doInvoiceFilterByField({
+    name: "dateFrom",
+    value: moment(date).valueOf(),
+    isDate: true,
+  });
+
+export const doInvoiceFilterByDateTo = (date: string) =>
+  doInvoiceFilterByField({
+    name: "dateTo",
+    value: moment(date).valueOf(),
+    isDate: true,
+  });

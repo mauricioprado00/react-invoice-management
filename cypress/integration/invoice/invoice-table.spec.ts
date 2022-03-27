@@ -1,6 +1,17 @@
-import { fixtureInvoicesPage, fixtureUserMe } from "cy-steps/api-steps";
-import { visitInvoicesPage } from "cy-steps/invoice-steps";
+import {
+  fixtureClientAll,
+  fixtureInvoicesPage,
+  fixtureUserMe,
+  getFixtureClientAll,
+} from "cy-steps/api-steps";
+import {
+  doInvoiceFilterByClientId,
+  doInvoiceFilterByDateFrom,
+  doInvoiceFilterByDateTo,
+  visitInvoicesPage,
+} from "cy-steps/invoice-steps";
 import { paginationClickPage } from "cy-steps/page-steps";
+import moment from "moment";
 
 describe("Invoice table sorting", () => {
   beforeEach(() => {
@@ -105,7 +116,7 @@ describe("Invoice table sorting", () => {
   });
 
   it("will show error if sort fails", () => {
-    const body = "[testing] Some error happened while retrieving client page";
+    const body = "[testing] Some error happened while retrieving invoice page";
     fixtureInvoicesPage({
       sort: { date: "asc" },
       reply: { statusCode: 400, body },
@@ -164,8 +175,17 @@ describe("Invoice table pagination", () => {
     cy.contains("Balooba");
   });
 
+  it("will show the loading mask when paginating", () => {
+    fixtureInvoicesPage({ p: 2, delay: 5000 });
+
+    visitInvoicesPage();
+
+    paginationClickPage(2);
+    cy.get('[data-testid="loading-mask"]');
+  });
+
   it("will show error if pagination fails", () => {
-    const body = "[testing] Some error happened while retrieving client page";
+    const body = "[testing] Some error happened while retrieving invoice page";
     fixtureInvoicesPage({
       p: 2,
       reply: { statusCode: 400, body },
@@ -174,6 +194,132 @@ describe("Invoice table pagination", () => {
     visitInvoicesPage();
 
     paginationClickPage(2);
+    cy.contains("There are connectivity problems, we could not load the data");
+    cy.contains(body);
+  });
+});
+
+describe("Invoice table filtering", () => {
+  beforeEach(() => {
+    fixtureUserMe();
+    fixtureInvoicesPage();
+    fixtureClientAll();
+  });
+
+  it("will filter by client", () => {
+    getFixtureClientAll().then(clientFixture => {
+      const [client] = clientFixture.clients;
+
+      fixtureInvoicesPage({ filter: { clientId: client.id }, p: 1 });
+
+      visitInvoicesPage();
+
+      doInvoiceFilterByClientId(client.id);
+
+      // client company name is in each row
+      cy.get('[data-testid="invoice-row"]').each($row => {
+        cy.wrap($row).contains(client.companyDetails.name);
+      });
+    });
+  });
+
+  it("will filter by date start", () => {
+    const dateStart = "2022-03-31";
+    const dateStartMillisecs = moment(dateStart).valueOf();
+
+    fixtureInvoicesPage({
+      filter: { date: { start: dateStartMillisecs.toString() } },
+      p: 1,
+    });
+
+    visitInvoicesPage();
+
+    doInvoiceFilterByDateFrom(dateStart);
+
+    // client company name is in each row
+    cy.get('[data-testid="invoice-row"]').each(async $row => {
+      const rowDate = $row.find("td:first").text();
+      const rowMillisecs = moment(rowDate).valueOf();
+      expect(
+        rowMillisecs,
+        `${rowDate} should be greater than ${dateStart}`
+      ).to.at.least(dateStartMillisecs);
+    });
+  });
+
+  it("will filter by date range", () => {
+    const dateStart = "2022-03-31";
+    const dateEnd = "2022-04-12";
+    const dateStartMillisecs = moment(dateStart).valueOf();
+    const dateEndMillisecs = moment(dateEnd).valueOf();
+
+    fixtureInvoicesPage({
+      filter: { date: { start: dateStartMillisecs.toString() } },
+      p: 1,
+    });
+
+    fixtureInvoicesPage({
+      filter: {
+        date: {
+          start: dateStartMillisecs.toString(),
+          end: dateEndMillisecs.toString(),
+        },
+      },
+      p: 1,
+    });
+
+    visitInvoicesPage();
+
+    doInvoiceFilterByDateFrom(dateStart);
+    doInvoiceFilterByDateTo(dateEnd);
+
+    // client company name is in each row
+    cy.get('[data-testid="invoice-row"]').each(async $row => {
+      const rowDate = $row.find("td:first").text();
+      const rowMillisecs = moment(rowDate).valueOf();
+      cy.wrap($row.find("td:first")).within(() => {
+        // not require to wrap, but it will be nicer to read in the cy console
+        expect(
+          rowMillisecs,
+          `${rowDate} should be greater than ${dateStart}`
+        ).to.at.least(dateStartMillisecs);
+        expect(
+          rowMillisecs,
+          `${rowDate} should be lower than ${dateEnd}`
+        ).to.at.most(dateEndMillisecs);
+      });
+    });
+  });
+
+  it("will show the loading mask when filtering", () => {
+    const dateStart = "2022-03-31";
+    const dateStartMillisecs = moment(dateStart).valueOf();
+
+    fixtureInvoicesPage({
+      filter: { date: { start: dateStartMillisecs.toString() } },
+      p: 1,
+    });
+
+    visitInvoicesPage();
+
+    doInvoiceFilterByDateFrom(dateStart);
+    cy.get('[data-testid="loading-mask"]');
+  });
+
+  it("will show error if filtering fails", () => {
+    const body = "[testing] Some error happened while retrieving invoice page";
+
+    const dateStart = "2022-03-31";
+    const dateStartMillisecs = moment(dateStart).valueOf();
+    fixtureInvoicesPage({
+      filter: { date: { start: dateStartMillisecs.toString() } },
+      p: 1,
+      reply: { statusCode: 400, body },
+    });
+
+    visitInvoicesPage();
+
+    doInvoiceFilterByDateFrom(dateStart);
     cy.contains("There are connectivity problems, we could not load the data");
     cy.contains(body);
   });
