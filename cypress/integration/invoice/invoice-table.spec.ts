@@ -117,8 +117,6 @@ describe("Invoice table sorting", () => {
     cy.contains("There are connectivity problems, we could not load the data");
     cy.contains(body);
   });
-
-  it("Will now show page until user validation is done", () => {});
 });
 
 describe("Invoice table pagination", () => {
@@ -139,7 +137,7 @@ describe("Invoice table pagination", () => {
     cy.contains("Alexandria Cain");
   });
 
-  it.only("will load sorted pages", () => {
+  it("will load sorted pages", () => {
     fixtureInvoicesPage({ p: 2 });
     fixtureInvoicesPage({ p: 2, sort: { companyName: "asc" } });
 
@@ -149,6 +147,20 @@ describe("Invoice table pagination", () => {
     cy.contains("Company").click();
 
     cy.contains("Balooba");
+  });
+
+  it("will show error if pagination fails", () => {
+    const body = "[testing] Some error happened while retrieving client page";
+    fixtureInvoicesPage({
+      p: 2,
+      reply: { statusCode: 400, body },
+    });
+
+    visitInvoicesPage();
+
+    paginationClickPage(2);
+    cy.contains("There are connectivity problems, we could not load the data");
+    cy.contains(body);
   });
 });
 

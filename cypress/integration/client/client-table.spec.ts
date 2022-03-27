@@ -104,8 +104,6 @@ describe("Client table sorting", () => {
     cy.contains("There are connectivity problems, we could not load the data");
     cy.contains(body);
   });
-
-  it("Will now show page until user validation is done", () => {});
 });
 
 describe("Client table pagination", () => {
@@ -136,6 +134,20 @@ describe("Client table pagination", () => {
     cy.contains("Company Name").click();
 
     cy.contains("Richmond Shannon");
+  });
+
+  it.only("will show error if pagination fails", () => {
+    const body = "[testing] Some error happened while retrieving client page";
+    fixtureClientsPage({
+      p: 2,
+      reply: { statusCode: 400, body },
+    });
+
+    visitClientsPage();
+
+    paginationClickPage(2);
+    cy.contains("There are connectivity problems, we could not load the data");
+    cy.contains(body);
   });
 });
 
