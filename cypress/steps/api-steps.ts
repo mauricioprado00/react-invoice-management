@@ -84,7 +84,7 @@ export const fixtureClientsPage = ({
 
       // check that sorting is the same
       const reqSm = sortModifier(params.sort);
-      matches = sm === reqSm;
+      matches = matches && sm === reqSm;
 
       if (matches) {
         const modifier = sm ? "-" + sm : "";

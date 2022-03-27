@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Richmond Shannon",
+      "email": "richmondshannon@magneato.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Comvey",
+        "address": "306 Holmes Lane, Wollochet, Iowa, 4106",
+        "vatNumber": "207421539172",
+        "regNumber": "139612002335"
+      },
+      "id": "e87634d6-de65-4572-ac35-f0dcec76a50b",
+      "totalBilled": 46449.09999999999,
+      "invoicesCount": 9
+    },
+    {
+      "user_id": "111",
+      "name": "Nikki Key",
+      "email": "nikkikey@rodemco.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Cytrek",
+        "address": "235 Hyman Court, Dunnavant, North Carolina, 676",
+        "vatNumber": "145871166735",
+        "regNumber": "115016943967"
+      },
+      "id": "53c69b32-3268-4611-873d-7beb36e10953",
+      "totalBilled": 41861.299999999996,
+      "invoicesCount": 6
+    },
+    {
+      "user_id": "111",
+      "name": "Lara Colon",
+      "email": "laracolon@equitax.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Deminimum",
+        "address": "342 Mill Road, Southmont, Pennsylvania, 3243",
+        "vatNumber": "338653460167",
+        "regNumber": "774011693209"
+      },
+      "id": "7bd0c8b5-e700-4053-9d39-fecbe9595240",
+      "totalBilled": 29944.600000000002,
+      "invoicesCount": 5
+    },
+    {
+      "user_id": "111",
+      "name": "Cross Malone",
+      "email": "crossmalone@gynk.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Digitalus",
+        "address": "375 Seabring Street, Glendale, Michigan, 5434",
+        "vatNumber": "312030888898",
+        "regNumber": "453903693257"
+      },
+      "id": "1f3ed8e2-8893-4477-99aa-285a4c43bd44",
+      "totalBilled": 55761.99999999999,
+      "invoicesCount": 7
+    },
+    {
+      "user_id": "111",
+      "name": "Warner Bright",
+      "email": "warnerbright@quordate.com",
+      "avatar": "13.png",
+      "companyDetails": {
+        "name": "Egypto",
+        "address": "562 Knickerbocker Avenue, Thornport, Wyoming, 9680",
+        "vatNumber": "311668168051",
+        "regNumber": "279014096888"
+      },
+      "id": "6a4ddcfe-30b5-47a9-9db5-ed30d64d488c",
+      "totalBilled": 74655.1,
+      "invoicesCount": 9
+    }
+  ],
+  "total": 49
+}

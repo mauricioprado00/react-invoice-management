@@ -1,0 +1,80 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Judy Hogan",
+      "email": "judyhogan@plasmosis.com",
+      "avatar": "3.png",
+      "companyDetails": {
+        "name": "Interodeo",
+        "address": "439 Granite Street, Bartley, Maine, 8292",
+        "vatNumber": "195986977886",
+        "regNumber": "570803379120"
+      },
+      "id": "ac8f4d5c-df4c-4806-a127-e20eff799691",
+      "totalBilled": 29193.500000000004,
+      "invoicesCount": 6
+    },
+    {
+      "user_id": "111",
+      "name": "Romero Payne",
+      "email": "romeropayne@interodeo.com",
+      "avatar": "12.png",
+      "companyDetails": {
+        "name": "Turnling",
+        "address": "681 Fulton Street, Como, Alabama, 3793",
+        "vatNumber": "688452257551",
+        "regNumber": "83789891399"
+      },
+      "id": "64e53061-507d-4886-a3db-46d81b49d65d",
+      "totalBilled": 28558.199999999997,
+      "invoicesCount": 5
+    },
+    {
+      "user_id": "111",
+      "name": "Hattie Acosta",
+      "email": "hattieacosta@turnling.com",
+      "avatar": "7.png",
+      "companyDetails": {
+        "name": "Rodemco",
+        "address": "716 Kane Place, Barclay, Washington, 921",
+        "vatNumber": "400821716027",
+        "regNumber": "183949794869"
+      },
+      "id": "6319afb4-f6cc-4754-b401-8764e3ffc740",
+      "totalBilled": 12729.500000000002,
+      "invoicesCount": 4
+    },
+    {
+      "user_id": "111",
+      "name": "Nikki Key",
+      "email": "nikkikey@rodemco.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Cytrek",
+        "address": "235 Hyman Court, Dunnavant, North Carolina, 676",
+        "vatNumber": "145871166735",
+        "regNumber": "115016943967"
+      },
+      "id": "53c69b32-3268-4611-873d-7beb36e10953",
+      "totalBilled": 41861.299999999996,
+      "invoicesCount": 6
+    },
+    {
+      "user_id": "111",
+      "name": "Herrera Gates",
+      "email": "herreragates@cytrek.com",
+      "avatar": "2.png",
+      "companyDetails": {
+        "name": "Comtest",
+        "address": "377 Boardwalk , Chalfant, Vermont, 9130",
+        "vatNumber": "916142371922",
+        "regNumber": "487602062357"
+      },
+      "id": "19f8e2cd-9cc0-46b0-9d53-a8026d0c0122",
+      "totalBilled": 39955.399999999994,
+      "invoicesCount": 6
+    }
+  ],
+  "total": 49
+}

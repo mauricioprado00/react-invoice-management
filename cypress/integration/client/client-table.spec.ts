@@ -1,7 +1,8 @@
 import { fixtureClientsPage, fixtureUserMe } from "cy-steps/api-steps";
 import { visitClientsPage } from "cy-steps/client-steps";
+import { paginationClickPage } from "cy-steps/page-steps";
 
-describe("Sorting", () => {
+describe("Client table sorting", () => {
   beforeEach(() => {
     fixtureUserMe();
     fixtureClientsPage();
@@ -105,6 +106,37 @@ describe("Sorting", () => {
   });
 
   it("Will now show page until user validation is done", () => {});
+});
+
+describe("Client table pagination", () => {
+  beforeEach(() => {
+    fixtureUserMe();
+    fixtureClientsPage();
+  });
+
+  it("will load selected pages", () => {
+    fixtureClientsPage({ p: 2 });
+    fixtureClientsPage({ p: 10 });
+    visitClientsPage();
+
+    paginationClickPage(2);
+    cy.contains("Judy Hogan");
+
+    paginationClickPage(10);
+    cy.contains("Oneil Carroll");
+  });
+
+  it("will load sorted pages", () => {
+    fixtureClientsPage({ p: 2 });
+    fixtureClientsPage({ p: 2, sort: { companyName: "asc" } });
+
+    visitClientsPage();
+
+    paginationClickPage(2);
+    cy.contains("Company Name").click();
+
+    cy.contains("Richmond Shannon");
+  });
 });
 
 export {};

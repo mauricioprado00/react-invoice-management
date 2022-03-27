@@ -41,6 +41,7 @@
 4. cypress missing
    1. test loading mask during client sorting
    2. test error during client sorting
+   3. test client pagination
 
 # 2022 03 26 
 - Fix bug when adding client/invoice and total of records not updated in all cached pages

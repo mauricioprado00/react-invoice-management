@@ -1,0 +1,65 @@
+{
+  "clients": [
+    {
+      "user_id": "111",
+      "name": "Oneil Carroll",
+      "email": "oneilcarroll@accupharm.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Gynk",
+        "address": "610 Loring Avenue, Islandia, South Dakota, 2803",
+        "vatNumber": "422298936782",
+        "regNumber": "500418879222"
+      },
+      "id": "de0d663b-3c9e-47c9-a9a9-02acc16f39b6",
+      "totalBilled": 22563.4,
+      "invoicesCount": 4
+    },
+    {
+      "user_id": "111",
+      "name": "Cross Malone",
+      "email": "crossmalone@gynk.com",
+      "avatar": "16.png",
+      "companyDetails": {
+        "name": "Digitalus",
+        "address": "375 Seabring Street, Glendale, Michigan, 5434",
+        "vatNumber": "312030888898",
+        "regNumber": "453903693257"
+      },
+      "id": "1f3ed8e2-8893-4477-99aa-285a4c43bd44",
+      "totalBilled": 55761.99999999999,
+      "invoicesCount": 7
+    },
+    {
+      "user_id": "111",
+      "name": "Gladys White",
+      "email": "gladyswhite@digitalus.com",
+      "avatar": "9.png",
+      "companyDetails": {
+        "name": "Balooba",
+        "address": "268 Dekoven Court, Ogema, District Of Columbia, 6628",
+        "vatNumber": "139938440008",
+        "regNumber": "720891275673"
+      },
+      "id": "315e337a-d9b1-4910-8fcc-b42464780e5b",
+      "totalBilled": 26024.300000000003,
+      "invoicesCount": 5
+    },
+    {
+      "user_id": "111",
+      "name": "Garcia Ray",
+      "email": "garciaray@balooba.com",
+      "avatar": "10.png",
+      "companyDetails": {
+        "name": "Glukgluk",
+        "address": "438 Ridgecrest Terrace, Fairview, Northern Mariana Islands, 5261",
+        "vatNumber": "632020029821",
+        "regNumber": "497117107532"
+      },
+      "id": "18e50f68-0b4c-4c2a-9bdf-5fe9dcedf3ae",
+      "totalBilled": 57465.06,
+      "invoicesCount": 11
+    }
+  ],
+  "total": 49
+}
