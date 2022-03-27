@@ -10,6 +10,7 @@ type FixturePaginationParameters =
       delay?: number;
       sort?: Record<string, string>;
       fixture?: string;
+      filter?: Record<string, string>;
       reply?: GenericStaticResponse<
         string,
         string | boolean | object | ArrayBuffer | null
@@ -29,33 +30,60 @@ const sortModifier = (sort: Record<string, string>) =>
     .map(([filter, direction]) => filter + "-" + direction)
     .join("-");
 
+export const filterModifier = (
+  part: Record<string, string>,
+  prefix: string = ""
+): string =>
+  Object.entries(part).length
+    ? Object.entries(part)
+        .map(([filter, value]) =>
+          typeof value === "object"
+            ? filterModifier(value, filter)
+            : prefix + filter + "-" + value
+        )
+        .filter(Boolean) // remove empty strings
+        .join("-")
+    : "";
+
+const assembleFixtureFilename = (parts: string[]) =>
+  parts.filter(Boolean).join("-") + ".json";
+
 export const paginationRouterHandler = (
   fixtureBaseName: string,
-  { p = 1, delay, sort, fixture, reply }: FixturePaginationParameters = {}
+  {
+    p = 1,
+    delay,
+    sort,
+    fixture,
+    reply,
+    filter,
+  }: FixturePaginationParameters = {}
 ): RouteHandler => {
-  let sm = sortModifier(sort || {});
+  const expectedFixture = assembleFixtureFilename([
+    fixtureBaseName,
+    filterModifier(filter || {}),
+    sortModifier(sort || {}),
+    `p${p || 1}`,
+  ]);
+
   return async req => {
     let matches: boolean;
     if (!req.query.params) return;
     const params = JSON.parse(req.query.params as string) as ListingParams;
 
-    // check that is correct page
-    matches = params.offset == (p - 1) * 5;
+    const requestedFixture = assembleFixtureFilename([
+      fixtureBaseName,
+      filterModifier(params.filter),
+      sortModifier(params.sort),
+      `p${params.offset / params.limit + 1}`,
+    ]);
 
-    // check that sorting is the same
-    const reqSm = sortModifier(params.sort);
-    matches = matches && sm === reqSm;
-
-    if (matches) {
-      const modifier = sm ? "-" + sm : "";
-
+    if (requestedFixture === expectedFixture) {
       req.reply(
         reply
           ? reply
           : {
-              fixture: fixture
-                ? fixture
-                : `${fixtureBaseName}${modifier}-p${p}.json`,
+              fixture: fixture ? fixture : requestedFixture,
               delay,
             }
       );
