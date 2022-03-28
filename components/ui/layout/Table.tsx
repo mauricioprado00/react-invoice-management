@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { segregate } from '../../../library/helpers'
+import { segregate } from 'library/helpers'
 import HeaderContent from './HeaderContent'
 import LoadingMask from '../LoadingMask'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from '../../styles/MaterialIcons.module.css'
+import styles from 'styles/MaterialIcons.module.css'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 
 export type ErrorBannerProps = {

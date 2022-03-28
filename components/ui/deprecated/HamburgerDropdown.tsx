@@ -1,7 +1,7 @@
-import React, { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import Hamburger from './Hamburger'
-import useUnmount from '../../../library/useUnmount';
+import useUnmount from 'library/useUnmount';
+import Hamburger from 'components/ui/elements/Hamburger';
 
 export type HamburgerDropdownItem = {
     label: string,
