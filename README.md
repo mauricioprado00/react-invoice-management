@@ -11,3 +11,8 @@ docker-compose up -d
 ```
 npm run jest
 ```
+
+# run integration test
+```
+npm run cypress
+```
