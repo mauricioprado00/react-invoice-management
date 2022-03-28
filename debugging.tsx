@@ -42,7 +42,7 @@ const Home: NextPage = () => {
       <button onClick={() => setUserId(userId => userId === '111' ? '222' : '111')}>Change User</button>
       <ClientTable />
       <InvoiceTable />
-      <ClientEdition />
+      <ClientEdition clientId={null} />
     </Provider>
   )
 }

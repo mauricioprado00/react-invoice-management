@@ -297,9 +297,6 @@ export const paymentSelector = createSelector(meSelector, me => {
   return types as PaymentType[];
 });
 
-export type PaymentTypeList = ReturnType<typeof paymentSelector>;
-export type PaymentType = Unpacked<PaymentTypeList>;
-
 export const avatarSelector = createSelector(meSelector, me => me?.avatar);
 
 export const {

@@ -34,7 +34,7 @@ const sortModifier = (sort: Record<string, string>) =>
     .join("-");
 
 export const filterModifier = (
-  part: Record<string, string>,
+  part: FixturePaginationFilterParameter,
   prefix: string = ""
 ): string =>
   Object.entries(part).length

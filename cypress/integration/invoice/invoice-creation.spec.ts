@@ -80,7 +80,7 @@ describe("Invoice form validation", () => {
   beforeEach(() => {
     fixtureUserMe();
     fixtureClientAll();
-    fixtureInvoicesPage(1);
+    fixtureInvoicesPage({ p: 1 });
   });
 
   // check required fields
@@ -111,7 +111,7 @@ describe("Api error handling", () => {
   it("will not proceed when invoice creation returns an error", () => {
     fixtureUserMe();
     fixtureClientAll();
-    fixtureInvoicesPage(1);
+    fixtureInvoicesPage({ p: 1 });
     const message = "Failed to create invoice";
     cy.intercept("POST", "**/invoices", {
       statusCode: 400,
