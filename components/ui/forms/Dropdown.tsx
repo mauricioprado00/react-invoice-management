@@ -15,7 +15,7 @@ export type DropdownProps = {
     required?: boolean,
     name: string,
     options: DropdownOption[],
-    value: string,
+    value?: string,
 } & Omit<SelectProps<string>, 'onChange'> & FormElementProps;
 
 export const DropdownOptionPropTypes = {
@@ -31,7 +31,7 @@ export const DropdownPropTypes = Object.assign(
         required: PropTypes.bool,
         name: PropTypes.string.isRequired,
         options: PropTypes.arrayOf(PropTypes.exact(DropdownOptionPropTypes)),
-        value: PropTypes.string.isRequired,
+        value: PropTypes.string,
         onChange: PropTypes.func,
     }
 )
