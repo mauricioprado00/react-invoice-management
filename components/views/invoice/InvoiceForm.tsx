@@ -7,7 +7,7 @@ import Button, { ButtonStyle } from 'components/ui/forms/Button'
 import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail, PaymentType, PaymentTypePropTypes } from 'models/Invoice'
 import useForm from 'hooks/use-form';
 import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'components/ui/forms/ClientSelector';
-import InvoiceItems, { InvoiceItemsChangeEvent } from 'components/ui/forms/InvoiceItems';
+import InvoiceItems, { InvoiceItemsChangeEvent } from './InvoiceItems';
 import produce from 'immer';
 import { numberValidator } from 'library/validation';
 import moment from 'moment';
