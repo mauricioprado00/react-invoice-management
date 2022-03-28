@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import { Me, MePropTypes } from 'models/User'
-import { getAvatarImageUrl } from '../../ui/forms/AvatarSelector'
+import { getAvatarImageUrl } from 'components/ui/forms/AvatarSelector'
 import CompanyInfo from '../company/CompanyInfo'
 import { Fab } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';

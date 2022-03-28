@@ -1,32 +1,36 @@
 import React, { useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { InputLabel, MenuItem, Select, SelectChangeEvent, SelectProps } from '@mui/material'
+import { MenuItem, Select, SelectChangeEvent, SelectProps } from '@mui/material'
 import classNames from 'classnames'
 import { styled } from '@mui/system'
-import { PaymentType, PaymentTypePropTypes } from 'models/Invoice'
 import { FormElementProps, FormElementPropTypes } from 'hooks/use-form'
 
-export type PaymentChangeEvent = {
-    fieldName: string,
-    payment: string,
+export type DropdownOption = {
+    value: string;
+    text: string;
 }
 
-export type PaymentSelectorProps = {
+export type DropdownProps = {
     label: string,
     required?: boolean,
     name: string,
-    paymentTypes: PaymentType[],
+    options: DropdownOption[],
     value: string,
 } & Omit<SelectProps<string>, 'onChange'> & FormElementProps;
 
-export const PaymentSelectorPropTypes = Object.assign(
+export const DropdownOptionPropTypes = {
+    value: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+}
+
+export const DropdownPropTypes = Object.assign(
     {},
     FormElementPropTypes,
     {
         label: PropTypes.string.isRequired,
         required: PropTypes.bool,
         name: PropTypes.string.isRequired,
-        paymentTypes: PropTypes.arrayOf(PropTypes.exact(PaymentTypePropTypes)),
+        options: PropTypes.arrayOf(PropTypes.exact(DropdownOptionPropTypes)),
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func,
     }
@@ -52,7 +56,7 @@ width: 100%;
 height: 2.5rem;
 `)
 
-function PaymentSelector({ name, label, required, paymentTypes, value, onChange, onValid }: PaymentSelectorProps) {
+function Dropdown({ name, label, required, options, value, onChange, onValid }: DropdownProps) {
     const labelClasses = [classes.label.default, classes.label.noerror];
     const handleChange = useCallback((e: SelectChangeEvent<unknown>) => {
         if (onChange) {
@@ -83,10 +87,10 @@ function PaymentSelector({ name, label, required, paymentTypes, value, onChange,
                 onChange={handleChange}
                 value={value}
             >
-                {paymentTypes.map(paymentType =>
-                    <MenuItem key={paymentType.accountNumber}
-                        value={paymentType.accountNumber}>
-                        {paymentType.accountType} {paymentType.accountNumber}
+                {options.map(option =>
+                    <MenuItem key={option.value}
+                        value={option.value}>
+                        {option.text}
                     </MenuItem>)}
 
             </CustomSelect>
@@ -94,6 +98,6 @@ function PaymentSelector({ name, label, required, paymentTypes, value, onChange,
     )
 }
 
-PaymentSelector.propTypes = PaymentSelectorPropTypes
+Dropdown.propTypes = DropdownPropTypes
 
-export default PaymentSelector
+export default Dropdown

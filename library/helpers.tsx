@@ -24,3 +24,5 @@ export const segregate = (children:any[], rules:any[]):any[] => {
 
     return result
 }
+
+export type Unpacked<T> = T extends (infer U)[] ? U : T;

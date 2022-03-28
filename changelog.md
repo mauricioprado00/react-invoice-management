@@ -1,6 +1,5 @@
 # pending features
 5. some unit testing 
-6. make payment selecor an Element (no connection to models)
 7. refactor InvoiceForm
 8. cypress extra
    1. dashboard loads latest invoices
@@ -30,6 +29,8 @@
   it would be nice to give the user the control of choosing which sorting
   comes first.
 
+# 2022 03 28
+1. create payment selecor an Element (no connection to models)
 # 2022 03 27
 4. cypress missing
    1. test loading mask during client sorting

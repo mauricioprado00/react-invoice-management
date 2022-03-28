@@ -4,15 +4,16 @@ import Form from 'components/ui/forms/Form'
 import FieldsetRow from 'components/ui/forms/FieldsetRow'
 import InputText from 'components/ui/forms/InputText'
 import Button, { ButtonStyle } from 'components/ui/forms/Button'
-import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail, InvoicePropTypes, PaymentType, PaymentTypePropTypes } from 'models/Invoice'
+import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail, PaymentType, PaymentTypePropTypes } from 'models/Invoice'
 import useForm from 'hooks/use-form';
 import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'components/ui/forms/ClientSelector';
-import InvoiceItems, { InvoiceItemsChangeEvent } from '../../ui/forms/InvoiceItems';
+import InvoiceItems, { InvoiceItemsChangeEvent } from 'components/ui/forms/InvoiceItems';
 import produce from 'immer';
 import { numberValidator } from 'library/validation';
-import PaymentSelector from '../../ui/forms/PaymentSelector';
 import moment from 'moment';
 import { MapType, MapTypeFill } from 'models/UtilityModels';
+import Dropdown from 'components/ui/forms/Dropdown';
+import { paymentTypesOptions } from 'store/UserSlice';
 
 type InvoiceFormApi = {
     reset: () => void
@@ -89,6 +90,7 @@ function InvoiceForm({
                 address: b?.address || c?.address,
                 vatNumber: b?.vatNumber || c?.vatNumber,
                 regNumber: b?.regNumber || c?.regNumber,
+                payment: clientInvoice.invoice.meta?.payTo.accountNumber || '',
             };
         } else {
             initialValues = MapTypeFill(elements, "");
@@ -98,6 +100,10 @@ function InvoiceForm({
                 // TODO load an automatic amount of due dates from profile configuration
                 dueDate: moment().add(15, 'days').format('YYYY-MM-DD'),
             });
+
+            // get the first payment when creating a new invoice
+            const [paymentType] = paymentTypes;
+            initialValues.payment = paymentType.accountNumber;
         }
 
         
@@ -108,7 +114,7 @@ function InvoiceForm({
             disabledFields,
             initialValues
         }
-    }, [clientInvoice, disabled, disabledFields, clientId]);
+    }, [clientInvoice, disabled, disabledFields, clientId, paymentTypes]);
     const form = useForm(formProps);
     const [items, setItems] = useState<InvoiceDetail[]>([])
     const { state, reset, setState } = form;
@@ -179,14 +185,6 @@ function InvoiceForm({
         });
     }, [clientList, form, invoiceFormApi, items, onSave, paymentTypes, state.values.payment, total]);
 
-    // Initialize payment type
-    useEffect(() => {
-
-        setState(prev => produce(prev, draft => {
-            const [paymentType] = paymentTypes;
-            draft.values.payment = paymentType.accountNumber;
-        }))
-    }, [setState, paymentTypes])
 
     // Load the client company details into the "bill to" fields
     useEffect(() => {
@@ -224,6 +222,8 @@ function InvoiceForm({
         }
     }, [client_id, prev_client_id, clientList, setState]);
 
+    const [paymentTypeOptions] = useState(() => paymentTypesOptions(paymentTypes))
+
     // TODO allow to update client company details if changes detected.
 
     return (
@@ -247,9 +247,9 @@ function InvoiceForm({
             </FieldsetRow>
             <FieldsetRow>
 
-                {state.values.payment && <PaymentSelector name="payment" label="Payable to" required={false}
+                {state.values.payment && <Dropdown name="payment" label="Payable to" required={false}
                     value={state.values.payment}
-                    paymentTypes={paymentTypes}
+                    options={paymentTypeOptions}
                     {...form.resolveProps('payment')} />}
 
                 <ClientSelector name="client_id" label="Client" clientList={clientList} required={true}

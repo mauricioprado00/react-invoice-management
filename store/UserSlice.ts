@@ -5,6 +5,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
+import { Unpacked } from "library/helpers";
 import { PaymentType } from "models/Invoice";
 import {
   LoginResponse,
@@ -278,31 +279,28 @@ export const meSelector = createSelector(
   userSlice => userSlice.me
 );
 
-export const paymentSelector = createSelector(
-  meSelector,
-  me => {
-    const types = [];
-    if (me?.companyDetails?.swift) {
-      types.push({
-        accountType: "swift",
-        accountNumber: me?.companyDetails?.swift,
-      })
-    }
-    if (me?.companyDetails?.iban) {
-      types.push({
-        accountType: "iban",
-        accountNumber: me?.companyDetails?.iban,
-      })
-    }
-
-    return types as PaymentType[];
+export const paymentSelector = createSelector(meSelector, me => {
+  const types = [];
+  if (me?.companyDetails?.swift) {
+    types.push({
+      accountType: "swift",
+      accountNumber: me?.companyDetails?.swift,
+    });
   }
-)
+  if (me?.companyDetails?.iban) {
+    types.push({
+      accountType: "iban",
+      accountNumber: me?.companyDetails?.iban,
+    });
+  }
 
-export const avatarSelector = createSelector(
-  meSelector,
-  me => me?.avatar
-)
+  return types as PaymentType[];
+});
+
+export type PaymentTypeList = ReturnType<typeof paymentSelector>;
+export type PaymentType = Unpacked<PaymentTypeList>;
+
+export const avatarSelector = createSelector(meSelector, me => me?.avatar);
 
 export const {
   lastSelector: registerUserRequestSelector,
@@ -327,6 +325,13 @@ export const {
   errorSelector: updateMeErrorSelector,
   stateSelector: updateMeStateSelector,
 } = createRequestSelectors("updateMe", userSliceSelector);
+
+// Data transformation
+export const paymentTypesOptions = (paymentTypes: PaymentType[]) =>
+  paymentTypes.map(paymentType => ({
+    value: paymentType.accountNumber,
+    text: `${paymentType.accountType} ${paymentType.accountNumber}`,
+  }));
 
 // business logic
 
