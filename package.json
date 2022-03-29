@@ -41,7 +41,7 @@
     "react-redux": "^7.2.6",
     "react-scripts": "^5.0.0",
     "redux": "^4.1.2",
-    "store": "file:store"
+    "store": "file:src/site-specific/store"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.11.3",
