@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
-import Clients from 'components/views/client/Clients';
+import Clients from 'site-specific/containers/client/Clients';
 
 const ClientsPage: NextPage = () => {
   return <Clients />

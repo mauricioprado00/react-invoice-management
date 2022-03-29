@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
-import UserShow from 'components/views/user/UserShow';
+import UserShow from 'site-specific/containers/user/UserShow';
 import Card from 'elements/Card';
 
 const ClientDashboardPage: NextPage = () => {

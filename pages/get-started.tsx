@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import PageWithStore from 'site-specific/components/PageWithStore';
-import Signup from 'components/views/user/Signup';
+import Signup from 'site-specific/containers/user/Signup';
 import { useGoEditMe } from 'library/navigation';
 
 const GetStartedPage: NextPage = () => {

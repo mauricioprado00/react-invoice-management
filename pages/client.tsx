@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import ClientEdition from 'components/views/client/ClientEdition';
+import ClientEdition from 'site-specific/containers/client/ClientEdition';
 import { useGoBack, useGoClientDashboard, useParamId } from 'library/navigation';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import { useCallback } from 'react';

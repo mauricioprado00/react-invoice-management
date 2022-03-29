@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
-import Invoices from 'components/views/invoice/Invoices';
+import Invoices from 'site-specific/containers/invoice/Invoices';
 
 const InvoicesPage: NextPage = () => {
   return <Invoices />

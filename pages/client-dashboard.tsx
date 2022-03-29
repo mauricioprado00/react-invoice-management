@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import { useParamId } from 'library/navigation';
-import ClientShow from 'components/views/client/ClientShow';
+import ClientShow from 'site-specific/containers/client/ClientShow';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
-import InvoiceTable from 'components/views/invoice/InvoiceTable';
+import InvoiceTable from 'site-specific/containers/invoice/InvoiceTable';
 import Card from 'elements/Card';
 
 const ClientDashboardPage: NextPage = () => {
