@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import Card from 'components/ui/layout/Card'
-import ErrorBanner from 'components/utility/ErrorBanner'
+import ErrorBanner from 'elements/ErrorBanner'
 import SigninForm, { LoginUserEvent } from './SigninForm'
 import { useLoginUser, useLoginUserError, useLoginUserState } from 'store/UserSlice'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'

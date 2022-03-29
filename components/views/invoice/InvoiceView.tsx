@@ -3,7 +3,7 @@ import React from 'react'
 import { useInvoiceById, useInvoiceLoading } from 'store/InvoiceSlice'
 import InvoicePrint from './InvoicePrint'
 import { useMe, useMeLoading } from 'store/UserSlice'
-import ErrorBanner from 'components/utility/ErrorBanner'
+import ErrorBanner from 'elements/ErrorBanner'
 import Card from 'components/ui/layout/Card'
 import LoadingMask from "components/ui/LoadingMask"
 

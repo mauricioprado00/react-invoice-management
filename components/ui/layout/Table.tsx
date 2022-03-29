@@ -3,7 +3,7 @@ import { segregate } from 'library/helpers'
 import HeaderContent from './HeaderContent'
 import LoadingMask from '../LoadingMask'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
-import ErrorBanner from '../../utility/ErrorBanner'
+import ErrorBanner from 'elements/ErrorBanner'
 import { Pagination } from '@mui/material'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';

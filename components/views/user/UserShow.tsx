@@ -3,7 +3,7 @@ import React from 'react'
 import { useMe, useMeLoading } from 'store/UserSlice'
 import UserCard from './UserCard'
 import LoadingMask from "components/ui/LoadingMask"
-import ErrorBanner from 'components/utility/ErrorBanner'
+import ErrorBanner from 'elements/ErrorBanner'
 
 type UserShowProps = {}
 const ClientShowPropTypes = {}

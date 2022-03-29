@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 import Card from 'components/ui/layout/Card'
-import ErrorBanner from 'components/utility/ErrorBanner'
+import ErrorBanner from 'elements/ErrorBanner'
 import { ClientInvoice } from 'models/Invoice'
 import InvoiceForm, { SaveInvoiceEvent } from './InvoiceForm'
 import { useInvoiceById, useInvoiceLoading, useInvoicesLoading, useUpsertInvoice, useUpsertInvoiceError, useUpsertInvoiceState } from 'store/InvoiceSlice'

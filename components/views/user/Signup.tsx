@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import Card from 'components/ui/layout/Card'
-import ErrorBanner from 'components/utility/ErrorBanner'
+import ErrorBanner from 'elements/ErrorBanner'
 import SignupForm, { SaveUserEvent } from './SignupForm'
 import { useLoginUser, useRegisterUser, useRegisterUserError, useRegisterUserState } from 'store/UserSlice'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
