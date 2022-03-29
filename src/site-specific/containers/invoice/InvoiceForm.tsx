@@ -6,7 +6,7 @@ import InputText from 'elements/InputText'
 import Button, { ButtonStyle } from 'elements/Button'
 import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail, PaymentType, PaymentTypePropTypes } from 'models/Invoice'
 import useForm from 'hooks/use-form';
-import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'elements/ClientSelector';
+import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'site-specific/elements/ClientSelector';
 import InvoiceItems, { InvoiceItemsChangeEvent } from './InvoiceItems';
 import produce from 'immer';
 import { numberValidator } from 'utility/validation';

@@ -8,7 +8,7 @@ import SelectUnstyled, {
 import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled';
 import { styled } from '@mui/system';
 import { PopperUnstyled } from '@mui/base';
-import { getAvatarImageUrl } from './AvatarSelector';
+import { getAvatarImageUrl } from 'elements/AvatarSelector';
 import { FormElementProps, FormElementPropTypes } from 'hooks/use-form';
 import classNames from 'classnames';
 

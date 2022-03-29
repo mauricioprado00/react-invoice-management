@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import UrlInputFilter, { useUrlInputFilter } from 'elements/UrlInputFilter'
 import { useAllClients } from 'store/ClientSlice'
-import ClientSelector from 'elements/ClientSelector'
+import ClientSelector from 'site-specific/elements/ClientSelector'
 import { Fab, List, ListItem, ListItemButton, ListItemText, ListSubheader } from '@mui/material'
 import FilterIcon from '@mui/icons-material/FilterList';
 import CancelIcon from '@mui/icons-material/Cancel';
