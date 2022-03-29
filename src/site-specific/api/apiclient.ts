@@ -1,6 +1,6 @@
-import { Client, ClientWithTotals, ClientWithTotalsList } from 'models/Client'
-import { ClientInvoice, ClientInvoiceList, Invoice } from 'models/Invoice'
-import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me } from 'models/User'
+import { Client, ClientWithTotals, ClientWithTotalsList } from 'site-specific/models/Client'
+import { ClientInvoice, ClientInvoiceList, Invoice } from 'site-specific/models/Invoice'
+import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me } from 'site-specific/models/User'
 import { MapType } from 'models/UtilityModels'
 interface ApiInitParams extends RequestInit {
   signal: AbortSignal,

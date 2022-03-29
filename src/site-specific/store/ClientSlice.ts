@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Client, ClientList, ClientWithTotals, ClientWithTotalsList } from "models/Client";
+import { Client, ClientList, ClientWithTotals, ClientWithTotalsList } from "site-specific/models/Client";
 import { MapType } from "models/UtilityModels";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";
@@ -18,7 +18,7 @@ import {
   updated as invoiceUpdated,
   beforeUpdate as beforeUpdateInvoice,
 } from "./InvoiceSlice";
-import { ClientInvoice } from "models/Invoice";
+import { ClientInvoice } from "site-specific/models/Invoice";
 import { ClientListingArgsU, ClientListingResponse } from "api/apiclient";
 import { Md5 } from "md5-typescript";
 import { WritableDraft } from "immer/dist/internal";

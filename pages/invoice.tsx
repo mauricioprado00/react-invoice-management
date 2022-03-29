@@ -3,7 +3,7 @@ import InvoiceEdition from 'site-specific/containers/invoice/InvoiceEdition';
 import { useGoInvoiceView, useParamClientId } from 'site-specific/hooks/use-navigation';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import { useCallback } from 'react';
-import { ClientInvoice } from 'models/Invoice';
+import { ClientInvoice } from 'site-specific/models/Invoice';
 import { useGoBack, useParamId } from 'hooks/use-url';
 
 const InvoicePage: NextPage = () => {

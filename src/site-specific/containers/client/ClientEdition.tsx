@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import Card from 'elements/Card'
 import { UpsertClientResult, useClientById, useClientLoading, useUpsertClient, useUpsertClientError, useUpsertClientState } from 'store/ClientSlice'
 import ErrorBanner from 'elements/ErrorBanner'
-import { Client } from 'models/Client'
+import { Client } from 'site-specific/models/Client'
 import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 

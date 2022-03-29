@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import PropTypes from "prop-types";
 import moment from "moment";
-import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail } from 'models/Invoice'
-import { Me, MePropTypes } from 'models/User';
+import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail } from 'site-specific/models/Invoice'
+import { Me, MePropTypes } from 'site-specific/models/User';
 import { Fab } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PrintIcon from '@mui/icons-material/Print';

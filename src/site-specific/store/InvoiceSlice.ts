@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ClientInvoice, ClientInvoiceList, Invoice } from "models/Invoice";
+import { ClientInvoice, ClientInvoiceList, Invoice } from "site-specific/models/Invoice";
 import { MapType } from "models/UtilityModels";
 import { createSelector } from "reselect";
 import { AppThunkAPI } from "./configureStore";

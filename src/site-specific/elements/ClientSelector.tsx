@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Client, ClientPropTypes } from 'models/Client'
+import { Client, ClientPropTypes } from 'site-specific/models/Client'
 import SelectUnstyled, {
   SelectUnstyledProps,
   selectUnstyledClasses,

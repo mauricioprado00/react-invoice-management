@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import Image from 'next/image'
-import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
+import { ClientWithTotals, ClientWithTotalsPropTypes } from 'site-specific/models/Client'
 import { isMostValuableClient } from 'store/ClientSlice'
 import { getAvatarImageUrl } from 'elements/AvatarSelector'
 import { useGoClientIdDashboard, useGoClientIdEdit } from 'site-specific/hooks/use-navigation'

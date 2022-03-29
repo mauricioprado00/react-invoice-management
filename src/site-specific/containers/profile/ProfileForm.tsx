@@ -5,11 +5,11 @@ import FieldsetRow from 'elements/FieldsetRow'
 import InputText from 'elements/InputText'
 import Button, { ButtonStyle } from 'elements/Button'
 import { emailValidator, emptyOr, ibanValidator, notBothEmpty, numberValidator, swiftValidator } from 'utility/validation'
-import { AnyClient, AnyClientPropTypes } from 'models/Client'
+import { AnyClient, AnyClientPropTypes } from 'site-specific/models/Client'
 import AvatarSelector, { someAvatar } from 'elements/AvatarSelector';
 import produce from 'immer';
 import useForm from 'hooks/use-form';
-import { Me, MePropTypes } from 'models/User';
+import { Me, MePropTypes } from 'site-specific/models/User';
 
 type ProfileFormApi = {
     reset: () => void

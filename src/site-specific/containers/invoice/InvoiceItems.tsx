@@ -5,7 +5,7 @@ import { styled } from '@mui/system'
 import useForm, { FormElementPropTypes } from 'hooks/use-form'
 import InputText from 'elements/InputText'
 import produce from 'immer'
-import { InvoiceDetail, InvoiceDetailPropTypes } from 'models/Invoice'
+import { InvoiceDetail, InvoiceDetailPropTypes } from 'site-specific/models/Invoice'
 import { gtValidator, numberValidator } from 'utility/validation'
 
 export type InvoiceItemsChangeEvent = {

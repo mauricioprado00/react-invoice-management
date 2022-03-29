@@ -4,7 +4,7 @@ import Card from 'elements/Card'
 import ErrorBanner from 'elements/ErrorBanner'
 import { useIsProfileFilled, useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/UserSlice'
 import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
-import { Me } from 'models/User'
+import { Me } from 'site-specific/models/User'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 
 type UserEditionProps = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
-import { Me, MePropTypes } from 'models/User';
+import { Me, MePropTypes } from 'site-specific/models/User';
 import { useInvoiceCount, useInvoiceSum } from 'store/InvoiceSlice';
 import ProfileCard from '../profile/ProfileCard';
 

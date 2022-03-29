@@ -6,14 +6,14 @@ import {
 } from "@reduxjs/toolkit";
 import { useThunkDispatch } from "hooks/use-thunk-dispatch";
 import { Unpacked } from "utility/helpers";
-import { PaymentType } from "models/Invoice";
+import { PaymentType } from "site-specific/models/Invoice";
 import {
   LoginResponse,
   RegisterData,
   LoginCredentials,
   UserWithPassword,
   Me,
-} from "models/User";
+} from "site-specific/models/User";
 import { MapType } from "models/UtilityModels";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

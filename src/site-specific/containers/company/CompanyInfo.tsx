@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CompanyDetails, CompanyDetailsFullPropType, CompanyDetailsPropType } from 'models/CompanyDetails'
+import { CompanyDetails, CompanyDetailsFullPropType, CompanyDetailsPropType } from 'site-specific/models/CompanyDetails'
 
 type CompanyInfoProps = {
   companyDetails: CompanyDetails,

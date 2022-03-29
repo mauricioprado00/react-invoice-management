@@ -5,7 +5,7 @@ import FieldsetRow from 'elements/FieldsetRow'
 import InputText from 'elements/InputText'
 import Button, { ButtonStyle } from 'elements/Button'
 import { confirmPasswordValidator, emailValidator, passwordValidator } from 'utility/validation'
-import { UserWithPassword, UserWithPasswordPropTypes } from 'models/User';
+import { UserWithPassword, UserWithPasswordPropTypes } from 'site-specific/models/User';
 import useForm from 'hooks/use-form';
 
 type SignupFormApi = {

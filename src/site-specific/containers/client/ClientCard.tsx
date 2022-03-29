@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
-import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
+import { ClientWithTotals, ClientWithTotalsPropTypes } from 'site-specific/models/Client'
 import ProfileCard from '../profile/ProfileCard';
 
 type ClientCardProps = {

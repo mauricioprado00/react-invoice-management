@@ -1,4 +1,4 @@
-import { Client } from "models/Client";
+import { Client } from "site-specific/models/Client";
 import moment from "moment";
 import {
   fieldDateValue,

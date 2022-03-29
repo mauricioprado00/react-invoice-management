@@ -4,7 +4,7 @@ import Form from 'elements/Form'
 import FieldsetRow from 'elements/FieldsetRow'
 import InputText from 'elements/InputText'
 import Button, { ButtonStyle } from 'elements/Button'
-import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail, PaymentType, PaymentTypePropTypes } from 'models/Invoice'
+import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail, PaymentType, PaymentTypePropTypes } from 'site-specific/models/Invoice'
 import useForm from 'hooks/use-form';
 import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'site-specific/elements/ClientSelector';
 import InvoiceItems, { InvoiceItemsChangeEvent } from './InvoiceItems';

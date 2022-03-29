@@ -2,7 +2,7 @@ import {
   GenericStaticResponse,
   RouteHandler,
 } from "cypress/types/net-stubbing";
-import { ClientList } from "models/Client";
+import { ClientList } from "site-specific/models/Client";
 
 interface FixturePaginationFilterParameter
   extends Record<string, string | FixturePaginationFilterParameter> {}
