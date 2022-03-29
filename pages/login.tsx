@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import PageWithStore from 'components/utility/PageWithStore';
+import PageWithStore from 'site-specific/components/PageWithStore';
 import Signin from 'components/views/user/Signin';
 import { useGoDashboard } from 'library/navigation';
 

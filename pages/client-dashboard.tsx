@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { useParamId } from 'library/navigation';
 import ClientShow from 'components/views/client/ClientShow';
-import AuthPageWithStore from 'components/utility/AuthPageWithStore';
+import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import InvoiceTable from 'components/views/invoice/InvoiceTable';
 import Card from 'elements/Card';
 

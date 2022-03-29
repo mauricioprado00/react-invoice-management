@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import InvoiceEdition from 'components/views/invoice/InvoiceEdition';
 import { useGoBack, useGoInvoiceView, useParamClientId, useParamId } from 'library/navigation';
-import AuthPageWithStore from 'components/utility/AuthPageWithStore';
+import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import { useCallback } from 'react';
 import { ClientInvoice } from 'models/Invoice';
 

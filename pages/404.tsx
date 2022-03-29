@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import PageWithStore from 'components/utility/PageWithStore';
+import PageWithStore from 'site-specific/components/PageWithStore';
 import Link from 'next/link';
 
 const Four04: NextPage = () => {

@@ -3,7 +3,7 @@ import React, { FunctionComponent, ReactNode } from 'react'
 import { Provider } from 'react-redux';
 import store from 'store/configureStore';
 import { useInitLoggedFromStorage, useIsLoggedIn, useIsProfileFilled, useMeLoading } from 'store/UserSlice';
-import Page from '../ui/layout/Page';
+import Page from './Page';
 
 type CheckProps = {
     children: ReactNode,
@@ -26,7 +26,7 @@ function CheckAuthorizedUsers(props: CheckProps) {
     </>);
 }
 
-function CheckProfileIsFilled(props:CheckProps) {
+function CheckProfileIsFilled(props: CheckProps) {
     const isProfileFilled = useIsProfileFilled();
     const goEditMe = useGoEditMe();
     const isEditMe = useIsEditMe();
@@ -36,7 +36,7 @@ function CheckProfileIsFilled(props:CheckProps) {
     if (!loading && isProfileFilled === null) {
         alert('this is probably a bug');
     }
-    const mustEditFirst = !loading && isProfileFilled!== null && !isProfileFilled && !isEditMe;
+    const mustEditFirst = !loading && isProfileFilled !== null && !isProfileFilled && !isEditMe;
     if (mustEditFirst) {
         goEditMe();
     }

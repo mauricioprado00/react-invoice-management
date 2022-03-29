@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react'
 import { Provider } from 'react-redux'
 import store from 'store/configureStore'
-import Page from '../ui/layout/Page';
+import Page from './Page';
 
-function PageWithStore(ChildComponent:FunctionComponent<{}>) {
+function PageWithStore(ChildComponent: FunctionComponent<{}>) {
     const component = () => {
         return (
             <Provider store={store}>
