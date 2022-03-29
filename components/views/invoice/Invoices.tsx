@@ -1,5 +1,5 @@
 import React from 'react'
-import Card from 'components/ui/layout/Card'
+import Card from 'elements/Card'
 import InvoiceTable from './InvoiceTable'
 
 function Invoices() {

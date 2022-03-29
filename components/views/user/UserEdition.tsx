@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
-import Card from 'components/ui/layout/Card'
+import Card from 'elements/Card'
 import ErrorBanner from 'elements/ErrorBanner'
 import { useIsProfileFilled, useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/UserSlice'
 import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'

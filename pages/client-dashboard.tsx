@@ -3,7 +3,7 @@ import { useParamId } from 'library/navigation';
 import ClientShow from 'components/views/client/ClientShow';
 import AuthPageWithStore from 'components/utility/AuthPageWithStore';
 import InvoiceTable from 'components/views/invoice/InvoiceTable';
-import Card from 'components/ui/layout/Card';
+import Card from 'elements/Card';
 
 const ClientDashboardPage: NextPage = () => {
     const clientId = useParamId();
