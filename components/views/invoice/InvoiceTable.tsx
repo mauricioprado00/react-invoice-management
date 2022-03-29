@@ -1,7 +1,6 @@
 import InvoiceTableRowItem from './InvoiceTableRowItem'
 import PropTypes from 'prop-types'
-import { Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
-import HeaderContent from 'components/ui/layout/HeaderContent'
+import { TableHeaderContent, Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
 import Button, { ButtonStyle } from 'elements/Button'
 import { useFilteredInvoices, useLoadInvoiceError } from 'store/InvoiceSlice'
 import { useGoInvoices, useGoNewInvoice, usePagination } from 'library/navigation'
@@ -116,13 +115,13 @@ const InvoiceTable = ({
     
     return (
         <Table title={title} loading={loading} error={loadError} pagination={pagination}>
-            {loaded && <HeaderContent>
+            {loaded && <TableHeaderContent>
                 {controls && <>
                     <InvoiceTableFilters />
                     <Button styled={ButtonStyle.FlatPrimary} onClick={goNewInvoice}>New Invoice</Button>
                     {!pageable && <Button styled={ButtonStyle.FlatPrimary} onClick={goInvoices}>All Invoices</Button>}
                 </>}
-            </HeaderContent>}
+            </TableHeaderContent>}
             <Column {...(sortable ? dateSort : {})}>Date</Column>
             <Column >Number</Column>
             <Column {...(sortable ? companyNameSort : {})}>Company</Column>

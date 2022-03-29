@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import { segregate } from 'library/helpers'
-import HeaderContent from './HeaderContent'
 import LoadingMask from 'elements/LoadingMask'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 import ErrorBanner from 'elements/ErrorBanner'
@@ -68,6 +67,22 @@ const TableHeaderColumn = ({ children, onSort, direction }: tableHeaderColumnPro
 
 TableHeaderColumn.propTypes = TableHeaderColumnPropTypes;
 
+
+type TableHeaderContentProps = {
+    children: any
+}
+const TableHeaderContentPropTypes = {
+    children: PropTypes.node
+}
+
+export const TableHeaderContent = ({ children }: TableHeaderContentProps) => {
+    return (<>
+        {children}
+    </>)
+}
+
+TableHeaderContent.propTypes = TableHeaderContentPropTypes;
+
 type TablePaginationProps = {
     limit: number;
     offset: number;
@@ -128,7 +143,7 @@ const TablePropTypes = {
 const Table = ({ title, loading, children, error, pagination }: TableProps) => {
     const [columns, headerContent, empty, remaining] = segregate(children, [
         TableHeaderColumn,
-        HeaderContent,
+        TableHeaderContent,
         Empty
     ])
 

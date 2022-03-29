@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
-import { Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
+import { TableHeaderContent, Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
 import { useClientList, useClientLoading, useLoadClientError } from 'store/ClientSlice'
-import HeaderContent from 'components/ui/layout/HeaderContent'
 import Button, { ButtonStyle } from 'elements/Button'
 import { useGoClients, useGoNewClient, usePagination, useUrlParam } from 'library/navigation'
 import { useRouter } from 'next/router'
@@ -87,12 +86,12 @@ const ClientTable = ({
 
   return (
     <Table title={title} loading={loading} error={loadError} pagination={pagination}>
-      {!loading && <HeaderContent>
+      {!loading && <TableHeaderContent>
         {controls && <>
           <Button styled={ButtonStyle.FlatPrimary} onClick={goNewClient}>New Client</Button>
           {!pageable && <Button styled={ButtonStyle.FlatPrimary} onClick={goClients}>All Clients</Button>}
         </>}
-      </HeaderContent>}
+      </TableHeaderContent>}
       <Column {...(sortable ? nameSort : {})}>Client Name</Column>
       <Column {...(sortable ? companySort : {})}>Company Name</Column>
       <Column {...(sortable ? countSort : {})}>Invoices</Column>
