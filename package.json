@@ -23,7 +23,7 @@
     "@types/react-redux": "^7.1.22",
     "api": "file:api",
     "classnames": "^2.3.1",
-    "components": "file:components",
+    "components": "file:src/components",
     "elements": "file:src/elements",
     "site-specific": "file:src/site-specific",
     "contexts": "file:contexts",

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import ClientTableRowItem from './ClientTableRowItem'
-import { TableHeaderContent, Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
+import { TableHeaderContent, Table, Column, Empty, useSortDirection, SortDirection } from 'components/Table'
 import { useClientList, useClientLoading, useLoadClientError } from 'store/ClientSlice'
 import Button, { ButtonStyle } from 'elements/Button'
 import { useGoClients, useGoNewClient, usePagination, useUrlParam } from 'library/navigation'

@@ -1,6 +1,6 @@
 import InvoiceTableRowItem from './InvoiceTableRowItem'
 import PropTypes from 'prop-types'
-import { TableHeaderContent, Table, Column, Empty, useSortDirection, SortDirection } from 'components/ui/layout/Table'
+import { TableHeaderContent, Table, Column, Empty, useSortDirection, SortDirection } from 'components/Table'
 import Button, { ButtonStyle } from 'elements/Button'
 import { useFilteredInvoices, useLoadInvoiceError } from 'store/InvoiceSlice'
 import { useGoInvoices, useGoNewInvoice, usePagination } from 'library/navigation'
