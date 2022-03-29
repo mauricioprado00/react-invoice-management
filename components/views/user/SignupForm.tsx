@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from "prop-types";
-import Form from 'components/ui/forms/Form'
-import FieldsetRow from 'components/ui/forms/FieldsetRow'
-import InputText from 'components/ui/forms/InputText'
-import Button, { ButtonStyle } from 'components/ui/forms/Button'
+import Form from 'elements/Form'
+import FieldsetRow from 'elements/FieldsetRow'
+import InputText from 'elements/InputText'
+import Button, { ButtonStyle } from 'elements/Button'
 import { confirmPasswordValidator, emailValidator, passwordValidator } from 'library/validation'
 import { UserWithPassword, UserWithPasswordPropTypes } from 'models/User';
 import useForm from 'hooks/use-form';

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { InputChangeEvent } from "components/ui/forms/InputText";
+import { InputChangeEvent } from "elements/InputText";
 import produce from "immer";
 import { MapType, MapTypeFill, MapTypeSome } from "models/UtilityModels";
 import { useCallback, useMemo, useState } from "react";
