@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
 import InvoiceEdition from 'site-specific/containers/invoice/InvoiceEdition';
-import { useGoBack, useGoInvoiceView, useParamClientId, useParamId } from 'site-specific/hooks/use-navigation';
+import { useGoInvoiceView, useParamClientId } from 'site-specific/hooks/use-navigation';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import { useCallback } from 'react';
 import { ClientInvoice } from 'models/Invoice';
+import { useGoBack, useParamId } from 'hooks/use-url';
 
 const InvoicePage: NextPage = () => {
     const invoiceId = useParamId();

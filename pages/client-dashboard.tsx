@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
-import { useParamId } from 'site-specific/hooks/use-navigation';
 import ClientShow from 'site-specific/containers/client/ClientShow';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import InvoiceTable from 'site-specific/containers/invoice/InvoiceTable';
 import Card from 'elements/Card';
+import { useParamId } from 'hooks/use-url';
 
 const ClientDashboardPage: NextPage = () => {
     const clientId = useParamId();

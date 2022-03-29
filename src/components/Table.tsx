@@ -8,7 +8,8 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import { useCallback } from 'react'
-import { useUrlParam } from 'site-specific/hooks/use-navigation'
+import { useUrlParam } from 'hooks/use-url'
+
 /**
  * table styles from https://tailwindcomponents.com/component/customers-table
  * author: @cruip

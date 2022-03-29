@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { TableHeaderContent, Table, Column, Empty, useSortDirection, SortDirection } from 'components/Table'
 import Button, { ButtonStyle } from 'elements/Button'
 import { useFilteredInvoices, useLoadInvoiceError } from 'store/InvoiceSlice'
-import { useGoInvoices, useGoNewInvoice, usePagination } from 'site-specific/hooks/use-navigation'
+import { useGoInvoices, useGoNewInvoice } from 'site-specific/hooks/use-navigation'
 import InvoiceTableFilters from './InvoiceTableFilters'
 import { useRouter } from 'next/router'
 import { InvoiceListingArgs } from 'api/apiclient'
 import moment from 'moment'
+import { usePagination } from 'hooks/use-url'
 
 export type InvoiceTableProps = {
     title?: string,

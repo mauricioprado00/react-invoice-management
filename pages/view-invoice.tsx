@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
-import { useGoInvoices, useParamId } from 'site-specific/hooks/use-navigation';
+import { useGoInvoices } from 'site-specific/hooks/use-navigation';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import InvoiceView from 'site-specific/containers/invoice/InvoiceView';
+import { useParamId } from 'hooks/use-url';
 
 const ViewInvoicePage: NextPage = () => {
     const invoiceId = useParamId();

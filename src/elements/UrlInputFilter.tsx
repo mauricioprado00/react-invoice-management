@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { useUrlParam } from 'site-specific/hooks/use-navigation';
+import { useUrlParam } from 'hooks/use-url';
 
 export type UrlInputFilterProps = {
     name: string,

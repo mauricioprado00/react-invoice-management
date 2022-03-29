@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
 import ClientEdition from 'site-specific/containers/client/ClientEdition';
-import { useGoBack, useGoClientDashboard, useParamId } from 'site-specific/hooks/use-navigation';
+import { useGoClientDashboard } from 'site-specific/hooks/use-navigation';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import { useCallback } from 'react';
 import { Client } from 'models/Client';
+import { useGoBack, useParamId } from 'hooks/use-url';
 
 const ClientPage: NextPage = () => {
     const clientId = useParamId();
