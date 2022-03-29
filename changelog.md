@@ -29,6 +29,8 @@
   it would be nice to give the user the control of choosing which sorting
   comes first.
 
+# 2022 03 29
+1. Massive refactor, organize code in site-specific/non-site-specific, elements, components, containers, hooks, models. 
 # 2022 03 28
 1. create payment selecor an Element (no connection to models)
 # 2022 03 27
