@@ -4,7 +4,7 @@ import Form from 'elements/Form'
 import FieldsetRow from 'elements/FieldsetRow'
 import InputText from 'elements/InputText'
 import Button, { ButtonStyle } from 'elements/Button'
-import { confirmPasswordValidator, emailValidator, passwordValidator } from 'library/validation'
+import { confirmPasswordValidator, emailValidator, passwordValidator } from 'utility/validation'
 import { UserWithPassword, UserWithPasswordPropTypes } from 'models/User';
 import useForm from 'hooks/use-form';
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { segregate } from 'library/helpers'
+import { segregate } from 'utility/helpers'
 import LoadingMask from 'elements/LoadingMask'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 import ErrorBanner from 'elements/ErrorBanner'

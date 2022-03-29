@@ -9,7 +9,7 @@ import useForm from 'hooks/use-form';
 import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'elements/ClientSelector';
 import InvoiceItems, { InvoiceItemsChangeEvent } from './InvoiceItems';
 import produce from 'immer';
-import { numberValidator } from 'library/validation';
+import { numberValidator } from 'utility/validation';
 import moment from 'moment';
 import { MapType, MapTypeFill } from 'models/UtilityModels';
 import Dropdown from 'elements/Dropdown';

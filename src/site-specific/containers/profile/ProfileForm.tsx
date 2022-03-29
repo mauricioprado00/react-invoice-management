@@ -4,7 +4,7 @@ import Form from 'elements/Form'
 import FieldsetRow from 'elements/FieldsetRow'
 import InputText from 'elements/InputText'
 import Button, { ButtonStyle } from 'elements/Button'
-import { emailValidator, emptyOr, ibanValidator, notBothEmpty, numberValidator, swiftValidator } from 'library/validation'
+import { emailValidator, emptyOr, ibanValidator, notBothEmpty, numberValidator, swiftValidator } from 'utility/validation'
 import { AnyClient, AnyClientPropTypes } from 'models/Client'
 import AvatarSelector, { someAvatar } from 'elements/AvatarSelector';
 import produce from 'immer';

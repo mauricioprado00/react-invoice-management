@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { validationMessage, Validator } from "library/validation";
+import { validationMessage, Validator } from "utility/validation";
 import classNames from "classnames";
 
 // styles taken from https://tailwindcomponents.com/component/forms

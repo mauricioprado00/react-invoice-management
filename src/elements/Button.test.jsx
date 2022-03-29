@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-utility/react";
 import React from "react";
 import Button from "./Button";
 

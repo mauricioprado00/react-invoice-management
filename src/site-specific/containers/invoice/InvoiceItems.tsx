@@ -6,7 +6,7 @@ import useForm, { FormElementPropTypes } from 'hooks/use-form'
 import InputText from 'elements/InputText'
 import produce from 'immer'
 import { InvoiceDetail, InvoiceDetailPropTypes } from 'models/Invoice'
-import { gtValidator, numberValidator } from 'library/validation'
+import { gtValidator, numberValidator } from 'utility/validation'
 
 export type InvoiceItemsChangeEvent = {
     items: InvoiceDetail[],
