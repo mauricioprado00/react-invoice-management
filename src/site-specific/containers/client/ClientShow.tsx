@@ -1,4 +1,4 @@
-import { useGoClientIdEdit } from 'library/navigation'
+import { useGoClientIdEdit } from 'site-specific/hooks/use-navigation'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useClientById, useClientLoading } from 'store/ClientSlice'

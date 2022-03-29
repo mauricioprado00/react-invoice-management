@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useGoInvoices, useParamId } from 'library/navigation';
+import { useGoInvoices, useParamId } from 'site-specific/hooks/use-navigation';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import InvoiceView from 'site-specific/containers/invoice/InvoiceView';
 

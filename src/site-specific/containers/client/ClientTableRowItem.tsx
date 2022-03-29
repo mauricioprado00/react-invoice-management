@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { ClientWithTotals, ClientWithTotalsPropTypes } from 'models/Client'
 import { isMostValuableClient } from 'store/ClientSlice'
 import { getAvatarImageUrl } from 'elements/AvatarSelector'
-import { useGoClientIdDashboard, useGoClientIdEdit } from 'library/navigation'
+import { useGoClientIdDashboard, useGoClientIdEdit } from 'site-specific/hooks/use-navigation'
 import { useCallback } from 'react'
 import ClientTableRowActions from './ClientTableRowActions'
 

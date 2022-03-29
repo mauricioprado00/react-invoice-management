@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useIsLoggedIn, useUserAvatar } from "store/UserSlice";
-import { useLogout } from "library/navigation";
+import { useLogout } from "site-specific/hooks/use-navigation";
 import classNames from 'classnames';
 import Image from 'next/image';
 

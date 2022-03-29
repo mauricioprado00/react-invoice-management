@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { ClientInvoice, InvoicePropTypes } from 'models/Invoice'
 import { ClientPropTypes } from 'models/Client'
-import { useGoInvoiceIdEdit, useGoInvoiceIdView } from 'library/navigation'
+import { useGoInvoiceIdEdit, useGoInvoiceIdView } from 'site-specific/hooks/use-navigation'
 import moment from 'moment'
 import InvoiceTableRowActions from './InvoiceTableRowActions'
 

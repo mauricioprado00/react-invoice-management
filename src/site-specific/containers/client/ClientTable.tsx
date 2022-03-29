@@ -3,7 +3,7 @@ import ClientTableRowItem from './ClientTableRowItem'
 import { TableHeaderContent, Table, Column, Empty, useSortDirection, SortDirection } from 'components/Table'
 import { useClientList, useClientLoading, useLoadClientError } from 'store/ClientSlice'
 import Button, { ButtonStyle } from 'elements/Button'
-import { useGoClients, useGoNewClient, usePagination, useUrlParam } from 'library/navigation'
+import { useGoClients, useGoNewClient, usePagination, useUrlParam } from 'site-specific/hooks/use-navigation'
 import { useRouter } from 'next/router'
 import { ClientListingArgs } from 'api/apiclient'
 

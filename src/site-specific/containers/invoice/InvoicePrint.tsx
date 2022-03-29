@@ -6,7 +6,7 @@ import { Me, MePropTypes } from 'models/User';
 import { Fab } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PrintIcon from '@mui/icons-material/Print';
-import { useGoInvoiceIdEdit } from 'library/navigation';
+import { useGoInvoiceIdEdit } from 'site-specific/hooks/use-navigation';
 import { useRouter } from 'next/router';
 
 /**

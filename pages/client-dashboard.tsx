@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useParamId } from 'library/navigation';
+import { useParamId } from 'site-specific/hooks/use-navigation';
 import ClientShow from 'site-specific/containers/client/ClientShow';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import InvoiceTable from 'site-specific/containers/invoice/InvoiceTable';

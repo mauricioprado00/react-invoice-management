@@ -1,4 +1,4 @@
-import { useGoEditMe } from 'library/navigation'
+import { useGoEditMe } from 'site-specific/hooks/use-navigation'
 import React from 'react'
 import { useMe, useMeLoading } from 'store/UserSlice'
 import UserCard from './UserCard'

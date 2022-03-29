@@ -1,4 +1,4 @@
-import { useGoEditMe, useGoLogin, useIsEditMe } from 'library/navigation';
+import { useGoEditMe, useGoLogin, useIsEditMe } from 'site-specific/hooks/use-navigation';
 import React, { FunctionComponent, ReactNode } from 'react'
 import { Provider } from 'react-redux';
 import store from 'store/configureStore';

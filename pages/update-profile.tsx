@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import UserEdition from 'site-specific/containers/user/UserEdition';
-import { useGoMe } from 'library/navigation';
+import { useGoMe } from 'site-specific/hooks/use-navigation';
 
 const UpdateProfilePage: NextPage = () => {
     const goMe = useGoMe();
