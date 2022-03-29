@@ -1,8 +1,7 @@
 # pending features
-5. jest not workign after changes
-6. some unit testing 
-7. refactor InvoiceForm
-8. cypress extra
+1. some unit testing 
+2. refactor InvoiceForm
+3. cypress extra
    1. dashboard loads latest invoices
    2. dahsboard loads latest clients
    3. user profile edition
@@ -10,10 +9,10 @@
    5. client profile view
    6. invoice print view
    7. logout
-9. implement fetching single client (useClientById, same way as useInvoiceById)
-10. Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
-11. latest client invoices in profile (link menu item from client table)
-12. deprecate the use of anything with useClientSelector( and useInvoiceSelector(
+4. implement fetching single client (useClientById, same way as useInvoiceById)
+5.  Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
+6.  latest client invoices in profile (link menu item from client table)
+7.  deprecate the use of anything with useClientSelector( and useInvoiceSelector(
 
 # unknown bugs: 
 - sometimes clients are not being loaded

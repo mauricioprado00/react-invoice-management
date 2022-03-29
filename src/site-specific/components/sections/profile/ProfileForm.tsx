@@ -11,12 +11,8 @@ import produce from 'immer';
 import useForm from 'hooks/use-form';
 import { Me, MePropTypes } from 'site-specific/models/User';
 
-type ProfileFormApi = {
-    reset: () => void
-}
 export type SaveProfileEvent = {
     profile: Omit<AnyClient & Me, 'password'>,
-    profileFormApi: ProfileFormApi
 }
 
 type ProfileFormProps = {
@@ -68,7 +64,6 @@ function ProfileForm({
 }: ProfileFormProps) {
     const form = useForm({ elements: withBank ? elements_bank : elements, disabled, disabledFields });
     const { state, reset, setState } = form;
-    const profileFormApi = { reset };
     const selectAvatar = useCallback((avatar: string) => {
         setState(prev => produce(prev, draft => { draft.values.avatar = avatar }));
     }, [setState])
@@ -101,8 +96,7 @@ function ProfileForm({
                     iban: form.state.values.iban,
                     swift: form.state.values.swift,
                 })
-            },
-            profileFormApi
+            }
         });
     }
 

@@ -15,12 +15,8 @@ import { MapType, MapTypeFill } from 'models/UtilityModels';
 import Dropdown from 'elements/Dropdown';
 import { paymentTypesOptions } from 'store/UserSlice';
 
-type InvoiceFormApi = {
-    reset: () => void
-}
 export type SaveInvoiceEvent = {
     clientInvoice: ClientInvoice,
-    invoiceFormApi: InvoiceFormApi
 }
 
 type InvoiceFormProps = {
@@ -119,7 +115,6 @@ function InvoiceForm({
     const [items, setItems] = useState<InvoiceDetail[]>([])
     const { state, reset, setState } = form;
     const total = items.reduce((carry, item) => carry + item.quantity * item.rate, 0);
-    const invoiceFormApi = useMemo(() => ({ reset }), [reset]);
     const { client_id, prev_client_id } = state.values;
 
     const handleItemsChange = useCallback((e: InvoiceItemsChangeEvent): void => {
@@ -180,10 +175,9 @@ function InvoiceForm({
                         )[0]
                     },
                 },
-            },
-            invoiceFormApi
+            }
         });
-    }, [clientList, form, invoiceFormApi, items, onSave, paymentTypes, state.values.payment, total]);
+    }, [clientList, form, items, onSave, paymentTypes, state.values.payment, total]);
 
 
     // Load the client company details into the "bill to" fields
