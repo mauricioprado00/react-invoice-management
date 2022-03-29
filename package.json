@@ -26,7 +26,6 @@
     "components": "file:src/components",
     "elements": "file:src/elements",
     "site-specific": "file:src/site-specific",
-    "contexts": "file:contexts",
     "hooks": "file:hooks",
     "library": "file:library",
     "styles": "file:styles",
