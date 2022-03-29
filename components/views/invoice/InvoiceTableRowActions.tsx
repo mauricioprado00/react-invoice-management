@@ -2,7 +2,7 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import Hamburger from 'components/ui/elements/Hamburger';
+import Hamburger from 'elements/Hamburger';
 import EditIcon from '@mui/icons-material/Edit';
 import PrintIcon from '@mui/icons-material/Print';
 import ViewIcon from '@mui/icons-material/Description';

@@ -24,6 +24,7 @@
     "api": "file:api",
     "classnames": "^2.3.1",
     "components": "file:components",
+    "elements": "file:src/elements",
     "contexts": "file:contexts",
     "hooks": "file:hooks",
     "library": "file:library",
