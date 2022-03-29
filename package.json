@@ -26,7 +26,7 @@
     "components": "file:src/components",
     "elements": "file:src/elements",
     "site-specific": "file:src/site-specific",
-    "hooks": "file:hooks",
+    "hooks": "file:src/hooks",
     "library": "file:library",
     "styles": "file:styles",
     "cy-steps": "file:cypress/steps",
