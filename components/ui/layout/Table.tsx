@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { segregate } from 'library/helpers'
 import HeaderContent from './HeaderContent'
-import LoadingMask from '../LoadingMask'
+import LoadingMask from 'elements/LoadingMask'
 import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 import ErrorBanner from 'elements/ErrorBanner'
 import { Pagination } from '@mui/material'

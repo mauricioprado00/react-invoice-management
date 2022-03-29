@@ -2,7 +2,7 @@ import { useGoEditMe } from 'library/navigation'
 import React from 'react'
 import { useMe, useMeLoading } from 'store/UserSlice'
 import UserCard from './UserCard'
-import LoadingMask from "components/ui/LoadingMask"
+import LoadingMask from "elements/LoadingMask"
 import ErrorBanner from 'elements/ErrorBanner'
 
 type UserShowProps = {}

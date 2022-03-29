@@ -5,7 +5,7 @@ import InvoicePrint from './InvoicePrint'
 import { useMe, useMeLoading } from 'store/UserSlice'
 import ErrorBanner from 'elements/ErrorBanner'
 import Card from 'elements/Card'
-import LoadingMask from "components/ui/LoadingMask"
+import LoadingMask from "elements/LoadingMask"
 
 type InvoiceViewProps = {
     invoiceId: string,

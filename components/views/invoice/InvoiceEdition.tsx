@@ -8,7 +8,7 @@ import { useInvoiceById, useInvoiceLoading, useInvoicesLoading, useUpsertInvoice
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 import { usePaymentSelector } from 'store/UserSlice'
 import { useAllClients } from 'store/ClientSlice'
-import LoadingMask from 'components/ui/LoadingMask'
+import LoadingMask from 'elements/LoadingMask'
 
 type InvoiceProps = {
     onCancel?: (clientInvoice:Partial<ClientInvoice>|null) => void,

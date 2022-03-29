@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useClientById, useClientLoading } from 'store/ClientSlice'
 import ClientCard from './ClientCard'
-import LoadingMask from "components/ui/LoadingMask"
+import LoadingMask from "elements/LoadingMask"
 import ErrorBanner from 'elements/ErrorBanner'
 
 type ClientProps = {
