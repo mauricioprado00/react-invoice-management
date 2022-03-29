@@ -44,10 +44,10 @@
     "store": "file:src/site-specific/store"
   },
   "devDependencies": {
-    "@testing-utility/dom": "^8.11.3",
-    "@testing-utility/jest-dom": "^5.16.2",
-    "@testing-utility/react": "^12.1.4",
-    "@testing-utility/user-event": "^13.5.0",
+    "@testing-library/dom": "^8.11.3",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
     "@types/node": "17.0.15",
     "@types/react": "17.0.39",
     "autoprefixer": "^10.4.2",

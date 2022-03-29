@@ -1,5 +1,6 @@
 # pending features
-5. some unit testing 
+5. jest not workign after changes
+6. some unit testing 
 7. refactor InvoiceForm
 8. cypress extra
    1. dashboard loads latest invoices
