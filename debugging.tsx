@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
-import ClientTable from 'site-specific/containers/client/ClientTable'
-import InvoiceTable from 'site-specific/containers/invoice/InvoiceTable';
+import ClientTable from 'site-specific/components/sections/client/ClientTable'
+import InvoiceTable from 'site-specific/components/sections/invoice/InvoiceTable';
 import { useEffect, useMemo, useState } from 'react';
 import createClient from 'api/apiclient';
 import store from 'store/configureStore'
@@ -9,7 +9,7 @@ import { loadClients } from 'store/ClientSlice';
 import { newBearerToken } from 'store/UserSlice';
 import { enableMapSet } from 'immer';
 import { loadClientInvoices } from 'store/InvoiceSlice';
-import ClientEdition from 'site-specific/containers/client/ClientEdition';
+import ClientEdition from 'site-specific/components/sections/client/ClientEdition';
 
 let client = createClient('//localhost:3139', '111');
 enableMapSet();

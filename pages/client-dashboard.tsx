@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
-import ClientShow from 'site-specific/containers/client/ClientShow';
+import ClientShow from 'site-specific/components/sections/client/ClientShow';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
-import InvoiceTable from 'site-specific/containers/invoice/InvoiceTable';
+import InvoiceTable from 'site-specific/components/sections/invoice/InvoiceTable';
 import Card from 'elements/Card';
 import { useParamId } from 'hooks/use-url';
 

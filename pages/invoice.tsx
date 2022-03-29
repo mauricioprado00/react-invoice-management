@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import InvoiceEdition from 'site-specific/containers/invoice/InvoiceEdition';
+import InvoiceEdition from 'site-specific/components/sections/invoice/InvoiceEdition';
 import { useGoInvoiceView, useParamClientId } from 'site-specific/hooks/use-navigation';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import { useCallback } from 'react';

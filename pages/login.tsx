@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import PageWithStore from 'site-specific/components/PageWithStore';
-import Signin from 'site-specific/containers/user/Signin';
+import Signin from 'site-specific/components/sections/user/Signin';
 import { useGoDashboard } from 'site-specific/hooks/use-navigation';
 
 const LoginPage: NextPage = () => {

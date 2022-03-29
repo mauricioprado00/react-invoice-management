@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import Dashboard from 'site-specific/containers/Dashboard';
+import Dashboard from 'site-specific/components/sections/Dashboard';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 
 const Home: NextPage = () => {
