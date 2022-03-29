@@ -1,22 +1,21 @@
-import PropTypes from 'prop-types'
-import { InputChangeEvent } from "elements/InputText";
+import PropTypes from "prop-types";
 import produce from "immer";
 import { MapType, MapTypeFill, MapTypeSome } from "models/UtilityModels";
 import { useCallback, useMemo, useState } from "react";
 
 export type FormElementChangeEvent = {
   target: {
-    value: string,
-  }
-  fieldName: string,
-}
+    value: string;
+  };
+  fieldName: string;
+};
 export type FormElementProps = {
   reset?: number;
   onValid?: (name: string, valid: boolean) => void;
   onChange?: (e: FormElementChangeEvent) => void;
   showErrors?: boolean;
   disabled?: boolean;
-}
+};
 
 export const FormElementPropTypes = {
   reset: PropTypes.number,
@@ -24,7 +23,7 @@ export const FormElementPropTypes = {
   onChange: PropTypes.func,
   showErrors: PropTypes.bool,
   disabled: PropTypes.bool,
-}
+};
 
 type FormState = {
   valid: MapType<boolean>;
@@ -34,7 +33,11 @@ type FormState = {
   showErrors: boolean;
 };
 
-const createInitialFormState = (elements: string[], disabledFields: string[], values:MapType<string>|undefined): FormState => {
+const createInitialFormState = (
+  elements: string[],
+  disabledFields: string[],
+  values: MapType<string> | undefined
+): FormState => {
   const state = {
     valid: MapTypeFill(elements, false),
     values: values || MapTypeFill(elements, ""),
@@ -43,7 +46,7 @@ const createInitialFormState = (elements: string[], disabledFields: string[], va
     showErrors: false,
   };
 
-  disabledFields.forEach(field => state.valid[field] = true);
+  disabledFields.forEach(field => (state.valid[field] = true));
 
   return state;
 };
@@ -52,12 +55,19 @@ type useFormProps = {
   elements: string[];
   disabled: boolean;
   disabledFields?: string[];
-  initialValues?: MapType<string>
+  initialValues?: MapType<string>;
 };
 
-const useForm = ({ elements, disabled, disabledFields, initialValues }: useFormProps) => {
+const useForm = ({
+  elements,
+  disabled,
+  disabledFields,
+  initialValues,
+}: useFormProps) => {
   const disFields = useMemo(() => disabledFields || [], [disabledFields]);
-  const [state, setState] = useState(createInitialFormState(elements, disFields, initialValues));
+  const [state, setState] = useState(
+    createInitialFormState(elements, disFields, initialValues)
+  );
   const validHandler = useCallback((name: string, valid: boolean) => {
     setState(prev =>
       produce(prev, draft => {
@@ -73,25 +83,34 @@ const useForm = ({ elements, disabled, disabledFields, initialValues }: useFormP
     );
   }, []);
 
-  const inputProps:FormElementProps = useMemo(() => ({
-    reset: state.reset,
-    onValid: validHandler,
-    onChange: changeHandler,
-    showErrors: state.showErrors,
-    disabled,
-  }), [state, changeHandler, validHandler, disabled]);
+  const inputProps: FormElementProps = useMemo(
+    () => ({
+      reset: state.reset,
+      onValid: validHandler,
+      onChange: changeHandler,
+      showErrors: state.showErrors,
+      disabled,
+    }),
+    [state, changeHandler, validHandler, disabled]
+  );
 
-  const disabledInputProps = useMemo(() => ({
-    disabled: true,
-    reset: state.reset,
-    onValid: validHandler,
-  }), [validHandler, state]);
+  const disabledInputProps = useMemo(
+    () => ({
+      disabled: true,
+      reset: state.reset,
+      onValid: validHandler,
+    }),
+    [validHandler, state]
+  );
 
   return {
     state,
     inputProps,
-    resolveProps: useCallback((name: string) =>
-      state.disabled[name] === true ? disabledInputProps : inputProps, [state, disabledInputProps, inputProps]),
+    resolveProps: useCallback(
+      (name: string) =>
+        state.disabled[name] === true ? disabledInputProps : inputProps,
+      [state, disabledInputProps, inputProps]
+    ),
     setShowErrors: useCallback((show: boolean) => {
       setState(prev => ({ ...prev, showErrors: show }));
     }, []),
