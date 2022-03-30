@@ -25,7 +25,7 @@ export const FormElementPropTypes = {
   disabled: PropTypes.bool,
 };
 
-type FormState = {
+export type FormState = {
   valid: MapType<boolean>;
   values: MapType<string>;
   disabled: MapType<boolean>;
@@ -124,5 +124,7 @@ const useForm = ({
     setState,
   };
 };
+
+export type UseFormReturn = ReturnType<typeof useForm>;
 
 export default useForm;

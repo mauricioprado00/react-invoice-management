@@ -15,7 +15,7 @@ export type InvoiceItemsChangeEvent = {
 
 export type InvoiceItemsProps = {
     name: string,
-    onValid?: (name: string, valid: boolean) => void;
+    onValid?: (valid: boolean, name: string) => void;
     onChange?: (e: InvoiceItemsChangeEvent) => void;
     showErrors?: boolean;
     details: InvoiceDetail[] | undefined
@@ -192,7 +192,7 @@ function InvoiceItems({ name, details, onValid, onChange, showErrors }: InvoiceI
         if (valid !== lastValid) {
             setLastValid(valid);
             if (onValid) {
-                onValid(name, valid)
+                onValid(valid, name)
             }
         }
     }, [state, onValid, lastValid, name])

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useCallback } from 'react'
 
-type ClickHandler =  (e:React.MouseEvent<HTMLButtonElement>) => void
+export type ClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => void
 
 export enum ButtonStyle {
     PillSecondary,
