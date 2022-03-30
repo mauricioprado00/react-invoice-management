@@ -4,7 +4,8 @@ import { AnyClient, AnyClientPropTypes } from "site-specific/models/Client";
 import { someAvatar } from "elements/AvatarSelector";
 import produce from "immer";
 import { Me, MePropTypes } from "site-specific/models/User";
-import ProfileForm, { useProfileForm } from "./ProfileForm";
+import ProfileForm from "./ProfileForm";
+import { useProfileForm } from "site-specific/hooks/use-profile-form";
 
 export type SaveProfileEvent = {
   profile: Omit<AnyClient & Me, "password">;

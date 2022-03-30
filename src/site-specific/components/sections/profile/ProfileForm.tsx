@@ -1,4 +1,4 @@
-import React, { } from 'react'
+import React from 'react'
 import PropTypes from "prop-types";
 import Form from 'elements/Form'
 import FieldsetRow from 'elements/FieldsetRow'
@@ -6,13 +6,13 @@ import InputText from 'elements/InputText'
 import Button, { ButtonStyle, ClickHandler } from 'elements/Button'
 import { emailValidator, emptyOr, ibanValidator, notBothEmpty, numberValidator, swiftValidator } from 'utility/validation'
 import AvatarSelector from 'elements/AvatarSelector';
-import useForm, { UseFormReturn } from 'hooks/use-form';
+import { UseProfileFormReturn } from 'site-specific/hooks/use-profile-form';
 
 type ProfileFormProps = {
     disabled?: boolean,
     withBank?: boolean,
     message?: string | null,
-    form: UseFormReturn,
+    form: UseProfileFormReturn,
     onAvatarChange: (selected: string) => void,
     onCancel?: ClickHandler,
     onSave?: ClickHandler,
@@ -27,53 +27,6 @@ const ProfileFormPropTypes = {
     onCancel: PropTypes.func,
     onSave: PropTypes.func,
 }
-
-const elements = [
-    "name",
-    "email",
-    "companyName",
-    "address",
-    "regNumber",
-    "vatNumber",
-    //"avatar", NO because vhe state. Valid is not handled for the custom Avatar Selector
-];
-
-const elements_bank = elements.concat(["iban", "swift"]);
-
-type useProfileFormArgs = {
-    disabled?: boolean,
-    withBank?: boolean,
-    disabledFields?: string[];
-}
-
-type ProfileFieldsMapType<T> = {
-    name: T,
-    email: T,
-    companyName: T,
-    address: T,
-    regNumber: T,
-    vatNumber: T,
-    iban?: T,
-    swift?: T,
-}
-
-type ProfileFormReturn = UseFormReturn & {
-    state: {
-        values: ProfileFieldsMapType<string>,
-        valid: ProfileFieldsMapType<boolean>,
-        disabled: ProfileFieldsMapType<boolean>,
-    }
-}
-
-export const useProfileForm = ({
-    withBank,
-    disabled = false,
-    disabledFields
-}: useProfileFormArgs) => useForm({
-    elements: withBank ? elements_bank : elements,
-    disabled,
-    disabledFields,
-}) as ProfileFormReturn
 
 function ProfileForm({
     disabled = false,

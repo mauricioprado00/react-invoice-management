@@ -5,7 +5,8 @@ import { ClientSelectorProps, ClientSelectorPropTypes } from 'site-specific/elem
 import { InvoiceItemsChangeEvent } from './InvoiceItems';
 import produce from 'immer';
 import { paymentTypesOptions } from 'store/UserSlice';
-import InvoiceForm, { useInvoiceForm } from './InvoiceForm';
+import InvoiceForm from './InvoiceForm';
+import { useInvoiceForm } from 'site-specific/hooks/use-invoice-form';
 
 export type SaveInvoiceEvent = {
     clientInvoice: ClientInvoice,
