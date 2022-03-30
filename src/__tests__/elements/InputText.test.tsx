@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
-import InputText from "./InputText";
+import InputText from "elements/InputText";
 
 describe("InputText", () => {
   it("reanders the given value", () => {

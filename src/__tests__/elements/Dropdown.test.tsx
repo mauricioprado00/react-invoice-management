@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { FormElementChangeEvent } from "hooks/use-form";
 import React from "react";
-import Dropdown, { DropdownOption } from "./Dropdown";
+import Dropdown, { DropdownOption } from "elements/Dropdown";
 
 describe("Dropdown", () => {
     const options = [

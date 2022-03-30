@@ -1,9 +1,9 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
-import Select from "./Select";
+import Select from "elements/Select";
 
 describe("Select", () => {
-   const options = [{value:"test-value", label:"Test"}];
+  const options = [{ value: "test-value", label: "Test" }];
   it("reanders default placeholder", () => {
     render(<Select options={options} label="test" />);
     const element = screen.getByDisplayValue("select option");

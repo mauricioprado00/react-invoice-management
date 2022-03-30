@@ -1,23 +1,23 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { FormElementChangeEvent } from "hooks/use-form";
 import React from "react";
-import ClientSelector from "./ClientSelector";
+import ClientSelector from "site-specific/elements/ClientSelector";
 
 describe("ClientSelector", () => {
-    const clientList = [
-        {
-            id: 'mocked-client-id-123',
-            user_id: '22',
-            name: "John Doe",
-            email: "john.doe@gmail.com",
-            companyDetails: {
-              name: "ABC co",
-              vatNumber: "123",
-              regNumber: "456",
-              address: 'Street Av. 1',
-            },
-        }
-    ]
+  const clientList = [
+    {
+      id: 'mocked-client-id-123',
+      user_id: '22',
+      name: "John Doe",
+      email: "john.doe@gmail.com",
+      companyDetails: {
+        name: "ABC co",
+        vatNumber: "123",
+        regNumber: "456",
+        address: 'Street Av. 1',
+      },
+    }
+  ]
   it("shows options when clicked", () => {
     render(<div data-testid="ts"><ClientSelector name="client" clientList={clientList} /></div>);
     const element = screen.getByTestId('ts');

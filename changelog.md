@@ -1,3 +1,10 @@
+failed cypress tests
+- will sort clients by name
+- will sort invoices by date
+- will sort clients by namefailed
+- will sort invoices by datefailed
+- will multi-sort clientsfailed
+
 # pending features
 2. some unit testing 
 4. cypress extra
@@ -32,6 +39,7 @@
 2. refactor ProfileForm, split it in ProfileFormWrapper and ProfileForm (presentational)
 3. move create useProfileForm and useInvoiceForm to own files
 4. Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
+5. move tests to own directory
 # 2022 03 29
 1. Massive refactor, organize code in site-specific/non-site-specific, elements, components, containers, hooks, models. 
 # 2022 03 28
