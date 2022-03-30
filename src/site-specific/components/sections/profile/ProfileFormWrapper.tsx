@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import { AnyClient, AnyClientPropTypes } from "site-specific/models/Client";
 import { someAvatar } from "elements/AvatarSelector";
 import produce from "immer";
-import useForm from "hooks/use-form";
 import { Me, MePropTypes } from "site-specific/models/User";
-import ProfileForm from "./ProfileForm";
+import ProfileForm, { useProfileForm } from "./ProfileForm";
 
 export type SaveProfileEvent = {
   profile: Omit<AnyClient & Me, "password">;
@@ -34,18 +33,6 @@ const ProfileFormWrapperPropTypes = {
   message: PropTypes.string,
 };
 
-const elements = [
-  "name",
-  "email",
-  "companyName",
-  "address",
-  "regNumber",
-  "vatNumber",
-  //"avatar", NO because vhe state. Valid is not handled for the custom Avatar Selector
-];
-
-const elements_bank = elements.concat(["iban", "swift"]);
-
 function ProfileFormWrapper({
   onSave,
   onCancel,
@@ -55,12 +42,8 @@ function ProfileFormWrapper({
   withBank = false,
   message,
 }: ProfileFormWrapperProps) {
-  const form = useForm({
-    elements: withBank ? elements_bank : elements,
-    disabled,
-    disabledFields,
-  });
-  const { state, reset, setState } = form;
+  const form = useProfileForm({ withBank, disabled, disabledFields });
+  const { reset, setState } = form;
   const selectAvatar = useCallback(
     (avatar: string) => {
       setState(prev =>

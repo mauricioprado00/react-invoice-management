@@ -1,14 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from "prop-types";
 import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail, PaymentType, PaymentTypePropTypes } from 'site-specific/models/Invoice'
-import useForm from 'hooks/use-form';
 import { ClientSelectorProps, ClientSelectorPropTypes } from 'site-specific/elements/ClientSelector';
 import { InvoiceItemsChangeEvent } from './InvoiceItems';
 import produce from 'immer';
-import moment from 'moment';
-import { MapType, MapTypeFill } from 'models/UtilityModels';
 import { paymentTypesOptions } from 'store/UserSlice';
-import InvoiceForm from './InvoiceForm';
+import InvoiceForm, { useInvoiceForm } from './InvoiceForm';
 
 export type SaveInvoiceEvent = {
     clientInvoice: ClientInvoice,
@@ -38,20 +35,6 @@ const InvoiceFormWrapperPropTypes = {
     clientId: PropTypes.string,
 }
 
-const elements = [
-    "invoice_number",
-    "date",
-    "dueDate",
-    //"value", not handled by useForm
-    "payment",
-    "client_id",
-    "projectCode",
-    "name",
-    "address",
-    "regNumber",
-    "vatNumber",
-];
-
 function InvoiceFormWrapper({
     onSave,
     onCancel,
@@ -63,51 +46,7 @@ function InvoiceFormWrapper({
     paymentTypes,
     clientId
 }: InvoiceFormWrapperProps) {
-    const formProps = useMemo(() => {
-        let initialValues: MapType<string> | undefined = undefined;
-
-        if (clientInvoice) {
-            // when invoice edition
-            const c = clientInvoice.client.companyDetails;
-            const b = clientInvoice.invoice.meta?.billTo;
-            initialValues = {
-                id: clientInvoice.invoice.id || '',
-                invoice_number: clientInvoice.invoice.invoice_number.toString(),
-                date: new Date(clientInvoice.invoice.date).toISOString().replace(/T.*/, ''),
-                dueDate: new Date(clientInvoice.invoice.dueDate).toISOString().replace(/T.*/, ''),
-                value: clientInvoice.invoice.value.toString(),
-                client_id: clientInvoice.invoice.client_id,
-                projectCode: clientInvoice.invoice.projectCode || '',
-                name: b?.name || c?.name,
-                address: b?.address || c?.address,
-                vatNumber: b?.vatNumber || c?.vatNumber,
-                regNumber: b?.regNumber || c?.regNumber,
-                payment: clientInvoice.invoice.meta?.payTo.accountNumber || '',
-            };
-        } else {
-            // when invoice creation
-            initialValues = MapTypeFill(elements, "");
-            initialValues = Object.assign(initialValues, {
-                client_id: clientId || '',
-                date: moment().format('YYYY-MM-DD'),
-                dueDate: moment().add(15, 'days').format('YYYY-MM-DD'),
-            });
-
-            // select the first payment type
-            const [paymentType] = paymentTypes;
-            initialValues.payment = paymentType.accountNumber;
-        }
-
-
-
-        return {
-            elements,
-            disabled,
-            disabledFields,
-            initialValues
-        }
-    }, [clientInvoice, disabled, disabledFields, clientId, paymentTypes]);
-    const form = useForm(formProps);
+    const form = useInvoiceForm({ clientInvoice, disabled, disabledFields, clientId, paymentTypes })
     const [items, setItems] = useState<InvoiceDetail[]>([])
     const { state, reset, setState } = form;
     const total = items.reduce((carry, item) => carry + item.quantity * item.rate, 0);
