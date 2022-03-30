@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 import Card from 'elements/Card'
-import { UpsertClientResult, useClientById, useClientLoading, useUpsertClient, useUpsertClientError, useUpsertClientState } from 'store/ClientSlice'
+import { useClientById, useClientLoading, useUpsertClient, useUpsertClientError, useUpsertClientState } from 'store/ClientSlice'
 import ErrorBanner from 'elements/ErrorBanner'
 import { Client } from 'site-specific/models/Client'
-import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
+import ProfileFormWrapper, { SaveProfileEvent } from '../profile/ProfileFormWrapper'
 
 type ClientProps = {
     onCancel?: (client:Client|null) => void,
@@ -42,7 +42,7 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
         <Card title={title} transparent={false}>
             {!showForm && loading && "loading data"}
             {!showForm && !loading && !client && "sorry we could not find the client"}
-            {showForm && <ProfileForm onSave={saveHandler}
+            {showForm && <ProfileFormWrapper onSave={saveHandler}
                 onCancel={cancelHandler} profile={client} disabled={saving} />}
             {upsertError && <ErrorBanner error={upsertError}>Could not save the client.</ErrorBanner>}
         </Card>

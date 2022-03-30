@@ -3,9 +3,9 @@ import React, { useCallback } from 'react'
 import Card from 'elements/Card'
 import ErrorBanner from 'elements/ErrorBanner'
 import { useIsProfileFilled, useMe, useUpdateMe, useUpdateMeError, useUpdateMeState } from 'store/UserSlice'
-import ProfileForm, { SaveProfileEvent } from '../profile/ProfileForm'
 import { Me } from 'site-specific/models/User'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
+import ProfileFormWrapper, { SaveProfileEvent } from '../profile/ProfileFormWrapper'
 
 type UserEditionProps = {
     onCancel?: () => void,
@@ -37,7 +37,7 @@ function UserEdition({ onCancel, onSave }: UserEditionProps) {
 
     return (
         <Card title={title} transparent={false} background={true}>
-            <ProfileForm onSave={saveHandler}
+            <ProfileFormWrapper onSave={saveHandler}
                 onCancel={cancelHandler} profile={me} disabled={loading}
                 disabledFields={['avatar', 'email', 'name']} withBank={true} 
                 message={message}/>
