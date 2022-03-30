@@ -1,5 +1,4 @@
 # pending features
-1. move create useProfileForm and useInvoiceForm
 2. some unit testing 
 4. cypress extra
    1. dashboard loads latest invoices
@@ -10,7 +9,6 @@
    6. invoice print view
    7. logout
 5. implement fetching single client (useClientById, same way as useInvoiceById)
-6.  Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
 7.  latest client invoices in profile (link menu item from client table)
 8.  deprecate the use of anything with useClientSelector( and useInvoiceSelector(
 
@@ -32,10 +30,12 @@
 # 2022 03 30
 1. refactor InvoiceForm, split it in InvoiceFormWrapper and ProfileForm (presentational)
 2. refactor ProfileForm, split it in ProfileFormWrapper and ProfileForm (presentational)
+3. move create useProfileForm and useInvoiceForm to own files
+4. Refactor/organize based on [slide for Week 5 Office Hour 1](https://docs.google.com/presentation/d/1pLZ8Zvpyr_myotpvyVYzY5awpUFUO78DE5CnBnVNm7c/edit#slide=id.g117828bad90_0_9)
 # 2022 03 29
 1. Massive refactor, organize code in site-specific/non-site-specific, elements, components, containers, hooks, models. 
 # 2022 03 28
-1. create payment selecor an Element (no connection to models)
+1. convert payment selector to an Element (no connection to models)
 # 2022 03 27
 4. cypress missing
    1. test loading mask during client sorting

@@ -151,7 +151,7 @@ describe("Client table pagination", () => {
     cy.contains("Richmond Shannon");
   });
   
-  it.only("will show the loading mask when paginating", () => {
+  it("will show the loading mask when paginating", () => {
     fixtureClientsPage({ p: 2, delay: 5000 });
 
     visitClientsPage();

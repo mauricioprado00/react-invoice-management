@@ -31,10 +31,10 @@ function CheckProfileIsFilled(props: CheckProps) {
     const goEditMe = useGoEditMe();
     const isEditMe = useIsEditMe();
     const loading = useMeLoading();
-    // it can be not loading, because useEffect didn't yet run
-    // so isProfileFilled will be null when me is not loaded
     if (!loading && isProfileFilled === null) {
-        alert('this is probably a bug');
+        // BUG: fix to be able to simpily boolean logic
+        // it can be not loading, because useEffect didn't yet run
+        // so isProfileFilled will be null when me is not loaded
     }
     const mustEditFirst = !loading && isProfileFilled !== null && !isProfileFilled && !isEditMe;
     if (mustEditFirst) {
