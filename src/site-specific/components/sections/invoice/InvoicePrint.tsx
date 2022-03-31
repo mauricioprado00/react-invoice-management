@@ -6,8 +6,9 @@ import { Me, MePropTypes } from 'site-specific/models/User';
 import { Fab } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PrintIcon from '@mui/icons-material/Print';
-import { useGoInvoiceIdEdit } from 'site-specific/hooks/use-navigation';
+import { useGoClientIdDashboard, useGoInvoiceIdEdit } from 'site-specific/hooks/use-navigation';
 import { useRouter } from 'next/router';
+import Avatar from '../profile/Avatar';
 
 /**
  * invoice layout taken from https://tailwindcomponents.com/component/simple-invoice-with-external-links
@@ -30,8 +31,12 @@ function InvoicePrint({
 }: InvoicePrintProps) {
     const {
         client: {
+            id: clientId,
+            avatar,
+            name: clientName,
             companyDetails: {
                 name: companyName,
+                address: companyAddress,
             }
         },
         invoice: {
@@ -67,6 +72,7 @@ function InvoicePrint({
 
     const printHandler = () => window.print();
     const goEdit = useGoInvoiceIdEdit(clientInvoice.invoice.id);
+    const goClientDashboard = useGoClientIdDashboard(clientId);
     const router = useRouter();
     const print = router.query.print;
     useEffect(() => {
@@ -94,6 +100,10 @@ function InvoicePrint({
                                         {billToRegNumber && <p><b>Reg Number</b>: {billToRegNumber}</p>}
                                         {billToVatNumber && <p><b>Vat Number</b>: {billToVatNumber}</p>}
                                     </div>
+                                    <div>
+                                        <p className="font-medium text-sm text-gray-400"> Client </p>
+                                        <p>{clientName} at {companyName}</p>
+                                    </div>
                                 </div>
                                 <div className="space-y-2">
                                     <div>
@@ -112,12 +122,15 @@ function InvoicePrint({
                                         <p className="font-medium text-sm text-gray-400"> REG </p>
                                         <p>{myReg}</p>
                                     </div>}
-                                    <div className="print:hidden grid grid-cols-2 gap-2">
-                                        <Fab size="small" color="secondary" aria-label="edit" onClick={printHandler}>
+                                    <div className="print:hidden grid grid-cols-3 gap-2">
+                                        <Fab size="small" color="secondary" aria-label="edit" title="Print Invoice" onClick={printHandler}>
                                             <PrintIcon />
                                         </Fab>
-                                        <Fab size="small" color="secondary" aria-label="edit" onClick={goEdit}>
+                                        <Fab size="small" color="secondary" aria-label="edit" title="Edit Invoice" onClick={goEdit}>
                                             <EditIcon />
+                                        </Fab>
+                                        <Fab size="small" color="secondary" aria-label="edit" title={"Client Profile - " + clientName} onClick={goClientDashboard}>
+                                            <Avatar src={avatar} size="none" />
                                         </Fab>
                                     </div>
                                 </div>

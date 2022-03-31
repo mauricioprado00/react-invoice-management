@@ -6,6 +6,7 @@ import { getAvatarImageUrl } from 'elements/AvatarSelector'
 import CompanyInfo from '../company/CompanyInfo'
 import { Fab } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit';
+import Avatar from './Avatar'
 
 type ProfileCardProps = {
     profile: AnyClient | Me,
@@ -21,7 +22,6 @@ export const ProfileCardPropTypes = {
     onEdit: PropTypes.func,
 }
 function ProfileCard({ children, profile, onEdit }: ProfileCardProps) {
-    const imageUrl = getAvatarImageUrl(profile.avatar);
     const { name, email, companyDetails } = profile;
     return (
         <div className="container lg:w-3/6 xl:w-3/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
@@ -29,7 +29,7 @@ function ProfileCard({ children, profile, onEdit }: ProfileCardProps) {
                 <img className="w-full" src="https://images.unsplash.com/photo-1578836537282-3171d77f8632?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" alt="background image" />
             </div>
             <div className="flex justify-center px-5  -mt-12">
-                <img className="h-32 w-32 bg-white p-2 rounded-full" src={imageUrl} alt="profile avatar" />
+                <Avatar src={profile} />
             </div>
             <div className=" ">
                 <div className="text-center px-14 relative">
