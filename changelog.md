@@ -4,8 +4,6 @@ failed cypress tests
 - will sort clients by namefailed
 - will sort invoices by datefailed
 - will multi-sort clientsfailed
-# pending requested features
-- test last invoices in client profile.
 # pending features
 2. some unit testing 
 4. cypress extra
@@ -35,6 +33,8 @@ failed cypress tests
   it would be nice to give the user the control of choosing which sorting
   comes first.
 
+# 2022 03 31
+- test last invoices in client profile.
 # 2022 03 30
 1. refactor InvoiceForm, split it in InvoiceFormWrapper and ProfileForm (presentational)
 2. refactor ProfileForm, split it in ProfileFormWrapper and ProfileForm (presentational)

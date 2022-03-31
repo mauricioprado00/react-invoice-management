@@ -123,13 +123,13 @@ function InvoicePrint({
                                         <p>{myReg}</p>
                                     </div>}
                                     <div className="print:hidden grid grid-cols-3 gap-2">
-                                        <Fab size="small" color="secondary" aria-label="edit" title="Print Invoice" onClick={printHandler}>
+                                        <Fab size="small" color="secondary" aria-label="print" title="Print Invoice" onClick={printHandler}>
                                             <PrintIcon />
                                         </Fab>
                                         <Fab size="small" color="secondary" aria-label="edit" title="Edit Invoice" onClick={goEdit}>
                                             <EditIcon />
                                         </Fab>
-                                        <Fab size="small" color="secondary" aria-label="edit" title={"Client Profile - " + clientName} onClick={goClientDashboard}>
+                                        <Fab size="small" color="secondary" aria-label="client profile" title={"Client Profile - " + clientName} onClick={goClientDashboard}>
                                             <Avatar src={avatar} size="none" />
                                         </Fab>
                                     </div>

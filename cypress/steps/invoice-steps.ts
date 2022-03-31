@@ -21,6 +21,9 @@ export const isInInvoicesPage = () => {
 export const clickNewInvoiceButton = () =>
   cy.get("button").contains("New Invoice").click();
 
+export const clickInvoiceClientProfileButton = () =>
+  cy.get('[aria-label="client profile"]').click();
+
 export const visitInvoiceAddPage = () => {
   cy.visit("invoice");
 };

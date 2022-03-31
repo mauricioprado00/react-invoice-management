@@ -8,6 +8,7 @@ import {
 } from "cy-steps/api-steps";
 import { isInDashboardPage } from "cy-steps/dashboard-steps";
 import {
+  clickInvoiceClientProfileButton,
   clickInvoiceInCurrentTablePage,
   clickLastInvoicePage,
   clickNewInvoiceButton,
@@ -22,7 +23,12 @@ import {
   visitInvoiceAddPage,
 } from "cy-steps/invoice-steps";
 import { givenUserIsLoggedIn } from "cy-steps/login-steps";
-import { clickDashboardMenu, clickInvoicesMenu } from "cy-steps/menu-steps";
+import {
+  clickClientsMenu,
+  clickDashboardMenu,
+  clickInvoicesMenu,
+} from "cy-steps/menu-steps";
+import { Client } from "site-specific/models/Client";
 
 const invoiceData = getValidInvoiceData();
 
@@ -35,16 +41,19 @@ describe("Invoice Creation", () => {
     interceptClientAll();
   });
 
-  it("will show created invoice in the invoice list", async () => {
+  it.only("will show created invoice in the invoice list", async () => {
     clickInvoicesMenu();
     isInInvoicesPage();
 
     clickNewInvoiceButton();
     isInInvoiceAddPage();
 
+    // pick any client from intercepted client api response
     const clientsResponse = await responseClientAll();
-    console.log({ clientsResponse });
-    const client = clientsResponse.clients.slice().pop();
+    let client = clientsResponse.clients.slice().pop();
+
+    expect(client).not.to.be.null;
+    client = client as Client;
 
     const filledInvoiceData = await doFillInvoiceData({
       ...invoiceData,
@@ -53,6 +62,10 @@ describe("Invoice Creation", () => {
     clickSaveInvoiceButton();
 
     const savedInvoice = { ...invoiceData, ...filledInvoiceData };
+
+    // invoice is visible in client profile "last invoices"
+    clickInvoiceClientProfileButton();
+    invoiceIsInCurrentTablePage(savedInvoice, { client });
 
     // invoice is visibile in last page of invoices listing page
     clickInvoicesMenu();
@@ -72,6 +85,10 @@ describe("Invoice Creation", () => {
 
     // invoice is displayed in the print view
     invoiceIsInPrintPage(savedInvoice);
+
+    // client name and company name are shown
+    cy.contains(client.name);
+    cy.contains(client.companyDetails.name);
   });
 });
 
