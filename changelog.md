@@ -4,7 +4,8 @@ failed cypress tests
 - will sort clients by namefailed
 - will sort invoices by datefailed
 - will multi-sort clientsfailed
-
+# pending requested features
+- last invoices in client profile. currently is showing unsorted invoices grid.
 # pending features
 2. some unit testing 
 4. cypress extra
