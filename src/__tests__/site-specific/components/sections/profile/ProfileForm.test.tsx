@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import ProfileForm, { ProfileFormProps } from "site-specific/components/sections/profile/ProfileForm"
 import { useProfileForm, useProfileFormArgs, UseProfileFormReturn } from "site-specific/hooks/use-profile-form";
@@ -21,6 +21,15 @@ const ProfileFormWrapperTest = ({ args, props, formContainer }: ProfileFormWrapp
     return <ProfileForm {...props} form={form} />;
 }
 
+const requiredFields = [
+    'address',
+    'companyName',
+    'email',
+    'name',
+    'regNumber',
+    'vatNumber',
+];
+
 describe("ProfileForm", () => {
     const args = {
         withBank: false,
@@ -39,8 +48,8 @@ describe("ProfileForm", () => {
         },
     } as useProfileFormArgs
 
-    it("Fills the provided form data into fields", () => {
-        const { container } = render(<ProfileFormWrapperTest args={args} />)
+    it("Fills the provided form data into requiredFields", () => {
+        render(<ProfileFormWrapperTest args={args} />)
         screen.getByDisplayValue(args.initialValues.address);
         screen.getByDisplayValue(args.initialValues.companyName);
         screen.getByDisplayValue(args.initialValues.email);
@@ -56,8 +65,8 @@ describe("ProfileForm", () => {
         expect($vatNumber).toBeNull();
     });
 
-    it("Fills the provided form data into fields when withBank is given", () => {
-        const { container } = render(
+    it("Fills the provided form data into requiredFields when withBank is given", () => {
+        render(
             <ProfileFormWrapperTest
                 args={{ ...args, ...{ withBank: true } }}
                 props={{ withBank: true }} />
@@ -76,7 +85,7 @@ describe("ProfileForm", () => {
 
     it("Form will flag as valid when all data is valid", () => {
         const formContainer: FormContainer = {};
-        const { container } = render(
+        render(
             <ProfileFormWrapperTest args={args}
                 props={{}} formContainer={formContainer} />
         )
@@ -84,10 +93,64 @@ describe("ProfileForm", () => {
         expect(formContainer.form).not.toBeNull();
         const form = formContainer.form as UseProfileFormReturn;
 
-        act(() => {
-            form.reset();
-            form.setShowErrors(true);
-            expect(form.allValid()).toEqual(true);
+        expect(form.allValid()).toEqual(true);
+    });
+
+    it("will trigger onSave and onCancel event clicking save/cancel buttons", () => {
+        let triggered = 0;
+        const handler = () => { triggered++; }
+
+        render(<ProfileFormWrapperTest args={args}
+            props={{ onSave: handler, onCancel: handler }}
+        />)
+
+        fireEvent.click(screen.getByText('Save'));
+        expect(triggered).toEqual(1);
+
+        fireEvent.click(screen.getByText('Cancel'));
+        expect(triggered).toEqual(2);
+    });
+
+    requiredFields.forEach(requiredField => {
+        const missingFieldArgs = {
+            ...args,
+            initialValues: {
+                ...args.initialValues,
+                [requiredField]: ''
+            }
+        };
+
+        it(`Form will flag as invalid when ${requiredField} is missing`, () => {
+            const formContainer: FormContainer = {};
+
+            render(
+                <ProfileFormWrapperTest args={missingFieldArgs}
+                    props={{}} formContainer={formContainer} />
+            )
+
+            expect(formContainer.form).not.toBeNull();
+            const form = formContainer.form as UseProfileFormReturn;
+
+            expect(form.allValid()).toEqual(false);
         })
+
+        it(`Form will show error message when ${requiredField} is missing`, () => {
+            const formContainer: FormContainer = {};
+
+            render(
+                <ProfileFormWrapperTest args={missingFieldArgs}
+                    props={{}} formContainer={formContainer} />
+            )
+
+            expect(formContainer.form).not.toBeNull();
+            const form = formContainer.form as UseProfileFormReturn;
+
+            act(() => {
+                form.setShowErrors(true);
+            })
+
+            screen.getByText('Please fill out this field.');
+        });
+
     });
 })
