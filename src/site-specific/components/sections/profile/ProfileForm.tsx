@@ -8,12 +8,12 @@ import { emailValidator, emptyOr, ibanValidator, notBothEmpty, numberValidator, 
 import AvatarSelector from 'elements/AvatarSelector';
 import { UseProfileFormReturn } from 'site-specific/hooks/use-profile-form';
 
-type ProfileFormProps = {
+export type ProfileFormProps = {
     disabled?: boolean,
     withBank?: boolean,
     message?: string | null,
     form: UseProfileFormReturn,
-    onAvatarChange: (selected: string) => void,
+    onAvatarChange?: (selected: string) => void,
     onCancel?: ClickHandler,
     onSave?: ClickHandler,
 }
@@ -22,7 +22,7 @@ const ProfileFormPropTypes = {
     disabled: PropTypes.bool,
     withBank: PropTypes.bool,
     message: PropTypes.string,
-    form: PropTypes.any,
+    form: PropTypes.any.isRequired,
     onAvatarChange: PropTypes.func,
     onCancel: PropTypes.func,
     onSave: PropTypes.func,

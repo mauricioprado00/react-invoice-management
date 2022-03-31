@@ -131,7 +131,8 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
     useEffect(() => {
         if (valid !== newValid) {
             if (onValid) {
-                setTimeout(onValid.bind(null, name, newValid));
+                onValid(name, newValid);
+                //setTimeout(onValid.bind(null, name, newValid));
             }
             setValid(newValid);
         }

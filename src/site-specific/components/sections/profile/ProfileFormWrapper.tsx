@@ -11,7 +11,7 @@ export type SaveProfileEvent = {
   profile: Omit<AnyClient & Me, "password">;
 };
 
-type ProfileFormWrapperProps = {
+export type ProfileFormWrapperProps = {
   onSave: (data: SaveProfileEvent) => void;
   onCancel: () => boolean | void;
   disabled?: boolean;

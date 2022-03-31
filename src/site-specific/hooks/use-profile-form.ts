@@ -1,4 +1,5 @@
 import useForm, { UseFormReturn } from "hooks/use-form";
+import { MapType } from "models/UtilityModels";
 
 const elements = [
   "name",
@@ -12,16 +13,18 @@ const elements = [
 
 const elements_bank = elements.concat(["iban", "swift"]);
 
-type useProfileFormArgs = {
+export type useProfileFormArgs = {
   disabled?: boolean;
   withBank?: boolean;
   disabledFields?: string[];
+  initialValues?: Partial<ProfileFieldsMapType<string>>;
 };
 
 type ProfileFieldsMapType<T> = {
   name: T;
   email: T;
   companyName: T;
+  avatar: T;
   address: T;
   regNumber: T;
   vatNumber: T;
@@ -41,9 +44,11 @@ export const useProfileForm = ({
   withBank,
   disabled = false,
   disabledFields,
+  initialValues,
 }: useProfileFormArgs) =>
   useForm({
     elements: withBank ? elements_bank : elements,
     disabled,
     disabledFields,
+    initialValues,
   }) as UseProfileFormReturn;
