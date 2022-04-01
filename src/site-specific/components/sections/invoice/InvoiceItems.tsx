@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { styled } from '@mui/system'
-import useForm, { FormElementPropTypes } from 'hooks/use-form'
-import InputText from 'elements/InputText'
+import { FormElementPropTypes } from 'hooks/use-form'
 import produce from 'immer'
 import { InvoiceDetail, InvoiceDetailPropTypes } from 'site-specific/models/Invoice'
-import { gtValidator, numberValidator } from 'utility/validation'
+import { InvoiceItem } from './InvoiceItem'
 
 export type InvoiceItemsChangeEvent = {
     items: InvoiceDetail[],
@@ -34,17 +33,11 @@ const HeaderCell = styled(TableCell)(`
       color: white;
 `)
 
-const SecCell = styled(TableCell)(`
+export const SecCell = styled(TableCell)(`
     & input {text-align: right}
 `);
 
-const elements = [
-    "detail",
-    "quantity",
-    "rate",
-];
-
-type InvoiceItemProps = {
+export type InvoiceItemProps = {
     id: number,
     onChange?: (item: InvoiceItem) => void,
     showErrors?: boolean,
@@ -57,10 +50,6 @@ type InvoiceItem = {
     quantity: number,
     rate: number,
     valid: boolean,
-}
-
-type NewInvoiceItem = {
-    id: number,
 }
 
 type ItemsState = {
@@ -85,79 +74,7 @@ const initialItemsState: ItemsState = {
     lastId: 1,
 }
 
-const mainColumnWidth = '50%';
-
-function InvoiceItem({ id, item, onChange, showErrors }: InvoiceItemProps) {
-    const formProps = useMemo(() => {
-        return {
-            elements,
-            disabled: false,
-            initialValues: {
-                detail: item.detail,
-                quantity: item.quantity.toString(),
-                rate: item.rate.toString(),
-            }
-        }
-    }, [item]);
-
-    const form = useForm(formProps);
-    const { state, reset, setState } = form;
-    const { detail, quantity, rate } = state.values;
-    const amount = useMemo(() => (parseInt(quantity) || 0) * (parseFloat(rate) || 0), [quantity, rate]);
-    const allValid = form.allValid();
-    useEffect(() => {
-        if (onChange) {
-            onChange({
-                id,
-                detail: state.values.detail,
-                quantity: parseInt(state.values.quantity) || 0,
-                rate: parseFloat(state.values.rate) || 0,
-                valid: allValid,
-            })
-        }
-    }, [id, allValid, onChange, state]);
-    const formShowErrors = state.showErrors;
-    const { setShowErrors } = form;
-    useEffect(() => {
-        setShowErrors(showErrors || false);
-    }, [setShowErrors, showErrors])
-    const [common] = useState({ requiredMessage: 'Please fill' });
-
-    return <>
-        <TableRow
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-        >
-            <TableCell width={mainColumnWidth} component="th" scope="row">
-                <InputText name="detail" required={true}
-                    value={state.values.detail}
-                    {...common}
-                    {...form.resolveProps('detail')} />
-            </TableCell>
-            <SecCell align="right">
-                <InputText name="quantity" type="number" step="1" min="1" required={true}
-                    value={state.values.quantity}
-                    validators={[gtValidator(0, "cannot be zero"), numberValidator("must be an integer")]}
-                    {...common}
-                    {...form.resolveProps('quantity')} />
-
-            </SecCell>
-            <SecCell align="right">
-                <InputText name="rate" type="number" min="0" required={true}
-                    value={state.values.rate}
-                    validators={[gtValidator(0, "cannot be zero")]}
-                    {...common}
-                    {...form.resolveProps('rate')} />
-
-            </SecCell>
-            <SecCell align="right">
-                <InputText name="amount" type="number" required={true}
-                    value={amount.toFixed(2)} readOnly={true} />
-
-            </SecCell>
-        </TableRow>
-
-    </>
-}
+export const mainColumnWidth = '50%';
 
 const isItemEmpty = (item: InvoiceItem) => !item.detail && !item.rate;
 const allButLastEmpty = (state: ItemsState) =>
