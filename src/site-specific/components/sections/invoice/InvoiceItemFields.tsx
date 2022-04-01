@@ -5,7 +5,7 @@ import { gtValidator, numberValidator } from 'utility/validation';
 import { mainColumnWidth, SecCell } from './InvoiceItems';
 import { UseInvoiceItemFormReturn } from 'site-specific/hooks/use-invoice-item-form';
 
-type InvoiceItemFieldsProps = {
+export type InvoiceItemFieldsProps = {
     form: UseInvoiceItemFormReturn
 }
 

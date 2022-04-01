@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { useState } from "react";
 import { act } from "react-dom/test-utils";
 import ProfileForm, { ProfileFormProps } from "site-specific/components/sections/profile/ProfileForm"
 import { useProfileForm, useProfileFormArgs, UseProfileFormReturn } from "site-specific/hooks/use-profile-form";
@@ -8,12 +7,12 @@ type FormContainer = {
     form?: UseProfileFormReturn
 }
 
-type ProfileFormWrapperTest = {
+type ProfileFormWrapperTestProps = {
     args: useProfileFormArgs,
     props?: Partial<ProfileFormProps>,
     formContainer?: FormContainer
 }
-const ProfileFormWrapperTest = ({ args, props, formContainer }: ProfileFormWrapperTest) => {
+const ProfileFormWrapperTest = ({ args, props, formContainer }: ProfileFormWrapperTestProps) => {
     const form = useProfileForm(args);
     if (formContainer) {
         formContainer.form = form;
