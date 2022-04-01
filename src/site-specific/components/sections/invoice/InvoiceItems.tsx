@@ -5,7 +5,8 @@ import { styled } from '@mui/system'
 import { FormElementPropTypes } from 'hooks/use-form'
 import produce from 'immer'
 import { InvoiceDetail, InvoiceDetailPropTypes } from 'site-specific/models/Invoice'
-import { InvoiceItem } from './InvoiceItem'
+import { InvoiceItemWrapper } from './InvoiceItemWrapper'
+import { InvoiceItem } from 'site-specific/hooks/use-invoice-item-form'
 
 export type InvoiceItemsChangeEvent = {
     items: InvoiceDetail[],
@@ -37,20 +38,6 @@ export const SecCell = styled(TableCell)(`
     & input {text-align: right}
 `);
 
-export type InvoiceItemProps = {
-    id: number,
-    onChange?: (item: InvoiceItem) => void,
-    showErrors?: boolean,
-    item: InvoiceItem
-}
-
-type InvoiceItem = {
-    id: number,
-    detail: string,
-    quantity: number,
-    rate: number,
-    valid: boolean,
-}
 
 type ItemsState = {
     items: Record<string, InvoiceItem>,
@@ -154,7 +141,7 @@ function InvoiceItems({ name, details, onValid, onChange, showErrors }: InvoiceI
                     </TableHead>
                     <TableBody>
                         {itemArr.map(item =>
-                            <InvoiceItem onChange={handleChange} key={item.id} id={item.id}
+                            <InvoiceItemWrapper onChange={handleChange} key={item.id} id={item.id}
                                 item={item}
                                 showErrors={showErrors && (item.id !== state.lastId || !isItemEmpty(item) || itemArr.length === 1)} />)}
                     </TableBody>

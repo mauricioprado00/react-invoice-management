@@ -1,9 +1,3 @@
-failed cypress tests
-- will sort clients by name
-- will sort invoices by date
-- will sort clients by namefailed
-- will sort invoices by datefailed
-- will multi-sort clientsfailed
 # pending features
 2. some unit testing 
 4. cypress extra
@@ -36,6 +30,8 @@ failed cypress tests
 # 2022 04 01
 - add unit testing for Avatar
 - Add unit testing for ProfileForm, add more test cases
+- split complex file InvoiceItems.tsx into InvoiceItems.tsx and InvoiceItem.tsx
+- extract wrapper, element and hook from InvoiceItem.tsx
 # 2022 03 31
 - test last invoices in client profile.
 # 2022 03 30
