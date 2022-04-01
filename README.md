@@ -1,10 +1,27 @@
-# run the app
+# setup
 
 ```
+# install npm dependencies for frontend
+npm install 
+
 # get the API server
 git clone git@github.com:vladnicula/invoice-rest-api.git ../invoice-rest-api
 
-# start backend and frontend
+# install npm deps for api
+pushd ../invoice-rest-api
+
+npm install 
+npm run build
+
+# copy env file
+cp .env.example .env
+
+popd
+```
+
+# Starting frontend and backend
+
+```bash
 docker-compose up -d
 ```
 # unit test 
