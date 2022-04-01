@@ -41,7 +41,7 @@ describe("Invoice Creation", () => {
     interceptClientAll();
   });
 
-  it.only("will show created invoice in the invoice list", async () => {
+  it("will show created invoice in the invoice list", async () => {
     clickInvoicesMenu();
     isInInvoicesPage();
 
