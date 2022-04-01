@@ -9,7 +9,7 @@ export type InvoiceItemProps = {
     item: InvoiceItem
 }
 
-export function InvoiceItemWrapper({ id, item, onChange, showErrors }: InvoiceItemProps) {
+export function InvoiceItemFieldsWrapper({ id, item, onChange, showErrors }: InvoiceItemProps) {
     const form = useInvoiceItemForm({ item });
     const { state } = form;
 

@@ -5,7 +5,7 @@ import { styled } from '@mui/system'
 import { FormElementPropTypes } from 'hooks/use-form'
 import produce from 'immer'
 import { InvoiceDetail, InvoiceDetailPropTypes } from 'site-specific/models/Invoice'
-import { InvoiceItemWrapper } from './InvoiceItemWrapper'
+import { InvoiceItemFieldsWrapper } from './InvoiceItemFieldsWrapper'
 import { InvoiceItem } from 'site-specific/hooks/use-invoice-item-form'
 
 export type InvoiceItemsChangeEvent = {
@@ -141,7 +141,7 @@ function InvoiceItems({ name, details, onValid, onChange, showErrors }: InvoiceI
                     </TableHead>
                     <TableBody>
                         {itemArr.map(item =>
-                            <InvoiceItemWrapper onChange={handleChange} key={item.id} id={item.id}
+                            <InvoiceItemFieldsWrapper onChange={handleChange} key={item.id} id={item.id}
                                 item={item}
                                 showErrors={showErrors && (item.id !== state.lastId || !isItemEmpty(item) || itemArr.length === 1)} />)}
                     </TableBody>
