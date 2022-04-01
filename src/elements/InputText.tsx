@@ -82,8 +82,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
     const {readOnly, value = '', name, required = false} = inputProps;
     const changeHandler = useCallback((e: InputChangeEvent) => {
         if (onChange) {
-            e.fieldName = name;
-            onChange(e);
+            onChange({ ...e, target: { ...e.target }, fieldName: name });
         }
     }, [onChange, name]);
     const blurHandler = useCallback((e: InputFocusEvent) => {
@@ -169,7 +168,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
             {...inputProps}
             className={classNames(...inputClasses)}
             />
-        <p className="text-red text-xs text-red-600 dark:text-red-500">{expressErrors && errorMessages.length ? errorMessages.join(' ') : '\u00A0'}</p>
+        <p className="text-red text-xs text-red-600 dark:text-red-500">{expressErrors && errorMessages.length ? <span data-testid='input-error-message'>{errorMessages.join(' ')}</span> : '\u00A0'}</p>
     </div>;
 });
 

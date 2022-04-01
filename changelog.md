@@ -35,7 +35,7 @@ failed cypress tests
 
 # 2022 04 01
 - add unit testing for Avatar
-- Add unit testing for ProfileForm
+- Add unit testing for ProfileForm, add more test cases
 # 2022 03 31
 - test last invoices in client profile.
 # 2022 03 30

@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { useState } from "react";
 import { act } from "react-dom/test-utils";
 import ProfileForm, { ProfileFormProps } from "site-specific/components/sections/profile/ProfileForm"
 import { useProfileForm, useProfileFormArgs, UseProfileFormReturn } from "site-specific/hooks/use-profile-form";
@@ -30,6 +31,17 @@ const requiredFields = [
     'vatNumber',
 ];
 
+const typableFields = [
+    'address',
+    'companyName',
+    'email',
+    'iban',
+    'name',
+    'regNumber',
+    'swift',
+    'vatNumber',
+];
+
 describe("ProfileForm", () => {
     const args = {
         withBank: false,
@@ -47,6 +59,37 @@ describe("ProfileForm", () => {
             vatNumber: '12356',
         },
     } as useProfileFormArgs
+
+    // All invalid values cases, except for empty, that has its own test
+    const invalidInitialValues: Partial<useProfileFormArgs['initialValues']>[] = [
+        {
+            email: 'incomplete@email',
+        },
+        {
+            regNumber: 'cant use text',
+        },
+        {
+            vatNumber: 'cant use text',
+        },
+        {
+            iban: 'DE-8937-04004-4053-2013', // cannot use - separators
+        },
+        {
+            iban: 'de89370400440532013000', // cannot use - lowecase letters
+        },
+        {
+            iban: '89370400440532013000', // cannot use - missing country
+        },
+        {
+            iban: 'not an iban',
+        },
+        {
+            swift: 'not a swift',
+        },
+        {
+            swift: '1231231233', // random numbers that is not a swift
+        },
+    ]
 
     it("Fills the provided form data into requiredFields", () => {
         render(<ProfileFormWrapperTest args={args} />)
@@ -83,7 +126,7 @@ describe("ProfileForm", () => {
         screen.getByDisplayValue(args.initialValues.swift);
     });
 
-    it("Form will flag as valid when all data is valid", () => {
+    it("Form is valid when all data is valid", () => {
         const formContainer: FormContainer = {};
         render(
             <ProfileFormWrapperTest args={args}
@@ -97,18 +140,18 @@ describe("ProfileForm", () => {
     });
 
     it("will trigger onSave and onCancel event clicking save/cancel buttons", () => {
-        let triggered = 0;
-        const handler = () => { triggered++; }
+        const onSave = jest.fn();
+        const onCancel = jest.fn();
 
         render(<ProfileFormWrapperTest args={args}
-            props={{ onSave: handler, onCancel: handler }}
+            props={{ onSave, onCancel }}
         />)
 
         fireEvent.click(screen.getByText('Save'));
-        expect(triggered).toEqual(1);
+        expect(onSave).toHaveBeenCalled();
 
         fireEvent.click(screen.getByText('Cancel'));
-        expect(triggered).toEqual(2);
+        expect(onCancel).toHaveBeenCalled();
     });
 
     requiredFields.forEach(requiredField => {
@@ -120,7 +163,7 @@ describe("ProfileForm", () => {
             }
         };
 
-        it(`Form will flag as invalid when ${requiredField} is missing`, () => {
+        it(`Form is invalid when ${requiredField} is missing`, () => {
             const formContainer: FormContainer = {};
 
             render(
@@ -153,4 +196,54 @@ describe("ProfileForm", () => {
         });
 
     });
+
+    typableFields.forEach(field => {
+        it(`Changing ${field} fills form state`, async () => {
+            const formContainer: FormContainer = {};
+            let initialValues = { ...args.initialValues, [field]: 'testsubject' };
+
+            render(
+                <ProfileFormWrapperTest
+                    args={{ ...args, ...{ withBank: true }, initialValues }}
+                    props={{ withBank: true }} formContainer={formContainer} />
+            )
+
+            expect(formContainer.form).not.toBeNull();
+
+            const input = screen.getByDisplayValue<HTMLInputElement>('testsubject');
+            await act(async () => {
+                fireEvent.change(input, { target: { value: "new value" } })
+            })
+
+            expect(screen.getByDisplayValue('new value')).toBeInTheDocument();
+            const form = formContainer.form as UseProfileFormReturn;
+            expect(form.state.values[field]).toBe('new value');
+        });
+    })
+
+    invalidInitialValues.forEach(values => {
+        const field = Object.keys(values)[0];
+        const value = values[field];
+        it(`sets invalid form when ${field} contains ${value}`, async () => {
+            const formContainer: FormContainer = {};
+            let initialValues = { ...args.initialValues, ...values };
+
+            render(
+                <ProfileFormWrapperTest
+                    args={{ ...args, ...{ withBank: true }, initialValues }}
+                    props={{ withBank: true }} formContainer={formContainer} />
+            )
+
+            expect(formContainer.form).not.toBeNull();
+            const form = formContainer.form as UseProfileFormReturn;
+            expect(form.allValid()).toBe(false);
+
+            act(() => {
+                form.setShowErrors(true);
+            })
+
+            expect(screen.getByTestId('input-error-message')).toBeInTheDocument();
+        })
+    })
+
 })
