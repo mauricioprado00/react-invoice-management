@@ -18,11 +18,11 @@ const elements = [
   "vatNumber",
 ];
 
-type InvoiceFormArgs = {
+export type useInvoiceFormArgs = {
   clientInvoice: ClientInvoice | null;
   disabled?: boolean;
   disabledFields?: string[];
-  clientId: string | null;
+  clientId?: string | null;
   paymentTypes: PaymentType[];
 };
 
@@ -53,7 +53,7 @@ export const useInvoiceForm = ({
   disabledFields,
   clientId,
   paymentTypes,
-}: InvoiceFormArgs) => {
+}: useInvoiceFormArgs) => {
   const formProps = useMemo(() => {
     let initialValues: MapType<string> | undefined = undefined;
 

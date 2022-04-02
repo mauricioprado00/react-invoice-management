@@ -32,6 +32,7 @@
 - Rename InvoiceItems to InvoiceItemsTable
 - add test for InvoiceItemsTable
 - add error boundary
+- begin unit test for InvoiceForm
 # 2022 04 01
 - add unit testing for Avatar
 - Add unit testing for ProfileForm, add more test cases

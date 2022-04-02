@@ -11,7 +11,7 @@ import { numberValidator } from 'utility/validation';
 import Dropdown, { DropdownOption, DropdownOptionPropTypes } from 'elements/Dropdown';
 import { UseInvoiceFormReturn } from 'site-specific/hooks/use-invoice-form';
 
-type InvoiceFormProps = {
+export type InvoiceFormProps = {
     disabled?: boolean;
     message?: string | null;
     clientList: ClientSelectorProps['clientList'];
@@ -35,8 +35,8 @@ const InvoiceFormPropTypes = {
     total: PropTypes.string.isRequired,
     onDetailsChange: PropTypes.func,
     onDetailsValid: PropTypes.func,
-    onCancel: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
+    onSave: PropTypes.func,
 }
 
 function InvoiceForm({
@@ -108,7 +108,7 @@ function InvoiceForm({
                 details={details}
                 onChange={onDetailsChange} onValid={onDetailsValid} />
 
-            <FieldsetRow alignRight={true}>
+            <FieldsetRow testId='total' alignRight={true}>
                 Total: {total}
             </FieldsetRow>
             {state.showErrors && !form.allValid() && <p className="text-red text-xs text-red-600 dark:text-red-500">Your invoice has missing or incorrect data, please review</p>}
