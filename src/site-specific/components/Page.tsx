@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import NavBar from './NavBar'
+import ErrorBoundary from 'components/ErrorBoundary'
 
 type PageProps = {
   children: ReactNode,
@@ -12,7 +13,9 @@ function Page({ children }: PageProps) {
   return (
     <div className="relative">
       <NavBar />
-      {children}
+      <ErrorBoundary>
+        {children}
+      </ErrorBoundary>
     </div>
   )
 }
