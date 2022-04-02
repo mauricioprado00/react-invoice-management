@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from "prop-types";
 import { ClientInvoice, ClientInvoicePropTypes, InvoiceDetail, PaymentType, PaymentTypePropTypes } from 'site-specific/models/Invoice'
 import { ClientSelectorProps, ClientSelectorPropTypes } from 'site-specific/elements/ClientSelector';
-import { InvoiceItemsChangeEvent } from './InvoiceItems';
+import { InvoiceItemsChangeEvent } from './InvoiceItemsTable';
 import produce from 'immer';
 import { paymentTypesOptions } from 'store/UserSlice';
 import InvoiceForm from './InvoiceForm';

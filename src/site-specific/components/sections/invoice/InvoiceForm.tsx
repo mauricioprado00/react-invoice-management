@@ -6,7 +6,7 @@ import InputText from 'elements/InputText'
 import Button, { ButtonStyle, ClickHandler } from 'elements/Button'
 import { InvoiceDetail, InvoiceDetailPropTypes } from 'site-specific/models/Invoice'
 import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'site-specific/elements/ClientSelector';
-import InvoiceItems, { InvoiceItemsChangeEvent } from './InvoiceItems';
+import InvoiceItemsTable, { InvoiceItemsChangeEvent } from './InvoiceItemsTable';
 import { numberValidator } from 'utility/validation';
 import Dropdown, { DropdownOption, DropdownOptionPropTypes } from 'elements/Dropdown';
 import { UseInvoiceFormReturn } from 'site-specific/hooks/use-invoice-form';
@@ -104,7 +104,7 @@ function InvoiceForm({
                     {...form.resolveProps('vatNumber')} />
             </FieldsetRow>
 
-            <InvoiceItems name="items" showErrors={state.showErrors}
+            <InvoiceItemsTable name="items" showErrors={state.showErrors}
                 details={details}
                 onChange={onDetailsChange} onValid={onDetailsValid} />
 

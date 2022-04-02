@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import { styled } from '@mui/system'
+import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@mui/material'
 import { FormElementPropTypes } from 'hooks/use-form'
 import produce from 'immer'
 import { InvoiceDetail, InvoiceDetailPropTypes } from 'site-specific/models/Invoice'
 import { InvoiceItemFieldsWrapper } from './InvoiceItemFieldsWrapper'
 import { InvoiceItem } from 'site-specific/hooks/use-invoice-item-form'
+import { InvoiceItemsHeaderCell } from 'elements/InvoiceItemsHeaderCell'
 
 export type InvoiceItemsChangeEvent = {
     items: InvoiceDetail[],
     fieldName: string,
 }
 
-export type InvoiceItemsProps = {
+export type InvoiceItemsTableProps = {
     name: string,
     onValid?: (valid: boolean, name: string) => void;
     onChange?: (e: InvoiceItemsChangeEvent) => void;
@@ -21,7 +21,7 @@ export type InvoiceItemsProps = {
     details: InvoiceDetail[] | undefined
 }
 
-export const InvoiceItemsPropTypes = Object.assign(
+export const InvoiceItemsTablePropTypes = Object.assign(
     {},
     FormElementPropTypes,
     {
@@ -29,15 +29,6 @@ export const InvoiceItemsPropTypes = Object.assign(
         details: PropTypes.arrayOf(PropTypes.exact(InvoiceDetailPropTypes))
     }
 );
-
-const HeaderCell = styled(TableCell)(`
-      color: white;
-`)
-
-export const SecCell = styled(TableCell)(`
-    & input {text-align: right}
-`);
-
 
 type ItemsState = {
     items: Record<string, InvoiceItem>,
@@ -66,7 +57,7 @@ export const mainColumnWidth = '50%';
 const isItemEmpty = (item: InvoiceItem) => !item.detail && !item.rate;
 const allButLastEmpty = (state: ItemsState) =>
     Object.values(state.items).filter(item => !(isItemEmpty(item) && item.id === state.lastId))
-function InvoiceItems({ name, details, onValid, onChange, showErrors }: InvoiceItemsProps) {
+function InvoiceItemsTable({ name, details, onValid, onChange, showErrors }: InvoiceItemsTableProps) {
     const [state, setState] = useState<ItemsState>(initialItemsState);
     const [lastValid, setLastValid] = useState<boolean | null>(null);
     const itemArr = Object.values(state.items);
@@ -133,10 +124,10 @@ function InvoiceItems({ name, details, onValid, onChange, showErrors }: InvoiceI
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow className='bg-purple-500'>
-                            <HeaderCell width={mainColumnWidth}>Detail</HeaderCell>
-                            <HeaderCell align="right">Quantity</HeaderCell>
-                            <HeaderCell align="right">Rate</HeaderCell>
-                            <HeaderCell align="right">Amount</HeaderCell>
+                            <InvoiceItemsHeaderCell width={mainColumnWidth}>Detail</InvoiceItemsHeaderCell>
+                            <InvoiceItemsHeaderCell align="right">Quantity</InvoiceItemsHeaderCell>
+                            <InvoiceItemsHeaderCell align="right">Rate</InvoiceItemsHeaderCell>
+                            <InvoiceItemsHeaderCell align="right">Amount</InvoiceItemsHeaderCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -151,6 +142,6 @@ function InvoiceItems({ name, details, onValid, onChange, showErrors }: InvoiceI
     )
 }
 
-InvoiceItems.propTypes = InvoiceItemsPropTypes
+InvoiceItemsTable.propTypes = InvoiceItemsTablePropTypes
 
-export default InvoiceItems
+export default InvoiceItemsTable

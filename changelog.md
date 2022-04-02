@@ -27,10 +27,13 @@
   it would be nice to give the user the control of choosing which sorting
   comes first.
 
+# 2022 04 02
+- Unit test for InvoiceItemWrapper
+- Rename InvoiceItems to InvoiceItemsTable
 # 2022 04 01
 - add unit testing for Avatar
 - Add unit testing for ProfileForm, add more test cases
-- split complex file InvoiceItems.tsx into InvoiceItems.tsx and InvoiceItem.tsx
+- split complex file InvoiceItemsTable.tsx into InvoiceItemsTable.tsx and InvoiceItem.tsx
 - extract wrapper, element and hook from InvoiceItem.tsx
 # 2022 03 31
 - test last invoices in client profile.
