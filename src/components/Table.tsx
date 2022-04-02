@@ -29,13 +29,33 @@ const TableHeaderColumnPropTypes = {
     direction: PropTypes.oneOf(['asc', 'desc', undefined]),
 }
 
-const sortDirectionTransition = {
-    undefined: 'asc' as SortDirection,
-    asc: 'desc' as SortDirection,
-    desc: undefined as SortDirection,
+/*
+ * Yo suelo hacer esto que es bastante genérico para definir objetos
+ * cuyas claves o valores deben pertenecer a un tipo.
+ * Este tipado es un poco mas generico pero a ts no le gusta ese `[k]`.
+ * Lo correcto es un Record<SortDirection, SortDirection> pero me suele dar dolores
+ * de cabeza.
+ * Finalmente, si tu plan es definir un objeto que deba tener solo algunas claves
+ * de una interce or type, se utilizaría Partial<Record<TipoA, TipoB>>
+*/
+const sortDirectionTransition: { [k: string]: SortDirection } = {
+    undefined: 'asc',
+    asc: 'desc',
+    desc: undefined,
 }
 
-export const useSortDirection = (name:string) => {
+/*
+ * A las funciones y los hooks (que son funciones), les podes definir
+ * el tipo que va a retornar.
+ * Igualmente no entiendo mucho para qué necesitarias esto. Parece mas bien
+ * un overkill.
+ */
+type UseSortDirectionReturnType = {
+  onSort: (name: SortDirection) => void,
+  direction: SortDirection,
+}
+
+export const useSortDirection = (name: string): UseSortDirectionReturnType => {
     const [direction, setDirection] = useUrlParam<SortDirection>(name);
     return {
         onSort: setDirection,
@@ -157,6 +177,7 @@ const Table = ({ title, loading, children, error, pagination }: TableProps) => {
                         {headerContent}
                     </div>
                 </header>
+                {/* Veo demasiados ternarios. Creo que separaria esto a algunos dummy components para que queje mas legible */}
                 {error ? <ErrorBanner error={error}>There are connectivity problems, we could not load the data</ErrorBanner> : (
                     loading ?
                         <LoadingMask /> :
