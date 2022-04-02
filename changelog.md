@@ -30,6 +30,7 @@
 # 2022 04 02
 - Unit test for InvoiceItemWrapper
 - Rename InvoiceItems to InvoiceItemsTable
+- add test for InvoiceItemsTable
 # 2022 04 01
 - add unit testing for Avatar
 - Add unit testing for ProfileForm, add more test cases
