@@ -248,12 +248,13 @@ function ClientSelector({
 }: ClientSelectorProps) {
   let [valid, setValid] = useState(() => {
     const valid = !required || Boolean(value);
-    if (onValid) {
-      onValid(name, valid);
-    }
-
     return valid;
   });
+  useEffect(() => {
+    if (onValid && required) {
+      onValid(name, valid);
+    }
+  }, [onValid, name, valid, required]);
   const labelClasses = [classes.label.default];
   const inputClasses = [classes.input.default];
   const [touch, setTouch] = useState(-1);
@@ -267,11 +268,8 @@ function ClientSelector({
           value: value || '',
         }
       });
-      if (onValid && required) {
-        onValid(name, value ? true : false);
-      }
     }
-  }, [onChange, name, onValid, required, reset]);
+  }, [onChange, name, reset]);
 
   const sortedClients = useMemo(() =>
     [...clientList].sort((a, b) => a.name > b.name ? 1 : -1), [clientList])
