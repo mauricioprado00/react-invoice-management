@@ -52,7 +52,7 @@ const initialItemsState: ItemsState = {
     lastId: 1,
 }
 
-export const mainColumnWidth = '50%';
+const mainColumnWidth = '50%';
 
 const isItemEmpty = (item: InvoiceItem) => !item.detail && !item.rate;
 const allButLastEmpty = (state: ItemsState) =>
