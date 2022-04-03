@@ -397,82 +397,51 @@ const createClient = (url: string, bearerToken: string) => ({
     Object.assign(this, createClient(url, bearerToken));
   },
 
-  getClients: (
+  getClients: <R extends ClientListingResponse>(
     params: ClientListingArgsU,
-    then?: Then<ClientListingResponse>
-  ): AbortableEndpointResult<ClientListingResponse> =>
-    endpoint<ClientListingResponse>(
-      getClients(url + "/clients"),
-      bearerToken,
-      then,
-      params || {}
-    ),
-  getClientWithTotals: (
+    then?: Then<R>
+  ) =>
+    endpoint<R>(getClients(url + "/clients"), bearerToken, then, params || {}),
+  getClientWithTotals: <R extends ClientWithTotals>(
     clientId: string,
-    then?: Then<ClientWithTotals>
-  ): AbortableEndpointResult<ClientWithTotals> =>
-    endpoint<ClientWithTotals>(
-      getClientWithTotals(url + "/clients"),
-      bearerToken,
-      then,
-      { clientId }
-    ),
-  getClient: (
-    clientId: string,
-    then?: Then<Client>
-  ): AbortableEndpointResult<Client> =>
-    endpoint<Client>(getClient(url + "/clients"), bearerToken, then, {
+    then?: Then<R>
+  ) =>
+    endpoint<R>(getClientWithTotals(url + "/clients"), bearerToken, then, {
       clientId,
     }),
-  getInvoices: (
+  getClient: <R extends Client>(clientId: string, then?: Then<R>) =>
+    endpoint<R>(getClient(url + "/clients"), bearerToken, then, {
+      clientId,
+    }),
+  getInvoices: <R extends ClientInvoiceListResponse>(
     params: InvoiceListingArgsU,
-    then?: Then<ClientInvoiceListResponse>
-  ): AbortableEndpointResult<ClientInvoiceListResponse> =>
-    endpoint<ClientInvoiceListResponse>(
+    then?: Then<R>
+  ) =>
+    endpoint<R>(
       getInvoices(url + "/invoices"),
       bearerToken,
       then,
       params || {}
     ),
-  getInvoice: (
-    id: string,
-    then?: Then<Invoice>
-  ): AbortableEndpointResult<Invoice> =>
-    endpoint<Invoice>(getInvoice(url + "/invoices"), bearerToken, then, { id }),
-  upsertClient: (
-    client: Client,
-    then?: Then<Client>
-  ): AbortableEndpointResult<Client> =>
-    endpoint<Client>(upsertClient(url + "/clients"), bearerToken, then, client),
-  registerUser: (
+  getInvoice: <R extends Invoice>(id: string, then?: Then<R>) =>
+    endpoint<R>(getInvoice(url + "/invoices"), bearerToken, then, { id }),
+  upsertClient: <R extends Client>(client: R, then?: Then<R>) =>
+    endpoint<R>(upsertClient(url + "/clients"), bearerToken, then, client),
+  registerUser: <R extends RegisterData>(
     user: UserWithPassword,
-    then?: Then<RegisterData>
-  ): AbortableEndpointResult<RegisterData> =>
-    endpoint<RegisterData>(
-      registerUser(url + "/register"),
-      bearerToken,
-      then,
-      user
-    ),
-  loginUser: (
+    then?: Then<R>
+  ) => endpoint<R>(registerUser(url + "/register"), bearerToken, then, user),
+  loginUser: <R extends LoginResponse>(
     loginCredentials: LoginCredentials,
-    then?: Then<LoginResponse>
-  ): AbortableEndpointResult<LoginResponse> =>
-    endpoint<LoginResponse>(
-      loginUser(url + "/login"),
-      bearerToken,
-      then,
-      loginCredentials
-    ),
-  getMe: (then?: Then<Me>): AbortableEndpointResult<Me> =>
-    endpoint<Me>(getMe(url + "/me"), bearerToken, then, {}),
-  updateMe: (me: Me, then?: Then<Me>): AbortableEndpointResult<Me> =>
-    endpoint<Me>(updateMe(url + "/me/company"), bearerToken, then, me),
-  upsertInvoice: (
-    clientInvoice: ClientInvoice,
-    then?: Then<ClientInvoice>
-  ): AbortableEndpointResult<ClientInvoice> =>
-    endpoint<ClientInvoice>(
+    then?: Then<R>
+  ) =>
+    endpoint<R>(loginUser(url + "/login"), bearerToken, then, loginCredentials),
+  getMe: <R extends Me>(then?: Then<R>) =>
+    endpoint<R>(getMe(url + "/me"), bearerToken, then, {}),
+  updateMe: <R extends Me>(me: R, then?: Then<R>) =>
+    endpoint<R>(updateMe(url + "/me/company"), bearerToken, then, me),
+  upsertInvoice: <R extends ClientInvoice>(clientInvoice: R, then?: Then<R>) =>
+    endpoint<R>(
       upsertInvoice(url + "/invoices"),
       bearerToken,
       then,
