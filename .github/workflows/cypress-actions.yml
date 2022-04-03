@@ -32,5 +32,14 @@ jobs:
         run: |
           sed -i 's#../invoice-rest-api#./invoice-rest-api#g' docker-compose.yml
           docker-compose up -d
+      - name: "Check server status"
+        run: |
+          sleep 5
+          docker-compose ps
+          netstat --tcp --listen
+          curl -vvv -X GET \
+            'http://127.0.0.1:3139/clients?params=%7B%22limit%22%3A5000%7D' \
+            -H 'authorization: Bearer 111'
+          exit 1
       - name: "Run cypress"
         run: npm run cypress:headless
