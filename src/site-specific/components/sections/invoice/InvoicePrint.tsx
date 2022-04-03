@@ -42,6 +42,8 @@ function InvoicePrint({
         invoice: {
             invoice_number,
             date,
+            dueDate,
+
             meta: {
                 billTo: {
                     name: billToName,
@@ -50,6 +52,7 @@ function InvoicePrint({
                     regNumber: billToRegNumber,
                 },
                 details,
+                payTo
             } = {
                 // default values when there is no meta use assigned client company details
                 billTo: clientInvoice.client.companyDetails,
@@ -184,6 +187,9 @@ function InvoicePrint({
                                 </div>
                                 <p className="amount-due font-bold text-black text-lg"> ${total.toFixed(2)} </p>
                             </div>
+                        </div>
+                        <div className="text-sm mt-5">
+                            <p>Payable until {moment(dueDate).format('YYYY-MM-DD')} to {payTo?.accountType} {payTo?.accountNumber}</p>
                         </div>
                     </div>
                 </div>

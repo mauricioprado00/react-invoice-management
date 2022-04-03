@@ -28,6 +28,7 @@
 
 # 2022 04 03
 - Fix missing page after filtering invoices
+- add missing payto in invoice print view
 # 2022 04 02
 - Unit test for InvoiceItemWrapper
 - Rename InvoiceItems to InvoiceItemsTable
