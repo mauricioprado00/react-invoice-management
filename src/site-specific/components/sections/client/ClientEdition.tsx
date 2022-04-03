@@ -6,6 +6,7 @@ import ErrorBanner from 'elements/ErrorBanner'
 import { Client } from 'site-specific/models/Client'
 import { isFullfilledThunk } from 'hooks/use-thunk-dispatch'
 import ProfileFormWrapper, { SaveProfileEvent } from '../profile/ProfileFormWrapper'
+import { ConditionalContent } from 'elements/ConditionalContent'
 
 type ClientProps = {
     onCancel?: (client:Client|null) => void,
@@ -32,7 +33,7 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
     const saving = upsertState === "loading";
     const title = clientId ? 'Edit Client' : 'Add Client';
     const adding = clientId === null;
-    const showForm = adding || (!adding && client !== null && !loading);
+    const hasError = !loading && clientId && !client;
 
     const cancelHandler = useCallback(() => {
         if (onCancel) { onCancel(client); return true; }
@@ -40,10 +41,10 @@ function ClientEdition({ onCancel, onSave, clientId }: ClientProps) {
 
     return (
         <Card title={title} transparent={false}>
-            {!showForm && loading && "loading data"}
-            {!showForm && !loading && !client && "sorry we could not find the client"}
-            {showForm && <ProfileFormWrapper onSave={saveHandler}
-                onCancel={cancelHandler} profile={client} disabled={saving} />}
+            <ConditionalContent loading={!adding && loading} error={hasError ? { message: 'could not find the client' } : null}>
+                <ProfileFormWrapper onSave={saveHandler}
+                    onCancel={cancelHandler} profile={client} disabled={saving} />
+            </ConditionalContent> 
             {upsertError && <ErrorBanner error={upsertError}>Could not save the client.</ErrorBanner>}
         </Card>
     )

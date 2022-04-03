@@ -63,17 +63,18 @@ export const upsertClient = createAsyncThunk<
   // First argument to the payload creator
   Client,
   AppThunkAPI
->("client/add", async (client, thunkAPI): Promise<UpsertClientResult> => {
+>("client/add", (client, thunkAPI): Promise<UpsertClientResult> => {
   const following = client.id ? updated : added;
   const result = thunkAPI.extra.serviceApi.upsertClient(client, client =>
     thunkAPI.dispatch(following({ ...client }))
   );
   thunkAPI.signal.addEventListener("abort", result.abort);
   result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
-  return {
-    client: await result.promise,
-    success: true,
-  };
+  return new Promise<UpsertClientResult>((resolve, reject) => {
+    result.promise
+      .then(client => resolve({ client, success: true }))
+      .catch(value => reject(value));
+  });
 });
 
 const defaultLimit = 20;
@@ -83,19 +84,25 @@ export const loadClients = createAsyncThunk<
   // First argument to the payload creator
   ClientListingArgsU,
   AppThunkAPI
->("client/load_many", async (args, thunkAPI): Promise<ClientListingResponse> => {
-  thunkAPI.dispatch(requested(args));
-  // we need all clients to be there
-  // order creation need to have them in the selection list
-  const result = thunkAPI.extra.serviceApi.getClients(
-    { ...args, limit: args?.limit || defaultLimit },
-    clientListingResponse => thunkAPI.dispatch(received({clientListingResponse, args}))
-  );
-  thunkAPI.signal.addEventListener("abort", result.abort);
-  result.promise.catch(errorMessage => thunkAPI.rejectWithValue(errorMessage));
-  const clients = await result.promise;
-  return clients;
-});
+>(
+  "client/load_many",
+  async (args, thunkAPI): Promise<ClientListingResponse> => {
+    thunkAPI.dispatch(requested(args));
+    // we need all clients to be there
+    // order creation need to have them in the selection list
+    const result = thunkAPI.extra.serviceApi.getClients(
+      { ...args, limit: args?.limit || defaultLimit },
+      clientListingResponse =>
+        thunkAPI.dispatch(received({ clientListingResponse, args }))
+    );
+    thunkAPI.signal.addEventListener("abort", result.abort);
+    result.promise.catch(errorMessage =>
+      thunkAPI.rejectWithValue(errorMessage)
+    );
+    const clients = await result.promise;
+    return clients;
+  }
+);
 
 const getFilterId = (args: ClientListingArgsU): string => {
   return Md5.init(JSON.stringify(args) || "");
@@ -116,7 +123,15 @@ const slice = createSlice({
       };
       state.status = "began_fetching";
     },
-    received: (state, {payload}: PayloadAction<{clientListingResponse: ClientListingResponse;args: ClientListingArgsU;}>) => {
+    received: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        clientListingResponse: ClientListingResponse;
+        args: ClientListingArgsU;
+      }>
+    ) => {
       const id = getFilterId(payload.args);
       payload.clientListingResponse.clients.forEach(client => {
         state.list[client.id] = client;
@@ -223,26 +238,27 @@ const slice = createSlice({
       return { ...initialState };
     });
 
+    const updateClientTotals =
+      (coef: 1 | -1) =>
+      (
+        state: WritableDraft<ClientsState>,
+        action: PayloadAction<ClientInvoice>
+      ) => {
+        const id = action.payload.client.id;
+        state.list[id].totalBilled += coef * action.payload.invoice.value;
+        state.list[id].invoicesCount += coef * 1;
 
-    const updateClientTotals = (coef:1|-1) => (
-      state:WritableDraft<ClientsState>, 
-      action: PayloadAction<ClientInvoice>
-    ) => {
-      const id = action.payload.client.id;
-      state.list[id].totalBilled += coef * action.payload.invoice.value;
-      state.list[id].invoicesCount += coef * 1;
-
-      // keep client cache pages updated after invoices are inserted
-      Object.keys(state.filtered).forEach(key => {
-        const page = state.filtered[key];
-        page.list.forEach(client => {
-          if (client.id === id) {
-            client.totalBilled += coef * action.payload.invoice.value;
-            client.invoicesCount += coef * 1;
-          }
-        })
-      });
-    };
+        // keep client cache pages updated after invoices are inserted
+        Object.keys(state.filtered).forEach(key => {
+          const page = state.filtered[key];
+          page.list.forEach(client => {
+            if (client.id === id) {
+              client.totalBilled += coef * action.payload.invoice.value;
+              client.invoicesCount += coef * 1;
+            }
+          });
+        });
+      };
 
     const incrementToClients = updateClientTotals(1);
     builder.addCase(invoiceAdded, incrementToClients);
@@ -308,9 +324,7 @@ export const clientFilteredSelector = createSelector(
   clientSlice => clientSlice.filtered
 );
 
-export const clientFilteredBySelectorCreator = (
-  args: ClientListingArgsU
-) =>
+export const clientFilteredBySelectorCreator = (args: ClientListingArgsU) =>
   createSelector(
     clientFilteredSelector,
     filtered => filtered[getFilterId(args)] || undefined
@@ -322,17 +336,13 @@ export const filteredListBeganSelectorCreator = (args: ClientListingArgsU) =>
     filtered => filtered !== undefined
   );
 
-export const clientFilteredTotalSelectorCreator = (
-  args: ClientListingArgsU
-) =>
+export const clientFilteredTotalSelectorCreator = (args: ClientListingArgsU) =>
   createSelector(
     clientFilteredBySelectorCreator(args),
     filtered => filtered?.total
   );
 
-export const clientFilteredListSelectorCreator = (
-  args: ClientListingArgsU
-) =>
+export const clientFilteredListSelectorCreator = (args: ClientListingArgsU) =>
   createSelector(
     clientFilteredBySelectorCreator(args),
     filtered => filtered?.list
@@ -387,7 +397,9 @@ const useClientSelectorCreator = <TState, TSelected>(
   const dispatch = useDispatch();
   useEffect(() => {
     if (!began) {
-      console.log({requesPage: ((args?.offset||0) / (args?.limit||defaultLimit)) + 1 })
+      console.log({
+        requesPage: (args?.offset || 0) / (args?.limit || defaultLimit) + 1,
+      });
       dispatch(loadClients(args));
     }
   }, [dispatch, args, began]);
@@ -402,12 +414,11 @@ const useClientSelectorCreator = <TState, TSelected>(
   return began ? result : null;
 };
 
-
 export const useClientOptions = () =>
   useClientSelector(getClientOptionsSelector);
 export const useClientSlice = () => useSelector(clientSliceSelector);
 export const useAllClients = () =>
-  useClientSelectorCreator(clientFilteredBySelectorCreator, {limit: 9999999});
+  useClientSelectorCreator(clientFilteredBySelectorCreator, { limit: 9999999 });
 export const useClientList = (args?: ClientListingArgsU) =>
   useClientSelectorCreator(clientFilteredBySelectorCreator, args);
 export const useClientListTotal = (args?: ClientListingArgsU) =>
@@ -422,7 +433,7 @@ export const useClientLoading = () => {
 };
 export const useClientStatus = () => useSelector(clientStatusSelector);
 export const useClientById = (id: string | null) =>
-  useClientSelector(clientByIdSelector(id));
+  useClientSelector(clientByIdSelector(id), { limit: 9999999 });
 export const useUpsertClient = () => {
   const dispatch = useThunkDispatch();
   return (client: Client) => dispatch(upsertClient(client));
