@@ -155,6 +155,10 @@ const updateMe = (url: string) => (me: Me) => async (init: ApiInitParams) => {
   return jsonResponse.user as Me;
 };
 
+/**
+ * Boludeces, no? pero por qué aca no definis un type con esas keywords
+ * y la reutilizas donde antes habias usado el Sort
+ */
 export type ClientListingSortingByArgs = {
   clientName?: "asc" | "desc";
   companyName?: "asc" | "desc";

@@ -1,3 +1,11 @@
+/**
+ * Despues cuando tengas tiempo, investigate el tema del styled-components que se usa mucho.
+ * https://styled-components.com/
+ * Resuelve bastante el tema de dejar la logica de presentación en otro lado
+ * y permite crear rapidamente una librería específica para cada variación del componente.
+ * Para esa libreria se usa generalmente storybooks.
+ * https://storybook.js.org/
+ */
 import React, { ReactNode } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
