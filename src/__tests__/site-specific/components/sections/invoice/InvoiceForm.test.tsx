@@ -25,6 +25,8 @@ const InvoiceFormWrapperTest = ({ args, props, formContainer }: InvoiceFieldsWra
 
 }
 
+const valueFromDate = (date: number) => moment(date).format('YYYY-MM-DD')
+
 describe("InvoiceForm", () => {
     const paymentTypes: PaymentType[] = [
         {
@@ -158,9 +160,9 @@ describe("InvoiceForm", () => {
         screen.getByDisplayValue(args.clientInvoice.invoice.meta.billTo.regNumber);
 
         const $date = container.querySelector<HTMLInputElement>('[name="date"]')
-        expect($date.value).toBe(moment(args.clientInvoice.invoice.date).format('YYYY-MM-DD'));
+        expect($date.value).toBe(valueFromDate(args.clientInvoice.invoice.date));
         const $dueDate = container.querySelector<HTMLInputElement>('[name="dueDate"]')
-        expect($dueDate.value).toBe(moment(args.clientInvoice.invoice.dueDate).format('YYYY-MM-DD'));
+        expect($dueDate.value).toBe(valueFromDate(args.clientInvoice.invoice.dueDate));
 
         // no need to extensively test here each property
         // of the details, that is tested in InvoiceItems*.test.tsx
@@ -169,4 +171,46 @@ describe("InvoiceForm", () => {
 
         screen.getByText('Total: ' + props.total)
     });
+
+    const typableFields = [
+        'invoice_number',
+        'projectCode',
+        'date',
+        'dueDate',
+        'name',
+        'address',
+        'regNumber',
+        'vatNumber',
+    ];
+    const fieldContainer = {
+        invoice_number: args.clientInvoice.invoice,
+        projectCode: args.clientInvoice.invoice,
+        date: args.clientInvoice.invoice,
+        dueDate: args.clientInvoice.invoice,
+        name: args.clientInvoice.invoice.meta.billTo,
+        address: args.clientInvoice.invoice.meta.billTo,
+        regNumber: args.clientInvoice.invoice.meta.billTo,
+        vatNumber: args.clientInvoice.invoice.meta.billTo,
+    };
+
+    const transformValue = {
+        date: valueFromDate,
+        dueDate: valueFromDate,
+    }
+
+    typableFields.forEach(async (field) => {
+        it(`will show error when ${field} is empty`, async () => {
+            renderWrapper();
+            const fieldValue = fieldContainer[field][field];
+            const inputValue = transformValue[field] !== undefined ?
+                transformValue[field](fieldValue) : fieldValue;
+            const $el = screen.queryByDisplayValue(inputValue);
+            await act(async () => {
+                fireEvent.change($el, { target: { value: '' } })
+                fireEvent.blur($el)
+            })
+            expect(screen.getByText('Please fill out this field.')).toBeInTheDocument();
+        })
+    });
+
 })
