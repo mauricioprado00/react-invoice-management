@@ -1,9 +1,23 @@
-import { Client, ClientWithTotals, ClientWithTotalsList } from 'site-specific/models/Client'
-import { ClientInvoice, ClientInvoiceList, Invoice } from 'site-specific/models/Invoice'
-import { LoginResponse, RegisterData, LoginCredentials, UserWithPassword, Me } from 'site-specific/models/User'
-import { MapType } from 'models/UtilityModels'
+import {
+  Client,
+  ClientWithTotals,
+  ClientWithTotalsList,
+} from "site-specific/models/Client";
+import {
+  ClientInvoice,
+  ClientInvoiceList,
+  Invoice,
+} from "site-specific/models/Invoice";
+import {
+  LoginResponse,
+  RegisterData,
+  LoginCredentials,
+  UserWithPassword,
+  Me,
+} from "site-specific/models/User";
+import { MapType } from "models/UtilityModels";
 interface ApiInitParams extends RequestInit {
-  signal: AbortSignal,
+  signal: AbortSignal;
 }
 
 let cacheBustCounter = 1;
@@ -324,15 +338,15 @@ const getInvoice =
   };
 
 const abortable = (endpointClient: any): AbortableEndpointResult<any> => {
-  const controller = new AbortController()
-  const promise = endpointClient({ signal: controller.signal })
+  const controller = new AbortController();
+  const promise = endpointClient({ signal: controller.signal });
 
   return {
     promise,
     controller,
     abort: controller.abort.bind(controller),
-  }
-}
+  };
+};
 
 const authorized = (endpoint: any, userId: string) => (init: {}) =>
   endpoint({
@@ -340,60 +354,130 @@ const authorized = (endpoint: any, userId: string) => (init: {}) =>
     headers: {
       Authorization: `Bearer ${userId}`,
     },
-  })
+  });
 
-const ignore = () => {}
+const ignore = () => {};
 
-const endpoint = <Type>(endpoint: any, userId: string, then:Then<Type>, epExtra:MapType<any>): AbortableEndpointResult<Type> => {
-  const result = abortable(authorized(endpoint(epExtra), userId))
-  result.promise.then<Type>(then).catch(ignore)
+const endpoint = <Type>(
+  endpoint: any,
+  userId: string,
+  then: Then<Type> | undefined,
+  epExtra: MapType<any>
+): AbortableEndpointResult<Type> => {
+  const result = abortable(authorized(endpoint(epExtra), userId));
+  result.promise.catch(ignore);
+  if (then) {
+    result.promise.then(then);
+  }
   return result;
-}
+};
 
-type Cb = {(...many:any[]):any}
-type Then<Type> = {(result:Type):any}
+type Cb = { (...many: any[]): any };
+type Then<Type> = { (result: Type): any };
 
 export type AbortableEndpointResult<Type> = {
-  promise: Promise<Type>
-  controller: AbortController
-  abort: { (): void }
-}
+  promise: Promise<Type>;
+  controller: AbortController;
+  abort: { (): void };
+};
 
 export type AbortableObject = {
-  abort: { (): void }
-}
+  abort: { (): void };
+};
 
-const abortAll = (...results:AbortableObject[]):Cb => () => {
-  results.forEach(result => result.abort());
-}
+const abortAll =
+  (...results: AbortableObject[]): Cb =>
+  () => {
+    results.forEach(result => result.abort());
+  };
 
-const thenNo = () => {};
-const createClient = (url:string, bearerToken:string) => ({
+const createClient = (url: string, bearerToken: string) => ({
   abortAll,
-  newBearerToken: function (bearerToken:string) {Object.assign(this, createClient(url, bearerToken))},
-  getClients: (params:ClientListingArgsU, then:Then<ClientListingResponse>): AbortableEndpointResult<ClientListingResponse> =>
-    endpoint<ClientListingResponse>(getClients(url + '/clients'), bearerToken, then, params || {}),
-  getClientWithTotals: (clientId:string, then:Then<ClientWithTotals>=thenNo): AbortableEndpointResult<ClientWithTotals> =>
-    endpoint<ClientWithTotals>(getClientWithTotals(url + '/clients'), bearerToken, then, {clientId}),
-  getClient: (clientId:string, then:Then<Client>=thenNo): AbortableEndpointResult<Client> =>
-    endpoint<Client>(getClient(url + '/clients'), bearerToken, then, {clientId}),
-  getInvoices: (params:InvoiceListingArgsU, then:Then<ClientInvoiceListResponse>): AbortableEndpointResult<ClientInvoiceListResponse> =>
-    endpoint<ClientInvoiceListResponse>(getInvoices(url + '/invoices'), bearerToken, then, params || {}),
-  getInvoice: (id:string, then:Then<Invoice>=thenNo): AbortableEndpointResult<Invoice> =>
-    endpoint<Invoice>(getInvoice(url + '/invoices'), bearerToken, then, {id}),
-  upsertClient: (client:Client, then:Then<Client>): AbortableEndpointResult<Client> =>
-    endpoint<Client>(upsertClient(url + '/clients'), bearerToken, then, client),
-  registerUser: (user:UserWithPassword, then:Then<RegisterData>): AbortableEndpointResult<RegisterData> =>
-    endpoint<RegisterData>(registerUser(url + '/register'), bearerToken, then, user),
-  loginUser: (loginCredentials:LoginCredentials, then:Then<LoginResponse>): AbortableEndpointResult<LoginResponse> =>
-    endpoint<LoginResponse>(loginUser(url + '/login'), bearerToken, then, loginCredentials),
-  getMe: (then:Then<Me>): AbortableEndpointResult<Me> =>
-    endpoint<Me>(getMe(url + '/me'), bearerToken, then, {}),
-  updateMe: (me:Me, then:Then<Me>): AbortableEndpointResult<Me> =>
-    endpoint<Me>(updateMe(url + '/me/company'), bearerToken, then, me),
-  upsertInvoice: (clientInvoice:ClientInvoice, then:Then<ClientInvoice>): AbortableEndpointResult<ClientInvoice> =>
-    endpoint<ClientInvoice>(upsertInvoice(url + '/invoices'), bearerToken, then, clientInvoice),
-})
+  newBearerToken: function (bearerToken: string) {
+    Object.assign(this, createClient(url, bearerToken));
+  },
 
+  getClients: (
+    params: ClientListingArgsU,
+    then?: Then<ClientListingResponse>
+  ): AbortableEndpointResult<ClientListingResponse> =>
+    endpoint<ClientListingResponse>(
+      getClients(url + "/clients"),
+      bearerToken,
+      then,
+      params || {}
+    ),
+  getClientWithTotals: (
+    clientId: string,
+    then?: Then<ClientWithTotals>
+  ): AbortableEndpointResult<ClientWithTotals> =>
+    endpoint<ClientWithTotals>(
+      getClientWithTotals(url + "/clients"),
+      bearerToken,
+      then,
+      { clientId }
+    ),
+  getClient: (
+    clientId: string,
+    then?: Then<Client>
+  ): AbortableEndpointResult<Client> =>
+    endpoint<Client>(getClient(url + "/clients"), bearerToken, then, {
+      clientId,
+    }),
+  getInvoices: (
+    params: InvoiceListingArgsU,
+    then?: Then<ClientInvoiceListResponse>
+  ): AbortableEndpointResult<ClientInvoiceListResponse> =>
+    endpoint<ClientInvoiceListResponse>(
+      getInvoices(url + "/invoices"),
+      bearerToken,
+      then,
+      params || {}
+    ),
+  getInvoice: (
+    id: string,
+    then?: Then<Invoice>
+  ): AbortableEndpointResult<Invoice> =>
+    endpoint<Invoice>(getInvoice(url + "/invoices"), bearerToken, then, { id }),
+  upsertClient: (
+    client: Client,
+    then?: Then<Client>
+  ): AbortableEndpointResult<Client> =>
+    endpoint<Client>(upsertClient(url + "/clients"), bearerToken, then, client),
+  registerUser: (
+    user: UserWithPassword,
+    then?: Then<RegisterData>
+  ): AbortableEndpointResult<RegisterData> =>
+    endpoint<RegisterData>(
+      registerUser(url + "/register"),
+      bearerToken,
+      then,
+      user
+    ),
+  loginUser: (
+    loginCredentials: LoginCredentials,
+    then?: Then<LoginResponse>
+  ): AbortableEndpointResult<LoginResponse> =>
+    endpoint<LoginResponse>(
+      loginUser(url + "/login"),
+      bearerToken,
+      then,
+      loginCredentials
+    ),
+  getMe: (then?: Then<Me>): AbortableEndpointResult<Me> =>
+    endpoint<Me>(getMe(url + "/me"), bearerToken, then, {}),
+  updateMe: (me: Me, then?: Then<Me>): AbortableEndpointResult<Me> =>
+    endpoint<Me>(updateMe(url + "/me/company"), bearerToken, then, me),
+  upsertInvoice: (
+    clientInvoice: ClientInvoice,
+    then?: Then<ClientInvoice>
+  ): AbortableEndpointResult<ClientInvoice> =>
+    endpoint<ClientInvoice>(
+      upsertInvoice(url + "/invoices"),
+      bearerToken,
+      then,
+      clientInvoice
+    ),
+});
 
 export default createClient;
