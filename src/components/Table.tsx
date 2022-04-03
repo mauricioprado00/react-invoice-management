@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { segregate } from 'utility/helpers'
 import LoadingMask from 'elements/LoadingMask'
-import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 import ErrorBanner from 'elements/ErrorBanner'
 import { Pagination } from '@mui/material'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -129,7 +128,7 @@ type TableProps = {
     title?: string,
     loading: boolean,
     children: any,
-    error?: SerializedError | null,
+    error?: Partial<Error> | null,
     pagination?: TablePaginationProps
 }
 
@@ -137,7 +136,7 @@ const TablePropTypes = {
     title: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    error: PropTypes.exact(SerializedErrorPropTypes),
+    error: PropTypes.exact({ name: PropTypes.string, message: PropTypes.string }),
     pagination: PropTypes.exact(TablePaginationPropTypes)
 }
 

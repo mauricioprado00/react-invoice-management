@@ -1,15 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { ReactNode } from 'react'
 import styles from 'styles/MaterialIcons.module.css'
-import { SerializedError, SerializedErrorPropTypes } from 'models/SerializedError'
 
 export type ErrorBannerProps = {
-    error?: SerializedError
-    children: any
-}
-export const ErrorBannerPropTypes = {
-    error: PropTypes.exact(SerializedErrorPropTypes),
-    children: PropTypes.node
+    error?: Partial<Error>,
+    children: ReactNode
 }
 function ErrorBanner({error, children}: ErrorBannerProps) {
     return (
@@ -29,7 +23,5 @@ function ErrorBanner({error, children}: ErrorBannerProps) {
         </div>
     )
 }
-
-ErrorBanner.propTypes = ErrorBannerPropTypes
 
 export default ErrorBanner
