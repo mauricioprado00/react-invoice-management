@@ -129,7 +129,7 @@ const InvoiceTable = ({
         <Table title={title} loading={loading} error={loadError} pagination={pagination}>
             {loaded && <TableHeaderContent>
                 {controls && <>
-                    <InvoiceTableFilters />
+                    {invoices && total > 1 && <InvoiceTableFilters />}
                     <Button styled={ButtonStyle.FlatPrimary} onClick={goNewInvoice}>New Invoice</Button>
                     {!pageable && <Button styled={ButtonStyle.FlatPrimary} onClick={goInvoices}>All Invoices</Button>}
                 </>}
