@@ -367,7 +367,7 @@ const endpoint = <Type>(
   const result = abortable(authorized(endpoint(epExtra), userId));
   result.promise.catch(ignore);
   if (then) {
-    result.promise.then(then);
+    result.promise.then(then).catch(ignore);
   }
   return result;
 };

@@ -1,0 +1,19 @@
+name: Jest test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PRISMA_ENDPOINT: ${{secrets.PRISMA_ENDPOINT}}
+      PRISMA_SECRET: ${{secrets.PRISMA_SECRET}}
+    steps:
+      - name: Clone Frontend Repository
+        uses: actions/checkout@v2
+      - name: "Install Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: "Install frontend packages"
+        run: npm install
+      - name: "Run jest"
+        run: npm run jestni
