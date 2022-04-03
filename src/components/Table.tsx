@@ -29,10 +29,10 @@ const TableHeaderColumnPropTypes = {
     direction: PropTypes.oneOf(['asc', 'desc', undefined]),
 }
 
-const sortDirectionTransition = {
-    undefined: 'asc' as SortDirection,
-    asc: 'desc' as SortDirection,
-    desc: undefined as SortDirection,
+const sortDirectionTransition: Record<string, SortDirection> = {
+    undefined: 'asc',
+    asc: 'desc',
+    desc: undefined,
 }
 
 export const useSortDirection = (name:string) => {
