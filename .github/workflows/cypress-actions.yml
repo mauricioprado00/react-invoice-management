@@ -1,0 +1,36 @@
+name: Jest test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PRISMA_ENDPOINT: ${{secrets.PRISMA_ENDPOINT}}
+      PRISMA_SECRET: ${{secrets.PRISMA_SECRET}}
+    steps:
+      - name: Clone Frontend Repository
+        uses: actions/checkout@v2
+      - name: Clone Backend Repository
+        uses: actions/checkout@v2
+        with:
+          repository: vladnicula/invoice-rest-api
+          path: vladnicula/invoice-rest-api
+          # ref: main
+      - name: "Install Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: "Install frontend packages"
+        run: npm install
+      - name: "Install backend packages and start server"
+        run: |
+          cd vladnicula/invoice-rest-api
+          npm install
+          npm run build
+      - name: "Start backend server"
+        run: |
+          cd vladnicula/invoice-rest-api
+          npm run start&
+      - name: "Start frontend server"
+        run: npm run start&
+      - name: "Run cypress"
+        run: npm run cypress:headless
