@@ -1,4 +1,4 @@
-name: Jest test
+name: Integration tests
 on: [push]
 jobs:
   test:
@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: vladnicula/invoice-rest-api
-          path: ../invoice-rest-api
+          path: invoice-rest-api
           # ref: main
       - name: "Install Node"
         uses: actions/setup-node@v1
@@ -23,13 +23,14 @@ jobs:
         run: npm install
       - name: "Install backend packages and start server"
         run: |
-          pushd ../invoice-rest-api
+          pushd ./invoice-rest-api
           npm install
           npm run build
           cp .env.example .env
           popd
       - name: "Start backend and frontend servers"
         run: |
+          sed -i 's#../invoice-rest-api#./invoice-rest-api#g' docker-compose.yml
           docker-compose up -d
       - name: "Run cypress"
         run: npm run cypress:headless
