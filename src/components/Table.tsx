@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { segregate } from 'utility/helpers'
 import { Pagination } from '@mui/material'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -16,17 +15,6 @@ import { ConditionalContent } from 'elements/ConditionalContent'
 
 export type SortDirection = "asc" | "desc" | undefined;
 
-type tableHeaderColumnProps = {
-    onSort?: (direction: SortDirection) => void;
-    direction?: SortDirection;
-    children: any;
-}
-const TableHeaderColumnPropTypes = {
-    onSort: PropTypes.func,
-    children: PropTypes.node,
-    direction: PropTypes.oneOf(['asc', 'desc', undefined]),
-}
-
 const sortDirectionTransition: Record<string, SortDirection> = {
     undefined: 'asc',
     asc: 'desc',
@@ -39,6 +27,12 @@ export const useSortDirection = (name: string) => {
         onSort: setDirection,
         direction,
     }
+}
+
+type tableHeaderColumnProps = {
+    onSort?: (direction: SortDirection) => void;
+    direction?: SortDirection;
+    children: any;
 }
 
 const TableHeaderColumn = ({ children, onSort, direction }: tableHeaderColumnProps) => {
@@ -64,36 +58,17 @@ const TableHeaderColumn = ({ children, onSort, direction }: tableHeaderColumnPro
     )
 }
 
-TableHeaderColumn.propTypes = TableHeaderColumnPropTypes;
-
-
-type TableHeaderContentProps = {
-    children: any
-}
-const TableHeaderContentPropTypes = {
-    children: PropTypes.node
-}
-
-export const TableHeaderContent = ({ children }: TableHeaderContentProps) => {
+export const TableHeaderContent = ({ children }: { children: React.ReactNode }) => {
     return (<>
         {children}
     </>)
 }
-
-TableHeaderContent.propTypes = TableHeaderContentPropTypes;
 
 type TablePaginationProps = {
     limit: number;
     offset: number;
     total: number;
     onPageChange: (event: React.ChangeEvent<unknown>, page: number) => void;
-}
-
-const TablePaginationPropTypes = {
-    limit: PropTypes.number,
-    offset: PropTypes.number,
-    total: PropTypes.number,
-    onPageChange: PropTypes.func,
 }
 
 const TablePagination = ({ limit, offset, total, onPageChange }: TablePaginationProps) => {
@@ -108,20 +83,9 @@ const TablePagination = ({ limit, offset, total, onPageChange }: TablePagination
     )
 }
 
-TablePagination.propTypes = TablePaginationPropTypes;
-
-type EmptyProps = {
-    children: any
-}
-const EmptyPropTypes = {
-    children: PropTypes.node
-}
-
-const Empty = ({ children }: EmptyProps) => {
+const Empty = ({ children }: { children: React.ReactNode }) => {
     return (<>{children}</>)
 }
-
-Empty.propTypes = EmptyPropTypes;
 
 type TableProps = {
     title?: string,
@@ -129,14 +93,6 @@ type TableProps = {
     children: any,
     error?: Partial<Error> | null,
     pagination?: TablePaginationProps
-}
-
-const TablePropTypes = {
-    title: PropTypes.string,
-    loading: PropTypes.bool.isRequired,
-    children: PropTypes.node.isRequired,
-    error: PropTypes.exact({ name: PropTypes.string, message: PropTypes.string }),
-    pagination: PropTypes.exact(TablePaginationPropTypes)
 }
 
 const TableRows = ({ columns, empty, rows }: { columns: any[], empty: any, rows: any[] }) => {
@@ -188,7 +144,6 @@ const Table = ({ title, loading, children, error, pagination }: TableProps) => {
         </div>
     )
 }
-Table.propTypes = TablePropTypes;
 
 export { Table, TableHeaderColumn as Column, Empty }
 export default Table
