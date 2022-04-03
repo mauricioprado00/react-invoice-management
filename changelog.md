@@ -15,7 +15,6 @@
 # unknown bugs: 
 - sometimes clients are not being loaded
 # known bugs:
-- if you are in page 10, and filter by client, filters are applied but page is still 10 (unexistant).
 - adding a clients will not keep the client selector sorted.
 
 # extra features:
@@ -27,6 +26,8 @@
   it would be nice to give the user the control of choosing which sorting
   comes first.
 
+# 2022 04 03
+- Fix missing page after filtering invoices
 # 2022 04 02
 - Unit test for InvoiceItemWrapper
 - Rename InvoiceItems to InvoiceItemsTable
