@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types'
 import { segregate } from 'utility/helpers'
-import LoadingMask from 'elements/LoadingMask'
-import ErrorBanner from 'elements/ErrorBanner'
 import { Pagination } from '@mui/material'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import { useCallback } from 'react'
 import { useUrlParam } from 'hooks/use-url'
+import { ConditionalContent } from 'elements/ConditionalContent'
 
 /**
  * table styles from https://tailwindcomponents.com/component/customers-table
@@ -18,7 +17,7 @@ import { useUrlParam } from 'hooks/use-url'
 export type SortDirection = "asc" | "desc" | undefined;
 
 type tableHeaderColumnProps = {
-    onSort?: (direction:SortDirection) => void;
+    onSort?: (direction: SortDirection) => void;
     direction?: SortDirection;
     children: any;
 }
@@ -34,7 +33,7 @@ const sortDirectionTransition: Record<string, SortDirection> = {
     desc: undefined,
 }
 
-export const useSortDirection = (name:string) => {
+export const useSortDirection = (name: string) => {
     const [direction, setDirection] = useUrlParam<SortDirection>(name);
     return {
         onSort: setDirection,
@@ -140,8 +139,32 @@ const TablePropTypes = {
     pagination: PropTypes.exact(TablePaginationPropTypes)
 }
 
+const TableRows = ({ columns, empty, rows }: { columns: any[], empty: any, rows: any[] }) => {
+
+    if (!rows.length) {
+        <div className="flex flex-col items-center justify-center px-10 py-32">
+            {empty}
+        </div>
+    }
+
+    return <div className="p-3">
+        <div>
+            <table className="table-auto w-full">
+                <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                    <tr>
+                        {columns}
+                    </tr>
+                </thead>
+                <tbody className="text-sm divide-y divide-gray-100">
+                    {rows}
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
 const Table = ({ title, loading, children, error, pagination }: TableProps) => {
-    const [columns, headerContent, empty, remaining] = segregate(children, [
+    const [columns, headerContent, empty, rows] = segregate(children, [
         TableHeaderColumn,
         TableHeaderContent,
         Empty
@@ -156,30 +179,9 @@ const Table = ({ title, loading, children, error, pagination }: TableProps) => {
                         {headerContent}
                     </div>
                 </header>
-                {error ? <ErrorBanner error={error}>There are connectivity problems, we could not load the data</ErrorBanner> : (
-                    loading ?
-                        <LoadingMask /> :
-                        (remaining.length ?
-                            <div className="p-3">
-                                <div>
-                                    <table className="table-auto w-full">
-                                        <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                                            <tr>
-                                                {columns}
-                                            </tr>
-                                        </thead>
-                                        <tbody className="text-sm divide-y divide-gray-100">
-                                            {remaining}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            :
-                            <div className="flex flex-col items-center justify-center px-10 py-32">
-                                {empty}
-                            </div>
-                        )
-                )}
+                <ConditionalContent error={error} loading={loading}>
+                    <TableRows rows={rows} columns={columns} empty={empty} />
+                </ConditionalContent>
             </div>
 
             {pagination && pagination.total > pagination.limit && <div className="mt-4 place-self-center"><TablePagination {...pagination} /></div>}
