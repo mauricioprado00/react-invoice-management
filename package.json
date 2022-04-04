@@ -13,7 +13,8 @@
     "cypress:headless": "cypress run",
     "e2e": "start-server-and-test start http://localhost:3000 cypress",
     "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
-    "tsc": "tsc --build --watch"
+    "tsc": "tsc --build --watch",
+    "tscni": "tsc --build"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",

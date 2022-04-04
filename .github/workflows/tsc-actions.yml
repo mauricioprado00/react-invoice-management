@@ -1,7 +1,7 @@
 name: Typescript compilter
 on: [push]
 jobs:
-  test:
+  tsc:
     runs-on: ubuntu-latest
     env:
       PRISMA_ENDPOINT: ${{secrets.PRISMA_ENDPOINT}}
@@ -16,4 +16,20 @@ jobs:
       - name: "Install frontend packages"
         run: npm install
       - name: "Run tsc"
-        run: npm run tsc
+        run: npm run tscni
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PRISMA_ENDPOINT: ${{secrets.PRISMA_ENDPOINT}}
+      PRISMA_SECRET: ${{secrets.PRISMA_SECRET}}
+    steps:
+      - name: Clone Frontend Repository
+        uses: actions/checkout@v2
+      - name: "Install Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: "Install frontend packages"
+        run: npm install
+      - name: "Run tsc"
+        run: npm run build
