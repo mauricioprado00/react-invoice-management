@@ -86,6 +86,24 @@ export const GetInvoiceListingArgs = (clientId:string|undefined, limit: number, 
     }
 }
 
+const isFiltered = (args: Required<InvoiceListingArgs>) => {
+    if (args.filter.clientId
+        || args.filter.date?.end || args.filter.date?.start
+        || args.filter.dueDate?.end || args.filter.dueDate?.start) {
+        return true;
+    }
+
+    return false;
+}
+
+const AddNewInvoiceMessage = () => {
+    const goNewInvoice = useGoNewInvoice();
+    return <p className="mt-4">
+        You can add a &nbsp;
+        <button className="font-bold" onClick={goNewInvoice}>new one here</button>
+    </p>
+}
+
 const InvoiceTable = ({
     title = "Invoices",
     limit = 5,
@@ -140,7 +158,8 @@ const InvoiceTable = ({
             {extraColumns && <Column>Billed To</Column>}
             <Column {...(sortable ? dueDateSort : {})}>Due</Column>
             <Column {...(sortable ? priceSort : {})}>Value</Column>
-            <Empty>No invoices found</Empty>
+            <Empty><p>No invoices found</p></Empty>
+            {!(isFiltered(args)) ? <Empty><AddNewInvoiceMessage /></Empty> : null}
             {
                 (invoices || []).map(invoice =>
                     <InvoiceTableRowItem key={invoice.invoice.id} {...invoice} extraColumns={extraColumns}/>)
