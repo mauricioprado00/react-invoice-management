@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { ClientWithTotals, ClientWithTotalsPropTypes } from 'site-specific/models/Client'
 import { isMostValuableClient } from 'store/ClientSlice'
 import { getAvatarImageUrl } from 'elements/AvatarSelector'
-import { useGoClientIdDashboard, useGoClientIdEdit } from 'site-specific/hooks/use-navigation'
+import { useGoClientIdDashboard, useGoClientIdEdit, useGoNewInvoice } from 'site-specific/hooks/use-navigation'
 import { useCallback } from 'react'
 import ClientTableRowActions from './ClientTableRowActions'
 
@@ -18,6 +18,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
     const goEdit = useGoClientIdEdit(client.id);
     const goDashboard = useGoClientIdDashboard(client.id);
     const goInvoices = useGoClientIdDashboard(client.id, true);
+    const goNewInvoice = useGoNewInvoice(client.id);
     const isMostValuable = isMostValuableClient(client);
     const totalBilledClassnames = classNames(
         "text-left font-medium", isMostValuable ? "text-red-500" : "text-green-500"
@@ -52,7 +53,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
                 <div className={totalBilledClassnames}>${totalBilled.toFixed(2)}</div>
             </td>
             <td className="p-2 whitespace-nowrap" onClick={stopPropagation} onKeyUp={stopPropagation}>
-                <ClientTableRowActions onEdit={goEdit} onProfile={goDashboard} onInvoices={goInvoices}/>
+                <ClientTableRowActions onEdit={goEdit} onProfile={goDashboard} onInvoices={goInvoices} onNewInvoice={goNewInvoice} />
             </td>
         </tr>
     );

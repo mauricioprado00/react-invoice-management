@@ -8,15 +8,16 @@ import ProfileIcon from '@mui/icons-material/AccountBox';
 import InvoicesIcon from '@mui/icons-material/Description';
 import { ListItemIcon } from '@mui/material';
 
-export type ClientTableRowAction = 'edit' | 'profile' | 'invoices' | 'remove';
+export type ClientTableRowAction = 'edit' | 'profile' | 'invoices' | 'remove' | 'new_invoice';
 
 export type ClientTableRowActionsProps = {
     onEdit?: () => void;
     onProfile?: () => void;
     onInvoices?: () => void;
+    onNewInvoice?: () => void;
 }
 
-export default function ClientTableRowActions({ onEdit, onProfile, onInvoices }: ClientTableRowActionsProps) {
+export default function ClientTableRowActions({ onEdit, onProfile, onInvoices, onNewInvoice }: ClientTableRowActionsProps) {
     return (
         <PopupState variant="popover">
             {(popupState) => {
@@ -30,6 +31,9 @@ export default function ClientTableRowActions({ onEdit, onProfile, onInvoices }:
                             break;
                         case 'invoices':
                             if (onInvoices) onInvoices();
+                            break;
+                        case 'new_invoice':
+                            if (onNewInvoice) onNewInvoice();
                             break;
                     }
                     popupState.close();
@@ -49,6 +53,10 @@ export default function ClientTableRowActions({ onEdit, onProfile, onInvoices }:
                             <MenuItem onClick={handleClick('invoices')}>
                                 <ListItemIcon><InvoicesIcon /></ListItemIcon>
                                 Invoices
+                            </MenuItem>
+                            <MenuItem onClick={handleClick('new_invoice')}>
+                                <ListItemIcon><InvoicesIcon /></ListItemIcon>
+                                New Invoice
                             </MenuItem>
                         </Menu>
                     </React.Fragment>
