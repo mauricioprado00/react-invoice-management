@@ -6,7 +6,11 @@ import { useCallback } from 'react';
 import { Client } from 'site-specific/models/Client';
 import { useGoBack, useParamId } from 'hooks/use-url';
 
-const ClientPage: NextPage = () => {
+type ClientPageProps = {
+    onSave: (client: Client) => void
+};
+
+const ClientPage: NextPage = ({ onSave }: ClientPageProps) => {
     const clientId = useParamId();
     const goClientDashboard = useGoClientDashboard();
     const goBack = useGoBack();

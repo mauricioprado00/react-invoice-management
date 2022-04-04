@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Card from 'elements/Card'
 import ErrorBanner from 'elements/ErrorBanner'
 import { ClientInvoice } from 'site-specific/models/Invoice'
@@ -13,6 +13,7 @@ import LoadingMask from 'elements/LoadingMask'
 type InvoiceProps = {
     onCancel?: (clientInvoice:Partial<ClientInvoice>|null) => void,
     onSave?: (clientInvoice:ClientInvoice) => void,
+    onNoClients?: () => void,
     invoiceId: string | null,
     clientId: string | null,
 }
@@ -22,7 +23,7 @@ const InvoicePropTypes = {
     invoiceId: PropTypes.string,
     clientId: PropTypes.string,
 }
-function InvoiceEdition({ onCancel, onSave, invoiceId, clientId }: InvoiceProps) {
+function InvoiceEdition({ onCancel, onSave, onNoClients, invoiceId, clientId }: InvoiceProps) {
     const invoice = useInvoiceById(invoiceId || '');
     const clientList = useAllClients();
     const clientLoaded = clientList?.loaded === true;
@@ -45,6 +46,13 @@ function InvoiceEdition({ onCancel, onSave, invoiceId, clientId }: InvoiceProps)
     const cancelHandler = useCallback(() => {
         if (onCancel) { onCancel(invoice || null); return true; }
     }, [onCancel, invoice]);
+
+    useEffect(() => {
+        if (clientList?.total === 0 && onNoClients) {
+            onNoClients();
+        }
+
+    }, [clientList?.total, onNoClients])
 
     let content;
 

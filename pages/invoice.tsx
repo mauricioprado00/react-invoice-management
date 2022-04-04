@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import InvoiceEdition from 'site-specific/components/sections/invoice/InvoiceEdition';
-import { useGoInvoiceView, useParamClientId } from 'site-specific/hooks/use-navigation';
+import { useGoInvoiceView, useGoNewClientForInvoice, useParamClientId } from 'site-specific/hooks/use-navigation';
 import AuthPageWithStore from 'site-specific/components/AuthPageWithStore';
 import { useCallback } from 'react';
 import { ClientInvoice } from 'site-specific/models/Invoice';
@@ -13,9 +13,14 @@ const InvoicePage: NextPage = () => {
     const goBack = useGoBack();
     const goViewSaved = useCallback((clientInvoice:ClientInvoice) => {
         goView(clientInvoice.invoice.id)
-    }, [goView])
+    }, [goView]);
+    const goAddClient = useGoNewClientForInvoice();
 
-    return <InvoiceEdition onCancel={goBack} onSave={goViewSaved} invoiceId={invoiceId} clientId={clientId} />
+    return <InvoiceEdition
+        onCancel={goBack}
+        onSave={goViewSaved}
+        onNoClients={goAddClient}
+        invoiceId={invoiceId} clientId={clientId} />
 }
 
 export default AuthPageWithStore(InvoicePage)

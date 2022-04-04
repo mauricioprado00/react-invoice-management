@@ -28,6 +28,7 @@
 
 # 2022 04 04
 - Add menu option to client table row dropdown to create new invoice for client
+- add workflow to create client before invoice when there are no clients
 # 2022 04 03
 - Fix missing page after filtering invoices
 - add missing payto in invoice print view
