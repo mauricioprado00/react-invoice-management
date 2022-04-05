@@ -7,7 +7,7 @@ import Button, { ButtonStyle, ClickHandler } from 'elements/Button'
 import { InvoiceDetail, InvoiceDetailPropTypes } from 'site-specific/models/Invoice'
 import ClientSelector, { ClientSelectorProps, ClientSelectorPropTypes } from 'site-specific/elements/ClientSelector';
 import InvoiceItemsTable, { InvoiceItemsChangeEvent } from './InvoiceItemsTable';
-import { numberValidator } from 'utility/validation';
+import { dateAfterValidator, numberValidator } from 'utility/validation';
 import Dropdown, { DropdownOption, DropdownOptionPropTypes } from 'elements/Dropdown';
 import { UseInvoiceFormReturn } from 'site-specific/hooks/use-invoice-form';
 
@@ -71,6 +71,8 @@ function InvoiceForm({
                     {...form.resolveProps('date')} />
                 <InputText name="dueDate" type="date" label="Due Date" required={true}
                     value={state.values.dueDate}
+                    validationExtra={state.values.date}
+                    validators={[dateAfterValidator("Due Date must be after Date")]}
                     {...form.resolveProps('dueDate')} />
             </FieldsetRow>
             <FieldsetRow>
