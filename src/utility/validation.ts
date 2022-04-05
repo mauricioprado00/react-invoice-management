@@ -1,3 +1,5 @@
+import moment from "moment";
+
 enum Messages {
   Email = "Please enter valid email address",
   RegExp = "Please provide a valid %",
@@ -9,7 +11,9 @@ export type ValidatorCreator = (message: string | null) => Validator;
 
 export const emailValidator: ValidatorCreator =
   (message: string | null) => (value: string) => {
-    return !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value)? message || Messages.Email : null;
+    return !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value)
+      ? message || Messages.Email
+      : null;
   };
 
 export const regexpValidator =
@@ -24,7 +28,7 @@ export const numberValidator: ValidatorCreator =
   };
 
 export const gtValidator =
-  (ref: number, message: string|null) => (value: string) => {
+  (ref: number, message: string | null) => (value: string) => {
     const float: number = parseFloat(value);
     return float !== NaN && float <= ref
       ? message || "Must be higher than " + ref
@@ -110,4 +114,9 @@ export const emptyOr =
 export const notBothEmpty: ValidatorCreator =
   (message: string | null) => (value: string, compare: string) => {
     return value.trim() === "" && compare.trim() === "" ? message : null;
+  };
+
+export const dateAfterValidator: ValidatorCreator =
+  (message: string | null) => (value: string, compare: string) => {
+    return moment(value).valueOf() < moment(compare).valueOf() ? message : null;
   };
