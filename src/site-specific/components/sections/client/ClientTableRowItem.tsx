@@ -18,7 +18,7 @@ const ClientTableRowItem = (client: ClientTableRowItemProps) => {
     const goEdit = useGoClientIdEdit(client.id);
     const goDashboard = useGoClientIdDashboard(client.id);
     const goInvoices = useGoClientIdDashboard(client.id, true);
-    const goNewInvoice = useGoNewInvoice(client.id);
+    const goNewInvoice = useGoNewInvoice({ clientId: client.id });
     const isMostValuable = isMostValuableClient(client);
     const totalBilledClassnames = classNames(
         "text-left font-medium", isMostValuable ? "text-red-500" : "text-green-500"
