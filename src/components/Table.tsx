@@ -98,7 +98,7 @@ type TableProps = {
 const TableRows = ({ columns, empty, rows }: { columns: any[], empty: any, rows: any[] }) => {
 
     if (!rows.length) {
-        <div className="flex flex-col items-center justify-center px-10 py-32">
+        return <div className="flex flex-col items-center justify-center px-10 py-32">
             {empty}
         </div>
     }

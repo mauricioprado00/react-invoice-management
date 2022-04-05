@@ -59,6 +59,15 @@ export const GetClientListingArgs = (limit: number, latest: boolean): Required<C
   }
 }
 
+const AddNewClientMessage = () => {
+  const goNewClient = useGoNewClient();
+  return <p className="mt-4">
+    You can add a &nbsp;
+    <button className="font-bold" onClick={goNewClient}>new one here</button>
+  </p>
+}
+
+
 const ClientTable = ({
   title = "Clients",
   limit = 5,
@@ -98,6 +107,7 @@ const ClientTable = ({
       <Column {...(sortable ? countSort : {})}>Invoices</Column>
       <Column {...(sortable ? totalSort : {})}>Total Billed</Column>
       <Empty>No clients found</Empty>
+      <Empty><AddNewClientMessage /></Empty>
       {
         (clients || []).map(client =>
           <ClientTableRowItem key={client.id} {...client} />)

@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { InvoiceListingArgs } from 'api/apiclient'
 import moment from 'moment'
 import { usePagination } from 'hooks/use-url'
+import { useEffect } from 'react'
 
 export type InvoiceTableProps = {
     title?: string,
@@ -85,6 +86,24 @@ export const GetInvoiceListingArgs = (clientId:string|undefined, limit: number, 
     }
 }
 
+const isFiltered = (args: Required<InvoiceListingArgs>) => {
+    if (args.filter.clientId
+        || args.filter.date?.end || args.filter.date?.start
+        || args.filter.dueDate?.end || args.filter.dueDate?.start) {
+        return true;
+    }
+
+    return false;
+}
+
+const AddNewInvoiceMessage = () => {
+    const goNewInvoice = useGoNewInvoice();
+    return <p className="mt-4">
+        You can add a &nbsp;
+        <button className="font-bold" onClick={goNewInvoice}>new one here</button>
+    </p>
+}
+
 const InvoiceTable = ({
     title = "Invoices",
     limit = 5,
@@ -104,7 +123,7 @@ const InvoiceTable = ({
     const goNewInvoice = useGoNewInvoice(clientId ? {clientId} : undefined);
     const loaded = !loading;
     const goInvoices = useGoInvoices();
-    const [page, , onPageChange] = usePagination();
+    const [page, setPage, onPageChange] = usePagination();
     const offset = (page - 1) * limit;
     pageable = controls && pageable;
     sortable = controls && sortable;
@@ -113,12 +132,22 @@ const InvoiceTable = ({
     const priceSort = useSortDirection('sort_price');
     const companyNameSort = useSortDirection('sort_companyName');
     const dueDateSort = useSortDirection('sort_dueDate');
+
+    // make sure that page exists after filtering
+    useEffect(() => {
+        if (loading) {
+            return;
+        }
+        if ((page > 1) && offset > total) {
+            setPage(1);
+        }
+    }, [page, offset, setPage, total, loading]);
     
     return (
         <Table title={title} loading={loading} error={loadError} pagination={pagination}>
             {loaded && <TableHeaderContent>
                 {controls && <>
-                    <InvoiceTableFilters />
+                    {invoices && total > 1 && <InvoiceTableFilters />}
                     <Button styled={ButtonStyle.FlatPrimary} onClick={goNewInvoice}>New Invoice</Button>
                     {!pageable && <Button styled={ButtonStyle.FlatPrimary} onClick={goInvoices}>All Invoices</Button>}
                 </>}
@@ -129,7 +158,8 @@ const InvoiceTable = ({
             {extraColumns && <Column>Billed To</Column>}
             <Column {...(sortable ? dueDateSort : {})}>Due</Column>
             <Column {...(sortable ? priceSort : {})}>Value</Column>
-            <Empty>No invoices found</Empty>
+            <Empty><p>No invoices found</p></Empty>
+            {!(isFiltered(args)) ? <Empty><AddNewInvoiceMessage /></Empty> : null}
             {
                 (invoices || []).map(invoice =>
                     <InvoiceTableRowItem key={invoice.invoice.id} {...invoice} extraColumns={extraColumns}/>)

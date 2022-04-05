@@ -98,7 +98,7 @@ export const usePagination = (): [
   const setPage = useCallback(
     (page: number) => {
       const query = Object.assign({}, router.query, { page: page.toString() });
-      router.replace({ query });
+      router.replace({ query }, undefined, { scroll: false });
     },
     [router]
   );

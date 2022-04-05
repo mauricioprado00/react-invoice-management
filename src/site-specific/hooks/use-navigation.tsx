@@ -8,6 +8,7 @@ export const useGoDashboard = () => {
     return useGoRoute('/');
 }
 
+export const useGoNewClientForInvoice = () => useGoRoute('/invoice-client')
 export const useGoClients = () => useGoRoute('/clients');
 export const useGoClientEdit = () => useGoEdit('/client');
 export const useGoClientIdEdit = (id: string | null = null) => useGoEditId('/client')(id)

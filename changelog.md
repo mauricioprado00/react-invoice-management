@@ -15,7 +15,6 @@
 # unknown bugs: 
 - sometimes clients are not being loaded
 # known bugs:
-- if you are in page 10, and filter by client, filters are applied but page is still 10 (unexistant).
 - adding a clients will not keep the client selector sorted.
 
 # extra features:
@@ -27,6 +26,13 @@
   it would be nice to give the user the control of choosing which sorting
   comes first.
 
+# 2022 04 04
+- Add menu option to client table row dropdown to create new invoice for client
+- add workflow to create client before invoice when there are no clients
+- ADd message to create new invoice/client on the tables when nothing exists yet
+# 2022 04 03
+- Fix missing page after filtering invoices
+- add missing payto in invoice print view
 # 2022 04 02
 - Unit test for InvoiceItemWrapper
 - Rename InvoiceItems to InvoiceItemsTable
