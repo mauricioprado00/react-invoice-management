@@ -5,7 +5,7 @@
 npm install 
 
 # get the API server
-git clone git@github.com:vladnicula/invoice-rest-api.git ../invoice-rest-api
+git clone git@github.com:mauricioprado00/invoice-rest-api.git ../invoice-rest-api
 
 # install npm deps for api
 pushd ../invoice-rest-api
